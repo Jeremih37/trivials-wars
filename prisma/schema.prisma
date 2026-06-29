@@ -1,0 +1,100 @@
+// Trivials Wars — Schema
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  name        String   @default("Jugador")
+  avatarBase  String   @default("🧑") // emoji base del avatar
+  xp          Int      @default(0)
+  level       Int      @default(1)
+  coins       Int      @default(0)
+  boxes       Int      @default(1) // loot boxes disponibles
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  progress     UserProgress[]
+  inventory    InventoryItem[]
+  sessions     GameSession[]
+  unboxed      LootBoxLog[]
+  equipped     EquippedItem[]
+}
+
+model EquippedItem {
+  id        String  @id @default(cuid())
+  userId    String
+  slot      String  // hat | top | aura
+  itemId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, slot])
+}
+
+model UserProgress {
+  id           String   @id @default(cuid())
+  userId       String
+  category     String   // Entretenimiento | Deporte | Historia | Matematicas | Ciencia | Videojuegos
+  difficulty   String   // Facil | Medio | Dificil | Experto
+  correct      Int      @default(0)
+  total        Int      @default(0)
+  bestStreak   Int      @default(0)
+  lastPlayedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, category, difficulty])
+}
+
+model Question {
+  id              String   @id @default(cuid())
+  uuid            String   @unique
+  category        String
+  question        String
+  options         String   // JSON array of 4 strings
+  correctAnswer   String
+  difficulty      String
+  createdAt       DateTime @default(now())
+}
+
+model InventoryItem {
+  id        String   @id @default(cuid())
+  userId    String
+  itemId    String   // referencia al catálogo de items (lib/gacha.ts)
+  type      String   // hat | top | aura
+  rarity    String   // Comun | Inusual | Raro | Epico | Legendario
+  acquiredAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, itemId])
+}
+
+model GameSession {
+  id           String   @id @default(cuid())
+  userId       String
+  category     String
+  difficulty   String
+  totalQuestions Int
+  correctCount Int
+  xpEarned     Int
+  bestStreak   Int
+  startedAt    DateTime @default(now())
+  endedAt      DateTime?
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model LootBoxLog {
+  id        String   @id @default(cuid())
+  userId    String
+  rarity    String
+  itemId    String
+  isDuplicate Boolean @default(false)
+  xpBonus   Int      @default(0)
+  openedAt  DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

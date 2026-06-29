@@ -1,0 +1,185 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  /* Trivials Wars neon palette */
+  --color-neon-cyan: #22d3ee;
+  --color-neon-magenta: #f0abfc;
+  --color-neon-purple: #a855f7;
+  --color-neon-pink: #ec4899;
+  --color-neon-gold: #fbbf24;
+  --color-neon-green: #22c55e;
+}
+
+/* Trivials Wars dark theme as default */
+:root {
+  --radius: 0.75rem;
+  --background: oklch(0.10 0.005 280); /* near-black with purple tint */
+  --foreground: oklch(0.97 0.005 280);
+  --card: oklch(0.14 0.01 280);
+  --card-foreground: oklch(0.97 0.005 280);
+  --popover: oklch(0.14 0.01 280);
+  --popover-foreground: oklch(0.97 0.005 280);
+  --primary: oklch(0.78 0.18 200); /* neon cyan */
+  --primary-foreground: oklch(0.10 0 0);
+  --secondary: oklch(0.20 0.02 280);
+  --secondary-foreground: oklch(0.97 0.005 280);
+  --muted: oklch(0.20 0.01 280);
+  --muted-foreground: oklch(0.65 0.01 280);
+  --accent: oklch(0.65 0.25 320); /* neon magenta */
+  --accent-foreground: oklch(0.99 0 0);
+  --destructive: oklch(0.65 0.25 25);
+  --border: oklch(0.30 0.02 280 / 60%);
+  --input: oklch(0.20 0.01 280);
+  --ring: oklch(0.78 0.18 200);
+  --chart-1: oklch(0.78 0.18 200);
+  --chart-2: oklch(0.65 0.25 320);
+  --chart-3: oklch(0.70 0.20 280);
+  --chart-4: oklch(0.80 0.18 80);
+  --chart-5: oklch(0.70 0.22 160);
+  --sidebar: oklch(0.12 0.01 280);
+  --sidebar-foreground: oklch(0.97 0.005 280);
+  --sidebar-primary: oklch(0.78 0.18 200);
+  --sidebar-primary-foreground: oklch(0.10 0 0);
+  --sidebar-accent: oklch(0.20 0.01 280);
+  --sidebar-accent-foreground: oklch(0.97 0.005 280);
+  --sidebar-border: oklch(0.30 0.02 280 / 60%);
+  --sidebar-ring: oklch(0.78 0.18 200);
+}
+
+.dark {
+  --background: oklch(0.10 0.005 280);
+  --foreground: oklch(0.97 0.005 280);
+  --card: oklch(0.14 0.01 280);
+  --card-foreground: oklch(0.97 0.005 280);
+  --popover: oklch(0.14 0.01 280);
+  --popover-foreground: oklch(0.97 0.005 280);
+  --primary: oklch(0.78 0.18 200);
+  --primary-foreground: oklch(0.10 0 0);
+  --secondary: oklch(0.20 0.02 280);
+  --secondary-foreground: oklch(0.97 0.005 280);
+  --muted: oklch(0.20 0.01 280);
+  --muted-foreground: oklch(0.65 0.01 280);
+  --accent: oklch(0.65 0.25 320);
+  --accent-foreground: oklch(0.99 0 0);
+  --destructive: oklch(0.65 0.25 25);
+  --border: oklch(0.30 0.02 280 / 60%);
+  --input: oklch(0.20 0.01 280);
+  --ring: oklch(0.78 0.18 200);
+  --sidebar: oklch(0.12 0.01 280);
+  --sidebar-foreground: oklch(0.97 0.005 280);
+  --sidebar-primary: oklch(0.78 0.18 200);
+  --sidebar-primary-foreground: oklch(0.10 0 0);
+  --sidebar-accent: oklch(0.20 0.01 280);
+  --sidebar-accent-foreground: oklch(0.97 0.005 280);
+  --sidebar-border: oklch(0.30 0.02 280 / 60%);
+  --sidebar-ring: oklch(0.78 0.18 200);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html, body {
+    @apply bg-background text-foreground;
+  }
+  body {
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(168, 85, 247, 0.18), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(34, 211, 238, 0.15), transparent 60%),
+      var(--background);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+}
+
+/* Neon glow utilities */
+@utility glow-cyan {
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.5), 0 0 40px rgba(34, 211, 238, 0.2);
+}
+@utility glow-magenta {
+  box-shadow: 0 0 20px rgba(236, 72, 153, 0.5), 0 0 40px rgba(236, 72, 153, 0.2);
+}
+@utility glow-purple {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.5), 0 0 40px rgba(168, 85, 247, 0.2);
+}
+@utility glow-gold {
+  box-shadow: 0 0 25px rgba(251, 191, 36, 0.6), 0 0 50px rgba(251, 191, 36, 0.3);
+}
+@utility glow-green {
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.5), 0 0 40px rgba(34, 197, 94, 0.2);
+}
+
+/* Custom scrollbar */
+@utility scrollbar-neon {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(34, 211, 238, 0.5) transparent;
+}
+.scrollbar-neon::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.scrollbar-neon::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-neon::-webkit-scrollbar-thumb {
+  background: rgba(34, 211, 238, 0.4);
+  border-radius: 3px;
+}
+.scrollbar-neon::-webkit-scrollbar-thumb:hover {
+  background: rgba(34, 211, 238, 0.7);
+}
+
+/* Pulse keyframes */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+/* Text gradient utility */
+@utility text-gradient-neon {
+  background: linear-gradient(135deg, #22d3ee 0%, #a855f7 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
