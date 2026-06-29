@@ -18,7 +18,7 @@ export function LoginScreen() {
       {
         onSuccess: () => {
           setAuthenticated(true)
-          setScreen("home")
+          setScreen("welcome")
         },
       }
     )
@@ -34,7 +34,7 @@ export function LoginScreen() {
       {
         onSuccess: () => {
           setAuthenticated(true)
-          setScreen("home")
+          setScreen("welcome")
         },
       }
     )

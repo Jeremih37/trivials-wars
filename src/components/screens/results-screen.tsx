@@ -125,7 +125,7 @@ export function ResultsScreen() {
             <RotateCcw className="w-4 h-4" /> Jugar de nuevo
           </button>
           <button
-            onClick={() => { reset(); setScreen("home") }}
+            onClick={() => { reset(); setScreen("welcome") }}
             className="py-3 px-4 rounded-xl font-bold text-sm bg-card/60 border border-border/60 hover:bg-card transition flex items-center justify-center gap-2"
           >
             <Home className="w-4 h-4" /> Inicio

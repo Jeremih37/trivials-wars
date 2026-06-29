@@ -5,10 +5,10 @@ import { motion, AnimatePresence } from "framer-motion"
 import { CATEGORIES, DIFFICULTIES } from "@/lib/game"
 import { useGameStore } from "@/lib/store"
 import { useAnswerQuestion, useEndSession } from "@/hooks/use-game"
-import { Check, X, Zap, Flame, ChevronRight } from "lucide-react"
+import { Check, X, Zap, Flame, ChevronRight, ChevronLeft, Clock } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-type Phase = "question" | "feedback" | "transition"
+type Phase = "question" | "feedback"
 
 export function GameScreen() {
   const {
@@ -37,14 +37,12 @@ export function GameScreen() {
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null)
   const [showLevelUp, setShowLevelUp] = useState(false)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const timeAtAnswer = useRef(0)
 
   const currentQuestion = activeGame?.questions[currentQuestionIndex]
   const diff = DIFFICULTIES.find((d) => d.id === activeGame?.difficulty)
   const cat = CATEGORIES.find((c) => c.id === activeGame?.category)
   const totalTime = activeGame?.timePerQuestion ?? 30
 
-  // Iniciar temporizador para la pregunta actual
   useEffect(() => {
     if (!currentQuestion || phase !== "question") return
     setTimeLeft(totalTime)
@@ -55,7 +53,6 @@ export function GameScreen() {
       setTimeLeft((t) => {
         if (t <= 0.1) {
           if (timerRef.current) clearInterval(timerRef.current)
-          // tiempo agotado: cuenta como respuesta incorrecta con selectedAnswer vacío
           handleAnswer("")
           return 0
         }
@@ -73,7 +70,6 @@ export function GameScreen() {
     (answer: string) => {
       if (!activeGame || !currentQuestion || phase !== "question") return
       if (timerRef.current) clearInterval(timerRef.current)
-      timeAtAnswer.current = timeLeft
       setSelectedAnswer(answer)
       setPhase("feedback")
 
@@ -113,7 +109,6 @@ export function GameScreen() {
     if (!activeGame) return
     const nextIdx = currentQuestionIndex + 1
     if (nextIdx >= activeGame.questions.length) {
-      // fin del juego
       endSessionMut.mutate(activeGame.sessionId)
       endGame()
     } else {
@@ -122,11 +117,15 @@ export function GameScreen() {
     }
   }
 
+  const handleAbort = () => {
+    if (activeGame) endSessionMut.mutate(activeGame.sessionId)
+    endGame()
+  }
+
   if (!activeGame || !currentQuestion || !diff || !cat) {
     return <div className="p-8 text-center text-muted-foreground">Cargando partida…</div>
   }
 
-  // Cálculo de color del temporizador
   const ratio = timeLeft / totalTime
   const timerColor = ratio > 0.6 ? "#22c55e" : ratio > 0.3 ? "#f59e0b" : "#ef4444"
   const isUrgent = ratio <= 0.3
@@ -135,59 +134,72 @@ export function GameScreen() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Top bar */}
+      {/* Header compacto */}
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/40">
-        <div className="max-w-3xl mx-auto px-4 py-3">
-          <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">{cat.icon}</span>
+        <div className="max-w-2xl mx-auto px-4 py-2.5">
+          <div className="flex items-center justify-between gap-2">
+            <button
+              onClick={handleAbort}
+              className="p-1.5 rounded-lg hover:bg-card/80 transition"
+              title="Salir"
+            >
+              <ChevronLeft className="w-4 h-4 text-muted-foreground" />
+            </button>
+
+            {/* Center: category + progress */}
+            <div className="flex-1 flex items-center justify-center gap-2">
+              <span className="text-xl">{cat.icon}</span>
               <div className="leading-tight">
                 <div className="text-xs font-bold" style={{ color: cat.color }}>{cat.name}</div>
-                <div className="text-[10px] text-muted-foreground">{diff.name} · {diff.time}s</div>
+                <div className="text-[9px] text-muted-foreground">{currentQuestionIndex + 1} / {activeGame.questions.length}</div>
               </div>
             </div>
-            <div className="flex items-center gap-3 text-xs">
+
+            {/* Right: XP + streak */}
+            <div className="flex items-center gap-1.5">
               <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
                 <Zap className="w-3 h-3 text-cyan-300" />
-                <span className="font-bold text-cyan-300">{totalXpEarned} XP</span>
+                <span className="text-xs font-bold text-cyan-300 tabular-nums">{totalXpEarned}</span>
               </div>
               {currentStreak >= 2 && (
                 <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-orange-500/10 border border-orange-500/30">
                   <Flame className="w-3 h-3 text-orange-400" />
-                  <span className="font-bold text-orange-400">{currentStreak}</span>
+                  <span className="text-xs font-bold text-orange-400 tabular-nums">{currentStreak}</span>
                 </div>
               )}
             </div>
           </div>
 
           {/* Progress bar */}
-          <div className="mt-2 h-1.5 rounded-full bg-muted/50 overflow-hidden">
+          <div className="mt-2 h-1 rounded-full bg-muted/50 overflow-hidden">
             <motion.div
-              className="h-full bg-gradient-to-r from-primary to-accent"
+              className="h-full rounded-full bg-gradient-to-r from-amber-400 via-pink-500 to-cyan-500"
               animate={{ width: `${progressPct}%` }}
               transition={{ duration: 0.3 }}
             />
           </div>
-          <div className="text-[10px] text-muted-foreground mt-1 text-center">
-            Pregunta {currentQuestionIndex + 1} / {activeGame.questions.length}
-          </div>
         </div>
       </header>
 
-      <main className="flex-1 max-w-3xl w-full mx-auto px-4 py-6 flex flex-col">
-        {/* Timer */}
-        <div className="relative mx-auto mb-6 w-full max-w-xs">
-          <div className="relative h-3 rounded-full bg-muted/40 overflow-hidden border border-border/60">
+      <main className="flex-1 max-w-2xl w-full mx-auto px-4 py-5 flex flex-col">
+        {/* Timer compacto */}
+        <div className="flex items-center gap-3 mb-5">
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <Clock className="w-3.5 h-3.5" />
+            <span className="uppercase tracking-wider">Tiempo</span>
+          </div>
+          <div className="flex-1 h-2.5 rounded-full bg-muted/40 overflow-hidden border border-border/60">
             <motion.div
-              className="h-full rounded-full relative"
-              style={{ background: timerColor }}
+              className="h-full rounded-full"
+              style={{ background: timerColor, boxShadow: `0 0 8px ${timerColor}` }}
               animate={{ width: `${ratio * 100}%` }}
               transition={{ duration: 0.1, ease: "linear" }}
-            >
-              <div className="absolute inset-0 opacity-40 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.6),transparent)] animate-[pulse-glow:1s_ease-in-out_infinite]" />
-            </motion.div>
+            />
           </div>
-          <div className={cn("mt-2 text-center font-mono font-black tabular-nums", isUrgent && "animate-pulse")} style={{ color: timerColor, fontSize: isUrgent ? "2.5rem" : "1.75rem" }}>
+          <div
+            className={cn("font-mono font-black tabular-nums w-12 text-right", isUrgent && "animate-pulse")}
+            style={{ color: timerColor, fontSize: isUrgent ? "1.4rem" : "1.1rem" }}
+          >
             {timeLeft.toFixed(1)}s
           </div>
         </div>
@@ -196,23 +208,31 @@ export function GameScreen() {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentQuestion.id}
-            initial={{ opacity: 0, x: 60 }}
+            initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -60 }}
+            exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.3 }}
-            className="rounded-3xl border border-border/60 bg-card/60 backdrop-blur-sm p-6 sm:p-8 mb-6"
-            style={{ boxShadow: `0 0 30px ${cat.color}15` }}
+            className="rounded-2xl border bg-card/60 backdrop-blur-sm p-5 sm:p-7 mb-5"
+            style={{ borderColor: `${cat.color}40`, boxShadow: `0 0 25px ${cat.color}15` }}
           >
-            <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-2 text-center">Pregunta</div>
-            <h2 className="text-xl sm:text-2xl font-bold text-center leading-snug">
+            <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-muted-foreground mb-3 justify-center">
+              <span
+                className="px-2 py-0.5 rounded-full font-bold"
+                style={{ background: `${cat.color}20`, color: cat.color, border: `1px solid ${cat.color}40` }}
+              >
+                {diff.name} · {diff.time}s
+              </span>
+            </div>
+            <h2 className="text-lg sm:text-2xl font-bold text-center leading-snug">
               {currentQuestion.question}
             </h2>
           </motion.div>
         </AnimatePresence>
 
-        {/* Options */}
-        <div className="grid sm:grid-cols-2 gap-3">
+        {/* Options grid 2x2 con etiquetas A/B/C/D */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
           {currentQuestion.options.map((option, idx) => {
+            const letter = String.fromCharCode(65 + idx)
             const isCorrectAnswer = lastAnswer?.isCorrect !== undefined && option === lastAnswer.correctAnswer
             const isSelected = selectedAnswer === option
             const showCorrect = phase === "feedback" && isCorrectAnswer
@@ -221,75 +241,79 @@ export function GameScreen() {
             return (
               <motion.button
                 key={option + idx}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.05 * idx }}
+                transition={{ delay: 0.04 * idx }}
                 disabled={phase !== "question"}
                 onClick={() => handleAnswer(option)}
                 className={cn(
-                  "relative text-left rounded-2xl border p-4 transition-all overflow-hidden",
+                  "relative text-left rounded-2xl border p-3.5 transition-all overflow-hidden flex items-center gap-3",
                   phase === "question" && "border-border/60 bg-card/40 hover:bg-card/70 hover:border-primary/50 cursor-pointer",
                   showCorrect && "border-green-400 bg-green-500/15 glow-green",
                   showWrong && "border-red-400 bg-red-500/15",
                   phase === "feedback" && !showCorrect && !showWrong && "border-border/40 bg-card/30 opacity-50"
                 )}
               >
-                <div className="flex items-center justify-between gap-2">
-                  <span className="font-medium text-sm sm:text-base break-words">{option}</span>
-                  {showCorrect && <Check className="w-5 h-5 text-green-400 shrink-0" />}
-                  {showWrong && <X className="w-5 h-5 text-red-400 shrink-0" />}
-                </div>
-                <span className="absolute top-1 left-2 text-[10px] font-mono text-muted-foreground/40">
-                  {String.fromCharCode(65 + idx)}
+                <span
+                  className={cn(
+                    "flex items-center justify-center w-8 h-8 rounded-lg shrink-0 font-black text-sm border",
+                    phase === "question" && "border-border/60 bg-muted/40 text-muted-foreground",
+                    showCorrect && "border-green-400 bg-green-500/30 text-green-200",
+                    showWrong && "border-red-400 bg-red-500/30 text-red-200",
+                    phase === "feedback" && !showCorrect && !showWrong && "border-border/40 bg-muted/20 text-muted-foreground/60"
+                  )}
+                >
+                  {showCorrect ? <Check className="w-4 h-4" /> : showWrong ? <X className="w-4 h-4" /> : letter}
                 </span>
+                <span className="font-medium text-sm sm:text-base break-words flex-1">{option}</span>
               </motion.button>
             )
           })}
         </div>
 
-        {/* Feedback panel */}
+        {/* Feedback panel compacto */}
         <AnimatePresence>
           {phase === "feedback" && lastAnswer && (
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -30 }}
-              className="mt-6"
+              exit={{ opacity: 0, y: -20 }}
+              className="mt-5"
             >
               <div className={cn(
-                "rounded-2xl border p-4 mb-3",
+                "rounded-2xl border p-3.5 mb-3",
                 lastAnswer.isCorrect
                   ? "border-green-500/40 bg-green-500/10"
                   : "border-red-500/40 bg-red-500/10"
               )}>
-                <div className="flex items-center gap-2 mb-2">
+                <div className="flex items-center gap-2">
                   {lastAnswer.isCorrect ? (
-                    <><Check className="w-5 h-5 text-green-400" /><span className="font-bold text-green-300">¡Correcto!</span></>
+                    <><Check className="w-4 h-4 text-green-400" /><span className="font-bold text-green-300 text-sm">¡Correcto!</span></>
                   ) : (
-                    <><X className="w-5 h-5 text-red-400" /><span className="font-bold text-red-300">Incorrecto</span></>
+                    <><X className="w-4 h-4 text-red-400" /><span className="font-bold text-red-300 text-sm">Incorrecto</span></>
                   )}
                   {lastAnswer.xpGained > 0 && (
                     <span className="ml-auto text-sm font-mono font-bold text-amber-300">+{lastAnswer.xpGained} XP</span>
                   )}
                 </div>
                 {!lastAnswer.isCorrect && (
-                  <div className="text-xs text-muted-foreground">
-                    Respuesta correcta: <span className="font-bold text-foreground">{lastAnswer.correctAnswer}</span>
+                  <div className="text-xs text-muted-foreground mt-1.5">
+                    Respuesta: <span className="font-bold text-foreground">{lastAnswer.correctAnswer}</span>
                   </div>
                 )}
-                {lastAnswer.xpBreakdown && lastAnswer.isCorrect && (
-                  <div className="grid grid-cols-2 gap-1 text-[10px] text-muted-foreground mt-2 font-mono">
+                {lastAnswer.xpBreakdown && lastAnswer.isCorrect && (lastAnswer.xpBreakdown.timeBonus > 0 || lastAnswer.xpBreakdown.streakBonus > 0 || lastAnswer.xpBreakdown.difficultyBonus > 0) && (
+                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px] text-muted-foreground mt-2 font-mono">
                     <span>Base: +{lastAnswer.xpBreakdown.base}</span>
-                    {lastAnswer.xpBreakdown.timeBonus > 0 && <span className="text-cyan-300">Bonus tiempo: +{lastAnswer.xpBreakdown.timeBonus}</span>}
-                    {lastAnswer.xpBreakdown.streakBonus > 0 && <span className="text-orange-300">Bonus racha: +{lastAnswer.xpBreakdown.streakBonus}</span>}
-                    {lastAnswer.xpBreakdown.difficultyBonus > 0 && <span className="text-purple-300">Dificultad: +{lastAnswer.xpBreakdown.difficultyBonus}</span>}
+                    {lastAnswer.xpBreakdown.timeBonus > 0 && <span className="text-cyan-300">+{lastAnswer.xpBreakdown.timeBonus} tiempo</span>}
+                    {lastAnswer.xpBreakdown.streakBonus > 0 && <span className="text-orange-300">+{lastAnswer.xpBreakdown.streakBonus} racha</span>}
+                    {lastAnswer.xpBreakdown.difficultyBonus > 0 && <span className="text-purple-300">+{lastAnswer.xpBreakdown.difficultyBonus} dificultad</span>}
                   </div>
                 )}
               </div>
 
               <button
                 onClick={handleNext}
-                className="w-full py-3 rounded-xl font-bold uppercase tracking-widest text-sm bg-gradient-to-r from-primary to-accent text-primary-foreground hover:scale-[1.01] active:scale-[0.99] transition flex items-center justify-center gap-2"
+                className="w-full py-3.5 rounded-2xl font-bold uppercase tracking-widest text-sm bg-gradient-to-r from-amber-400 via-pink-500 to-cyan-500 text-white hover:scale-[1.01] active:scale-[0.99] transition flex items-center justify-center gap-2 glow-pink"
               >
                 {currentQuestionIndex + 1 >= activeGame.questions.length ? "Ver resultados" : "Siguiente"}
                 <ChevronRight className="w-4 h-4" />

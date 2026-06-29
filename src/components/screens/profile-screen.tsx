@@ -44,7 +44,7 @@ export function ProfileScreen() {
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/40">
         <div className="max-w-4xl mx-auto px-4 py-3 flex items-center gap-3">
           <button
-            onClick={() => setScreen("home")}
+            onClick={() => setScreen("welcome")}
             className="p-2 rounded-xl bg-card/60 border border-border/60 hover:bg-card transition"
           >
             <ArrowLeft className="w-5 h-5" />

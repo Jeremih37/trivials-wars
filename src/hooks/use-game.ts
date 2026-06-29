@@ -60,6 +60,27 @@ export function useEquipProfile() {
   })
 }
 
+export function useUpdateName() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (params: { name: string }) => {
+      const r = await fetch("/api/profile/name", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(params),
+      })
+      if (!r.ok) {
+        const e = await r.json()
+        throw new Error(e.error || "Error al actualizar nombre")
+      }
+      return r.json()
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["profile"] })
+    },
+  })
+}
+
 export function useStartGame() {
   const qc = useQueryClient()
   return useMutation({
