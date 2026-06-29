@@ -4,8 +4,10 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
+  // Permite usar pgbouncer/direct URL en Vercel/Neon sin conflicto
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
