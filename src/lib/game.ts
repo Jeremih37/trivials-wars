@@ -2,7 +2,12 @@
 // Trivials Wars — Game Logic Core
 // ===============================
 
-import { GACHA_ITEMS, RARITY_CONFIG, type GachaItem, type Rarity } from "./gacha-catalog"
+// Ojo: game.ts no debe contener JSX. Importamos solo tipos y constantes sin JSX
+// desde gacha-catalog.ts. AVATAR_BASES_INFO es metadata serializable.
+import type { GachaItem, Rarity } from "./gacha-catalog"
+import { GACHA_ITEMS, RARITY_CONFIG, AVATAR_BASES_INFO } from "./gacha-catalog"
+
+export { AVATAR_BASES_INFO }
 
 // ===== CATEGORÍAS Y DIFICULTADES =====
 export const CATEGORIES = [
@@ -184,12 +189,48 @@ export interface EquippedItems {
   aura?: GachaItem
 }
 
-export function buildAvatarString(avatarBase: string, equipped: EquippedItems): string {
-  // Render simple en capas: aura + cuerpo + top + hat (en texto)
-  const parts: string[] = []
-  if (equipped.aura) parts.push(equipped.aura.emoji)
-  parts.push(avatarBase || "🧑")
-  if (equipped.top) parts.push(equipped.top.emoji)
-  if (equipped.hat) parts.push(equipped.hat.emoji)
-  return parts.join(" ")
+// ===== WIN/LOSS/STREAK =====
+// Una sesión cuenta como VICTORIA si la precisión >= 60%, derrota si no.
+// La racha actual se reinicia con cada derrota.
+
+export const WIN_THRESHOLD = 0.6 // 60% de aciertos para considerar victoria
+
+export function computeSessionResult(correctCount: number, totalQuestions: number): "win" | "loss" {
+  if (totalQuestions === 0) return "loss"
+  return correctCount / totalQuestions >= WIN_THRESHOLD ? "win" : "loss"
+}
+
+// ===== UNLOCKS AUTOMÁTICOS =====
+// Cada 10 niveles desbloquea un marco nuevo.
+// Ciertos niveles desbloquean iconos de perfil.
+
+export function checkFrameUnlocks(level: number): string[] {
+  // Devuelve los ids de marcos que deberían estar desbloqueados a este nivel
+  const frames: string[] = []
+  for (let l = 10; l <= level; l += 10) {
+    if (l <= 50) {
+      // mapear nivel a marco
+      const map: Record<number, string> = {
+        10: "frame_bronze",
+        20: "frame_silver",
+        30: "frame_gold",
+        40: "frame_diamond",
+        50: "frame_legendary",
+      }
+      if (map[l]) frames.push(map[l])
+    }
+  }
+  return frames
+}
+
+export function checkIconUnlocks(level: number): string[] {
+  // Devuelve los ids de iconos que deberían estar desbloqueados a este nivel
+  // Import dinámico para evitar ciclo
+  const icons: string[] = []
+  // Por nivel: niveles 1,5,15,25,35,45,50
+  const thresholds = [1, 5, 15, 25, 35, 45, 50]
+  for (const t of thresholds) {
+    if (level >= t) icons.push(`lvl_${t}`)
+  }
+  return icons
 }

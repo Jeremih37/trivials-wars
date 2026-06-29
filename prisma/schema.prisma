@@ -1,4 +1,4 @@
-// Trivials Wars — Schema
+// Trivials Wars — Schema v2 (auth + stats + frames + icons)
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,21 +9,34 @@ datasource db {
 }
 
 model User {
-  id          String   @id @default(cuid())
-  name        String   @default("Jugador")
-  avatarBase  String   @default("🧑") // emoji base del avatar
-  xp          Int      @default(0)
-  level       Int      @default(1)
-  coins       Int      @default(0)
-  boxes       Int      @default(1) // loot boxes disponibles
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(cuid())
+  email        String?  @unique // null para invitados
+  name         String   @default("Jugador")
+  provider     String   @default("guest") // guest | google
+  googleId     String?  @unique
+  avatarBase   String   @default("warrior") // warrior | mage | archer | ...
+  skinTone     String   @default("#f4c2a1")
+  profileIcon  String   @default("🧠") // emoji icon
+  equippedFrame String  @default("frame_basic")
+  xp           Int      @default(0)
+  level        Int      @default(1)
+  coins        Int      @default(0)
+  boxes        Int      @default(2)
+  // Stats de juego
+  wins         Int      @default(0)
+  losses       Int      @default(0)
+  currentStreak Int     @default(0) // racha actual de victorias consecutivas
+  maxStreak    Int      @default(0) // mejor racha histórica
+  gamesPlayed  Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   progress     UserProgress[]
   inventory    InventoryItem[]
   sessions     GameSession[]
   unboxed      LootBoxLog[]
   equipped     EquippedItem[]
+  unlocks      UserUnlock[]
 }
 
 model EquippedItem {
@@ -32,22 +45,19 @@ model EquippedItem {
   slot      String  // hat | top | aura
   itemId    String
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   @@unique([userId, slot])
 }
 
 model UserProgress {
   id           String   @id @default(cuid())
   userId       String
-  category     String   // Entretenimiento | Deporte | Historia | Matematicas | Ciencia | Videojuegos
-  difficulty   String   // Facil | Medio | Dificil | Experto
+  category     String
+  difficulty   String
   correct      Int      @default(0)
   total        Int      @default(0)
   bestStreak   Int      @default(0)
   lastPlayedAt DateTime?
-
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   @@unique([userId, category, difficulty])
 }
 
@@ -56,7 +66,7 @@ model Question {
   uuid            String   @unique
   category        String
   question        String
-  options         String   // JSON array of 4 strings
+  options         String
   correctAnswer   String
   difficulty      String
   createdAt       DateTime @default(now())
@@ -65,12 +75,11 @@ model Question {
 model InventoryItem {
   id        String   @id @default(cuid())
   userId    String
-  itemId    String   // referencia al catálogo de items (lib/gacha.ts)
-  type      String   // hat | top | aura
-  rarity    String   // Comun | Inusual | Raro | Epico | Legendario
+  itemId    String
+  type      String
+  rarity    String
   acquiredAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   @@unique([userId, itemId])
 }
 
@@ -83,6 +92,7 @@ model GameSession {
   correctCount Int
   xpEarned     Int
   bestStreak   Int
+  result       String   @default("pending") // win | loss | pending
   startedAt    DateTime @default(now())
   endedAt      DateTime?
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -97,4 +107,15 @@ model LootBoxLog {
   xpBonus   Int      @default(0)
   openedAt  DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Desbloqueos de marcos e iconos (unificado)
+model UserUnlock {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String   // frame | icon
+  key       String   // id del frame o del icono
+  unlockedAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@unique([userId, type, key])
 }

@@ -1,4 +1,4 @@
-// Tipos compartidos entre cliente y servidor
+// Tipos compartidos entre cliente y servidor (v2)
 import type { Rarity, ItemType } from "./gacha-catalog"
 
 export interface ClientQuestion {
@@ -42,7 +42,6 @@ export interface LootBoxResultResponse {
     name: string
     type: ItemType
     rarity: Rarity
-    emoji: string
     description: string
   }
   rarity: Rarity
@@ -54,11 +53,36 @@ export interface LootBoxResultResponse {
   boxesRemaining: number
 }
 
+export interface ProfileFrame {
+  id: string
+  name: string
+  description: string
+  unlockLevel: number
+  hex: string
+  unlocked: boolean
+  equipped: boolean
+}
+
+export interface ProfileIconClient {
+  id: string
+  emoji: string
+  name: string
+  unlockLevel: number
+  unlocked: boolean
+  equipped: boolean
+}
+
 export interface ProfileData {
   user: {
     id: string
     name: string
+    email: string | null
+    provider: string
     avatarBase: string
+    skinTone: string
+    profileIcon: string
+    profileIconEmoji: string
+    equippedFrame: string
     xp: number
     level: number
     coins: number
@@ -66,14 +90,16 @@ export interface ProfileData {
     xpIntoLevel: number
     xpForNextLevel: number
     progressPct: number
-    avatarString: string
-    equipped: {
-      hat: string | null
-      top: string | null
-      aura: string | null
-    }
+    equipped: { hat: string | null; top: string | null; aura: string | null }
     inventoryCount: number
     inventoryByRarity: Record<Rarity, string[]>
+    // Stats
+    wins: number
+    losses: number
+    currentStreak: number
+    maxStreak: number
+    gamesPlayed: number
+    winRate: number
   }
   progress: Array<{
     category: string
@@ -82,4 +108,15 @@ export interface ProfileData {
     total: number
     bestStreak: number
   }>
+  frames: ProfileFrame[]
+  icons: ProfileIconClient[]
+}
+
+export interface LoginResponse {
+  userId: string
+  name: string
+  email?: string
+  provider: string
+  level: number
+  isNew: boolean
 }

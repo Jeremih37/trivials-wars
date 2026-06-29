@@ -1,27 +1,34 @@
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
-import { ITEMS_BY_ID, GACHA_ITEMS, RARITY_CONFIG } from "@/lib/gacha-catalog"
+import { getCurrentUser } from "@/lib/auth"
+import { GACHA_ITEMS, RARITY_CONFIG } from "@/lib/gacha-catalog"
 
 export const dynamic = "force-dynamic"
 
 export async function GET() {
-  const user = await db.user.findFirst({
+  const user = await getCurrentUser()
+
+  const fullUser = await db.user.findUnique({
+    where: { id: user.id },
     include: { inventory: true, equipped: true },
   })
-  if (!user) {
+  if (!fullUser) {
     return NextResponse.json({ error: "Usuario no encontrado" }, { status: 404 })
   }
 
   const equippedMap: Record<string, string | null> = { hat: null, top: null, aura: null }
-  for (const eq of user.equipped) {
+  for (const eq of fullUser.equipped) {
     equippedMap[eq.slot] = eq.itemId
   }
 
-  // Lista completa de items del catálogo, marcando cuáles posee y cuáles están equipados
   const items = GACHA_ITEMS.map((item) => {
-    const inv = user.inventory.find((i) => i.itemId === item.id)
+    const inv = fullUser.inventory.find((i) => i.itemId === item.id)
     return {
-      ...item,
+      id: item.id,
+      name: item.name,
+      type: item.type,
+      rarity: item.rarity,
+      description: item.description,
       owned: !!inv,
       acquiredAt: inv?.acquiredAt ?? null,
       equipped: equippedMap[item.type] === item.id,
@@ -33,7 +40,7 @@ export async function GET() {
   return NextResponse.json({
     items,
     equipped: equippedMap,
-    inventoryCount: user.inventory.length,
+    inventoryCount: fullUser.inventory.length,
     totalCount: GACHA_ITEMS.length,
   })
 }

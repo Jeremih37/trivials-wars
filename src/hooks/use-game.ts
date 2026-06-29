@@ -1,7 +1,7 @@
 "use client"
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
-import type { ProfileData, StartGameResponse, AnswerResponse, LootBoxResultResponse } from "@/lib/types"
+import type { ProfileData, StartGameResponse, AnswerResponse, LootBoxResultResponse, LoginResponse } from "@/lib/types"
 import type { CategoryId, DifficultyId } from "@/lib/game"
 
 export function useProfile() {
@@ -14,6 +14,49 @@ export function useProfile() {
     },
     staleTime: 0,
     refetchOnWindowFocus: false,
+  })
+}
+
+export function useLogin() {
+  const qc = useQueryClient()
+  return useMutation<LoginResponse, Error, { provider: "google" | "guest"; email?: string; name?: string; googleId?: string }>({
+    mutationFn: async (params) => {
+      const r = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(params),
+      })
+      if (!r.ok) {
+        const e = await r.json()
+        throw new Error(e.error || "Error al iniciar sesión")
+      }
+      return r.json()
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["profile"] })
+      qc.invalidateQueries({ queryKey: ["inventory"] })
+    },
+  })
+}
+
+export function useEquipProfile() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (params: { type: "frame" | "icon" | "base"; key: string }) => {
+      const r = await fetch("/api/equip-profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(params),
+      })
+      if (!r.ok) {
+        const e = await r.json()
+        throw new Error(e.error || "Error al equipar")
+      }
+      return r.json()
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["profile"] })
+    },
   })
 }
 

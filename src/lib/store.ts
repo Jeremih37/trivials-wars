@@ -4,7 +4,7 @@ import { create } from "zustand"
 import type { ClientQuestion, StartGameResponse, AnswerResponse } from "@/lib/types"
 import type { DifficultyId, CategoryId } from "@/lib/game"
 
-export type GameScreen = "home" | "playing" | "results" | "profile" | "inventory" | "lootbox"
+export type GameScreen = "login" | "home" | "playing" | "results" | "profile" | "inventory" | "lootbox"
 
 export interface ActiveGame {
   sessionId: string
@@ -18,6 +18,10 @@ interface GameState {
   // Pantalla activa
   screen: GameScreen
   setScreen: (s: GameScreen) => void
+
+  // Auth
+  isAuthenticated: boolean
+  setAuthenticated: (v: boolean) => void
 
   // Setup del juego
   selectedCategory: CategoryId | null
@@ -55,8 +59,11 @@ interface GameState {
 }
 
 export const useGameStore = create<GameState>((set) => ({
-  screen: "home",
+  screen: "login",
   setScreen: (s) => set({ screen: s }),
+
+  isAuthenticated: false,
+  setAuthenticated: (v) => set({ isAuthenticated: v }),
 
   selectedCategory: null,
   selectedDifficulty: null,

@@ -4,7 +4,9 @@ import { motion } from "framer-motion"
 import { CATEGORIES, DIFFICULTIES, type CategoryId, type DifficultyId } from "@/lib/game"
 import { useGameStore } from "@/lib/store"
 import { useProfile, useStartGame } from "@/hooks/use-game"
-import { Sparkles, Zap, Trophy, Gift, User, ChevronRight } from "lucide-react"
+import { AvatarSvg, buildAvatarFromIds } from "@/components/avatar-svg"
+import { FRAMES_BY_ID } from "@/lib/profile-catalog"
+import { Sparkles, Zap, Trophy, Gift, User, ChevronRight, Flame, Swords } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export function HomeScreen() {
@@ -24,6 +26,13 @@ export function HomeScreen() {
     )
   }
 
+  const avatarData = profile ? buildAvatarFromIds(
+    profile.user.avatarBase,
+    profile.user.skinTone,
+    profile.user.equipped
+  ) : null
+  const frame = profile ? FRAMES_BY_ID[profile.user.equippedFrame] : null
+
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
@@ -34,6 +43,7 @@ export function HomeScreen() {
               initial={{ rotate: -10, scale: 0.9 }}
               animate={{ rotate: 0, scale: 1 }}
               className="text-3xl"
+              style={{ filter: "drop-shadow(0 0 8px rgba(255,45,45,0.6))" }}
             >
               🧠
             </motion.div>
@@ -58,10 +68,21 @@ export function HomeScreen() {
             </button>
             <button
               onClick={() => setScreen("profile")}
-              className="p-2 rounded-xl bg-card/80 border border-border hover:border-primary/60 transition"
+              className="relative p-1 rounded-xl bg-card/80 border border-border hover:border-primary/60 transition"
               title="Perfil"
             >
-              <User className="w-5 h-5 text-primary" />
+              {profile && frame ? (
+                <div className="relative w-10 h-10">
+                  <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
+                    {frame.render()}
+                  </svg>
+                  <div className="absolute inset-2 rounded-full bg-gradient-to-br from-primary/30 to-accent/30 flex items-center justify-center text-base">
+                    {profile.user.profileIconEmoji}
+                  </div>
+                </div>
+              ) : (
+                <div className="p-2"><User className="w-5 h-5 text-primary" /></div>
+              )}
             </button>
           </div>
         </div>
@@ -72,15 +93,15 @@ export function HomeScreen() {
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-card/80 via-card/40 to-background p-6 sm:p-8"
+          className="relative overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-card/80 via-card/40 to-background p-6 sm:p-8 glow-red"
         >
-          <div className="absolute -top-20 -right-20 w-72 h-72 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-accent/10 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -top-20 -right-20 w-72 h-72 bg-primary/15 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-accent/15 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative grid sm:grid-cols-[1fr_auto] gap-6 items-center">
             <div className="space-y-2">
-              <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-primary/80">
-                <Sparkles className="w-3.5 h-3.5" /> Bienvenido, Jugador
+              <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-primary">
+                <Swords className="w-3.5 h-3.5" /> {profile?.user.provider === "google" ? `Conectado como ${profile.user.email}` : "Bienvenido, Jugador"}
               </div>
               <h2 className="text-3xl sm:text-4xl font-black leading-tight">
                 ¿Listo para la <span className="text-gradient-neon">batalla mental</span>?
@@ -91,18 +112,27 @@ export function HomeScreen() {
 
               <div className="flex flex-wrap gap-3 pt-2">
                 <StatChip icon={<Trophy className="w-4 h-4" />} label="Nivel" value={profile?.user.level ?? 1} color="text-amber-300" />
-                <StatChip icon={<Zap className="w-4 h-4" />} label="XP total" value={profile?.user.xp ?? 0} color="text-cyan-300" />
-                <StatChip icon={<Gift className="w-4 h-4" />} label="Cajas" value={profile?.user.boxes ?? 0} color="text-pink-300" />
+                <StatChip icon={<Zap className="w-4 h-4" />} label="XP total" value={profile?.user.xp ?? 0} color="text-red-300" />
+                <StatChip icon={<Swords className="w-4 h-4" />} label="Victorias" value={profile?.user.wins ?? 0} color="text-green-400" />
+                <StatChip icon={<Flame className="w-4 h-4" />} label="Racha" value={profile?.user.currentStreak ?? 0} color="text-orange-400" />
               </div>
             </div>
 
-            {/* Avatar preview */}
+            {/* Avatar preview con marco */}
             <div className="flex flex-col items-center gap-2">
               <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-accent/30 blur-2xl rounded-full" />
-                <div className="relative w-28 h-28 rounded-full bg-card border-2 border-primary/40 flex items-center justify-center text-5xl glow-cyan">
-                  {profile?.user.avatarString ?? "🧑"}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/40 to-accent/40 blur-2xl rounded-full" />
+                <div className="relative w-32 h-32 rounded-full bg-card border-2 flex items-center justify-center overflow-hidden"
+                  style={{ borderColor: frame?.hex ?? "#ff2d2d", boxShadow: `0 0 25px ${frame?.hex ?? "#ff2d2d"}80` }}
+                >
+                  {avatarData && <AvatarSvg {...avatarData} size={110} />}
                 </div>
+                {/* Marco decorativo */}
+                {frame && (
+                  <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none">
+                    {frame.render()}
+                  </svg>
+                )}
               </div>
               <div className="text-center">
                 <div className="text-xs text-muted-foreground">Lvl {profile?.user.level ?? 1}</div>
@@ -122,7 +152,7 @@ export function HomeScreen() {
                 initial={{ width: 0 }}
                 animate={{ width: `${profile?.user.progressPct ?? 0}%` }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="h-full bg-gradient-to-r from-primary via-accent to-amber-400 relative"
+                className="h-full bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 relative"
               >
                 <div className="absolute inset-0 opacity-50 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent)] animate-[pulse-glow:1.5s_ease-in-out_infinite]" />
               </motion.div>
@@ -152,7 +182,7 @@ export function HomeScreen() {
                   )}
                   style={
                     isSelected
-                      ? { boxShadow: `0 0 24px ${cat.color}40, 0 0 50px ${cat.color}20`, borderColor: cat.color }
+                      ? { boxShadow: `0 0 24px ${cat.color}50, 0 0 50px ${cat.color}25`, borderColor: cat.color }
                       : undefined
                   }
                 >
@@ -198,7 +228,7 @@ export function HomeScreen() {
                   )}
                   style={
                     isSelected
-                      ? { boxShadow: `0 0 24px ${d.color}40`, borderColor: d.color, background: `${d.color}10` }
+                      ? { boxShadow: `0 0 24px ${d.color}50`, borderColor: d.color, background: `${d.color}10` }
                       : undefined
                   }
                 >
@@ -222,7 +252,7 @@ export function HomeScreen() {
           <motion.div
             initial={{ y: 100 }}
             animate={{ y: 0 }}
-            className="rounded-2xl border border-primary/40 bg-background/80 backdrop-blur-xl p-3 shadow-2xl glow-cyan"
+            className="rounded-2xl border border-primary/40 bg-background/80 backdrop-blur-xl p-3 shadow-2xl glow-red"
           >
             <button
               onClick={handleStart}
@@ -231,7 +261,7 @@ export function HomeScreen() {
                 "w-full py-4 rounded-xl font-black text-base uppercase tracking-widest transition-all flex items-center justify-center gap-2",
                 !selectedCategory || !selectedDifficulty || startGameMut.isPending
                   ? "bg-muted text-muted-foreground cursor-not-allowed"
-                  : "bg-gradient-to-r from-primary via-accent to-primary text-primary-foreground hover:scale-[1.01] active:scale-[0.99]"
+                  : "bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-white hover:scale-[1.01] active:scale-[0.99]"
               )}
             >
               {startGameMut.isPending ? (
@@ -240,7 +270,7 @@ export function HomeScreen() {
                 "Selecciona categoría y dificultad"
               ) : (
                 <>
-                  ¡COMENZAR BATALLA!
+                  <Swords className="w-5 h-5" /> ¡COMENZAR BATALLA!
                   <ChevronRight className="w-5 h-5" />
                 </>
               )}
@@ -250,7 +280,7 @@ export function HomeScreen() {
       </main>
 
       <footer className="mt-auto text-center text-xs text-muted-foreground/60 py-4">
-        Trivials Wars · MVP · Progreso local
+        Trivials Wars · MVP · {profile?.user.provider === "google" ? "Cuenta Google" : "Modo Invitado"}
       </footer>
     </div>
   )

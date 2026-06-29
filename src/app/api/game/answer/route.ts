@@ -3,9 +3,11 @@ import { db } from "@/lib/db"
 import {
   computeAnswerXp,
   computeLevelFromXp,
+  computeSessionResult,
   DIFFICULTIES,
   type DifficultyId,
 } from "@/lib/game"
+import { autoUnlockByLevel } from "@/lib/auth"
 
 export const dynamic = "force-dynamic"
 
@@ -104,6 +106,11 @@ export async function POST(req: Request) {
         },
       })
 
+      // Auto-unlock marcos/iconos si subió de nivel
+      if (levelUp) {
+        await autoUnlockByLevel(user.id, newLevelInfo.level)
+      }
+
       return NextResponse.json({
         isCorrect,
         correctAnswer: question.correctAnswer,
@@ -127,11 +134,40 @@ export async function POST(req: Request) {
 }
 
 export async function PATCH(req: Request) {
-  // Finalizar sesión
+  // Finalizar sesión: marcar endedAt y registrar resultado win/loss + actualizar stats del usuario
   const { sessionId } = await req.json()
+  const session = await db.gameSession.findUnique({ where: { id: sessionId } })
+  if (!session) {
+    return NextResponse.json({ error: "Sesión no encontrada" }, { status: 404 })
+  }
+
+  const result = computeSessionResult(session.correctCount, session.totalQuestions)
+
   await db.gameSession.update({
     where: { id: sessionId },
-    data: { endedAt: new Date() },
+    data: { endedAt: new Date(), result },
   })
-  return NextResponse.json({ ok: true })
+
+  // Actualizar wins/losses/streaks en el usuario
+  const user = await db.user.findFirst()
+  if (user) {
+    const newGames = user.gamesPlayed + 1
+    const newWins = user.wins + (result === "win" ? 1 : 0)
+    const newLosses = user.losses + (result === "loss" ? 1 : 0)
+    const newCurrentStreak = result === "win" ? user.currentStreak + 1 : 0
+    const newMaxStreak = Math.max(user.maxStreak, newCurrentStreak)
+
+    await db.user.update({
+      where: { id: user.id },
+      data: {
+        gamesPlayed: newGames,
+        wins: newWins,
+        losses: newLosses,
+        currentStreak: newCurrentStreak,
+        maxStreak: newMaxStreak,
+      },
+    })
+  }
+
+  return NextResponse.json({ ok: true, result })
 }

@@ -3,6 +3,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { useState } from "react"
 import { useGameStore } from "@/lib/store"
+import { LoginScreen } from "@/components/screens/login-screen"
 import { HomeScreen } from "@/components/screens/home-screen"
 import { GameScreen } from "@/components/screens/game-screen"
 import { ResultsScreen } from "@/components/screens/results-screen"
@@ -33,6 +34,8 @@ function AppRouter() {
   const screen = useGameStore((s) => s.screen)
 
   switch (screen) {
+    case "login":
+      return <LoginScreen />
     case "home":
       return <HomeScreen />
     case "playing":
@@ -44,6 +47,6 @@ function AppRouter() {
     case "profile":
       return <ProfileScreen />
     default:
-      return <HomeScreen />
+      return <LoginScreen />
   }
 }
