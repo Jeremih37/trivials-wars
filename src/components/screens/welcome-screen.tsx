@@ -39,12 +39,33 @@ interface FunFact {
   description: string
 }
 
+const FACT_COLOR = {
+  ciencia: "#00E5FF",
+  historia: "#FFEA00",
+  cultura: "#FF4D6D",
+  naturaleza: "#39FF14",
+  geografia: "#7DD3FC",
+  videojuegos: "#a855f7",
+  deporte: "#f97316",
+  espacio: "#C084FC",
+  arte: "#F472B6",
+  musica: "#34D399",
+  tecnologia: "#60A5FA",
+  idiomas: "#FBBF24",
+  ocean: "#22D3EE",
+  cuerpo: "#FB7185",
+  inventos: "#A78BFA",
+  literatura: "#FCD34D",
+  mitologia: "#F87171",
+  mariposas: "#F59E0B",
+} as const
+
 const FUN_FACTS: FunFact[] = [
   {
     id: 1,
     emoji: "🐙",
     category: "Ciencia",
-    color: "#00E5FF",
+    color: FACT_COLOR.ciencia,
     title: "El pulpo tiene tres corazones",
     description:
       "Dos corazones bombean sangre a las branquias y el tercero al resto del cuerpo. Cuando nada, el corazón principal se detiene, por eso prefieren caminar.",
@@ -53,7 +74,7 @@ const FUN_FACTS: FunFact[] = [
     id: 2,
     emoji: "🧱",
     category: "Historia",
-    color: "#FFEA00",
+    color: FACT_COLOR.historia,
     title: "La Gran Muralla China mide +21,000 km",
     description:
       "No es una sola pared, sino una red de tramos construidos a lo largo de 2,000 años. Se dice que es visible desde la órbita baja terrestre.",
@@ -62,7 +83,7 @@ const FUN_FACTS: FunFact[] = [
     id: 3,
     emoji: "🎭",
     category: "Cultura",
-    color: "#FF4D6D",
+    color: FACT_COLOR.cultura,
     title: "Shakespeare inventó +1,700 palabras",
     description:
       "Palabras como 'lonely', 'bedroom' y 'eyeball' aparecieron por primera vez en sus obras. Su vocabulario superaba los 29,000 términos.",
@@ -71,7 +92,7 @@ const FUN_FACTS: FunFact[] = [
     id: 4,
     emoji: "🧠",
     category: "Ciencia",
-    color: "#00E5FF",
+    color: FACT_COLOR.ciencia,
     title: "El cerebro usa el 20% de tu energía",
     description:
       "Pesa apenas 1.4 kg pero consume el 20% del oxígeno y calorías. Genera energía suficiente para encender una bombilla de bajo consumo.",
@@ -80,7 +101,7 @@ const FUN_FACTS: FunFact[] = [
     id: 5,
     emoji: "🐜",
     category: "Naturaleza",
-    color: "#39FF14",
+    color: FACT_COLOR.naturaleza,
     title: "Las hormigas pueden cargar 50x su peso",
     description:
       "Si un humano tuviera esa fuerza proporcional, levantaría un automóvil. Existen más de 12,000 especies de hormigas en el planeta.",
@@ -89,7 +110,7 @@ const FUN_FACTS: FunFact[] = [
     id: 6,
     emoji: "🏔️",
     category: "Geografía",
-    color: "#00E5FF",
+    color: FACT_COLOR.geografia,
     title: "El Everest crece 4 mm cada año",
     description:
       "La colisión de placas tectónicas entre India y Asia empuja la montaña hacia arriba. Hace 50 millones de años esta zona estaba bajo el mar.",
@@ -98,7 +119,7 @@ const FUN_FACTS: FunFact[] = [
     id: 7,
     emoji: "🏓",
     category: "Videojuegos",
-    color: "#a855f7",
+    color: FACT_COLOR.videojuegos,
     title: "El primer videojuego es de 1958",
     description:
       "'Tennis for Two' fue creado por el físico William Higinbotham en un osciloscopio. Se creó para entretener a los visitantes de un laboratorio.",
@@ -107,10 +128,209 @@ const FUN_FACTS: FunFact[] = [
     id: 8,
     emoji: "🏀",
     category: "Deporte",
-    color: "#f97316",
+    color: FACT_COLOR.deporte,
     title: "El basketball se inventó en 1891",
     description:
       "James Naismith usó canastas de melocotones y un balón de fútbol. El primer partido terminó 1-0. Hoy se juega en más de 200 países.",
+  },
+  // ====== NUEVOS DATOS (22 más, total 30) ======
+  {
+    id: 9,
+    emoji: "🌍",
+    category: "Espacio",
+    color: FACT_COLOR.espacio,
+    title: "La Tierra rotó más rápido en 2020",
+    description:
+      "El 19 de julio de 2020 fue el día más corto jamás medido: 1.46 ms menos de 24 horas. El clima, los océanos y el núcleo afectan la rotación planetaria.",
+  },
+  {
+    id: 10,
+    emoji: "🎨",
+    category: "Arte",
+    color: FACT_COLOR.arte,
+    title: "Van Gogh vendió un solo cuadro en vida",
+    description:
+      "'La viña roja' se vendió por 400 francos en 1890, meses antes de su muerte. Hoy sus obras superan los 100 millones de dólares.",
+  },
+  {
+    id: 11,
+    emoji: "🎵",
+    category: "Música",
+    color: FACT_COLOR.musica,
+    title: "Mozart compuso a los 5 años",
+    description:
+      "Su primera pieza, un minueto para clavecín, la escribió a los 5 años. A los 12 ya había compuesto su primera ópera. Murió a los 35 con más de 600 obras.",
+  },
+  {
+    id: 12,
+    emoji: "💻",
+    category: "Tecnología",
+    color: FACT_COLOR.tecnologia,
+    title: "El primer SMS decía 'Merry Christmas'",
+    description:
+      "Neil Papworth lo envió el 3 de diciembre de 1992 desde un PC a un móvil Orbitel 901. Nadie imaginaba que iniciaría una revolución de mensajería.",
+  },
+  {
+    id: 13,
+    emoji: "🗣️",
+    category: "Idiomas",
+    color: FACT_COLOR.idiomas,
+    title: "Existen +7,000 idiomas en el mundo",
+    description:
+      "Pero el 40% está en peligro de extinción. El papamiento, el silbo gomero y el pirahã son algunos de los más fascinantes del planeta.",
+  },
+  {
+    id: 14,
+    emoji: "🐋",
+    category: "Océano",
+    color: FACT_COLOR.ocean,
+    title: "La ballena azul es el animal más grande jamás existente",
+    description:
+      "Mide hasta 30 m y pesa 180 toneladas. Su corazón es del tamaño de un coche pequeño y su lengua pesa tanto como un elefante.",
+  },
+  {
+    id: 15,
+    emoji: "❤️",
+    category: "Cuerpo humano",
+    color: FACT_COLOR.cuerpo,
+    title: "Tus vasos sanguíneos darían 2.5 vueltas a la Tierra",
+    description:
+      "Puestos en línea miden ~100,000 km. El corazón bombea 7,500 litros de sangre al día a través de esta red, sin parar ni un segundo.",
+  },
+  {
+    id: 16,
+    emoji: "💡",
+    category: "Inventos",
+    color: FACT_COLOR.inventos,
+    title: "La bombilla led dura 25,000 horas",
+    description:
+      "Frente a las 1,200 de una incandescente. El primer LED visible lo creó Nick Holonyak en 1962; hoy iluminan el 60% de los hogares del mundo.",
+  },
+  {
+    id: 17,
+    emoji: "📚",
+    category: "Literatura",
+    color: FACT_COLOR.literatura,
+    title: "El Quijote se tradujo a +50 idiomas",
+    description:
+      "Publicada en 1605, es la segunda obra más traducida de la historia después de la Biblia. Cervantes murió el mismo día que Shakespeare: 23 de abril de 1616.",
+  },
+  {
+    id: 18,
+    emoji: "⚡",
+    category: "Mitología",
+    color: FACT_COLOR.mitologia,
+    title: "Zeus no siempre gobernó el Olimpo",
+    description:
+      "En la mitología griega, derrocó a su padre Crono, quien a su vez había derrocado a Urano. La guerra de los Titanes duró 10 años antes de su victoria.",
+  },
+  {
+    id: 19,
+    emoji: "🦋",
+    category: "Naturaleza",
+    color: FACT_COLOR.mariposas,
+    title: "La mariposa monarca viaja 4,500 km",
+    description:
+      "Cada otoño migra de Canadá a México, pero la hace en 4 generaciones: las que llegan nunca han estado allí, pero saben exactamente dónde ir.",
+  },
+  {
+    id: 20,
+    emoji: "🪐",
+    category: "Espacio",
+    color: FACT_COLOR.espacio,
+    title: "Saturno flotaría en agua",
+    description:
+      "Su densidad es de 0.687 g/cm³, menor que la del agua (1). Si existiera una bañera suficientemente grande, el planeta entero flotaría en su superficie.",
+  },
+  {
+    id: 21,
+    emoji: "🏛️",
+    category: "Historia",
+    color: FACT_COLOR.historia,
+    title: "Los romanos usaban orina para lavar ropa",
+    description:
+      "El amoníaco de la orina era un detergente natural. El emperador Vespasiano incluso cobraba impuestos por la recolección de orina pública.",
+  },
+  {
+    id: 22,
+    emoji: "🔬",
+    category: "Ciencia",
+    color: FACT_COLOR.ciencia,
+    title: "El agua puede hervir y congelarse a la vez",
+    description:
+      "En el 'punto triple' (0.01°C y 611 Pa) el agua existe simultáneamente como sólido, líquido y gas. Es así como se calibran los termómetros exactos.",
+  },
+  {
+    id: 23,
+    emoji: "🗽",
+    category: "Geografía",
+    color: FACT_COLOR.geografia,
+    title: "La Estatua de la Libertad fue un regalo francés",
+    description:
+      "Inaugurada en 1886, fue diseñada por Frédéric Auguste Bartholdi con estructura interna de Gustave Eiffel. Su color verde es por la oxidación natural del cobre.",
+  },
+  {
+    id: 24,
+    emoji: "🕹️",
+    category: "Videojuegos",
+    color: FACT_COLOR.videojuegos,
+    title: "Pac-Man tenía nombre japonés",
+    description:
+      "Se llamaba 'Puck-Man' (por 'paku', comer). En EE.UU. lo cambiaron a Pac-Man para evitar que los graffiteros convirtieran la P en una F en los arcades.",
+  },
+  {
+    id: 25,
+    emoji: "⚽",
+    category: "Deporte",
+    color: FACT_COLOR.deporte,
+    title: "El fútbol se juega en 200+ países",
+    description:
+      "Es el deporte más popular del mundo: más de 250 millones de jugadores activos. La FIFA tiene más federaciones miembro que la ONU tiene países.",
+  },
+  {
+    id: 26,
+    emoji: "🐼",
+    category: "Naturaleza",
+    color: FACT_COLOR.naturaleza,
+    title: "El panda pasa 14 horas al día comiendo",
+    description:
+      "Su dieta es 99% bambú, pero su estómago es de carnívoro. Para nutrirse debe ingerir entre 12 y 38 kg diarios de bambú.",
+  },
+  {
+    id: 27,
+    emoji: "🦈",
+    category: "Océano",
+    color: FACT_COLOR.ocean,
+    title: "Los tiburones existían antes que los árboles",
+    description:
+      "Aparecieron hace 400 millones de años; los árboles aparecieron hace 350 millones. Sobrevivieron a 4 extinciones masivas sin cambiar casi su diseño.",
+  },
+  {
+    id: 28,
+    emoji: "👁️",
+    category: "Cuerpo humano",
+    color: FACT_COLOR.cuerpo,
+    title: "El ojo humano distingue 10 millones de colores",
+    description:
+      "Tenemos ~6 millones de conos (color) y 120 millones de bastones (luz). Las mujeres, en promedio, distinguen más tonos que los hombres.",
+  },
+  {
+    id: 29,
+    emoji: "🚀",
+    category: "Tecnología",
+    color: FACT_COLOR.tecnologia,
+    title: "Tu smartphone es millones de veces más potente que el Apollo 11",
+    description:
+      "El iPhone moderno tiene ~100,000x la memoria y procesadores millones de veces más rápidos. El Apollo 11 llevó al hombre a la Luna con apenas 4 KB de RAM.",
+  },
+  {
+    id: 30,
+    emoji: "🌌",
+    category: "Espacio",
+    color: FACT_COLOR.espacio,
+    title: "Hay más estrellas que granos de arena",
+    description:
+      "El universo observable tiene ~10²⁴ estrellas. Todas las playas de la Tierra suman ~10¹⁹ granos de arena. Por cada grano, hay 100,000 estrellas.",
   },
 ]
 
@@ -508,18 +728,61 @@ export function WelcomeScreen() {
 
                     {/* Controles */}
                     <div className="mt-auto pt-3 flex items-center justify-between gap-3">
+                      {/* Ventana deslizante de puntos (máx 9 visibles) */}
                       <div className="flex items-center gap-1.5">
-                        {FUN_FACTS.map((f, i) => (
-                          <button
-                            key={f.id}
-                            onClick={() => setFactIdx(i)}
-                            className={cn(
-                              "h-1.5 rounded-full transition-all",
-                              i === factIdx ? "w-6 bg-blue-500" : "w-1.5 bg-blue-200/70 hover:bg-blue-400/70"
-                            )}
-                            aria-label={`Ir al dato ${i + 1}`}
-                          />
-                        ))}
+                        {(() => {
+                          const total = FUN_FACTS.length
+                          const visible = Math.min(total, 9)
+                          const half = Math.floor(visible / 2)
+                          let start = Math.max(0, factIdx - half)
+                          const end = Math.min(total, start + visible)
+                          if (end - start < visible) start = Math.max(0, end - visible)
+                          const dots: React.ReactNode[] = []
+                          if (start > 0) {
+                            dots.push(
+                              <button
+                                key="first"
+                                onClick={() => setFactIdx(0)}
+                                className="h-1.5 w-1.5 rounded-full bg-[#8090C0]/40 hover:bg-[#8090C0] transition"
+                                aria-label="Ir al primer dato"
+                              />
+                            )
+                            dots.push(
+                              <span key="ellipsis1" className="text-[10px] text-[#8090C0] leading-none -mt-0.5">…</span>
+                            )
+                          }
+                          for (let i = start; i < end; i++) {
+                            const isCurrent = i === factIdx
+                            dots.push(
+                              <button
+                                key={FUN_FACTS[i].id}
+                                onClick={() => setFactIdx(i)}
+                                className={cn(
+                                  "h-1.5 rounded-full transition-all",
+                                  isCurrent
+                                    ? "w-6 bg-[#00E5FF]"
+                                    : "w-1.5 bg-[#8090C0]/40 hover:bg-[#8090C0]"
+                                )}
+                                aria-label={`Ir al dato ${i + 1}`}
+                                aria-current={isCurrent ? "true" : undefined}
+                              />
+                            )
+                          }
+                          if (end < total) {
+                            dots.push(
+                              <span key="ellipsis2" className="text-[10px] text-[#8090C0] leading-none -mt-0.5">…</span>
+                            )
+                            dots.push(
+                              <button
+                                key="last"
+                                onClick={() => setFactIdx(total - 1)}
+                                className="h-1.5 w-1.5 rounded-full bg-[#8090C0]/40 hover:bg-[#8090C0] transition"
+                                aria-label="Ir al último dato"
+                              />
+                            )
+                          }
+                          return dots
+                        })()}
                       </div>
                       <div className="flex items-center gap-2">
                         <button

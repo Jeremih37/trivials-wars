@@ -1,0 +1,606 @@
+     1→"use client"
+     2→
+     3→import { motion, AnimatePresence } from "framer-motion"
+     4→import { useState, useEffect, useCallback } from "react"
+     5→import { useGameStore } from "@/lib/store"
+     6→import { useProfile, useUpdateName } from "@/hooks/use-game"
+     7→import { AvatarSvg, buildAvatarFromIds } from "@/components/avatar-svg"
+     8→import { FRAMES_BY_ID } from "@/lib/profile-catalog"
+     9→import { WisdomCapsule } from "@/components/wisdom-capsule"
+    10→import { BubblesBackground } from "@/components/bubbles-background"
+    11→import { AudioToggle } from "@/components/audio-toggle"
+    12→import {
+    13→  Sparkles,
+    14→  Trophy,
+    15→  Zap,
+    16→  Gift,
+    17→  User,
+    18→  Flame,
+    19→  Swords,
+    20→  ChevronLeft,
+    21→  ChevronRight,
+    22→  Pencil,
+    23→  Check,
+    24→  Brain,
+    25→  Lightbulb,
+    26→  Play,
+    27→  Heart,
+    28→  Skull,
+    29→} from "lucide-react"
+    30→import { cn } from "@/lib/utils"
+    31→
+    32→// ====== Datos curiosos de cultura general ======
+    33→interface FunFact {
+    34→  id: number
+    35→  emoji: string
+    36→  category: string
+    37→  color: string
+    38→  title: string
+    39→  description: string
+    40→}
+    41→
+    42→const FUN_FACTS: FunFact[] = [
+    43→  {
+    44→    id: 1,
+    45→    emoji: "🐙",
+    46→    category: "Ciencia",
+    47→    color: "#00E5FF",
+    48→    title: "El pulpo tiene tres corazones",
+    49→    description:
+    50→      "Dos corazones bombean sangre a las branquias y el tercero al resto del cuerpo. Cuando nada, el corazón principal se detiene, por eso prefieren caminar.",
+    51→  },
+    52→  {
+    53→    id: 2,
+    54→    emoji: "🧱",
+    55→    category: "Historia",
+    56→    color: "#FFEA00",
+    57→    title: "La Gran Muralla China mide +21,000 km",
+    58→    description:
+    59→      "No es una sola pared, sino una red de tramos construidos a lo largo de 2,000 años. Se dice que es visible desde la órbita baja terrestre.",
+    60→  },
+    61→  {
+    62→    id: 3,
+    63→    emoji: "🎭",
+    64→    category: "Cultura",
+    65→    color: "#FF4D6D",
+    66→    title: "Shakespeare inventó +1,700 palabras",
+    67→    description:
+    68→      "Palabras como 'lonely', 'bedroom' y 'eyeball' aparecieron por primera vez en sus obras. Su vocabulario superaba los 29,000 términos.",
+    69→  },
+    70→  {
+    71→    id: 4,
+    72→    emoji: "🧠",
+    73→    category: "Ciencia",
+    74→    color: "#00E5FF",
+    75→    title: "El cerebro usa el 20% de tu energía",
+    76→    description:
+    77→      "Pesa apenas 1.4 kg pero consume el 20% del oxígeno y calorías. Genera energía suficiente para encender una bombilla de bajo consumo.",
+    78→  },
+    79→  {
+    80→    id: 5,
+    81→    emoji: "🐜",
+    82→    category: "Naturaleza",
+    83→    color: "#39FF14",
+    84→    title: "Las hormigas pueden cargar 50x su peso",
+    85→    description:
+    86→      "Si un humano tuviera esa fuerza proporcional, levantaría un automóvil. Existen más de 12,000 especies de hormigas en el planeta.",
+    87→  },
+    88→  {
+    89→    id: 6,
+    90→    emoji: "🏔️",
+    91→    category: "Geografía",
+    92→    color: "#00E5FF",
+    93→    title: "El Everest crece 4 mm cada año",
+    94→    description:
+    95→      "La colisión de placas tectónicas entre India y Asia empuja la montaña hacia arriba. Hace 50 millones de años esta zona estaba bajo el mar.",
+    96→  },
+    97→  {
+    98→    id: 7,
+    99→    emoji: "🏓",
+   100→    category: "Videojuegos",
+   101→    color: "#a855f7",
+   102→    title: "El primer videojuego es de 1958",
+   103→    description:
+   104→      "'Tennis for Two' fue creado por el físico William Higinbotham en un osciloscopio. Se creó para entretener a los visitantes de un laboratorio.",
+   105→  },
+   106→  {
+   107→    id: 8,
+   108→    emoji: "🏀",
+   109→    category: "Deporte",
+   110→    color: "#f97316",
+   111→    title: "El basketball se inventó en 1891",
+   112→    description:
+   113→      "James Naismith usó canastas de melocotones y un balón de fútbol. El primer partido terminó 1-0. Hoy se juega en más de 200 países.",
+   114→  },
+   115→]
+   116→
+   117→// ====== Ilustración SVG decorativa para cada categoría ======
+   118→function FactIllustration({ color, emoji }: { color: string; emoji: string }) {
+   119→  const colorId = color.replace(/[^a-zA-Z0-9]/g, "")
+   120→  return (
+   121→    <div className="relative">
+   122→      {/* Halo gradient */}
+   123→      <div
+   124→        className="absolute inset-0 blur-2xl opacity-70 rounded-full"
+   125→        style={{
+   126→          background: `radial-gradient(circle, ${color}80 0%, transparent 70%)`,
+   127→        }}
+   128→      />
+   129→      <svg viewBox="0 0 200 200" className="relative w-full h-full">
+   130→        <defs>
+   131→          <radialGradient id={`grad-${colorId}`} cx="50%" cy="50%">
+   132→            <stop offset="0%" stopColor={color} stopOpacity="0.4" />
+   133→            <stop offset="100%" stopColor={color} stopOpacity="0" />
+   134→          </radialGradient>
+   135→          <linearGradient id={`ring-${colorId}`} x1="0%" y1="0%" x2="100%" y2="100%">
+   136→            <stop offset="0%" stopColor={color} stopOpacity="0.9" />
+   137→            <stop offset="100%" stopColor="#ffffff" stopOpacity="0.3" />
+   138→          </linearGradient>
+   139→        </defs>
+   140→        <circle cx="100" cy="100" r="80" fill={`url(#grad-${colorId})`} />
+   141→        <circle cx="100" cy="100" r="70" fill="none" stroke={`url(#ring-${colorId})`} strokeWidth="2" strokeDasharray="4 6" opacity="0.7" />
+   142→        <circle cx="100" cy="100" r="58" fill="none" stroke={color} strokeWidth="1.5" opacity="0.5" />
+   143→        <g className="animate-spin" style={{ transformOrigin: "100px 100px", animationDuration: "20s" }}>
+   144→          <circle cx="100" cy="30" r="3" fill={color} opacity="0.8" />
+   145→          <circle cx="170" cy="100" r="2" fill={color} opacity="0.6" />
+   146→          <circle cx="100" cy="170" r="2.5" fill="#ffffff" opacity="0.6" />
+   147→          <circle cx="30" cy="100" r="2" fill={color} opacity="0.5" />
+   148→        </g>
+   149→        <g opacity="0.7">
+   150→          <circle cx="50" cy="60" r="1.5" fill="#ffffff" />
+   151→          <circle cx="150" cy="50" r="1" fill="#ffffff" />
+   152→          <circle cx="60" cy="150" r="1.2" fill="#ffffff" />
+   153→          <circle cx="155" cy="140" r="1.5" fill="#ffffff" />
+   154→        </g>
+   155→      </svg>
+   156→      <div
+   157→        className="absolute inset-0 flex items-center justify-center text-7xl drop-shadow-2xl animate-float-slow"
+   158→        style={{ filter: `drop-shadow(0 0 20px ${color})` }}
+   159→      >
+   160→        {emoji}
+   161→      </div>
+   162→    </div>
+   163→  )
+   164→}
+   165→
+   166→export function WelcomeScreen() {
+   167→  const { setScreen } = useGameStore()
+   168→  const { data: profile } = useProfile()
+   169→  const updateNameMut = useUpdateName()
+   170→
+   171→  const [factIdx, setFactIdx] = useState(0)
+   172→  const [autoPlay, setAutoPlay] = useState(true)
+   173→  const [editingName, setEditingName] = useState(false)
+   174→  const [nameInput, setNameInput] = useState("")
+   175→
+   176→  const currentFact = FUN_FACTS[factIdx]
+   177→
+   178→  useEffect(() => {
+   179→    if (!autoPlay) return
+   180→    const t = setInterval(() => {
+   181→      setFactIdx((i) => (i + 1) % FUN_FACTS.length)
+   182→    }, 6000)
+   183→    return () => clearInterval(t)
+   184→  }, [autoPlay])
+   185→
+   186→  const goNext = useCallback(() => {
+   187→    setFactIdx((i) => (i + 1) % FUN_FACTS.length)
+   188→  }, [])
+   189→  const goPrev = useCallback(() => {
+   190→    setFactIdx((i) => (i - 1 + FUN_FACTS.length) % FUN_FACTS.length)
+   191→  }, [])
+   192→
+   193→  const startEditName = () => {
+   194→    setNameInput(profile?.user.name ?? "Jugador")
+   195→    setEditingName(true)
+   196→  }
+   197→
+   198→  const saveName = () => {
+   199→    const trimmed = nameInput.trim()
+   200→    if (!trimmed) return
+   201→    updateNameMut.mutate(
+   202→      { name: trimmed },
+   203→      {
+   204→        onSuccess: () => setEditingName(false),
+   205→      }
+   206→    )
+   207→  }
+   208→
+   209→  const avatarData = profile
+   210→    ? buildAvatarFromIds(profile.user.avatarBase, profile.user.skinTone, profile.user.equipped)
+   211→    : null
+   212→  const frame = profile ? FRAMES_BY_ID[profile.user.equippedFrame] : null
+   213→
+   214→  const displayName = profile?.user.name ?? "Jugador"
+   215→
+   216→  return (
+   217→    <div className="relative min-h-screen flex flex-col">
+   218→      <BubblesBackground count={28} />
+   219→
+   220→      {/* Header */}
+   221→      <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#131838]/50 border-b border-[#8090C0]/40">
+   222→        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+   223→          <div className="flex items-center gap-2">
+   224→            <motion.div
+   225→              initial={{ rotate: -10, scale: 0.9 }}
+   226→              animate={{ rotate: 0, scale: 1 }}
+   227→              className="text-3xl"
+   228→              style={{ filter: "drop-shadow(0 0 14px rgba(0, 229, 255, 0.75))" }}
+   229→            >
+   230→              🧠
+   231→            </motion.div>
+   232→            <div>
+   233→              <h1 className="text-xl font-fancy italic font-bold tracking-tight text-gradient-neon">Trivials Wars</h1>
+   234→              <p className="text-[10px] text-[#8090C0] -mt-1 tracking-widest uppercase">El conocimiento es poder</p>
+   235→            </div>
+   236→          </div>
+   237→
+   238→          <div className="flex items-center gap-2">
+   239→            <AudioToggle compact />
+   240→            <button
+   241→              onClick={() => setScreen("lootbox")}
+   242→              className="relative px-3 py-2 rounded-xl bg-[#1A1F4A]/40 border border-[#FFEA00]/50 text-[#FFEA00] hover:bg-[#FFEA00]/30 transition glow-gold"
+   243→              title="Abrir Loot Box"
+   244→            >
+   245→              <Gift className="w-5 h-5" />
+   246→              {profile?.user.boxes ? (
+   247→                <span className="absolute -top-1 -right-1 bg-[#FFEA00] text-black text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
+   248→                  {profile.user.boxes}
+   249→                </span>
+   250→              ) : null}
+   251→            </button>
+   252→            <button
+   253→              onClick={() => setScreen("profile")}
+   254→              className="relative p-1 rounded-xl bg-[#131838]/70 border border-[#8090C0]/60 hover:border-[#00E5FF]/60 transition"
+   255→              title="Perfil"
+   256→            >
+   257→              {profile && frame ? (
+   258→                <div className="relative w-10 h-10">
+   259→                  <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
+   260→                    {frame.render()}
+   261→                  </svg>
+   262→                  <div className="absolute inset-2 rounded-full bg-gradient-to-br from-[#00E5FF]/30 to-[#00FFB3]/30 flex items-center justify-center text-base">
+   263→                    {profile.user.profileIconEmoji}
+   264→                  </div>
+   265→                </div>
+   266→              ) : (
+   267→                <div className="p-2"><User className="w-5 h-5 text-[#8090C0]" /></div>
+   268→              )}
+   269→            </button>
+   270→          </div>
+   271→        </div>
+   272→      </header>
+   273→
+   274→      {/* ===== LAYOUT DE 2 COLUMNAS — Estilo juego, no documento ===== */}
+   275→      <main className="relative z-10 flex-1 max-w-6xl w-full mx-auto px-4 py-5 lg:py-6">
+   276→        <div className="grid lg:grid-cols-[1fr_1.1fr] gap-5 lg:gap-6">
+   277→
+   278→          {/* ====== COLUMNA IZQUIERDA — Hero card + Stats + CTA ====== */}
+   279→          <div className="space-y-5">
+   280→            {/* Hero card con saludo + avatar */}
+   281→            <motion.section
+   282→              initial={{ opacity: 0, x: -20 }}
+   283→              animate={{ opacity: 1, x: 0 }}
+   284→              className="relative overflow-hidden rounded-3xl glass-frutiger p-5 sm:p-6"
+   285→            >
+   286→              <div className="absolute -top-20 -right-20 w-72 h-72 bg-[#00FFB3]/20 rounded-full blur-3xl pointer-events-none" />
+   287→              <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-[#00FFB3]/20 rounded-full blur-3xl pointer-events-none" />
+   288→
+   289→              <div className="relative flex flex-col sm:flex-row gap-5 items-center sm:items-start">
+   290→                {/* Avatar + marco */}
+   291→                <div className="flex flex-col items-center gap-2 shrink-0">
+   292→                  <div className="relative">
+   293→                    <div className="absolute inset-0 bg-gradient-to-br from-[#00E5FF]/40 to-[#00FFB3]/40 blur-2xl rounded-full" />
+   294→                    <div
+   295→                      className="relative w-28 h-28 rounded-full bg-[#131838]/80 border-2 flex items-center justify-center overflow-hidden"
+   296→                      style={{ borderColor: frame?.hex ?? "#00E5FF", boxShadow: `0 0 25px ${frame?.hex ?? "#00E5FF"}80` }}
+   297→                    >
+   298→                      {avatarData && <AvatarSvg {...avatarData} size={100} />}
+   299→                    </div>
+   300→                    {frame && (
+   301→                      <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none">
+   302→                        {frame.render()}
+   303→                      </svg>
+   304→                    )}
+   305→                  </div>
+   306→                  <div className="text-center">
+   307→                    <div className="text-[10px] uppercase tracking-widest text-[#8090C0] font-bold">Nivel</div>
+   308→                    <div className="text-lg font-fancy italic font-bold text-gradient-neon leading-none">{profile?.user.level ?? 1}</div>
+   309→                  </div>
+   310→                </div>
+   311→
+   312→                {/* Saludo + edición de nombre */}
+   313→                <div className="flex-1 space-y-3 min-w-0 w-full">
+   314→                  <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-[#8090C0] font-bold">
+   315→                    <Sparkles className="w-3.5 h-3.5" /> ¡Bienvenido!
+   316→                  </div>
+   317→
+   318→                  {!editingName ? (
+   319→                    <div className="flex items-center gap-2 flex-wrap">
+   320→                      <h2 className="text-2xl sm:text-3xl font-fancy italic font-bold leading-tight">
+   321→                        Hola, <span className="text-gradient-neon">{displayName}</span> 👋
+   322→                      </h2>
+   323→                      <button
+   324→                        onClick={startEditName}
+   325→                        className="p-2 rounded-xl bg-[#131838]/80 border border-[#8090C0]/60 hover:border-[#00E5FF]/60 transition shrink-0"
+   326→                        title="Editar nombre"
+   327→                      >
+   328→                        <Pencil className="w-4 h-4 text-[#8090C0]" />
+   329→                      </button>
+   330→                    </div>
+   331→                  ) : (
+   332→                    <div className="flex items-center gap-2 flex-wrap">
+   333→                      <input
+   334→                        type="text"
+   335→                        value={nameInput}
+   336→                        onChange={(e) => setNameInput(e.target.value.slice(0, 20))}
+   337→                        onKeyDown={(e) => {
+   338→                          if (e.key === "Enter") saveName()
+   339→                          if (e.key === "Escape") setEditingName(false)
+   340→                        }}
+   341→                        autoFocus
+   342→                        placeholder="Tu nombre de jugador"
+   343→                        className="px-4 py-3 rounded-xl bg-[#131838]/90 border border-[#8090C0]/60 text-lg font-bold focus:border-[#00E5FF] focus:outline-none focus:ring-2 focus:ring-slate-500/40 w-full sm:w-auto sm:min-w-[280px]"
+   344→                      />
+   345→                      <button
+   346→                        onClick={saveName}
+   347→                        disabled={updateNameMut.isPending}
+   348→                        className="px-4 py-3 rounded-xl bg-slate-600 text-white hover:bg-slate-700 transition flex items-center gap-2 font-bold"
+   349→                      >
+   350→                        <Check className="w-4 h-4" />
+   351→                        {updateNameMut.isPending ? "Guardando…" : "Guardar"}
+   352→                      </button>
+   353→                      <button
+   354→                        onClick={() => setEditingName(false)}
+   355→                        className="px-4 py-3 rounded-xl bg-[#131838]/80 border border-[#8090C0]/60 hover:bg-[#131838]/90 transition text-sm font-bold"
+   356→                      >
+   357→                        Cancelar
+   358→                      </button>
+   359→                    </div>
+   360→                  )}
+   361→
+   362→                  <p className="text-[#8090C0] text-sm">
+   363→                    Cada partida es una nueva oportunidad para aprender algo increíble, ganar XP y subir de nivel.
+   364→                  </p>
+   365→
+   366→                  {/* Mini stats en fila */}
+   367→                  <div className="flex flex-wrap gap-2 pt-1">
+   368→                    <MiniStat icon={<Trophy className="w-3.5 h-3.5" />} label="Nivel" value={profile?.user.level ?? 1} color="text-[#FFEA00]" />
+   369→                    <MiniStat icon={<Zap className="w-3.5 h-3.5" />} label="XP" value={profile?.user.xp ?? 0} color="text-[#39FF14]" />
+   370→                    <MiniStat icon={<Swords className="w-3.5 h-3.5" />} label="Victorias" value={profile?.user.wins ?? 0} color="text-[#00B377]" />
+   371→                    <MiniStat icon={<Flame className="w-3.5 h-3.5" />} label="Racha" value={profile?.user.currentStreak ?? 0} color="text-[#FFB300]" />
+   372→                  </div>
+   373→                </div>
+   374→              </div>
+   375→            </motion.section>
+   376→
+   377→            {/* CTA principal — JUGAR (en columna izq para que esté siempre visible) */}
+   378→            <motion.section
+   379→              initial={{ opacity: 0, y: 20 }}
+   380→              animate={{ opacity: 1, y: 0 }}
+   381→              transition={{ delay: 0.2 }}
+   382→              className="space-y-3"
+   383→            >
+   384→              <button
+   385→                onClick={() => setScreen("home")}
+   386→                className="w-full py-5 rounded-3xl font-fancy italic font-bold text-lg sm:text-xl tracking-wide transition-all flex items-center justify-center gap-3 crystal-bubble text-white hover:scale-[1.01] active:scale-[0.99] animate-cta-pulse"
+   387→              >
+   388→                <Play className="w-6 h-6 relative z-10 fill-white" />
+   389→                <span className="relative z-10">Jugar ahora</span>
+   390→                <ChevronRight className="w-6 h-6 relative z-10" />
+   391→              </button>
+   392→
+   393→              {/* Atajos rápidos a modos */}
+   394→              <div className="grid grid-cols-3 gap-2">
+   395→                <QuickMode
+   396→                  icon={<Swords className="w-4 h-4" />}
+   397→                  label="Reto"
+   398→                  color="#00E5FF"
+   399→                  onClick={() => {
+   400→                    useGameStore.getState().setMode("classic")
+   401→                    setScreen("home")
+   402→                  }}
+   403→                />
+   404→                <QuickMode
+   405→                  icon={<Heart className="w-4 h-4" />}
+   406→                  label="Abismo"
+   407→                  color="#FF4D6D"
+   408→                  onClick={() => {
+   409→                    useGameStore.getState().setMode("survival")
+   410→                    setScreen("home")
+   411→                  }}
+   412→                />
+   413→                <QuickMode
+   414→                  icon={<Skull className="w-4 h-4" />}
+   415→                  label="Muerte Súbita"
+   416→                  color="#FFEA00"
+   417→                  onClick={() => {
+   418→                    useGameStore.getState().setMode("suddendeath")
+   419→                    setScreen("home")
+   420→                  }}
+   421→                />
+   422→              </div>
+   423→              <p className="text-center text-[11px] text-[#8090C0]">
+   424→                Elegí categoría y dificultad · Acumula XP · Sube de nivel · Desbloquea accesorios
+   425→              </p>
+   426→            </motion.section>
+   427→          </div>
+   428→
+   429→          {/* ====== COLUMNA DERECHA — Datos curiosos + Wisdom ====== */}
+   430→          <div className="space-y-5">
+   431→            {/* Carrusel de datos curiosos — ocupa toda la columna derecha */}
+   432→            <motion.section
+   433→              initial={{ opacity: 0, x: 20 }}
+   434→              animate={{ opacity: 1, x: 0 }}
+   435→              className="space-y-3"
+   436→            >
+   437→              <div className="flex items-center justify-between">
+   438→                <div className="flex items-center gap-2">
+   439→                  <div className="w-8 h-8 rounded-xl bg-[#8090C0]/15 border border-[#00E5FF]/30 text-[#8090C0] flex items-center justify-center">
+   440→                    <Brain className="w-4 h-4" />
+   441→                  </div>
+   442→                  <div>
+   443→                    <h3 className="font-fancy italic font-semibold text-lg sm:text-xl text-[#C8D0F0]">¿Sabías que…?</h3>
+   444→                    <p className="text-xs text-[#8090C0]">Datos curiosos de cultura general</p>
+   445→                  </div>
+   446→                </div>
+   447→                <button
+   448→                  onClick={() => setAutoPlay((v) => !v)}
+   449→                  className={cn(
+   450→                    "px-3 py-1.5 rounded-xl text-xs font-bold border transition",
+   451→                    autoPlay
+   452→                      ? "bg-[#8090C0]/15 border-[#00E5FF]/30 text-[#8090C0]"
+   453→                      : "bg-[#131838]/60 border-[#8090C0]/40 text-[#8090C0]"
+   454→                  )}
+   455→                >
+   456→                  {autoPlay ? "Auto: ON" : "Auto: OFF"}
+   457→                </button>
+   458→              </div>
+   459→
+   460→              {/* Card principal del dato — layout 2 lados */}
+   461→              <div
+   462→                className="relative overflow-hidden rounded-3xl border bg-[#131838]/70 backdrop-blur-md"
+   463→                style={{ borderColor: `${currentFact.color}50`, boxShadow: `0 0 30px ${currentFact.color}25` }}
+   464→                onPointerEnter={() => setAutoPlay(false)}
+   465→                onPointerLeave={() => setAutoPlay(true)}
+   466→              >
+   467→                <div className="grid sm:grid-cols-[140px_1fr] gap-3 p-4 sm:p-5">
+   468→                  {/* Ilustración compacta */}
+   469→                  <div className="relative w-full aspect-square max-w-[140px] mx-auto sm:mx-0">
+   470→                    <AnimatePresence mode="wait">
+   471→                      <motion.div
+   472→                        key={currentFact.id}
+   473→                        initial={{ opacity: 0, scale: 0.6, rotate: -10 }}
+   474→                        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+   475→                        exit={{ opacity: 0, scale: 0.6, rotate: 10 }}
+   476→                        transition={{ duration: 0.35 }}
+   477→                        className="w-full h-full"
+   478→                      >
+   479→                        <FactIllustration color={currentFact.color} emoji={currentFact.emoji} />
+   480→                      </motion.div>
+   481→                    </AnimatePresence>
+   482→                  </div>
+   483→
+   484→                  {/* Contenido textual */}
+   485→                  <div className="flex flex-col min-w-0">
+   486→                    <div
+   487→                      className="inline-flex items-center gap-1.5 self-start px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider"
+   488→                      style={{ background: `${currentFact.color}20`, color: currentFact.color, border: `1px solid ${currentFact.color}50` }}
+   489→                    >
+   490→                      <Lightbulb className="w-3 h-3" /> {currentFact.category}
+   491→                    </div>
+   492→
+   493→                    <AnimatePresence mode="wait">
+   494→                      <motion.div
+   495→                        key={currentFact.id}
+   496→                        initial={{ opacity: 0, y: 12 }}
+   497→                        animate={{ opacity: 1, y: 0 }}
+   498→                        exit={{ opacity: 0, y: -12 }}
+   499→                        transition={{ duration: 0.3 }}
+   500→                        className="mt-2"
+   501→                      >
+   502→                        <h4 className="text-lg sm:text-xl font-fancy italic font-semibold leading-tight text-[#C8D0F0]">{currentFact.title}</h4>
+   503→                        <p className="text-sm text-[#8090C0] leading-relaxed mt-1.5">
+   504→                          {currentFact.description}
+   505→                        </p>
+   506→                      </motion.div>
+   507→                    </AnimatePresence>
+   508→
+   509→                    {/* Controles */}
+   510→                    <div className="mt-auto pt-3 flex items-center justify-between gap-3">
+   511→                      <div className="flex items-center gap-1.5">
+   512→                        {FUN_FACTS.map((f, i) => (
+   513→                          <button
+   514→                            key={f.id}
+   515→                            onClick={() => setFactIdx(i)}
+   516→                            className={cn(
+   517→                              "h-1.5 rounded-full transition-all",
+   518→                              i === factIdx ? "w-6 bg-blue-500" : "w-1.5 bg-blue-200/70 hover:bg-blue-400/70"
+   519→                            )}
+   520→                            aria-label={`Ir al dato ${i + 1}`}
+   521→                          />
+   522→                        ))}
+   523→                      </div>
+   524→                      <div className="flex items-center gap-2">
+   525→                        <button
+   526→                          onClick={goPrev}
+   527→                          className="p-2 rounded-xl bg-[#131838]/80 border border-[#8090C0]/60 hover:border-[#00E5FF]/60 hover:bg-[#131838] transition"
+   528→                          aria-label="Dato anterior"
+   529→                        >
+   530→                          <ChevronLeft className="w-4 h-4 text-[#8090C0]" />
+   531→                        </button>
+   532→                        <span className="text-xs font-mono text-[#8090C0] tabular-nums">
+   533→                          {factIdx + 1} / {FUN_FACTS.length}
+   534→                        </span>
+   535→                        <button
+   536→                          onClick={goNext}
+   537→                          className="p-2 rounded-xl bg-[#131838]/80 border border-[#8090C0]/60 hover:border-[#00E5FF]/60 hover:bg-[#131838] transition"
+   538→                          aria-label="Dato siguiente"
+   539→                        >
+   540→                          <ChevronRight className="w-4 h-4 text-[#8090C0]" />
+   541→                        </button>
+   542→                      </div>
+   543→                    </div>
+   544→                  </div>
+   545→                </div>
+   546→              </div>
+   547→            </motion.section>
+   548→          </div>
+   549→        </div>
+   550→
+   551→        {/* ============================================================
+   552→            CÁPSULAS DE SABIDURÍA — Bloque ancho abajo, bien organizado
+   553→            ============================================================ */}
+   554→        <motion.section
+   555→          initial={{ opacity: 0, y: 16 }}
+   556→          animate={{ opacity: 1, y: 0 }}
+   557→          transition={{ delay: 0.25 }}
+   558→          className="mt-5 lg:mt-6"
+   559→        >
+   560→          <WisdomCapsule />
+   561→        </motion.section>
+   562→      </main>
+   563→
+   564→      <footer className="relative z-10 mt-auto text-center text-xs text-[#8090C0] py-4">
+   565→        Trivials Wars · {profile?.user.provider === "google" ? "Cuenta Google" : "Modo Invitado"}
+   566→      </footer>
+   567→    </div>
+   568→  )
+   569→}
+   570→
+   571→function MiniStat({ icon, label, value, color }: { icon: React.ReactNode; label: string; value: number | string; color?: string }) {
+   572→  return (
+   573→    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#131838]/70 border border-[#8090C0]/40">
+   574→      <span className={color}>{icon}</span>
+   575→      <span className="text-[9px] uppercase text-[#8090C0] tracking-wider">{label}</span>
+   576→      <span className="text-xs font-bold text-[#F0F4FF]">{value}</span>
+   577→    </div>
+   578→  )
+   579→}
+   580→
+   581→function QuickMode({
+   582→  icon,
+   583→  label,
+   584→  color,
+   585→  onClick,
+   586→}: {
+   587→  icon: React.ReactNode
+   588→  label: string
+   589→  color: string
+   590→  onClick: () => void
+   591→}) {
+   592→  return (
+   593→    <button
+   594→      onClick={onClick}
+   595→      className="flex items-center justify-center gap-1.5 py-2.5 rounded-2xl border bg-[#131838]/70 transition hover:scale-[1.03] active:scale-[0.98]"
+   596→      style={{
+   597→        borderColor: `${color}50`,
+   598→        boxShadow: `0 2px 8px ${color}15`,
+   599→      }}
+   600→    >
+   601→      <span style={{ color }}>{icon}</span>
+   602→      <span className="text-xs font-bold" style={{ color }}>{label}</span>
+   603→    </button>
+   604→  )
+   605→}
+   606→
