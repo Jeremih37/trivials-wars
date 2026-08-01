@@ -414,3 +414,45 @@ Stage Summary:
 - ✅ Más respiración entre secciones (space-y-10)
 - ✅ Build exitoso y deploy a Vercel
 - 🎯 Próximo paso: probar la app en https://trivials-wars.vercel.app
+
+---
+Task ID: mas-datos-curiosos
+Agent: main
+Task: Expandir el carrusel "¿Sabías que…?" del welcome-screen (usuario: "no esas 8, se vuelve aburrido ver siempre lo mismo")
+
+Work Log:
+- Leí welcome-screen.tsx: confirmé que FUN_FACTS solo tenía 8 entradas
+- Creé mapa centralizado FACT_COLOR (18 categorías de color) para consistencia
+- Expandí FUN_FACTS de 8 a 30 datos curiosos cubriendo:
+  * Ciencia (3): pulpo, cerebro, punto triple del agua
+  * Historia (3): Muralla China, romanos orina, Estatua Libertad
+  * Cultura (1): Shakespeare
+  * Naturaleza (3): hormigas, mariposa monarca, panda
+  * Geografía (1): Everest
+  * Videojuegos (2): Tennis for Two 1958, Pac-Man nombre
+  * Deporte (2): basketball 1891, fútbol global
+  * Espacio (4): rotación Tierra, Saturno flota, ballena azul (en realidad Océano), más estrellas que arena
+  * Arte (1): Van Gogh vendió 1 cuadro
+  * Música (1): Mozart a los 5 años
+  * Tecnología (2): primer SMS, smartphone vs Apollo 11
+  * Idiomas (1): 7,000 idiomas
+  * Océano (2): ballena azul, tiburones pre-árboles
+  * Cuerpo humano (2): vasos sanguíneos, ojo 10M colores
+  * Inventos (1): bombilla LED
+  * Literatura (1): Quijote
+  * Mitología (1): Zeus vs Crono
+- Rediseñé paginación de puntos: ventana deslizante de máx 9 puntos visibles
+  con ellipsis (...) y accesos directos al primero/último
+  (con 30 dots ya no cabían en una fila)
+- Fix bug visual: dots ya no colapsan con muchos items
+- TypeScript: 0 errores
+- Next.js build: success (7.6s, 13 rutas)
+- Commit e32a5d4 + push a GitHub exitoso
+
+Stage Summary:
+- ✅ Carrusel "¿Sabías que…?" expandido de 8 a 30 datos curiosos
+- ✅ Categorías color-coded con FACT_COLOR map (18 categorías)
+- ✅ Paginación deslizante: 9 puntos visibles + ellipsis + accesos directos
+- ✅ Auto-play + hover-pause conservados
+- ✅ Build limpio y deploy automático a Vercel
+- 🎯 Próximo paso del usuario: probar la app en https://trivials-wars.vercel.app
