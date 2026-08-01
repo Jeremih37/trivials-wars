@@ -43,29 +43,6 @@ export function GameScreen() {
   const cat = CATEGORIES.find((c) => c.id === activeGame?.category)
   const totalTime = activeGame?.timePerQuestion ?? 30
 
-  useEffect(() => {
-    if (!currentQuestion || phase !== "question") return
-    setTimeLeft(totalTime)
-    setSelectedAnswer(null)
-    setPhase("question")
-
-    timerRef.current = setInterval(() => {
-      setTimeLeft((t) => {
-        if (t <= 0.1) {
-          if (timerRef.current) clearInterval(timerRef.current)
-          handleAnswer("")
-          return 0
-        }
-        return t - 0.1
-      })
-    }, 100)
-
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentQuestionIndex, activeGame])
-
   const handleAnswer = useCallback(
     (answer: string) => {
       if (!activeGame || !currentQuestion || phase !== "question") return
@@ -104,6 +81,36 @@ export function GameScreen() {
     },
     [activeGame, currentQuestion, phase, timeLeft, totalTime, currentStreak, answerMut, addCorrect, addXp, setBestStreak, setLastAnswer, setStreak]
   )
+
+  // Ref para que el timer siempre llame a la última versión de handleAnswer
+  const handleAnswerRef = useRef(handleAnswer)
+  useEffect(() => {
+    handleAnswerRef.current = handleAnswer
+  }, [handleAnswer])
+
+  useEffect(() => {
+    if (!currentQuestion || phase !== "question") return
+    // Reset del estado al cambiar de pregunta — derivado del índice actual
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setTimeLeft(totalTime)
+    setSelectedAnswer(null)
+    setPhase("question")
+
+    timerRef.current = setInterval(() => {
+      setTimeLeft((t) => {
+        if (t <= 0.1) {
+          if (timerRef.current) clearInterval(timerRef.current)
+          handleAnswerRef.current("")
+          return 0
+        }
+        return t - 0.1
+      })
+    }, 100)
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current)
+    }
+  }, [currentQuestionIndex, activeGame])
 
   const handleNext = () => {
     if (!activeGame) return

@@ -103,7 +103,7 @@ export const useGameStore = create<GameState>((set) => ({
   setStreak: (s) => set({ currentStreak: s }),
 
   bestStreak: 0,
-  setBestStreak: (s) => set((s) => ({ bestStreak: Math.max(s.bestStreak, s) })),
+  setBestStreak: (s) => set((state) => ({ bestStreak: Math.max(state.bestStreak, s) })),
 
   lastAnswer: null,
   setLastAnswer: (a) => set({ lastAnswer: a }),

@@ -4,7 +4,7 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useGameStore } from "@/lib/store"
 import { useOpenLootBox } from "@/hooks/use-game"
-import { RARITY_CONFIG } from "@/lib/gacha-catalog"
+import { RARITY_CONFIG, ITEMS_BY_ID } from "@/lib/gacha-catalog"
 import type { Rarity } from "@/lib/gacha-catalog"
 import { ArrowLeft, Gift, Sparkles, Zap } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -209,7 +209,7 @@ export function LootBoxScreen() {
                 animate={{ scale: 1, rotate: 0 }}
                 transition={{ type: "spring", stiffness: 200, damping: 15, delay: 0.2 }}
                 className={cn(
-                  "relative w-48 h-48 rounded-3xl flex items-center justify-center text-8xl mb-4",
+                  "relative w-48 h-48 rounded-3xl flex items-center justify-center mb-4 p-3",
                   "bg-gradient-to-br",
                   rarityConfig.color,
                   "border-2"
@@ -219,7 +219,9 @@ export function LootBoxScreen() {
                   boxShadow: `0 0 40px ${rarityConfig.hex}, 0 0 80px ${rarityConfig.hex}60`,
                 }}
               >
-                {result.item.emoji}
+                <svg viewBox="0 0 200 200" className="w-full h-full">
+                  {ITEMS_BY_ID[result.item.id]?.render({ skinTone: "#f4c2a1" })}
+                </svg>
                 {result.rarity === "Legendario" && (
                   <motion.div
                     animate={{ rotate: 360 }}

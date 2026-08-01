@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import { useGameStore } from "@/lib/store"
 import { useProfile, useInventory, useEquipItem, useUnequipItem, useEquipProfile } from "@/hooks/use-game"
 import { ArrowLeft, Trophy, Zap, Gift, Target, Flame, Swords, Crown, Lock, Check, Sparkles, Shield } from "lucide-react"
-import { RARITY_CONFIG } from "@/lib/gacha-catalog"
+import { RARITY_CONFIG, ITEMS_BY_ID } from "@/lib/gacha-catalog"
 import type { Rarity } from "@/lib/gacha-catalog"
 import { CATEGORIES, AVATAR_BASES_INFO } from "@/lib/game"
 import { AvatarSvg, buildAvatarFromIds } from "@/components/avatar-svg"
@@ -307,7 +307,9 @@ export function ProfileScreen() {
                       <AvatarSvg
                         base={u.avatarBase}
                         skinTone={u.skinTone}
-                        hat={it.type === "hat" ? { id: it.id, name: it.name, type: "hat", rarity: it.rarity, description: it.description, render: (() => null) as any } : undefined}
+                        hat={it.type === "hat" ? (ITEMS_BY_ID[it.id] ?? undefined) : undefined}
+                        top={it.type === "top" ? (ITEMS_BY_ID[it.id] ?? undefined) : undefined}
+                        aura={it.type === "aura" ? (ITEMS_BY_ID[it.id] ?? undefined) : undefined}
                         size={50}
                       />
                       <span className="text-[9px] text-center font-medium leading-tight mt-1 line-clamp-2">{it.name}</span>
