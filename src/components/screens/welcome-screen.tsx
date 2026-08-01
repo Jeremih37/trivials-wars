@@ -110,6 +110,8 @@ const FUN_FACTS: FunFact[] = [
 
 // ====== Ilustración SVG decorativa para cada categoría ======
 function FactIllustration({ color, emoji }: { color: string; emoji: string }) {
+  // Sanitizar el color para usarlo como id de SVG (quitar el #)
+  const colorId = color.replace(/[^a-zA-Z0-9]/g, "")
   return (
     <div className="relative">
       {/* Halo gradient */}
@@ -122,17 +124,17 @@ function FactIllustration({ color, emoji }: { color: string; emoji: string }) {
       {/* Decorative concentric rings */}
       <svg viewBox="0 0 200 200" className="relative w-full h-full">
         <defs>
-          <radialGradient id={`grad-${color}`} cx="50%" cy="50%">
+          <radialGradient id={`grad-${colorId}`} cx="50%" cy="50%">
             <stop offset="0%" stopColor={color} stopOpacity="0.4" />
             <stop offset="100%" stopColor={color} stopOpacity="0" />
           </radialGradient>
-          <linearGradient id={`ring-${color}`} x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id={`ring-${colorId}`} x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor={color} stopOpacity="0.9" />
             <stop offset="100%" stopColor="#ffffff" stopOpacity="0.3" />
           </linearGradient>
         </defs>
-        <circle cx="100" cy="100" r="80" fill={`url(#grad-${color})`} />
-        <circle cx="100" cy="100" r="70" fill="none" stroke={`url(#ring-${color})`} strokeWidth="2" strokeDasharray="4 6" opacity="0.7" />
+        <circle cx="100" cy="100" r="80" fill={`url(#grad-${colorId})`} />
+        <circle cx="100" cy="100" r="70" fill="none" stroke={`url(#ring-${colorId})`} strokeWidth="2" strokeDasharray="4 6" opacity="0.7" />
         <circle cx="100" cy="100" r="58" fill="none" stroke={color} strokeWidth="1.5" opacity="0.5" />
         {/* Orbiting dots */}
         <g className="animate-spin" style={{ transformOrigin: "100px 100px", animationDuration: "20s" }}>

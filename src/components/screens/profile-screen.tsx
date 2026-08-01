@@ -61,7 +61,7 @@ export function ProfileScreen() {
         <motion.section
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-card/80 to-background p-6 glow-red"
+          className="relative overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-card/80 to-background p-6 glow-pink"
         >
           <div className="absolute -top-16 -right-16 w-56 h-56 bg-primary/15 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -bottom-16 -left-16 w-56 h-56 bg-accent/15 rounded-full blur-3xl pointer-events-none" />
@@ -104,7 +104,7 @@ export function ProfileScreen() {
             <div className="space-y-3">
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 <StatBlock icon={<Trophy className="w-4 h-4" />} label="Nivel" value={u.level} color="text-amber-300" />
-                <StatBlock icon={<Zap className="w-4 h-4" />} label="XP total" value={u.xp} color="text-red-300" />
+                <StatBlock icon={<Zap className="w-4 h-4" />} label="XP total" value={u.xp} color="text-cyan-300" />
                 <StatBlock icon={<Gift className="w-4 h-4" />} label="Cajas" value={u.boxes} color="text-pink-300" />
                 <StatBlock icon={<Swords className="w-4 h-4" />} label="Victorias" value={u.wins} color="text-green-400" />
                 <StatBlock icon={<Target className="w-4 h-4" />} label="Derrotas" value={u.losses} color="text-red-400" />
@@ -230,7 +230,7 @@ export function ProfileScreen() {
                       "relative rounded-2xl border-2 p-4 flex flex-col items-center gap-2 transition-all",
                       isEquipped ? "bg-primary/15 border-primary" : "bg-card/40 border-border/60 hover:border-primary/40"
                     )}
-                    style={isEquipped ? { boxShadow: "0 0 20px rgba(255,45,45,0.4)" } : undefined}
+                    style={isEquipped ? { boxShadow: "0 0 20px rgba(236,72,153,0.4)" } : undefined}
                   >
                     <AvatarSvg base={base.id} skinTone={u.skinTone} size={80} />
                     <div className="text-xs font-bold">{base.name}</div>
@@ -258,7 +258,7 @@ export function ProfileScreen() {
             </div>
 
             <div className="flex flex-wrap gap-2 mb-4">
-              <FilterChip label="Owned" color="#ff2d2d" active={filter === "owned"} onClick={() => setFilter("owned")} />
+              <FilterChip label="Owned" color="#ec4899" active={filter === "owned"} onClick={() => setFilter("owned")} />
               <FilterChip label="Todos" color="#a1a1aa" active={filter === "all"} onClick={() => setFilter("all")} />
               {RARITY_ORDER.map((r) => (
                 <FilterChip
@@ -406,7 +406,7 @@ export function ProfileScreen() {
                       "relative aspect-square rounded-2xl border-2 flex flex-col items-center justify-center p-2 transition-all",
                       icon.equipped ? "border-primary bg-primary/15" : locked ? "border-border/40 bg-card/20 opacity-50" : "border-border/60 bg-card/40 hover:border-primary/40"
                     )}
-                    style={icon.equipped ? { boxShadow: "0 0 20px rgba(255,45,45,0.5)" } : undefined}
+                    style={icon.equipped ? { boxShadow: "0 0 20px rgba(236,72,153,0.5)" } : undefined}
                   >
                     <span className={cn("text-3xl", locked && "blur-sm grayscale")}>{icon.emoji}</span>
                     <span className="text-[9px] text-center font-medium leading-tight mt-1">{icon.name}</span>

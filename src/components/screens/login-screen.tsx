@@ -53,7 +53,7 @@ export function LoginScreen() {
           animate={{ scale: 1, rotate: 0 }}
           transition={{ type: "spring", stiffness: 200, damping: 12 }}
           className="text-7xl mb-4 inline-block"
-          style={{ filter: "drop-shadow(0 0 20px rgba(255,45,45,0.6))" }}
+          style={{ filter: "drop-shadow(0 0 20px rgba(236,72,153,0.6))" }}
         >
           🧠
         </motion.div>
@@ -82,7 +82,7 @@ export function LoginScreen() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="w-full max-w-md rounded-3xl border border-border/60 bg-card/60 backdrop-blur-xl p-6 glow-red"
+        className="w-full max-w-md rounded-3xl border border-border/60 bg-card/60 backdrop-blur-xl p-6 glow-pink"
       >
         {!showGoogleMock ? (
           <>

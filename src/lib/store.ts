@@ -4,7 +4,7 @@ import { create } from "zustand"
 import type { ClientQuestion, StartGameResponse, AnswerResponse } from "@/lib/types"
 import type { DifficultyId, CategoryId } from "@/lib/game"
 
-export type GameScreen = "login" | "welcome" | "home" | "playing" | "results" | "profile" | "inventory" | "lootbox"
+export type GameScreen = "login" | "welcome" | "home" | "playing" | "results" | "profile" | "lootbox"
 
 export interface ActiveGame {
   sessionId: string
