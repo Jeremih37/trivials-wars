@@ -43,20 +43,28 @@ export type CategoryId = (typeof CATEGORIES)[number]["id"] | "mix"
 export type DifficultyId = (typeof DIFFICULTIES)[number]["id"]
 
 // ===== MODOS DE JUEGO =====
+// GDD V3.0: se añade "suddendeath" (Muerte Súbita: 1 fallo = fin)
 export const GAME_MODES = [
   {
     id: "classic",
     name: "Reto Personalizado",
     icon: "🎯",
-    color: "#00F5D4",
+    color: "#38BDF8",
     desc: "Configurá la partida a tu medida: cantidad de preguntas, tiempo y categoría.",
   },
   {
     id: "survival",
-    name: "Supervivencia Abisal",
-    icon: "💀",
+    name: "Supervivencia",
+    icon: "❤️",
     color: "#FF4D6D",
     desc: "3 corazones. Cada error te resta una vida. ¿Hasta dónde llegás en el abismo?",
+  },
+  {
+    id: "suddendeath",
+    name: "Muerte Súbita",
+    icon: "☠️",
+    color: "#fbbf24",
+    desc: "1 fallo y se acabó. Racha infinita. Tensión dorada tras 10 aciertos seguidos.",
   },
 ] as const
 
@@ -106,10 +114,43 @@ export const SURVIVAL_CONFIG = {
   },
 } as const
 
-// ===== SISTEMA DE XP Y NIVELES =====
+// ===== CONFIGURACIÓN DEL MODO "MUERTE SÚBITA" (GDD V3.0) =====
+// - Sin margen de error: 1 fallo termina la partida
+// - Racha infinitamente escalable (High Score global y por temática)
+// - Tensión: el fondo se tiñe dorado/alerta al superar 10 aciertos seguidos
+// - Tiempo fijo por pregunta (no decrece, pero es corto para mantener tensión)
+// - XP base alta (mayor recompensa por mayor riesgo)
+export const SUDDEN_DEATH_CONFIG = {
+  initialLives: 1, // ☠️ 1 sola vida
+  timePerQuestion: 15, // tiempo fijo
+  alertStreakThreshold: 10, // umbral para fondo dorado de alerta
+  initialPoolSize: 50, // pool grande — la partida acaba cuando se acaba o fallás
+  xpBasePerCorrect: 50,
+  // Combo: escalado más agresivo que supervivencia
+  // 0-4 streak = x1, 5-9 = x2, 10-14 = x3, 15+ = x4 (tensión creciente)
+  comboMultiplier: (streak: number): number => {
+    if (streak >= 15) return 4
+    if (streak >= 10) return 3
+    if (streak >= 5) return 2
+    return 1
+  },
+  // Tiempo fijo
+  currentTime: (): number => 15,
+} as const
+
+// ===== SISTEMA DE XP Y NIVELES (GDD V3.0: fórmula progresiva N^1.5) =====
+// Fórmula del GDD V3.0: XP_Necesaria_Nivel_N = 100 * (N ^ 1.5)
+// Cada nivel requiere exponencialmente más XP que el anterior.
+// Ejemplos:
+//   Nivel 1 → 100 XP
+//   Nivel 2 → 283 XP
+//   Nivel 5 → 1118 XP
+//   Nivel 10 → 3162 XP
+//   Nivel 20 → 8944 XP
 export function xpRequiredForLevel(level: number): number {
   if (level < 1) return 0
-  return Math.round(100 * Math.pow(1.2, level - 1))
+  // GDD V3.0: XP_Siguiente = 100 * (Nivel ^ 1.5)
+  return Math.round(100 * Math.pow(level, 1.5))
 }
 
 export function totalXpForLevel(level: number): number {
@@ -126,7 +167,7 @@ export function computeLevelFromXp(xp: number): { level: number; xpIntoLevel: nu
   while (remaining >= xpRequiredForLevel(level)) {
     remaining -= xpRequiredForLevel(level)
     level++
-    if (level > 200) break
+    if (level > 500) break
   }
   const needed = xpRequiredForLevel(level)
   const pct = needed > 0 ? (remaining / needed) * 100 : 0
@@ -138,7 +179,30 @@ export function computeLevelFromXp(xp: number): { level: number; xpIntoLevel: nu
   }
 }
 
-export const LEVEL_TABLE = Array.from({ length: 20 }, (_, i) => {
+/**
+ * calcularNivel(xpTotal) — GDD V3.0: Sistema de XP Progresivo
+ * Devuelve nivel actual, XP acumulado dentro del nivel actual,
+ * XP total necesaria para el siguiente nivel y porcentaje de la barra de progreso.
+ *
+ * @param xpTotal XP total acumulado por el jugador
+ * @returns { nivel, xpActual, xpSiguiente, porcentaje }
+ */
+export function calcularNivel(xpTotal: number): {
+  nivel: number
+  xpActual: number
+  xpSiguiente: number
+  porcentaje: number
+} {
+  const info = computeLevelFromXp(xpTotal)
+  return {
+    nivel: info.level,
+    xpActual: info.xpIntoLevel,
+    xpSiguiente: info.xpForNextLevel,
+    porcentaje: info.progressPct,
+  }
+}
+
+export const LEVEL_TABLE = Array.from({ length: 30 }, (_, i) => {
   const level = i + 1
   return {
     level,
@@ -204,6 +268,20 @@ export function computeAnswerXp(params: {
 export function computeSurvivalXp(streak: number): { base: number; streakBonus: number; total: number; combo: number } {
   const base = SURVIVAL_CONFIG.xpBasePerCorrect
   const combo = SURVIVAL_CONFIG.comboMultiplier(streak)
+  const total = base * combo
+  const streakBonus = total - base
+  return {
+    base,
+    streakBonus,
+    total,
+    combo,
+  }
+}
+
+// XP para modo Muerte Súbita — combo escalado GDD V3.0
+export function computeSuddenDeathXp(streak: number): { base: number; streakBonus: number; total: number; combo: number } {
+  const base = SUDDEN_DEATH_CONFIG.xpBasePerCorrect
+  const combo = SUDDEN_DEATH_CONFIG.comboMultiplier(streak)
   const total = base * combo
   const streakBonus = total - base
   return {

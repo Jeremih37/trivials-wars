@@ -98,7 +98,7 @@ export function useStartGame() {
       category: CategoryId
       categories?: CategoryId[]
       difficulty: DifficultyId
-      mode?: "classic" | "survival"
+      mode?: "classic" | "survival" | "suddendeath"
       questionCount?: number
       timePreset?: number
     }): Promise<StartGameResponse> => {
@@ -127,6 +127,7 @@ export function useAnswerQuestion() {
       totalTime: number
       streak: number
       lives?: number
+      mode?: "classic" | "survival" | "suddendeath"
     }): Promise<AnswerResponse> => {
       const r = await fetch("/api/game/answer", {
         method: "POST",
@@ -146,8 +147,17 @@ export interface EndSessionResult {
   ok: boolean
   result: "win" | "loss" | "pending"
   isSurvival?: boolean
+  isSuddenDeath?: boolean
+  mode?: "classic" | "survival" | "suddendeath"
   isNewRecord?: boolean
   survivalStats?: {
+    correct: number
+    xp: number
+    bestCorrect: number
+    bestXp: number
+    totalRuns: number
+  } | null
+  suddenDeathStats?: {
     correct: number
     xp: number
     bestCorrect: number
@@ -157,12 +167,12 @@ export interface EndSessionResult {
 }
 
 export function useEndSession() {
-  return useMutation<EndSessionResult, Error, string>({
-    mutationFn: async (sessionId: string) => {
+  return useMutation<EndSessionResult, Error, { sessionId: string; mode?: "classic" | "survival" | "suddendeath" }>({
+    mutationFn: async (params) => {
       const r = await fetch("/api/game/answer", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId }),
+        body: JSON.stringify({ sessionId: params.sessionId, mode: params.mode }),
       })
       if (!r.ok) throw new Error(await readApiError(r, "Error al finalizar sesión"))
       const data = await parseJsonSafe<EndSessionResult>(r)

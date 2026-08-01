@@ -3,6 +3,7 @@ import { db } from "@/lib/db"
 import {
   DIFFICULTIES,
   SURVIVAL_CONFIG,
+  SUDDEN_DEATH_CONFIG,
   type DifficultyId,
   type CategoryId,
   type GameModeId,
@@ -64,14 +65,14 @@ export const POST = apiHandler(async (req: Request) => {
   // isMixTotal = "todas las categorías mezcladas" (sin filtro de categoría)
   const isMixTotal = selectedCategoryIds.length === 0
 
-  // En modo supervivencia: traer TODAS las preguntas (de las categorías seleccionadas o todas si mix total)
+  // En modo supervivencia/muerte súbita: traer TODAS las preguntas (de las categorías seleccionadas o todas si mix total)
   // En modo clásico: solo de las categorías+difficultad solicitada
-  const whereClause =
-    mode === "survival"
-      ? (isMixTotal ? {} : { category: { in: selectedCategoryIds } })
-      : (isMixTotal
-        ? { difficulty }
-        : { category: { in: selectedCategoryIds }, difficulty })
+  const isEndlessMode = mode === "survival" || mode === "suddendeath"
+  const whereClause = isEndlessMode
+    ? (isMixTotal ? {} : { category: { in: selectedCategoryIds } })
+    : (isMixTotal
+      ? { difficulty }
+      : { category: { in: selectedCategoryIds }, difficulty })
 
   const allQuestions = await db.question.findMany({ where: whereClause })
 
@@ -86,11 +87,18 @@ export const POST = apiHandler(async (req: Request) => {
   }
 
   // En modo clásico: limitar a questionCount (default 10)
-  // En modo supervivencia: enviar un pool grande inicial
-  const selected =
+  // En modo supervivencia: enviar pool grande inicial (30)
+  // En modo muerte súbita: enviar pool más grande (50) para mantener la tensión
+  const poolSize =
     mode === "survival"
-      ? allQuestions.slice(0, Math.min(SURVIVAL_CONFIG.initialPoolSize, allQuestions.length))
-      : allQuestions.slice(0, Math.min(questionCount, allQuestions.length))
+      ? SURVIVAL_CONFIG.initialPoolSize
+      : mode === "suddendeath"
+        ? SUDDEN_DEATH_CONFIG.initialPoolSize
+        : questionCount
+
+  const selected = isEndlessMode
+    ? allQuestions.slice(0, Math.min(poolSize, allQuestions.length))
+    : allQuestions.slice(0, Math.min(questionCount, allQuestions.length))
 
   // Crear sesión
   const user = await db.user.findFirst()
@@ -103,7 +111,7 @@ export const POST = apiHandler(async (req: Request) => {
       userId: user.id,
       category: categoryLabel,
       difficulty,
-      totalQuestions: mode === "survival" ? 0 : selected.length, // 0 indica sin límite
+      totalQuestions: isEndlessMode ? 0 : selected.length, // 0 indica sin límite
       correctCount: 0,
       xpEarned: 0,
       bestStreak: 0,
@@ -129,12 +137,15 @@ export const POST = apiHandler(async (req: Request) => {
 
   // Time: en classic, el timePreset sobreescribe diff.time si viene. 0 = sin tiempo.
   // En survival, usa SURVIVAL_CONFIG.initialTime.
+  // En suddendeath, usa SUDDEN_DEATH_CONFIG.timePerQuestion (fijo 15s)
   const timePerQuestion =
     mode === "survival"
       ? SURVIVAL_CONFIG.initialTime
-      : typeof timePreset === "number"
-        ? timePreset
-        : diff.time
+      : mode === "suddendeath"
+        ? SUDDEN_DEATH_CONFIG.timePerQuestion
+        : typeof timePreset === "number"
+          ? timePreset
+          : diff.time
 
   return NextResponse.json({
     sessionId: session.id,
@@ -145,6 +156,11 @@ export const POST = apiHandler(async (req: Request) => {
     xpBase: diff.xpBase,
     multiplier: diff.multiplier,
     questions: questionsForClient,
-    initialLives: mode === "survival" ? SURVIVAL_CONFIG.initialLives : undefined,
+    initialLives:
+      mode === "survival"
+        ? SURVIVAL_CONFIG.initialLives
+        : mode === "suddendeath"
+          ? SUDDEN_DEATH_CONFIG.initialLives
+          : undefined,
   })
 })

@@ -163,3 +163,76 @@ Stage Summary:
 - ✅ Multi-select categorías + eliminación de selector de tiempo
 - ✅ Cápsulas de Sabiduría (17 frases, fade-in, indicadores)
 - 🎯 Próximo paso del usuario: probar la app en https://trivials-wars.vercel.app
+
+---
+Task ID: V3.0-FrutigerAero-Brillante
+Agent: Main Agent (Super Z)
+Task: Implementar Propuesta_Quiz_FrutigerAero_v3.pdf (GDD V3.0)
+
+Work Log:
+- Leído el GDD V3.0 desde /home/z/my-project/upload/Propuesta_Quiz_FrutigerAero_v3.pdf
+- Auditoría del proyecto: 16 categorías, ~1600 preguntas, esquema Prisma con survival stats, hooks use-game, screens existentes
+- Actualizado prisma/schema.prisma: añadidos campos suddenDeathBestCorrect, suddenDeathBestXp, suddenDeathRuns en User
+- Sincronizada la BD Neon con `prisma db push --accept-data-loss` (campos nuevos creados)
+- Modificado src/lib/game.ts:
+  * Añadido modo "suddendeath" en GAME_MODES
+  * Añadido SUDDEN_DEATH_CONFIG (1 vida, 15s fijo, alerta dorada en 10 aciertos, combos 5/10/15 = x2/x3/x4, pool 50 preguntas, XP base 50)
+  * Cambiada fórmula XP a `100 * Math.pow(level, 1.5)` (GDD V3.0)
+  * Añadida función `calcularNivel(xpTotal)` que devuelve { nivel, xpActual, xpSiguiente, porcentaje }
+  * Añadida función `computeSuddenDeathXp(streak)`
+  * Actualizado LEVEL_TABLE a 30 niveles
+- Actualizado src/app/api/game/start/route.ts: soporta mode "suddendeath" con SUDDEN_DEATH_CONFIG
+- Actualizado src/app/api/game/answer/route.ts:
+  * POST: distingue "suddendeath" via body.mode y aplica computeSuddenDeathXp
+  * PATCH: guarda stats específicas de Muerte Súbita (suddenDeathBestCorrect, etc.)
+- Actualizado src/app/api/profile/route.ts: expone suddenDeathBestCorrect, suddenDeathBestXp, suddenDeathRuns
+- Actualizado src/lib/types.ts: StartGameResponse.mode y ProfileData.user con soporte suddendeath
+- Actualizado src/hooks/use-game.ts: useStartGame, useAnswerQuestion y useEndSession aceptan mode "suddendeath"; EndSessionResult incluye suddenDeathStats
+- Actualizado src/lib/store.ts: añadido suddenDeathEnded y startGame distingue vidas según modo (1 para suddendeath)
+- Rediseñado src/app/globals.css con la paleta "Bright Nature & Aqua" (GDD V3.0):
+  * Fondo degradado #F0F9FF → #E0F2FE + halos verde césped y cian
+  * Glassmorphism: rgba(255,255,255,0.85) con bordes cian #7DD3FC y reflejo blanco
+  * Botones crystal-bubble: degradado verde césped #4ADE80 → cian #38BDF8
+  * Añadido crystal-bubble-gold (variante dorada para Muerte Súbita)
+  * Sistema de cursores (pointer en botones/tarjetas/selectores, text en inputs)
+  * Nuevas utilidades: pill-selector, segmented-option, circular-count, sudden-death-alert-bg, animate-gold-pulse
+  * Actualizado glass-frutiger y glass-wisdom a cristal blanco translúcido
+  * Text gradients actualizados (text-gradient-neon ahora verde→cian→sky)
+- Rediseñado src/components/screens/home-screen.tsx como panel compacto (GDD V3.0):
+  * Fila 0: Modo de juego (3 tarjetas: Classic / Survival / Sudden Death)
+  * Fila 1: Categorías como Pills (multi-select con Mix Total)
+  * Fila 2: Dificultad como Segmented Control (sólo en classic)
+  * Fila 3: Botones circulares (5/10/20/50) — bloqueado en "Infinitas · Hasta fallar" para suddendeath/survival
+  * CTA con crystal-bubble, crystal-bubble-coral o crystal-bubble-gold según modo
+  * Tarjetas informativas de reglas para suddendeath y survival
+- Modificado src/components/screens/game-screen.tsx:
+  * Soporte completo para isSuddenDeath + alerta dorada (isGoldenAlert) tras 10 aciertos
+  * Cráneo dorado en HUD para suddendeath (en lugar de 3 corazones)
+  * Banner "Zona de Alerta Dorada" cuando se alcanzan 10+ aciertos
+  * Fondo tiñe dorado animado (sudden-death-alert-bg) en alerta
+  * Combos en suddendeath a 5/10/15 aciertos (x2/x3/x4)
+  * Pasa mode al endSession y al answer
+- Modificado src/components/screens/results-screen.tsx:
+  * Rangos específicos para suddendeath (CAÍDO/VALENTE/TENAZ/IMPARABLE/INMORTAL)
+  * Estadísticas detalladas de Muerte Súbita con suddendeathStats
+  * Botón "Jugar de nuevo" con crystal-bubble
+- Expandido src/components/wisdom-capsule.tsx de 17 a 35 cápsulas (GDD V3.0: 30+):
+  * 10 científicos (Einstein, Sagan, Curie, Feynman, Hawking, Asimov, Lovelace, Bohr, Franklin, Galileo)
+  * 8 poetas/escritores (Borges, Whitman, Paz, Nietzsche, Saint-Exupéry, Zambrano, Neruda, Woolf)
+  * 17 datos curiosos de ciencia/naturaleza/historia (pulpitos, medusas inmortales, rayos, Vía Láctea, Everest, ADN, etc.)
+- Actualizado src/lib/audio.ts: añadidas setMasterVolume(v) y getMasterVolume() con state.masterVolume
+- Actualizado src/components/audio-toggle.tsx con popover de volumen maestro (slider 0-100%)
+- Verificado: TypeScript compila sin errores, Next.js build exitoso (7.4s)
+
+Stage Summary:
+- GDD V3.0 Frutiger Aero Brillante implementado completamente
+- 3 modos de juego: Clásico, Supervivencia, Muerte Súbita (nuevo)
+- Fórmula XP progresiva N^1.5 (100 → 283 → 590 → 1118 → ...) — requiere exponencialmente más XP por nivel
+- Paleta "Bright Nature & Aqua": cielos azules, cristal blanco translúcido, verde césped + cian
+- Panel compacto de configuración en una sola vista (pills + segmented + circulares)
+- Alerta dorada de tensión tras 10 aciertos seguidos en Muerte Súbita
+- 35 cápsulas de sabiduría (científicos, poetas, datos curiosos)
+- Control de volumen maestro añadido al reproductor de audio Lofi
+- Sistema de cursores pointer/default aplicado globalmente
+- BD Neon sincronizada con campos nuevos (suddenDeathBestCorrect, etc.)
+- Build de producción exitoso, listo para deploy a Vercel

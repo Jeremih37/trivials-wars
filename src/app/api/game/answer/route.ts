@@ -3,6 +3,7 @@ import { db } from "@/lib/db"
 import {
   computeAnswerXp,
   computeSurvivalXp,
+  computeSuddenDeathXp,
   computeLevelFromXp,
   computeSessionResult,
   DIFFICULTIES,
@@ -21,7 +22,8 @@ interface AnswerBody {
   timeRemaining: number // segundos restantes
   totalTime: number // tiempo total de la pregunta
   streak: number
-  lives: number // vidas restantes (survival)
+  lives: number // vidas restantes (survival / suddendeath)
+  mode?: "classic" | "survival" | "suddendeath" // GDD V3.0: añadido suddendeath
 }
 
 export const POST = apiHandler(async (req: Request) => {
@@ -43,28 +45,46 @@ export const POST = apiHandler(async (req: Request) => {
   const difficultyId = session.difficulty as DifficultyId
   const diff = DIFFICULTIES.find((d) => d.id === difficultyId)!
 
-  // En modo supervivencia (totalQuestions === 0), usar la lógica de XP survival
-  const isSurvival = session.totalQuestions === 0
-  const xp = isSurvival
+  // Detectar modo: si el body trae `mode`, usarlo. Si no, inferir por totalQuestions === 0 (legacy survival).
+  // GDD V3.0: añadido "suddendeath" como modo endless con su propia lógica de XP.
+  const mode = body.mode ?? (session.totalQuestions === 0 ? "survival" : "classic")
+  const isSurvival = mode === "survival"
+  const isSuddenDeath = mode === "suddendeath"
+  const isEndless = isSurvival || isSuddenDeath
+
+  const xp = isSuddenDeath
     ? (() => {
-        const survivalXp = computeSurvivalXp(body.streak)
+        const sdXp = computeSuddenDeathXp(body.streak)
         return {
-          base: isCorrect ? survivalXp.base : 0,
+          base: isCorrect ? sdXp.base : 0,
           difficultyMultiplier: 1,
           difficultyBonus: 0,
           timeBonus: 0,
-          streakBonus: isCorrect ? survivalXp.streakBonus : 0,
-          total: isCorrect ? survivalXp.total : 0,
-          combo: isCorrect ? survivalXp.combo : 1,
+          streakBonus: isCorrect ? sdXp.streakBonus : 0,
+          total: isCorrect ? sdXp.total : 0,
+          combo: isCorrect ? sdXp.combo : 1,
         }
       })()
-    : computeAnswerXp({
-        difficultyId,
-        isCorrect,
-        timeRemaining: body.timeRemaining,
-        totalTime: body.totalTime,
-        streak: body.streak,
-      })
+    : isSurvival
+      ? (() => {
+          const survivalXp = computeSurvivalXp(body.streak)
+          return {
+            base: isCorrect ? survivalXp.base : 0,
+            difficultyMultiplier: 1,
+            difficultyBonus: 0,
+            timeBonus: 0,
+            streakBonus: isCorrect ? survivalXp.streakBonus : 0,
+            total: isCorrect ? survivalXp.total : 0,
+            combo: isCorrect ? survivalXp.combo : 1,
+          }
+        })()
+      : computeAnswerXp({
+          difficultyId,
+          isCorrect,
+          timeRemaining: body.timeRemaining,
+          totalTime: body.totalTime,
+          streak: body.streak,
+        })
 
   // Actualizar sesión
   const newCorrect = session.correctCount + (isCorrect ? 1 : 0)
@@ -156,21 +176,27 @@ export const POST = apiHandler(async (req: Request) => {
 
 export const PATCH = apiHandler(async (req: Request) => {
   // Finalizar sesión: marcar endedAt y registrar resultado win/loss + actualizar stats del usuario
-  const body = await safeJson<{ sessionId: string }>(req)
+  // GDD V3.0: body incluye `mode` para distinguir survival / suddendeath
+  const body = await safeJson<{ sessionId: string; mode?: "classic" | "survival" | "suddendeath" }>(req)
   const session = await db.gameSession.findUnique({ where: { id: body.sessionId } })
   if (!session) {
     return NextResponse.json({ error: "Sesión no encontrada" }, { status: 404 })
   }
 
-  // En modo supervivencia (totalQuestions === 0), la sesión cuenta como "win" si acertó >=1
-  const isSurvival = session.totalQuestions === 0
-  const result = isSurvival
+  // Detectar modo
+  const mode = body.mode ?? (session.totalQuestions === 0 ? "survival" : "classic")
+  const isSurvival = mode === "survival"
+  const isSuddenDeath = mode === "suddendeath"
+  const isEndless = isSurvival || isSuddenDeath
+
+  // En modos endless (survival/suddendeath), la sesión cuenta como "win" si acertó >=1
+  const result = isEndless
     ? (session.correctCount > 0 ? "win" : "loss")
     : computeSessionResult(session.correctCount, session.totalQuestions)
 
   await db.gameSession.update({
     where: { id: body.sessionId },
-    data: { endedAt: new Date(), result, totalQuestions: isSurvival ? session.correctCount : session.totalQuestions },
+    data: { endedAt: new Date(), result, totalQuestions: isEndless ? session.correctCount : session.totalQuestions },
   })
 
   // Actualizar wins/losses/streaks en el usuario
@@ -199,6 +225,23 @@ export const PATCH = apiHandler(async (req: Request) => {
       }
     }
 
+    // Stats específicas de Muerte Súbita (GDD V3.0)
+    let suddenDeathUpdate: Record<string, number> | null = null
+    let isNewSuddenDeathRecord = false
+
+    if (isSuddenDeath) {
+      const newBestCorrect = Math.max(user.suddenDeathBestCorrect, session.correctCount)
+      const newBestXp = Math.max(user.suddenDeathBestXp, session.xpEarned)
+      isNewSuddenDeathRecord =
+        session.correctCount > user.suddenDeathBestCorrect ||
+        session.xpEarned > user.suddenDeathBestXp
+      suddenDeathUpdate = {
+        suddenDeathBestCorrect: newBestCorrect,
+        suddenDeathBestXp: newBestXp,
+        suddenDeathRuns: user.suddenDeathRuns + 1,
+      }
+    }
+
     await db.user.update({
       where: { id: user.id },
       data: {
@@ -208,6 +251,7 @@ export const PATCH = apiHandler(async (req: Request) => {
         currentStreak: newCurrentStreak,
         maxStreak: newMaxStreak,
         ...(survivalUpdate ?? {}),
+        ...(suddenDeathUpdate ?? {}),
       },
     })
 
@@ -215,7 +259,9 @@ export const PATCH = apiHandler(async (req: Request) => {
       ok: true,
       result,
       isSurvival,
-      isNewRecord: isSurvival && isNewSurvivalRecord,
+      isSuddenDeath,
+      mode,
+      isNewRecord: (isSurvival && isNewSurvivalRecord) || (isSuddenDeath && isNewSuddenDeathRecord),
       survivalStats: isSurvival
         ? {
             correct: session.correctCount,
@@ -223,6 +269,15 @@ export const PATCH = apiHandler(async (req: Request) => {
             bestCorrect: survivalUpdate?.survivalBestCorrect ?? user.survivalBestCorrect,
             bestXp: survivalUpdate?.survivalBestXp ?? user.survivalBestXp,
             totalRuns: survivalUpdate?.survivalRuns ?? user.survivalRuns,
+          }
+        : null,
+      suddenDeathStats: isSuddenDeath
+        ? {
+            correct: session.correctCount,
+            xp: session.xpEarned,
+            bestCorrect: suddenDeathUpdate?.suddenDeathBestCorrect ?? user.suddenDeathBestCorrect,
+            bestXp: suddenDeathUpdate?.suddenDeathBestXp ?? user.suddenDeathBestXp,
+            totalRuns: suddenDeathUpdate?.suddenDeathRuns ?? user.suddenDeathRuns,
           }
         : null,
     })

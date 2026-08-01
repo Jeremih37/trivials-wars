@@ -117,6 +117,10 @@ export const GET = apiHandler(async () => {
       survivalBestCorrect: fullUser.survivalBestCorrect,
       survivalBestXp: fullUser.survivalBestXp,
       survivalRuns: fullUser.survivalRuns,
+      // Stats específicas de Muerte Súbita (GDD V3.0)
+      suddenDeathBestCorrect: fullUser.suddenDeathBestCorrect,
+      suddenDeathBestXp: fullUser.suddenDeathBestXp,
+      suddenDeathRuns: fullUser.suddenDeathRuns,
     },
     progress: fullUser.progress.map((p) => ({
       category: p.category,

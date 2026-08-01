@@ -33,6 +33,10 @@ model User {
   survivalBestCorrect Int @default(0) // mejor cantidad de aciertos en una run
   survivalBestXp      Int @default(0) // mejor XP en una run
   survivalRuns        Int @default(0) // total de runs jugadas
+  // Stats específicas del modo Muerte Súbita (GDD V3.0: Sudden Death)
+  suddenDeathBestCorrect Int @default(0) // mejor racha de aciertos consecutivos
+  suddenDeathBestXp      Int @default(0) // mejor XP en una run
+  suddenDeathRuns        Int @default(0) // total de runs jugadas
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 

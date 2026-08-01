@@ -3,7 +3,7 @@
 import { create } from "zustand"
 import type { ClientQuestion, StartGameResponse, AnswerResponse } from "@/lib/types"
 import type { DifficultyId, CategoryId, GameModeId } from "@/lib/game"
-import { SURVIVAL_CONFIG } from "@/lib/game"
+import { SURVIVAL_CONFIG, SUDDEN_DEATH_CONFIG } from "@/lib/game"
 
 export type GameScreen = "login" | "welcome" | "home" | "playing" | "results" | "profile" | "lootbox"
 
@@ -14,7 +14,7 @@ export interface ActiveGame {
   timePerQuestion: number // tiempo base (puede ser 0 = sin tiempo)
   questions: ClientQuestion[]
   mode: GameModeId
-  // Survival: vidas restantes
+  // Survival: vidas restantes | Sudden Death: 1 vida
   lives: number
 }
 
@@ -63,7 +63,7 @@ interface GameState {
   bestStreak: number
   setBestStreak: (s: number) => void
 
-  // Survival: vidas
+  // Vidas (survival o sudden death)
   lives: number
   loseLife: () => void
   resetLives: () => void
@@ -76,11 +76,24 @@ interface GameState {
   survivalEnded: boolean
   setSurvivalEnded: (v: boolean) => void
 
+  // Modo muerte súbita — para saber si terminó por fallar 1 pregunta
+  suddenDeathEnded: boolean
+  setSuddenDeathEnded: (v: boolean) => void
+
   // Resultado de finalizar sesión (incluye info de récord personal)
   lastSessionResult: {
     isSurvival?: boolean
+    isSuddenDeath?: boolean
+    mode?: "classic" | "survival" | "suddendeath"
     isNewRecord?: boolean
     survivalStats?: {
+      correct: number
+      xp: number
+      bestCorrect: number
+      bestXp: number
+      totalRuns: number
+    } | null
+    suddenDeathStats?: {
       correct: number
       xp: number
       bestCorrect: number
@@ -90,8 +103,17 @@ interface GameState {
   } | null
   setLastSessionResult: (r: {
     isSurvival?: boolean
+    isSuddenDeath?: boolean
+    mode?: "classic" | "survival" | "suddendeath"
     isNewRecord?: boolean
     survivalStats?: {
+      correct: number
+      xp: number
+      bestCorrect: number
+      bestXp: number
+      totalRuns: number
+    } | null
+    suddenDeathStats?: {
       correct: number
       xp: number
       bestCorrect: number
@@ -133,27 +155,36 @@ export const useGameStore = create<GameState>((set) => ({
   setTimePreset: (t) => set({ selectedTimePreset: t }),
 
   activeGame: null,
-  startGame: (data) =>
-    set({
+  startGame: (data) => {
+    const mode = (data as StartGameResponse & { mode?: GameModeId }).mode ?? "classic"
+    const initialLives =
+      mode === "survival"
+        ? SURVIVAL_CONFIG.initialLives
+        : mode === "suddendeath"
+          ? SUDDEN_DEATH_CONFIG.initialLives
+          : SURVIVAL_CONFIG.initialLives
+    return set({
       activeGame: {
         sessionId: data.sessionId,
         category: data.category as CategoryId,
         difficulty: data.difficulty as DifficultyId,
         timePerQuestion: data.timePerQuestion,
         questions: data.questions,
-        mode: (data as StartGameResponse & { mode?: GameModeId }).mode ?? "classic",
-        lives: SURVIVAL_CONFIG.initialLives,
+        mode,
+        lives: initialLives,
       },
       currentQuestionIndex: 0,
       correctCount: 0,
       totalXpEarned: 0,
       currentStreak: 0,
       bestStreak: 0,
-      lives: SURVIVAL_CONFIG.initialLives,
+      lives: initialLives,
       lastAnswer: null,
       survivalEnded: false,
+      suddenDeathEnded: false,
       screen: "playing",
-    }),
+    })
+  },
   endGame: () => set({ screen: "results" }),
 
   currentQuestionIndex: 0,
@@ -181,6 +212,9 @@ export const useGameStore = create<GameState>((set) => ({
   survivalEnded: false,
   setSurvivalEnded: (v) => set({ survivalEnded: v }),
 
+  suddenDeathEnded: false,
+  setSuddenDeathEnded: (v) => set({ suddenDeathEnded: v }),
+
   lastSessionResult: null,
   setLastSessionResult: (r) => set({ lastSessionResult: r }),
 
@@ -195,6 +229,7 @@ export const useGameStore = create<GameState>((set) => ({
       lives: SURVIVAL_CONFIG.initialLives,
       lastAnswer: null,
       survivalEnded: false,
+      suddenDeathEnded: false,
       lastSessionResult: null,
       screen: "home",
       selectedCategory: null,

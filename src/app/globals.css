@@ -41,94 +41,112 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  /* Aquatic Ambience palette — The Future We Were Promised */
-  --color-abyssal: #070F1E;
-  --color-deepteal: #0D1B2A;
-  --color-bioluminescent: #00F5D4;
-  --color-aquaelectric: #00B4D8;
-  --color-coralline: #FF4D6D;
-  --color-neon-cyan: #00F5D4;
-  --color-neon-aqua: #00B4D8;
+  /* ============================================================
+     Frutiger Aero Brillante V3.0 — "Bright Nature & Aqua"
+     Cielo azul radiante · Nubes esponjosas · Agua cristalina · Prado verde
+     ============================================================ */
+  --color-sky-light: #F0F9FF;
+  --color-sky-mid: #E0F2FE;
+  --color-sky-deep: #BAE6FD;
+  --color-grass: #4ADE80;
+  --color-water: #38BDF8;
+  --color-water-deep: #0EA5E9;
+  --color-glass-tint: rgba(255, 255, 255, 0.85);
+  --color-neon-soft: #7DD3FC;
+  --color-cyan-bright: #06b6d4;
+  --color-mint: #34d399;
+  --color-coral: #fb7185;
+  --color-gold-alert: #fbbf24;
+  --color-violet-bright: #a855f7;
+  /* Compat retro-con paleta Aquatic Ambience (legacy utilities) */
+  --color-abyssal: #0c4a6e;
+  --color-deepteal: #075985;
+  --color-bioluminescent: #06b6d4;
+  --color-aquaelectric: #38BDF8;
+  --color-coralline: #fb7185;
+  --color-neon-cyan: #06b6d4;
+  --color-neon-aqua: #38BDF8;
   --color-neon-teal: #2dd4bf;
   --color-neon-emerald: #10b981;
   --color-neon-blue: #3b82f6;
   --color-neon-deep: #0ea5e9;
   --color-neon-gold: #fbbf24;
-  --color-neon-coral: #FF4D6D;
+  --color-neon-coral: #fb7185;
   --color-neon-violet: #8b5cf6;
 }
 
 /* ============================================================
-   Trivials Wars — "Aquatic Ambience / The Future We Were Promised"
-   Frutiger Aero / Y2K Aquatic Modernism
+   Trivials Wars V3.0 — "Frutiger Aero Brillante / Bright Nature & Aqua"
+   Estética Frutiger Aero Diurna y Natural — luminosa, natural, optimista
    ============================================================ */
 :root {
-  --radius: 0.95rem;
-  /* Fondo Principal: Abyssal Navy */
-  --background: #070F1E;
-  --foreground: #e6faff;
-  /* Superficie / Tarjetas: Deep Teal */
-  --card: #0D1B2A;
-  --card-foreground: #e6faff;
-  --popover: #0D1B2A;
-  --popover-foreground: #e6faff;
-  /* Acento Secundario: Aqua Electric (botones primarios, bordes activos, temporizador) */
-  --primary: #00B4D8;
-  --primary-foreground: #070F1E;
-  --secondary: #0a2a45;
-  --secondary-foreground: #e6faff;
-  --muted: #102a43;
-  --muted-foreground: #7dd3fc;
-  /* Acento Neón / Correcto: Bioluminescent Cyan */
-  --accent: #00F5D4;
-  --accent-foreground: #070F1E;
-  /* Alerta / Error / Vida: Coralline Red */
-  --destructive: #FF4D6D;
-  --border: rgba(0, 180, 216, 0.22);
-  --input: #0a2a45;
-  --ring: #00B4D8;
-  --chart-1: #00F5D4;
-  --chart-2: #00B4D8;
+  --radius: 1.15rem;
+  /* Fondo Principal: Cielo despejado y frescura (degradado vertical sutil) */
+  --background: #F0F9FF;
+  --foreground: #0c4a6e;
+  /* Superficie / Tarjetas: Cristal limpio translúcido (Glassmorphism blanco) */
+  --card: rgba(255, 255, 255, 0.85);
+  --card-foreground: #0c4a6e;
+  --popover: rgba(255, 255, 255, 0.95);
+  --popover-foreground: #0c4a6e;
+  /* Botones primarios: Agua → Césped (degradado) */
+  --primary: #38BDF8;
+  --primary-foreground: #ffffff;
+  --secondary: rgba(186, 230, 253, 0.6);
+  --secondary-foreground: #0c4a6e;
+  --muted: rgba(224, 242, 254, 0.7);
+  --muted-foreground: #0369a1;
+  /* Acento: Cian brillante (gotas de agua con brillo solar) */
+  --accent: #0ea5e9;
+  --accent-foreground: #ffffff;
+  /* Alerta / Error / Vida: Coral suave */
+  --destructive: #fb7185;
+  --border: rgba(125, 211, 252, 0.5);
+  --input: rgba(255, 255, 255, 0.7);
+  --ring: #38BDF8;
+  --chart-1: #38BDF8;
+  --chart-2: #4ADE80;
   --chart-3: #fbbf24;
-  --chart-4: #8b5cf6;
-  --chart-5: #FF4D6D;
-  --sidebar: #070F1E;
-  --sidebar-foreground: #e6faff;
-  --sidebar-primary: #00B4D8;
-  --sidebar-primary-foreground: #070F1E;
-  --sidebar-accent: #0a2a45;
-  --sidebar-accent-foreground: #e6faff;
-  --sidebar-border: rgba(0, 180, 216, 0.22);
-  --sidebar-ring: #00B4D8;
+  --chart-4: #a855f7;
+  --chart-5: #fb7185;
+  --sidebar: rgba(240, 249, 255, 0.9);
+  --sidebar-foreground: #0c4a6e;
+  --sidebar-primary: #38BDF8;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: rgba(186, 230, 253, 0.5);
+  --sidebar-accent-foreground: #0c4a6e;
+  --sidebar-border: rgba(125, 211, 252, 0.4);
+  --sidebar-ring: #38BDF8;
 }
 
 .dark {
-  --background: #070F1E;
-  --foreground: #e6faff;
-  --card: #0D1B2A;
-  --card-foreground: #e6faff;
-  --popover: #0D1B2A;
-  --popover-foreground: #e6faff;
-  --primary: #00B4D8;
-  --primary-foreground: #070F1E;
-  --secondary: #0a2a45;
-  --secondary-foreground: #e6faff;
-  --muted: #102a43;
-  --muted-foreground: #7dd3fc;
-  --accent: #00F5D4;
-  --accent-foreground: #070F1E;
-  --destructive: #FF4D6D;
-  --border: rgba(0, 180, 216, 0.22);
-  --input: #0a2a45;
-  --ring: #00B4D8;
-  --sidebar: #070F1E;
-  --sidebar-foreground: #e6faff;
-  --sidebar-primary: #00B4D8;
-  --sidebar-primary-foreground: #070F1E;
-  --sidebar-accent: #0a2a45;
-  --sidebar-accent-foreground: #e6faff;
-  --sidebar-border: rgba(0, 180, 216, 0.22);
-  --sidebar-ring: #00B4D8;
+  /* En modo oscuro mantenemos la misma estética brillante — el tema es inherentemente luminoso */
+  --background: #F0F9FF;
+  --foreground: #0c4a6e;
+  --card: rgba(255, 255, 255, 0.85);
+  --card-foreground: #0c4a6e;
+  --popover: rgba(255, 255, 255, 0.95);
+  --popover-foreground: #0c4a6e;
+  --primary: #38BDF8;
+  --primary-foreground: #ffffff;
+  --secondary: rgba(186, 230, 253, 0.6);
+  --secondary-foreground: #0c4a6e;
+  --muted: rgba(224, 242, 254, 0.7);
+  --muted-foreground: #0369a1;
+  --accent: #0ea5e9;
+  --accent-foreground: #ffffff;
+  --destructive: #fb7185;
+  --border: rgba(125, 211, 252, 0.5);
+  --input: rgba(255, 255, 255, 0.7);
+  --ring: #38BDF8;
+  --sidebar: rgba(240, 249, 255, 0.9);
+  --sidebar-foreground: #0c4a6e;
+  --sidebar-primary: #38BDF8;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: rgba(186, 230, 253, 0.5);
+  --sidebar-accent-foreground: #0c4a6e;
+  --sidebar-border: rgba(125, 211, 252, 0.4);
+  --sidebar-ring: #38BDF8;
 }
 
 @layer base {
@@ -139,13 +157,51 @@
     @apply bg-background text-foreground;
   }
   body {
+    /* Cielo despejado: degradado azul claro #F0F9FF → #E0F2FE + halos de agua/sol */
     background:
-      radial-gradient(1200px 600px at 80% -10%, rgba(0, 245, 212, 0.22), transparent 60%),
-      radial-gradient(900px 500px at -10% 110%, rgba(0, 180, 216, 0.28), transparent 60%),
-      radial-gradient(700px 400px at 50% 50%, rgba(59, 130, 246, 0.12), transparent 70%),
-      var(--background);
+      radial-gradient(1100px 600px at 80% -10%, rgba(74, 222, 128, 0.18), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(56, 189, 248, 0.25), transparent 60%),
+      radial-gradient(800px 500px at 50% 30%, rgba(255, 255, 255, 0.55), transparent 70%),
+      linear-gradient(180deg, #F0F9FF 0%, #E0F2FE 60%, #DBF4FF 100%);
     background-attachment: fixed;
     min-height: 100vh;
+  }
+}
+
+/* ============================================================
+   Sistema de Cursores (GDD V3.0 — Pointer vs Hand)
+   - cursor: default; para texto y contenedores neutros
+   - cursor: pointer; (manito) obligatorio en botones, tarjetas,
+     avatares e iconos clicables
+   ============================================================ */
+@layer base {
+  button,
+  [role="button"],
+  a,
+  summary,
+  label[for],
+  select,
+  option {
+    cursor: pointer;
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  input[type="password"],
+  input[type="search"],
+  input[type="range"],
+  textarea,
+  [contenteditable="true"] {
+    cursor: text;
+  }
+  /* Tarjetas seleccionables / clicables: manito */
+  .clickable,
+  [data-clickable="true"] {
+    cursor: pointer;
+  }
+  /* Avatares e iconos clicables */
+  .cursor-pointer-soft {
+    cursor: pointer;
   }
 }
 
@@ -205,25 +261,28 @@
 }
 
 /* ============================================================
-   Glassmorphism utilities (Frutiger Aero / Y2K Aquatic)
+   Glassmorphism utilities (Frutiger Aero Brillante V3.0)
+   Cristal limpio con agua filtrada — paneles blancos translúcidos
    ============================================================ */
 @utility glass {
-  background: rgba(13, 27, 42, 0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(0, 180, 216, 0.22);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(125, 211, 252, 0.5);
+  box-shadow: 0 4px 20px rgba(56, 189, 248, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 @utility glass-strong {
-  background: rgba(13, 27, 42, 0.75);
+  background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 245, 212, 0.28);
+  border: 1px solid rgba(125, 211, 252, 0.65);
+  box-shadow: 0 8px 30px rgba(56, 189, 248, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 @utility glass-light {
-  background: rgba(0, 180, 216, 0.08);
+  background: rgba(255, 255, 255, 0.55);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(0, 180, 216, 0.18);
+  border: 1px solid rgba(125, 211, 252, 0.35);
 }
 
 /* Custom scrollbar — aquatic */
@@ -330,9 +389,9 @@
   animation: heart-break 0.5s ease-out forwards;
 }
 
-/* Text gradient utility — Aquatic Ambience */
+/* Text gradient utility — Frutiger Aero Brillante V3.0 */
 @utility text-gradient-neon {
-  background: linear-gradient(135deg, #00F5D4 0%, #00B4D8 50%, #2dd4bf 100%);
+  background: linear-gradient(135deg, #38BDF8 0%, #4ADE80 50%, #0ea5e9 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -340,7 +399,7 @@
 }
 
 @utility text-gradient-aqua {
-  background: linear-gradient(135deg, #7dd3fc 0%, #00B4D8 100%);
+  background: linear-gradient(135deg, #7dd3fc 0%, #38BDF8 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -348,7 +407,7 @@
 }
 
 @utility text-gradient-bioluminescent {
-  background: linear-gradient(135deg, #00F5D4 0%, #00B4D8 100%);
+  background: linear-gradient(135deg, #4ADE80 0%, #38BDF8 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -420,16 +479,17 @@
   animation: aqua-sky-flow 16s ease-in-out infinite;
 }
 
-/* Crystal Bubble button — 3D glossy aqua button with inner shine */
+/* Crystal Bubble button — GDD V3.0: degradado verde césped (#4ADE80) → cian (#38BDF8)
+   con brillo de gota de agua en la parte superior */
 @utility crystal-bubble {
   position: relative;
-  background: linear-gradient(180deg, rgba(0, 245, 212, 0.95) 0%, rgba(0, 180, 216, 0.95) 50%, rgba(13, 80, 120, 0.95) 100%);
-  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  background: linear-gradient(180deg, rgba(74, 222, 128, 0.95) 0%, rgba(56, 189, 248, 0.95) 55%, rgba(14, 165, 233, 0.95) 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
   box-shadow:
-    inset 0 2px 4px rgba(255, 255, 255, 0.55),
-    inset 0 -3px 6px rgba(0, 0, 0, 0.25),
-    0 8px 20px rgba(0, 180, 216, 0.55),
-    0 0 35px rgba(0, 245, 212, 0.5);
+    inset 0 2px 4px rgba(255, 255, 255, 0.65),
+    inset 0 -3px 6px rgba(7, 89, 133, 0.25),
+    0 8px 20px rgba(56, 189, 248, 0.55),
+    0 0 35px rgba(74, 222, 128, 0.45);
   overflow: hidden;
 }
 .crystal-bubble::before {
@@ -439,32 +499,32 @@
   left: 12%;
   right: 12%;
   height: 38%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.15) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.25) 100%);
   border-radius: 999px;
   filter: blur(2px);
   pointer-events: none;
 }
 .crystal-bubble:hover {
   box-shadow:
-    inset 0 2px 4px rgba(255, 255, 255, 0.65),
-    inset 0 -3px 6px rgba(0, 0, 0, 0.25),
-    0 12px 28px rgba(0, 180, 216, 0.75),
-    0 0 50px rgba(0, 245, 212, 0.85);
+    inset 0 2px 4px rgba(255, 255, 255, 0.75),
+    inset 0 -3px 6px rgba(7, 89, 133, 0.25),
+    0 12px 28px rgba(56, 189, 248, 0.7),
+    0 0 50px rgba(74, 222, 128, 0.7);
 }
 .crystal-bubble:active {
   transform: scale(0.985);
 }
 
-/* Crystal Bubble variant — coralline red for survival */
+/* Crystal Bubble variant — coral para supervivencia */
 @utility crystal-bubble-coral {
   position: relative;
-  background: linear-gradient(180deg, rgba(255, 138, 168, 0.95) 0%, rgba(255, 77, 109, 0.95) 50%, rgba(120, 20, 50, 0.95) 100%);
-  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  background: linear-gradient(180deg, rgba(254, 215, 170, 0.95) 0%, rgba(251, 113, 133, 0.95) 55%, rgba(190, 18, 60, 0.95) 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
   box-shadow:
-    inset 0 2px 4px rgba(255, 255, 255, 0.55),
-    inset 0 -3px 6px rgba(0, 0, 0, 0.3),
-    0 8px 20px rgba(255, 77, 109, 0.55),
-    0 0 35px rgba(255, 77, 109, 0.5);
+    inset 0 2px 4px rgba(255, 255, 255, 0.65),
+    inset 0 -3px 6px rgba(120, 20, 50, 0.3),
+    0 8px 20px rgba(251, 113, 133, 0.55),
+    0 0 35px rgba(251, 113, 133, 0.45);
   overflow: hidden;
 }
 .crystal-bubble-coral::before {
@@ -474,19 +534,54 @@
   left: 12%;
   right: 12%;
   height: 38%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.15) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.25) 100%);
   border-radius: 999px;
   filter: blur(2px);
   pointer-events: none;
 }
 .crystal-bubble-coral:hover {
   box-shadow:
-    inset 0 2px 4px rgba(255, 255, 255, 0.65),
-    inset 0 -3px 6px rgba(0, 0, 0, 0.3),
-    0 12px 28px rgba(255, 77, 109, 0.75),
-    0 0 50px rgba(255, 77, 109, 0.85);
+    inset 0 2px 4px rgba(255, 255, 255, 0.75),
+    inset 0 -3px 6px rgba(120, 20, 50, 0.3),
+    0 12px 28px rgba(251, 113, 133, 0.7),
+    0 0 50px rgba(251, 113, 133, 0.7);
 }
 .crystal-bubble-coral:active {
+  transform: scale(0.985);
+}
+
+/* Crystal Bubble variant — dorado para Muerte Súbita (GDD V3.0) */
+@utility crystal-bubble-gold {
+  position: relative;
+  background: linear-gradient(180deg, rgba(254, 240, 138, 0.95) 0%, rgba(251, 191, 36, 0.95) 55%, rgba(180, 83, 9, 0.95) 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.65),
+    inset 0 -3px 6px rgba(120, 53, 15, 0.3),
+    0 8px 20px rgba(251, 191, 36, 0.55),
+    0 0 35px rgba(251, 191, 36, 0.5);
+  overflow: hidden;
+}
+.crystal-bubble-gold::before {
+  content: "";
+  position: absolute;
+  top: 8%;
+  left: 12%;
+  right: 12%;
+  height: 38%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.25) 100%);
+  border-radius: 999px;
+  filter: blur(2px);
+  pointer-events: none;
+}
+.crystal-bubble-gold:hover {
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.75),
+    inset 0 -3px 6px rgba(120, 53, 15, 0.3),
+    0 12px 28px rgba(251, 191, 36, 0.75),
+    0 0 50px rgba(251, 191, 36, 0.85);
+}
+.crystal-bubble-gold:active {
   transform: scale(0.985);
 }
 
@@ -510,16 +605,16 @@
   animation: frutiger-bubble 14s ease-in infinite;
 }
 
-/* Glass card with stronger Frutiger Aero feel — translucent + glossy border */
+/* Glass card with stronger Frutiger Aero feel — translucent + glossy border (V3.0 Brillante) */
 @utility glass-frutiger {
-  background: linear-gradient(135deg, rgba(13, 27, 42, 0.55) 0%, rgba(0, 60, 90, 0.4) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(224, 242, 254, 0.75) 100%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1.5px solid rgba(0, 245, 212, 0.35);
+  border: 1.5px solid rgba(56, 189, 248, 0.45);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.25),
-    0 8px 32px rgba(0, 180, 216, 0.25),
-    0 0 50px rgba(0, 245, 212, 0.18);
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 8px 32px rgba(56, 189, 248, 0.18),
+    0 0 50px rgba(74, 222, 128, 0.12);
 }
 
 /* Soft pulse glow for primary CTA — gentle breathe */
@@ -543,15 +638,15 @@
   animation: cta-pulse 2.4s ease-in-out infinite;
 }
 
-/* Wisdom card glass — slightly more ethereal */
+/* Wisdom card glass — slightly more ethereal (V3.0 Brillante) */
 @utility glass-wisdom {
-  background: linear-gradient(135deg, rgba(13, 27, 42, 0.6) 0%, rgba(0, 50, 80, 0.4) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(219, 244, 255, 0.6) 100%);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(0, 245, 212, 0.3);
+  border: 1px solid rgba(56, 189, 248, 0.35);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.2),
-    0 6px 24px rgba(0, 180, 216, 0.2);
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 6px 24px rgba(56, 189, 248, 0.12);
 }
 
 /* Sparkle accent — tiny rotating shine for wisdom icon */
@@ -571,4 +666,83 @@
 }
 .animate-fade-in-up {
   animation: fade-in-up 0.5s ease-out both;
+}
+
+/* ============================================================
+   Frutiger Aero Brillante V3.0 — Modo Muerte Súbita
+   Fondo dorado de alerta (activo tras 10 aciertos seguidos)
+   ============================================================ */
+@keyframes sudden-death-alert {
+  0%, 100% {
+    background-color: rgba(251, 191, 36, 0.08);
+  }
+  50% {
+    background-color: rgba(251, 191, 36, 0.18);
+  }
+}
+.sudden-death-alert-bg {
+  animation: sudden-death-alert 2.4s ease-in-out infinite;
+}
+
+/* Pulso dorado de tensión para el HUD en sudden death */
+@keyframes gold-pulse {
+  0%, 100% {
+    box-shadow: 0 0 14px rgba(251, 191, 36, 0.6), 0 0 30px rgba(251, 191, 36, 0.3);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 22px rgba(251, 191, 36, 0.95), 0 0 45px rgba(251, 191, 36, 0.5);
+    transform: scale(1.04);
+  }
+}
+.animate-gold-pulse {
+  animation: gold-pulse 1.6s ease-in-out infinite;
+}
+
+/* Pill (selector compacto) — Frutiger Aero Brillante */
+@utility pill-selector {
+  transition: all 0.18s ease-out;
+  border: 1.5px solid rgba(125, 211, 252, 0.4);
+  background: rgba(255, 255, 255, 0.6);
+  color: #0369a1;
+}
+.pill-selector:hover {
+  border-color: rgba(56, 189, 248, 0.7);
+  background: rgba(255, 255, 255, 0.85);
+}
+.pill-selector[data-selected="true"] {
+  background: linear-gradient(135deg, #4ADE80 0%, #38BDF8 100%);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+/* Segmented control (Fácil | Normal | Difícil | Muerte Súbita) */
+@utility segmented-option {
+  transition: all 0.15s ease-out;
+  color: #0369a1;
+}
+.segmented-option[data-selected="true"] {
+  background: linear-gradient(135deg, #4ADE80 0%, #38BDF8 100%);
+  color: #ffffff;
+  box-shadow: 0 3px 10px rgba(56, 189, 248, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Botón circular compacto (5, 10, 20, 50) */
+@utility circular-count {
+  transition: all 0.18s ease-out;
+  border: 1.5px solid rgba(125, 211, 252, 0.4);
+  background: rgba(255, 255, 255, 0.7);
+  color: #0c4a6e;
+}
+.circular-count:hover {
+  border-color: rgba(56, 189, 248, 0.7);
+  background: rgba(255, 255, 255, 0.95);
+  transform: scale(1.05);
+}
+.circular-count[data-selected="true"] {
+  background: linear-gradient(135deg, #4ADE80 0%, #38BDF8 100%);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.45);
 }

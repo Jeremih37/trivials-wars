@@ -6,6 +6,7 @@ import {
   DIFFICULTIES,
   GAME_MODES,
   QUESTION_COUNTS,
+  SUDDEN_DEATH_CONFIG,
   type CategoryId,
   type DifficultyId,
   type GameModeId,
@@ -15,9 +16,28 @@ import { useStartGame, useProfile } from "@/hooks/use-game"
 import { useAudio } from "@/hooks/use-audio"
 import { AudioToggle } from "@/components/audio-toggle"
 import { BubblesBackground } from "@/components/bubbles-background"
-import { ChevronLeft, Swords, Zap, Sparkles, Target, Skull, Shuffle, Crown, Check } from "lucide-react"
+import {
+  ChevronLeft,
+  Swords,
+  Zap,
+  Sparkles,
+  Skull,
+  Shuffle,
+  Crown,
+  Check,
+  Heart,
+  Flame,
+} from "lucide-react"
 import { cn } from "@/lib/utils"
 
+/**
+ * HomeScreen V3.0 — Panel de Configuración Compacto (UI Acoplable)
+ * GDD V3.0: matriz de selector en una sola vista compacta
+ *   - Fila 1: Categorías en pastillas "Pills"
+ *   - Fila 2: Segmented Control (Fácil | Normal | Difícil | Muerte Súbita)
+ *   - Fila 3: Botones circulares compactos (5, 10, 20, 50)
+ *             En Muerte Súbita: bloqueado en "Infinitas / Hasta fallar"
+ */
 export function HomeScreen() {
   const {
     setScreen,
@@ -40,14 +60,30 @@ export function HomeScreen() {
   const hasSelection = selectedCount > 0
   const isMix = selectedCount > 1
 
+  // ¿Está en modo Muerte Súbita? Bloquea el selector de cantidad
+  const isSuddenDeath = selectedMode === "suddendeath"
+  const isSurvival = selectedMode === "survival"
+  const isClassic = selectedMode === "classic"
+  const isEndless = isSurvival || isSuddenDeath
+
   const handleStart = () => {
     if (!hasSelection || !selectedDifficulty) return
     sfx.waterDrop()
-    // Si hay 1 categoría → enviar como category simple. Si hay varias → enviar categories[].
     const payload =
       selectedCount === 1
-        ? { category: selectedCategories[0], difficulty: selectedDifficulty, mode: selectedMode, questionCount: selectedMode === "classic" ? selectedQuestionCount : undefined }
-        : { category: "mix" as CategoryId, categories: selectedCategories, difficulty: selectedDifficulty, mode: selectedMode, questionCount: selectedMode === "classic" ? selectedQuestionCount : undefined }
+        ? {
+            category: selectedCategories[0],
+            difficulty: selectedDifficulty,
+            mode: selectedMode,
+            questionCount: isClassic ? selectedQuestionCount : undefined,
+          }
+        : {
+            category: "mix" as CategoryId,
+            categories: selectedCategories,
+            difficulty: selectedDifficulty,
+            mode: selectedMode,
+            questionCount: isClassic ? selectedQuestionCount : undefined,
+          }
     startGameMut.mutate(payload, {
       onSuccess: (data) => {
         startGame(data)
@@ -55,19 +91,29 @@ export function HomeScreen() {
     })
   }
 
+  // Configuración del CTA según modo
+  const ctaConfig = isSuddenDeath
+    ? { label: "¡COMENZAR MUERTE SÚBITA!", class: "crystal-bubble-gold text-white" }
+    : isSurvival
+      ? { label: "¡COMENZAR ABISMO!", class: "crystal-bubble-coral text-white" }
+      : { label: "¡COMENZAR BATALLA!", class: "crystal-bubble text-white" }
+
   return (
     <div className="relative min-h-screen flex flex-col">
       <BubblesBackground count={14} />
 
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/40">
+      {/* Header */}
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/60 border-b border-cyan-200/50">
         <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
           <button
             onClick={() => { sfx.waterDrop(); setScreen("welcome") }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass border border-border hover:border-primary/60 transition text-sm font-bold"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass border border-cyan-200/60 hover:border-sky-400/70 transition text-sm font-bold text-sky-900"
           >
             <ChevronLeft className="w-4 h-4" /> Volver
           </button>
-          <h1 className="text-base font-black tracking-tight text-gradient-neon">PREPARADO PARA JUGAR</h1>
+          <h1 className="text-base font-black tracking-tight bg-gradient-to-r from-sky-500 via-emerald-500 to-sky-600 bg-clip-text text-transparent">
+            PREPARADO PARA JUGAR
+          </h1>
           <div className="flex items-center gap-2">
             <AudioToggle compact />
             <div className="w-[20px]" />
@@ -75,234 +121,274 @@ export function HomeScreen() {
         </div>
       </header>
 
-      <main className="relative z-10 flex-1 max-w-3xl w-full mx-auto px-4 py-6 space-y-7">
-        {/* PASO 1: MODO DE JUEGO */}
-        <section className="space-y-3">
-          <SectionHeader step={1} title="Modo" subtitle="Elegí tu tipo de reto" />
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {GAME_MODES.map((m, i) => {
-              const isSelected = selectedMode === m.id
-              return (
-                <motion.button
-                  key={m.id}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.03 * i }}
-                  onClick={() => { sfx.waterDrop(); setMode(m.id as GameModeId) }}
-                  className={cn(
-                    "relative overflow-hidden rounded-2xl border p-4 text-left transition-all glass-frutiger",
-                    isSelected ? "scale-[1.01]" : "border-border/60 hover:border-primary/60"
-                  )}
-                  style={isSelected ? { boxShadow: `0 0 24px ${m.color}50, inset 0 1px 0 rgba(255,255,255,0.25)`, borderColor: m.color, background: `linear-gradient(135deg, ${m.color}22, ${m.color}08)` } : undefined}
-                >
-                  <div className="flex items-center gap-3 mb-1">
-                    <span className="text-3xl drop-shadow-lg">{m.icon}</span>
-                    <div>
-                      <div className="text-base font-black" style={{ color: isSelected ? m.color : undefined }}>{m.name}</div>
-                      <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{m.id === "classic" ? "Personalizable" : "Sin límite · 3 vidas"}</div>
-                    </div>
-                    {isSelected && (
-                      <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center justify-center" style={{ background: m.color, color: "#070F1E" }}>
-                        <Check className="w-3 h-3" />
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-xs text-muted-foreground leading-snug">{m.desc}</p>
-                </motion.button>
-              )
-            })}
-          </div>
-        </section>
-
-        {/* PASO 2: CATEGORÍAS (multi-select Frutiger Aero GDD V2) */}
-        <section className="space-y-3">
-          <SectionHeader
-            step={2}
-            title="Categorías"
-            subtitle={selectedCount === 0 ? "Selecciona una o varias temáticas" : `${selectedCount} ${selectedCount === 1 ? "seleccionada" : "seleccionadas"} · sesión ${isMix ? "mixta" : "única"}`}
-          />
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-            {/* Mix Aleatorio — selecciona todas */}
-            <motion.button
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              onClick={() => {
-                sfx.waterDrop()
-                // Toggle: si ya están todas seleccionadas, limpiar; si no, seleccionar todas
-                if (selectedCount === CATEGORIES.length) {
-                  useGameStore.getState().setCategories([])
-                } else {
-                  useGameStore.getState().setCategories(CATEGORIES.map((c) => c.id as CategoryId))
-                }
-              }}
-              className={cn(
-                "group relative overflow-hidden rounded-2xl border p-3 text-left transition-all flex items-center gap-3 col-span-2 sm:col-span-3",
-                selectedCount === CATEGORIES.length ? "glass-frutiger scale-[1.01]" : "border-border/60 bg-card/40 hover:bg-card/70 hover:border-border"
-              )}
-              style={selectedCount === CATEGORIES.length ? { boxShadow: `0 0 24px #00F5D450, inset 0 1px 0 rgba(255,255,255,0.25)`, borderColor: "#00F5D4", background: "linear-gradient(135deg, #00F5D418, #00F5D408)" } : undefined}
-            >
-              <div
-                className="flex items-center justify-center w-11 h-11 rounded-xl text-2xl shrink-0"
-                style={{ background: "#00F5D420", border: `1px solid #00F5D440` }}
-              >
-                <Shuffle className="w-5 h-5" style={{ color: "#00F5D4" }} />
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="text-sm font-bold truncate" style={{ color: selectedCount === CATEGORIES.length ? "#00F5D4" : undefined }}>Mix Total · Todas las categorías</div>
-                <div className="text-[10px] text-muted-foreground">Toca para activar o desactivar todas</div>
-              </div>
-              {selectedCount === CATEGORIES.length && (
-                <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md" style={{ background: "#00F5D4", color: "#070F1E" }}>✓</span>
-              )}
-            </motion.button>
-
-            {CATEGORIES.map((cat, i) => {
-              const isSelected = selectedCategories.includes(cat.id as CategoryId)
-              return (
-                <motion.button
-                  key={cat.id}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.03 * i }}
-                  onClick={() => { sfx.waterDrop(); toggleCategory(cat.id as CategoryId) }}
-                  className={cn(
-                    "group relative overflow-hidden rounded-2xl border p-3 text-left transition-all flex items-center gap-3",
-                    isSelected ? "glass-frutiger scale-[1.02]" : "border-border/60 bg-card/40 hover:bg-card/70 hover:border-border"
-                  )}
-                  style={isSelected ? { boxShadow: `0 0 22px ${cat.color}45, inset 0 1px 0 rgba(255,255,255,0.2)`, borderColor: cat.color, background: `linear-gradient(135deg, ${cat.color}18, ${cat.color}08)` } : undefined}
-                >
-                  <div
-                    className="flex items-center justify-center w-11 h-11 rounded-xl text-2xl shrink-0"
-                    style={{ background: `${cat.color}20`, border: `1px solid ${cat.color}40` }}
-                  >
-                    {cat.icon}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="text-sm font-bold truncate" style={{ color: isSelected ? cat.color : undefined }}>{cat.name}</div>
-                    <div className="text-[10px] text-muted-foreground">100+ preguntas</div>
-                  </div>
-                  {isSelected && (
-                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md flex items-center justify-center" style={{ background: cat.color, color: "#070F1E" }}>
-                      <Check className="w-3 h-3" />
-                    </span>
-                  )}
-                </motion.button>
-              )
-            })}
-          </div>
-        </section>
-
-        {/* PASO 3: DIFICULTAD — solo en modo clásico */}
-        {selectedMode === "classic" && (
-          <section className="space-y-3">
-            <SectionHeader step={3} title="Dificultad" subtitle="Afecta el XP base y multiplicador" />
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-              {DIFFICULTIES.map((d, i) => {
-                const isSelected = selectedDifficulty === d.id
+      <main className="relative z-10 flex-1 max-w-3xl w-full mx-auto px-4 py-5 space-y-5">
+        {/* ============================================================
+            PANEL COMPACTO — Una sola vista (GDD V3.0)
+            ============================================================ */}
+        <motion.section
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="rounded-3xl glass-strong p-5 sm:p-6 space-y-5"
+        >
+          {/* Fila 0: Modo (selector de modo de juego) */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-sky-400 to-emerald-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">1</span>
+              <h3 className="font-black text-sm sm:text-base text-sky-900">Modo de Juego</h3>
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              {GAME_MODES.map((m) => {
+                const isSelected = selectedMode === m.id
                 return (
-                  <motion.button
-                    key={d.id}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.03 * i }}
-                    onClick={() => { sfx.waterDrop(); setDifficulty(d.id as DifficultyId) }}
+                  <button
+                    key={m.id}
+                    onClick={() => { sfx.waterDrop(); setMode(m.id as GameModeId) }}
+                    data-selected={isSelected}
                     className={cn(
                       "relative overflow-hidden rounded-2xl border p-3 text-left transition-all",
-                      isSelected ? "scale-[1.02] glass-frutiger" : "border-border/60 bg-card/40 hover:bg-card/70"
+                      isSelected
+                        ? "scale-[1.02] border-transparent"
+                        : "border-cyan-200/60 bg-white/60 hover:bg-white/90 hover:border-sky-400/50"
                     )}
-                    style={isSelected ? { boxShadow: `0 0 22px ${d.color}45, inset 0 1px 0 rgba(255,255,255,0.2)`, borderColor: d.color, background: `linear-gradient(135deg, ${d.color}18, ${d.color}08)` } : undefined}
+                    style={
+                      isSelected
+                        ? {
+                            background: `linear-gradient(135deg, ${m.color}22, ${m.color}08)`,
+                            borderColor: m.color,
+                            boxShadow: `0 0 18px ${m.color}40, inset 0 1px 0 rgba(255,255,255,0.6)`,
+                          }
+                        : undefined
+                    }
                   >
-                    <div className="flex items-center gap-1.5 mb-1.5">
-                      <span className="w-2 h-2 rounded-full" style={{ background: d.color, boxShadow: `0 0 6px ${d.color}` }} />
-                      <span className="text-[11px] font-bold uppercase tracking-wider" style={{ color: d.color }}>{d.name}</span>
+                    <div className="flex items-center gap-1.5 mb-0.5">
+                      <span className="text-xl">{m.icon}</span>
+                      {isSelected && (
+                        <span className="ml-auto w-4 h-4 rounded-full flex items-center justify-center" style={{ background: m.color }}>
+                          <Check className="w-2.5 h-2.5 text-white" />
+                        </span>
+                      )}
                     </div>
-                    <div className="flex items-baseline gap-1.5">
-                      <span className="text-2xl font-black" style={{ color: d.color }}>{d.time}</span>
-                      <span className="text-[10px] text-muted-foreground">seg/pregunta</span>
+                    <div className="text-[11px] font-black uppercase tracking-wide" style={{ color: isSelected ? m.color : "#0369a1" }}>
+                      {m.name}
                     </div>
-                    <div className="text-[10px] mt-1 font-mono flex items-center gap-2">
-                      <span className="text-amber-300">+{d.xpBase} XP</span>
-                      <span className="text-muted-foreground">×{d.multiplier}</span>
+                    <div className="text-[9px] text-sky-700/70 mt-0.5 leading-tight">
+                      {m.id === "classic" ? "Personalizable" : m.id === "survival" ? "3 vidas" : "1 fallo = fin"}
                     </div>
-                  </motion.button>
+                  </button>
                 )
               })}
             </div>
-          </section>
-        )}
+          </div>
 
-        {/* PASO 4: CANTIDAD DE PREGUNTAS — solo en modo clásico */}
-        {selectedMode === "classic" && (
-          <section className="space-y-3">
-            <SectionHeader step={4} title="Cantidad" subtitle="¿Cuántas preguntas querés responder?" />
-            <div className="grid grid-cols-4 gap-2">
-              {QUESTION_COUNTS.map((qc, i) => {
-                const isSelected = selectedQuestionCount === qc.id
+          {/* Fila 1: Categorías — Pastillas "Pills" (multi-select) */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-sky-400 to-emerald-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">2</span>
+                <h3 className="font-black text-sm sm:text-base text-sky-900">Categorías</h3>
+              </div>
+              <span className="text-[10px] text-sky-700/70">
+                {selectedCount === 0 ? "Tocá para elegir" : `${selectedCount} ${selectedCount === 1 ? "seleccionada" : "seleccionadas"}${isMix ? " · mix" : ""}`}
+              </span>
+            </div>
+            <div className="flex flex-wrap gap-1.5">
+              {/* Mix Total */}
+              <button
+                onClick={() => {
+                  sfx.waterDrop()
+                  if (selectedCount === CATEGORIES.length) {
+                    useGameStore.getState().setCategories([])
+                  } else {
+                    useGameStore.getState().setCategories(CATEGORIES.map((c) => c.id as CategoryId))
+                  }
+                }}
+                data-selected={selectedCount === CATEGORIES.length}
+                className="pill-selector rounded-full px-3 py-1.5 text-xs font-bold flex items-center gap-1.5"
+              >
+                <Shuffle className="w-3 h-3" /> Mix Total
+              </button>
+              {CATEGORIES.map((cat) => {
+                const isSelected = selectedCategories.includes(cat.id as CategoryId)
                 return (
-                  <motion.button
-                    key={qc.id}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.02 * i }}
-                    onClick={() => { sfx.waterDrop(); setQuestionCount(qc.id) }}
-                    className={cn(
-                      "relative overflow-hidden rounded-2xl border p-3 text-center transition-all",
-                      isSelected ? "scale-[1.05] glass-frutiger" : "border-border/60 bg-card/40 hover:bg-card/70"
-                    )}
-                    style={isSelected ? { boxShadow: `0 0 22px ${qc.color}45, inset 0 1px 0 rgba(255,255,255,0.2)`, borderColor: qc.color, background: `linear-gradient(135deg, ${qc.color}18, ${qc.color}08)` } : undefined}
+                  <button
+                    key={cat.id}
+                    onClick={() => { sfx.waterDrop(); toggleCategory(cat.id as CategoryId) }}
+                    data-selected={isSelected}
+                    className="pill-selector rounded-full px-3 py-1.5 text-xs font-bold flex items-center gap-1.5"
                   >
-                    <div className="text-2xl font-black" style={{ color: isSelected ? qc.color : undefined }}>{qc.label}</div>
-                    <div className="text-[9px] text-muted-foreground uppercase tracking-wider">{qc.desc}</div>
-                  </motion.button>
+                    <span>{cat.icon}</span>
+                    <span className="truncate max-w-[110px]">{cat.name}</span>
+                    {isSelected && <Check className="w-3 h-3" />}
+                  </button>
                 )
               })}
             </div>
-          </section>
-        )}
+          </div>
 
-        {/* INFO SUPERVIVENCIA */}
-        {selectedMode === "survival" && (
-          <section className="rounded-2xl border border-[#FF4D6D]/40 bg-[#FF4D6D]/8 p-4 glass">
-            <div className="flex items-center gap-2 mb-2">
-              <Skull className="w-4 h-4" style={{ color: "#FF4D6D" }} />
-              <span className="font-bold text-sm" style={{ color: "#FF4D6D" }}>Reglas del Abismo</span>
+          {/* Fila 2: Dificultad — Segmented Control (Fácil | Normal | Difícil | Muerte Súbita)
+              NOTA: En el GDD V3.0 el segmented control incluye Muerte Súbita.
+              Aquí lo usamos como selector de dificultad para classic; el modo Muerte Súbita
+              se selecciona arriba (Fila 0) por compatibilidad con la lógica existente. */}
+          {isClassic && (
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-sky-400 to-emerald-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">3</span>
+                <h3 className="font-black text-sm sm:text-base text-sky-900">Dificultad</h3>
+              </div>
+              <div className="grid grid-cols-4 gap-1 rounded-2xl bg-white/50 border border-cyan-200/50 p-1">
+                {DIFFICULTIES.map((d) => {
+                  const isSelected = selectedDifficulty === d.id
+                  return (
+                    <button
+                      key={d.id}
+                      onClick={() => { sfx.waterDrop(); setDifficulty(d.id as DifficultyId) }}
+                      data-selected={isSelected}
+                      className="segmented-option rounded-xl py-2 px-1 text-center"
+                    >
+                      <div className="text-[11px] font-black uppercase tracking-wide">{d.name}</div>
+                      <div className="text-[9px] opacity-70">{d.time}s · ×{d.multiplier}</div>
+                    </button>
+                  )
+                })}
+              </div>
             </div>
-            <ul className="text-xs text-muted-foreground space-y-1.5 ml-6 list-disc">
-              <li>Comenzás con <span style={{ color: "#FF4D6D" }}>❤️ ❤️ ❤️ 3 corazones</span> — cada error resta 1 vida</li>
-              <li>Tiempo inicial: <span className="text-foreground font-bold">15 segundos</span> por pregunta</li>
-              <li>Cada <span className="text-foreground font-bold">5 aciertos</span> el tiempo baja 1s (mínimo 5s)</li>
-              <li>Combo bioluminiscente: <span style={{ color: "#00F5D4" }}>3 seguidas = ×2</span>, <span style={{ color: "#00F5D4" }}>5 seguidas = ×3</span></li>
-              <li>Se cargan 30 preguntas iniciales — sobreviví lo máximo que puedas</li>
-              <li>La dificultad elegida no afecta este modo (mezcla de todas)</li>
+          )}
+
+          {/* Fila 3: Cantidad de preguntas — Botones circulares compactos (5, 10, 20, 50)
+              Si es Muerte Súbita: bloqueado en "Infinitas / Hasta fallar" */}
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-sky-400 to-emerald-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">
+                {isClassic ? "4" : "3"}
+              </span>
+              <h3 className="font-black text-sm sm:text-base text-sky-900">
+                {isEndless ? "Duración" : "Cantidad de Preguntas"}
+              </h3>
+            </div>
+
+            {isSuddenDeath ? (
+              // Bloqueado en infinitas
+              <div className="rounded-2xl border-2 border-dashed border-amber-300/60 bg-amber-50/60 p-4 text-center">
+                <div className="flex items-center justify-center gap-2 text-amber-700">
+                  <Skull className="w-5 h-5" />
+                  <span className="font-black text-base uppercase tracking-wider">Infinitas · Hasta fallar</span>
+                </div>
+                <div className="text-[10px] text-amber-700/70 mt-1">
+                  1 solo error termina la partida · Pool de {SUDDEN_DEATH_CONFIG.initialPoolSize} preguntas
+                </div>
+              </div>
+            ) : isSurvival ? (
+              // Bloqueado en infinitas
+              <div className="rounded-2xl border-2 border-dashed border-rose-300/60 bg-rose-50/60 p-4 text-center">
+                <div className="flex items-center justify-center gap-2 text-rose-700">
+                  <Heart className="w-5 h-5 fill-rose-500" />
+                  <span className="font-black text-base uppercase tracking-wider">Infinitas · Hasta perder 3 vidas</span>
+                </div>
+                <div className="text-[10px] text-rose-700/70 mt-1">
+                  Pool de 30 preguntas · tiempo decreciente
+                </div>
+              </div>
+            ) : (
+              // Selector circular de cantidades
+              <div className="grid grid-cols-4 gap-2">
+                {QUESTION_COUNTS.map((qc) => {
+                  const isSelected = selectedQuestionCount === qc.id
+                  return (
+                    <button
+                      key={qc.id}
+                      onClick={() => { sfx.waterDrop(); setQuestionCount(qc.id) }}
+                      data-selected={isSelected}
+                      className="circular-count rounded-2xl aspect-square flex flex-col items-center justify-center"
+                    >
+                      <div className="text-2xl font-black leading-none">{qc.label}</div>
+                      <div className="text-[9px] uppercase tracking-wide opacity-70 mt-0.5">{qc.desc}</div>
+                    </button>
+                  )
+                })}
+              </div>
+            )}
+          </div>
+        </motion.section>
+
+        {/* INFO del modo seleccionado — tarjetas informativas compactas */}
+        {isSuddenDeath && (
+          <motion.section
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="rounded-2xl border border-amber-300/50 bg-amber-50/60 p-4 glass"
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <Skull className="w-4 h-4 text-amber-600" />
+              <span className="font-bold text-sm text-amber-800">Reglas de Muerte Súbita</span>
+            </div>
+            <ul className="text-xs text-amber-800/90 space-y-1.5 ml-6 list-disc">
+              <li>Sin margen de error: <span className="font-bold">fallar 1 pregunta termina la partida</span></li>
+              <li>Racha infinitamente escalable — tu High Score se guarda por separado</li>
+              <li>Combo: <span className="font-bold">5 seguidas ×2</span>, <span className="font-bold">10 seguidas ×3</span>, <span className="font-bold">15 seguidas ×4</span></li>
+              <li>Tiempo fijo de <span className="font-bold">15 segundos</span> por pregunta</li>
+              <li>Tensión dorada: al superar <span className="font-bold">10 aciertos</span> el fondo se tiñe dorado/alerta</li>
             </ul>
 
-            {/* Récord personal — GDD: sistema de High Score */}
-            {profile?.user && profile.user.survivalRuns > 0 && (
-              <div className="mt-3 pt-3 border-t border-[#FF4D6D]/20 flex items-center gap-3">
-                <Crown className="w-4 h-4 text-amber-300 shrink-0" />
+            {profile?.user && profile.user.suddenDeathRuns > 0 && (
+              <div className="mt-3 pt-3 border-t border-amber-300/30 flex items-center gap-3">
+                <Crown className="w-4 h-4 text-amber-600 shrink-0" />
                 <div className="flex-1 text-xs">
-                  <div className="text-muted-foreground uppercase tracking-wider text-[10px]">Tu récord personal</div>
+                  <div className="text-amber-700/70 uppercase tracking-wider text-[10px]">Tu récord de Muerte Súbita</div>
                   <div className="flex items-center gap-3 mt-0.5">
-                    <span className="font-bold text-amber-300">{profile.user.survivalBestCorrect} aciertos</span>
-                    <span className="text-muted-foreground">·</span>
-                    <span className="font-bold text-cyan-300">+{profile.user.survivalBestXp} XP</span>
-                    <span className="text-muted-foreground">·</span>
-                    <span className="text-muted-foreground">{profile.user.survivalRuns} runs</span>
+                    <span className="font-bold text-amber-700">{profile.user.suddenDeathBestCorrect} aciertos</span>
+                    <span className="text-amber-700/60">·</span>
+                    <span className="font-bold text-amber-700">+{profile.user.suddenDeathBestXp} XP</span>
+                    <span className="text-amber-700/60">·</span>
+                    <span className="text-amber-700/70">{profile.user.suddenDeathRuns} runs</span>
                   </div>
                 </div>
               </div>
             )}
-          </section>
+          </motion.section>
         )}
 
-        {/* RESUMEN + CTA — Frutiger Aero Crystal Bubble */}
+        {isSurvival && (
+          <motion.section
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="rounded-2xl border border-rose-300/50 bg-rose-50/60 p-4 glass"
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <Heart className="w-4 h-4 text-rose-600 fill-rose-500" />
+              <span className="font-bold text-sm text-rose-800">Reglas de Supervivencia</span>
+            </div>
+            <ul className="text-xs text-rose-800/90 space-y-1.5 ml-6 list-disc">
+              <li>Comenzás con <span className="font-bold text-rose-700">3 corazones ❤️❤️❤️</span> — cada error resta 1 vida</li>
+              <li>Tiempo inicial: <span className="font-bold">15 segundos</span> por pregunta</li>
+              <li>Cada <span className="font-bold">5 aciertos</span> el tiempo baja 1s (mínimo 5s)</li>
+              <li>Combo: <span className="font-bold">3 seguidas ×2</span>, <span className="font-bold">5 seguidas ×3</span></li>
+            </ul>
+
+            {profile?.user && profile.user.survivalRuns > 0 && (
+              <div className="mt-3 pt-3 border-t border-rose-300/30 flex items-center gap-3">
+                <Crown className="w-4 h-4 text-amber-600 shrink-0" />
+                <div className="flex-1 text-xs">
+                  <div className="text-rose-700/70 uppercase tracking-wider text-[10px]">Tu récord de Supervivencia</div>
+                  <div className="flex items-center gap-3 mt-0.5">
+                    <span className="font-bold text-rose-700">{profile.user.survivalBestCorrect} aciertos</span>
+                    <span className="text-rose-700/60">·</span>
+                    <span className="font-bold text-rose-700">+{profile.user.survivalBestXp} XP</span>
+                    <span className="text-rose-700/60">·</span>
+                    <span className="text-rose-700/70">{profile.user.survivalRuns} runs</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </motion.section>
+        )}
+
+        {/* RESUMEN + CTA */}
         <section className="space-y-3 pb-4">
-          <SectionHeader
-            step={selectedMode === "classic" ? 5 : 3}
-            title="Resumen"
-            subtitle="Verifica tu configuración"
-          />
-          <div className={cn("grid gap-2.5", selectedMode === "classic" ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2")}>
+          <div className="flex items-center gap-2">
+            <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-amber-400 to-rose-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">★</span>
+            <h3 className="font-black text-sm sm:text-base text-sky-900">Resumen</h3>
+          </div>
+          <div className={cn("grid gap-2", isClassic ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2")}>
             <SummaryCard
               icon={<Sparkles className="w-4 h-4" />}
               label="Modo"
@@ -310,12 +396,12 @@ export function HomeScreen() {
               color={GAME_MODES.find((m) => m.id === selectedMode)?.color}
             />
             <SummaryCard
-              icon={<Target className="w-4 h-4" />}
+              icon={<Flame className="w-4 h-4" />}
               label={isMix ? "Categorías" : "Categoría"}
               value={selectedCount === 0 ? "—" : isMix ? `${selectedCount} mixtas` : (CATEGORIES.find((c) => c.id === selectedCategories[0])?.name ?? "—")}
-              color={selectedCount > 0 ? "#00F5D4" : undefined}
+              color={selectedCount > 0 ? "#4ADE80" : undefined}
             />
-            {selectedMode === "classic" && (
+            {isClassic && (
               <>
                 <SummaryCard
                   icon={<Zap className="w-4 h-4" />}
@@ -331,52 +417,42 @@ export function HomeScreen() {
                 />
               </>
             )}
+            {isEndless && (
+              <SummaryCard
+                icon={<Skull className="w-4 h-4" />}
+                label="Duración"
+                value="∞ hasta fallar"
+                color={isSuddenDeath ? "#fbbf24" : "#fb7185"}
+              />
+            )}
           </div>
 
-          {/* Crystal Bubble CTA — Frutiger Aero GDD V2 */}
+          {/* Crystal Bubble CTA */}
           <button
             onClick={handleStart}
-            disabled={!hasSelection || (selectedMode === "classic" && !selectedDifficulty) || startGameMut.isPending}
+            disabled={!hasSelection || (isClassic && !selectedDifficulty) || startGameMut.isPending}
             className={cn(
               "w-full py-4 rounded-3xl font-black text-base uppercase tracking-widest transition-all flex items-center justify-center gap-2 mt-3 relative overflow-hidden",
-              !hasSelection || (selectedMode === "classic" && !selectedDifficulty) || startGameMut.isPending
-                ? "bg-muted text-muted-foreground cursor-not-allowed"
-                : selectedMode === "survival"
-                  ? "crystal-bubble-coral text-white animate-cta-pulse"
-                  : "crystal-bubble text-[#070F1E] animate-cta-pulse"
+              !hasSelection || (isClassic && !selectedDifficulty) || startGameMut.isPending
+                ? "bg-slate-200 text-slate-400 cursor-not-allowed"
+                : cn(ctaConfig.class, "animate-cta-pulse")
             )}
           >
             {startGameMut.isPending ? (
               <>Iniciando…</>
             ) : !hasSelection ? (
               "Seleccioná al menos una categoría"
-            ) : (selectedMode === "classic" && !selectedDifficulty) ? (
+            ) : (isClassic && !selectedDifficulty) ? (
               "Seleccioná una dificultad"
             ) : (
               <>
                 <Swords className="w-5 h-5 relative z-10" />
-                <span className="relative z-10">
-                  {selectedMode === "survival" ? "¡COMENZAR ABISMO!" : "¡COMENZAR BATALLA!"}
-                </span>
+                <span className="relative z-10">{ctaConfig.label}</span>
               </>
             )}
           </button>
         </section>
       </main>
-    </div>
-  )
-}
-
-function SectionHeader({ step, title, subtitle }: { step: number; title: string; subtitle: string }) {
-  return (
-    <div className="flex items-center gap-3">
-      <div className="w-7 h-7 rounded-xl glass border border-primary/40 text-primary text-xs font-bold flex items-center justify-center shrink-0">
-        {step}
-      </div>
-      <div className="flex-1 min-w-0">
-        <h3 className="font-black text-base leading-tight">{title}</h3>
-        <p className="text-[11px] text-muted-foreground leading-tight">{subtitle}</p>
-      </div>
     </div>
   )
 }
@@ -395,16 +471,16 @@ function SummaryCard({
   return (
     <div
       className={cn(
-        "rounded-2xl border bg-card/50 p-3 transition glass",
-        color ? "border-border/60" : "border-dashed border-border/40"
+        "rounded-2xl border bg-white/70 p-3 transition glass",
+        color ? "border-cyan-200/60" : "border-dashed border-cyan-200/40"
       )}
       style={color ? { borderColor: `${color}50`, boxShadow: `0 0 12px ${color}15` } : undefined}
     >
-      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">
+      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-sky-700/70">
         <span style={color ? { color } : undefined}>{icon}</span>
         {label}
       </div>
-      <div className="text-sm font-bold mt-1 truncate" style={color ? { color } : undefined}>
+      <div className="text-sm font-bold mt-1 truncate text-sky-900" style={color ? { color } : undefined}>
         {value}
       </div>
     </div>

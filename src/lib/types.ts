@@ -17,7 +17,7 @@ export interface StartGameResponse {
   xpBase: number
   multiplier: number
   questions: ClientQuestion[]
-  mode?: "classic" | "survival"
+  mode?: "classic" | "survival" | "suddendeath"
   initialLives?: number
 }
 
@@ -109,6 +109,10 @@ export interface ProfileData {
     survivalBestCorrect: number
     survivalBestXp: number
     survivalRuns: number
+    // Stats específicas de Muerte Súbita (GDD V3.0)
+    suddenDeathBestCorrect: number
+    suddenDeathBestXp: number
+    suddenDeathRuns: number
   }
   progress: Array<{
     category: string

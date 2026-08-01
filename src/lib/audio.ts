@@ -27,6 +27,7 @@ type AudioState = {
   ambientPlaying: boolean
   enabled: boolean
   musicEnabled: boolean
+  masterVolume: number // GDD V3.0: volumen maestro (0..1)
 }
 
 const state: AudioState = {
@@ -38,6 +39,7 @@ const state: AudioState = {
   ambientPlaying: false,
   enabled: true,
   musicEnabled: true,
+  masterVolume: 1,
 }
 
 function getCtx(): AudioContext | null {
@@ -444,6 +446,19 @@ export function setMusicEnabled(enabled: boolean): void {
   } else {
     stopAmbientMusic()
   }
+}
+
+// GDD V3.0: control de volumen maestro (0..1)
+export function setMasterVolume(volume: number): void {
+  const v = Math.max(0, Math.min(1, volume))
+  state.masterVolume = v
+  if (state.masterGain && state.ctx) {
+    state.masterGain.gain.setValueAtTime(v * 0.6, state.ctx.currentTime)
+  }
+}
+
+export function getMasterVolume(): number {
+  return state.masterVolume ?? 1
 }
 
 export function isAudioEnabled(): boolean {

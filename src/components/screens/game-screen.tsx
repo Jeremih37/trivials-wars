@@ -2,11 +2,11 @@
 
 import { useEffect, useRef, useState, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { CATEGORIES, DIFFICULTIES, SURVIVAL_CONFIG } from "@/lib/game"
+import { CATEGORIES, DIFFICULTIES, SURVIVAL_CONFIG, SUDDEN_DEATH_CONFIG } from "@/lib/game"
 import { useGameStore } from "@/lib/store"
 import { useAnswerQuestion, useEndSession } from "@/hooks/use-game"
 import { useAudio } from "@/hooks/use-audio"
-import { Check, X, Zap, Flame, ChevronRight, ChevronLeft, Clock, Heart, Info } from "lucide-react"
+import { Check, X, Zap, Flame, ChevronRight, ChevronLeft, Clock, Heart, Info, Skull } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 type Phase = "question" | "feedback"
@@ -30,6 +30,8 @@ export function GameScreen() {
     setLastAnswer,
     survivalEnded,
     setSurvivalEnded,
+    suddenDeathEnded,
+    setSuddenDeathEnded,
     setLastSessionResult,
     endGame,
     setScreen,
@@ -51,15 +53,23 @@ export function GameScreen() {
   const diff = DIFFICULTIES.find((d) => d.id === activeGame?.difficulty)
   const cat = CATEGORIES.find((c) => c.id === activeGame?.category)
   const isSurvival = activeGame?.mode === "survival"
+  const isSuddenDeath = activeGame?.mode === "suddendeath"
+  const isEndless = isSurvival || isSuddenDeath
   const isMix = activeGame?.category === "mix"
 
   // Tiempo total de la pregunta actual:
   // - Classic: activeGame.timePerQuestion (puede ser 0 = sin tiempo)
-  // - Survival: tiempo decreciente según correctCount (GDD: cada 5 aciertos -1s, min 5s)
+  // - Survival: tiempo decreciente según correctCount
+  // - Sudden Death: tiempo fijo 15s
   const totalTime = isSurvival
     ? SURVIVAL_CONFIG.currentTime(correctCount)
-    : activeGame?.timePerQuestion ?? 30
+    : isSuddenDeath
+      ? SUDDEN_DEATH_CONFIG.timePerQuestion
+      : activeGame?.timePerQuestion ?? 30
   const hasTimer = totalTime > 0
+
+  // GDD V3.0: Alerta dorada tras 10 aciertos seguidos en Muerte Súbita
+  const isGoldenAlert = isSuddenDeath && correctCount >= SUDDEN_DEATH_CONFIG.alertStreakThreshold
 
   const handleAnswer = useCallback(
     (answer: string) => {
@@ -77,6 +87,7 @@ export function GameScreen() {
           totalTime,
           streak: currentStreak,
           lives,
+          mode: activeGame.mode,
         },
         {
           onSuccess: (resp) => {
@@ -86,28 +97,38 @@ export function GameScreen() {
               const newStreak = currentStreak + 1
               setStreak(newStreak)
               setBestStreak(newStreak)
-              // FX: chime de correcto
               sfx.correct()
-              // Combo animation + sound when reaching 3 or 5 streak (GDD triggers)
-              if (newStreak === 3 || newStreak === 5) {
-                setShowCombo(true)
-                sfx.combo()
-                setTimeout(() => setShowCombo(false), 1500)
+              // Combo animation + sound when reaching thresholds
+              if (isSuddenDeath) {
+                // GDD V3.0: combos sudden death en 5, 10, 15
+                if (newStreak === 5 || newStreak === 10 || newStreak === 15) {
+                  setShowCombo(true)
+                  sfx.combo()
+                  setTimeout(() => setShowCombo(false), 1500)
+                }
+              } else if (isSurvival) {
+                if (newStreak === 3 || newStreak === 5) {
+                  setShowCombo(true)
+                  sfx.combo()
+                  setTimeout(() => setShowCombo(false), 1500)
+                }
               }
             } else {
               setStreak(0)
-              // FX: buzz de incorrecto
               sfx.wrong()
-              // Survival: lose a life, only end when lives=0
-              if (activeGame.mode === "survival") {
+              // Survival: pierde 1 vida, sólo termina si lives=0
+              if (isSurvival) {
                 setHeartLostIndex(lives - 1)
                 sfx.heartBreak()
                 loseLife()
-                // Si era la última vida, marcar fin
                 if (lives - 1 <= 0) {
                   setSurvivalEnded(true)
                   sfx.gameOver()
                 }
+              } else if (isSuddenDeath) {
+                // GDD V3.0: 1 fallo = fin inmediato
+                setSuddenDeathEnded(true)
+                sfx.gameOver()
               }
             }
             addXp(resp.xpGained)
@@ -120,7 +141,7 @@ export function GameScreen() {
         }
       )
     },
-    [activeGame, currentQuestion, phase, timeLeft, totalTime, currentStreak, lives, answerMut, addCorrect, addXp, setBestStreak, setLastAnswer, setStreak, setSurvivalEnded, loseLife, sfx]
+    [activeGame, currentQuestion, phase, timeLeft, totalTime, currentStreak, lives, answerMut, addCorrect, addXp, setBestStreak, setLastAnswer, setStreak, setSurvivalEnded, setSuddenDeathEnded, loseLife, sfx, isSurvival, isSuddenDeath]
   )
 
   // Ref para que el timer siempre llame a la última versión de handleAnswer
@@ -131,7 +152,6 @@ export function GameScreen() {
 
   useEffect(() => {
     if (!currentQuestion || phase !== "question") return
-    // Reset del estado al cambiar de pregunta
     setTimeLeft(totalTime)
     setSelectedAnswer(null)
     setPhase("question")
@@ -157,23 +177,29 @@ export function GameScreen() {
 
   const handleNext = () => {
     if (!activeGame) return
-    // En supervivencia, si ya terminó por vidas=0, ir a resultados
-    if (activeGame.mode === "survival" && survivalEnded) {
-      endSessionMut.mutate(activeGame.sessionId, {
-        onSuccess: (data) => {
-          setLastSessionResult(data)
-        },
-      })
+    // En modos endless, si ya terminó, ir a resultados
+    if ((isSurvival && survivalEnded) || (isSuddenDeath && suddenDeathEnded)) {
+      endSessionMut.mutate(
+        { sessionId: activeGame.sessionId, mode: activeGame.mode },
+        {
+          onSuccess: (data) => {
+            setLastSessionResult(data)
+          },
+        }
+      )
       endGame()
       return
     }
     const nextIdx = currentQuestionIndex + 1
     if (nextIdx >= activeGame.questions.length) {
-      endSessionMut.mutate(activeGame.sessionId, {
-        onSuccess: (data) => {
-          setLastSessionResult(data)
-        },
-      })
+      endSessionMut.mutate(
+        { sessionId: activeGame.sessionId, mode: activeGame.mode },
+        {
+          onSuccess: (data) => {
+            setLastSessionResult(data)
+          },
+        }
+      )
       endGame()
     } else {
       setCurrentQuestionIndex(nextIdx)
@@ -183,48 +209,68 @@ export function GameScreen() {
 
   const handleAbort = () => {
     if (activeGame) {
-      endSessionMut.mutate(activeGame.sessionId, {
-        onSuccess: (data) => {
-          setLastSessionResult(data)
-        },
-      })
+      endSessionMut.mutate(
+        { sessionId: activeGame.sessionId, mode: activeGame.mode },
+        {
+          onSuccess: (data) => {
+            setLastSessionResult(data)
+          },
+        }
+      )
     }
     endGame()
   }
 
   if (!activeGame || !currentQuestion || !diff) {
-    return <div className="p-8 text-center text-muted-foreground">Cargando partida…</div>
+    return <div className="p-8 text-center text-sky-700">Cargando partida…</div>
   }
 
-  // Mix: usa un color cyan por defecto
-  const catColor = isMix ? "#00F5D4" : (cat?.color ?? "#00B4D8")
+  // Mix: usa un color cian por defecto
+  const catColor = isMix ? "#0ea5e9" : (cat?.color ?? "#38BDF8")
   const catIcon = isMix ? "🔀" : (cat?.icon ?? "🎯")
   const catName = isMix ? "Mix Aleatorio" : (cat?.name ?? "—")
 
   const ratio = hasTimer ? timeLeft / totalTime : 1
-  const timerColor = !hasTimer ? "#00F5D4" : ratio > 0.6 ? "#10b981" : ratio > 0.3 ? "#fbbf24" : "#FF4D6D"
+  const timerColor = !hasTimer
+    ? "#0ea5e9"
+    : isGoldenAlert
+      ? "#fbbf24"  // dorado en alerta
+      : ratio > 0.6
+        ? "#10b981"
+        : ratio > 0.3
+          ? "#fbbf24"
+          : "#fb7185"
   const isUrgent = hasTimer && ratio <= 0.3
 
   // Combo multiplier actual para display
-  const currentCombo = isSurvival ? SURVIVAL_CONFIG.comboMultiplier(currentStreak) : 1
+  const currentCombo = isSuddenDeath
+    ? SUDDEN_DEATH_CONFIG.comboMultiplier(currentStreak)
+    : isSurvival
+      ? SURVIVAL_CONFIG.comboMultiplier(currentStreak)
+      : 1
 
-  // En supervivencia, mostrar "pregunta N" en vez de progreso porcentual
-  const progressPct = isSurvival
+  // En modos endless, mostrar "pregunta N" sin progreso porcentual
+  const progressPct = isEndless
     ? Math.min(100, ((currentQuestionIndex + (phase === "feedback" ? 1 : 0)) / Math.max(activeGame.questions.length, 1)) * 100)
     : ((currentQuestionIndex + (phase === "feedback" ? 1 : 0)) / activeGame.questions.length) * 100
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div
+      className={cn(
+        "min-h-screen flex flex-col transition-colors duration-700",
+        isGoldenAlert && "sudden-death-alert-bg"
+      )}
+    >
       {/* Header compacto */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/40">
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/60 border-b border-cyan-200/50">
         <div className="max-w-2xl mx-auto px-4 py-2.5">
           <div className="flex items-center justify-between gap-2">
             <button
               onClick={handleAbort}
-              className="p-1.5 rounded-lg hover:bg-card/80 transition"
+              className="p-1.5 rounded-lg hover:bg-white/80 transition"
               title="Salir"
             >
-              <ChevronLeft className="w-4 h-4 text-muted-foreground" />
+              <ChevronLeft className="w-4 h-4 text-sky-700" />
             </button>
 
             {/* Center: category + progress */}
@@ -232,35 +278,54 @@ export function GameScreen() {
               <span className="text-xl">{catIcon}</span>
               <div className="leading-tight">
                 <div className="text-xs font-bold" style={{ color: catColor }}>{catName}</div>
-                <div className="text-[9px] text-muted-foreground">
+                <div className="text-[9px] text-sky-700/70">
                   {isSurvival
                     ? `Sobreviviendo: ${currentQuestionIndex + 1}`
-                    : `${currentQuestionIndex + 1} / ${activeGame.questions.length}`}
+                    : isSuddenDeath
+                      ? `Racha: ${correctCount} · ${currentQuestionIndex + 1}`
+                      : `${currentQuestionIndex + 1} / ${activeGame.questions.length}`}
                 </div>
               </div>
             </div>
 
             {/* Right: XP + streak */}
             <div className="flex items-center gap-1.5">
-              <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/30">
-                <Zap className="w-3 h-3 text-cyan-300" />
-                <span className="text-xs font-bold text-cyan-300 tabular-nums">{totalXpEarned}</span>
+              <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-sky-500/10 border border-sky-400/40">
+                <Zap className="w-3 h-3 text-sky-600" />
+                <span className="text-xs font-bold text-sky-700 tabular-nums">{totalXpEarned}</span>
               </div>
               {currentStreak >= 2 && (
                 <div
                   className={cn(
                     "flex items-center gap-1 px-2 py-1 rounded-lg border",
-                    currentCombo >= 3
-                      ? "bg-[#00F5D4]/15 border-[#00F5D4]/50 animate-bioluminescent"
-                      : currentCombo === 2
-                        ? "bg-[#00B4D8]/15 border-[#00B4D8]/50"
-                        : "bg-orange-500/10 border-orange-500/30"
+                    isGoldenAlert
+                      ? "bg-amber-400/20 border-amber-400/60 animate-gold-pulse"
+                      : currentCombo >= 3
+                        ? "bg-emerald-400/20 border-emerald-400/60"
+                        : currentCombo === 2
+                          ? "bg-sky-400/20 border-sky-400/60"
+                          : "bg-orange-400/15 border-orange-400/40"
                   )}
                 >
-                  <Flame className="w-3 h-3" style={{ color: currentCombo >= 2 ? "#00F5D4" : "#fb923c" }} />
+                  <Flame
+                    className="w-3 h-3"
+                    style={{
+                      color: isGoldenAlert
+                        ? "#f59e0b"
+                        : currentCombo >= 2
+                          ? "#10b981"
+                          : "#fb923c",
+                    }}
+                  />
                   <span
                     className="text-xs font-bold tabular-nums"
-                    style={{ color: currentCombo >= 2 ? "#00F5D4" : "#fb923c" }}
+                    style={{
+                      color: isGoldenAlert
+                        ? "#b45309"
+                        : currentCombo >= 2
+                          ? "#059669"
+                          : "#c2410c",
+                    }}
                   >
                     {currentStreak}{currentCombo > 1 ? ` ×${currentCombo}` : ""}
                   </span>
@@ -286,26 +351,55 @@ export function GameScreen() {
                     <Heart
                       className="w-5 h-5"
                       style={{
-                        color: isAlive ? "#FF4D6D" : "#3a2030",
-                        fill: isAlive ? "#FF4D6D" : "transparent",
-                        filter: isAlive ? "drop-shadow(0 0 6px rgba(255,77,109,0.65))" : "none",
+                        color: isAlive ? "#fb7185" : "#9f1239",
+                        fill: isAlive ? "#fb7185" : "transparent",
+                        filter: isAlive ? "drop-shadow(0 0 6px rgba(251,113,133,0.65))" : "none",
                       }}
                     />
                   </motion.div>
                 )
               })}
-              <span className="ml-2 text-[10px] uppercase tracking-wider text-muted-foreground">Vidas</span>
+              <span className="ml-2 text-[10px] uppercase tracking-wider text-sky-700/70">Vidas</span>
+            </div>
+          )}
+
+          {/* Vida en Muerte Súbita — 1 solo cráneo dorado */}
+          {isSuddenDeath && (
+            <div className="mt-2 flex items-center justify-center gap-1.5">
+              <motion.div
+                initial={false}
+                animate={suddenDeathEnded
+                  ? { scale: [1, 1.4, 0.6], opacity: [1, 0.7, 0.25] }
+                  : { scale: 1, opacity: 1 }
+                }
+                transition={{ duration: 0.5 }}
+                className={cn(!suddenDeathEnded && "animate-gold-pulse")}
+              >
+                <Skull
+                  className="w-5 h-5"
+                  style={{
+                    color: suddenDeathEnded ? "#92400e" : "#f59e0b",
+                    fill: suddenDeathEnded ? "transparent" : "#fbbf24",
+                    filter: suddenDeathEnded ? "none" : "drop-shadow(0 0 6px rgba(251,191,36,0.65))",
+                  }}
+                />
+              </motion.div>
+              <span className="ml-2 text-[10px] uppercase tracking-wider text-amber-700/80">
+                {suddenDeathEnded ? "Sin vidas" : "1 vida · 1 fallo = fin"}
+              </span>
             </div>
           )}
 
           {/* Progress bar */}
-          <div className="mt-2 h-1 rounded-full bg-muted/50 overflow-hidden">
+          <div className="mt-2 h-1 rounded-full bg-sky-100/60 overflow-hidden">
             <motion.div
               className="h-full rounded-full"
               style={{
-                background: isSurvival
-                  ? "linear-gradient(90deg, #FF4D6D, #00F5D4)"
-                  : "linear-gradient(90deg, #00F5D4, #00B4D8, #2dd4bf)",
+                background: isSuddenDeath
+                  ? "linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24)"
+                  : isSurvival
+                    ? "linear-gradient(90deg, #fb7185, #38BDF8)"
+                    : "linear-gradient(90deg, #4ADE80, #38BDF8, #2dd4bf)",
               }}
               animate={{ width: `${progressPct}%` }}
               transition={{ duration: 0.3 }}
@@ -315,13 +409,34 @@ export function GameScreen() {
       </header>
 
       <main className="flex-1 max-w-2xl w-full mx-auto px-4 py-5 flex flex-col">
+        {/* Banner dorado de alerta (Sudden Death tras 10 aciertos) */}
+        <AnimatePresence>
+          {isGoldenAlert && !suddenDeathEnded && (
+            <motion.div
+              initial={{ opacity: 0, y: -10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="mb-4 rounded-2xl border-2 border-amber-400/70 bg-amber-100/80 p-3 text-center"
+            >
+              <div className="flex items-center justify-center gap-2 text-amber-800">
+                <Skull className="w-5 h-5" />
+                <span className="font-black text-sm uppercase tracking-widest">¡Zona de Alerta Dorada!</span>
+                <Skull className="w-5 h-5" />
+              </div>
+              <div className="text-[10px] text-amber-700 mt-0.5">
+                Llevás {correctCount} aciertos seguidos — un fallo y se acaba la racha
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         {/* Timer compacto */}
         <div className="flex items-center gap-3 mb-5">
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1.5 text-xs text-sky-700/80">
             <Clock className="w-3.5 h-3.5" />
             <span className="uppercase tracking-wider">Tiempo</span>
           </div>
-          <div className="flex-1 h-2.5 rounded-full bg-muted/40 overflow-hidden border border-border/60">
+          <div className="flex-1 h-2.5 rounded-full bg-sky-100/60 overflow-hidden border border-cyan-200/50">
             {hasTimer && (
               <motion.div
                 className="h-full rounded-full"
@@ -331,7 +446,7 @@ export function GameScreen() {
               />
             )}
             {!hasTimer && (
-              <div className="h-full w-full rounded-full bg-gradient-to-r from-[#00F5D4]/40 to-[#00B4D8]/40" />
+              <div className="h-full w-full rounded-full bg-gradient-to-r from-emerald-400/40 to-sky-400/40" />
             )}
           </div>
           <div
@@ -350,18 +465,22 @@ export function GameScreen() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.3 }}
-            className="rounded-2xl border bg-card/60 backdrop-blur-sm p-5 sm:p-7 mb-5 glass"
+            className="rounded-2xl border bg-white/80 backdrop-blur-sm p-5 sm:p-7 mb-5 glass"
             style={{ borderColor: `${catColor}40`, boxShadow: `0 0 25px ${catColor}15` }}
           >
-            <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-muted-foreground mb-3 justify-center">
+            <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-sky-700/80 mb-3 justify-center">
               <span
                 className="px-2 py-0.5 rounded-full font-bold"
                 style={{ background: `${catColor}20`, color: catColor, border: `1px solid ${catColor}40` }}
               >
-                {isSurvival ? `Abismo · ${totalTime}s` : `${diff.name} · ${hasTimer ? `${totalTime}s` : "sin tiempo"}`}
+                {isSurvival
+                  ? `Supervivencia · ${totalTime}s`
+                  : isSuddenDeath
+                    ? `☠ Muerte Súbita · ${totalTime}s`
+                    : `${diff.name} · ${hasTimer ? `${totalTime}s` : "sin tiempo"}`}
               </span>
             </div>
-            <h2 className="text-lg sm:text-2xl font-bold text-center leading-snug">
+            <h2 className="text-lg sm:text-2xl font-bold text-center leading-snug text-sky-900">
               {currentQuestion.question}
             </h2>
           </motion.div>
@@ -389,24 +508,24 @@ export function GameScreen() {
                 }}
                 className={cn(
                   "relative text-left rounded-2xl border p-3.5 transition-all overflow-hidden flex items-center gap-3",
-                  phase === "question" && "border-border/60 bg-card/40 hover:bg-card/70 hover:border-primary/50 cursor-pointer",
-                  showCorrect && "border-[#00F5D4] bg-[#00F5D4]/15 glow-bioluminescent",
-                  showWrong && "border-[#FF4D6D] bg-[#FF4D6D]/15",
-                  phase === "feedback" && !showCorrect && !showWrong && "border-border/40 bg-card/30 opacity-50"
+                  phase === "question" && "border-cyan-200/60 bg-white/70 hover:bg-white/95 hover:border-sky-400/60 cursor-pointer",
+                  showCorrect && "border-emerald-400 bg-emerald-50 glow-emerald",
+                  showWrong && "border-rose-400 bg-rose-50",
+                  phase === "feedback" && !showCorrect && !showWrong && "border-cyan-200/40 bg-white/40 opacity-50"
                 )}
               >
                 <span
                   className={cn(
                     "flex items-center justify-center w-8 h-8 rounded-lg shrink-0 font-black text-sm border",
-                    phase === "question" && "border-border/60 bg-muted/40 text-muted-foreground",
-                    showCorrect && "border-[#00F5D4] bg-[#00F5D4]/30 text-[#070F1E]",
-                    showWrong && "border-[#FF4D6D] bg-[#FF4D6D]/30 text-white",
-                    phase === "feedback" && !showCorrect && !showWrong && "border-border/40 bg-muted/20 text-muted-foreground/60"
+                    phase === "question" && "border-cyan-200/60 bg-sky-100/60 text-sky-700",
+                    showCorrect && "border-emerald-400 bg-emerald-400/30 text-emerald-900",
+                    showWrong && "border-rose-400 bg-rose-400/30 text-rose-900",
+                    phase === "feedback" && !showCorrect && !showWrong && "border-cyan-200/40 bg-sky-100/30 text-sky-700/60"
                   )}
                 >
                   {showCorrect ? <Check className="w-4 h-4" /> : showWrong ? <X className="w-4 h-4" /> : letter}
                 </span>
-                <span className="font-medium text-sm sm:text-base break-words flex-1">{option}</span>
+                <span className="font-medium text-sm sm:text-base break-words flex-1 text-sky-900">{option}</span>
               </motion.button>
             )
           })}
@@ -424,37 +543,37 @@ export function GameScreen() {
               <div className={cn(
                 "rounded-2xl border p-3.5 mb-3 glass",
                 lastAnswer.isCorrect
-                  ? "border-[#00F5D4]/50 bg-[#00F5D4]/8"
-                  : "border-[#FF4D6D]/50 bg-[#FF4D6D]/8"
+                  ? "border-emerald-300/60 bg-emerald-50/70"
+                  : "border-rose-300/60 bg-rose-50/70"
               )}>
                 <div className="flex items-center gap-2">
                   {lastAnswer.isCorrect ? (
-                    <><Check className="w-4 h-4" style={{ color: "#00F5D4" }} /><span className="font-bold text-sm" style={{ color: "#00F5D4" }}>¡Correcto!</span></>
+                    <><Check className="w-4 h-4 text-emerald-600" /><span className="font-bold text-sm text-emerald-700">¡Correcto!</span></>
                   ) : (
-                    <><X className="w-4 h-4" style={{ color: "#FF4D6D" }} /><span className="font-bold text-sm" style={{ color: "#FF4D6D" }}>Incorrecto</span></>
+                    <><X className="w-4 h-4 text-rose-600" /><span className="font-bold text-sm text-rose-700">Incorrecto</span></>
                   )}
                   {lastAnswer.xpGained > 0 && (
-                    <span className="ml-auto text-sm font-mono font-bold text-amber-300">+{lastAnswer.xpGained} XP{lastAnswer.xpBreakdown.combo && lastAnswer.xpBreakdown.combo > 1 ? ` ×${lastAnswer.xpBreakdown.combo}` : ""}</span>
+                    <span className="ml-auto text-sm font-mono font-bold text-amber-700">+{lastAnswer.xpGained} XP{lastAnswer.xpBreakdown.combo && lastAnswer.xpBreakdown.combo > 1 ? ` ×${lastAnswer.xpBreakdown.combo}` : ""}</span>
                   )}
                 </div>
                 {!lastAnswer.isCorrect && (
-                  <div className="text-xs text-muted-foreground mt-1.5">
-                    Respuesta: <span className="font-bold text-foreground">{lastAnswer.correctAnswer}</span>
+                  <div className="text-xs text-sky-700 mt-1.5">
+                    Respuesta: <span className="font-bold text-sky-900">{lastAnswer.correctAnswer}</span>
                   </div>
                 )}
-                {/* Explicación del dato (GDD: pregunta con explicación) */}
+                {/* Explicación del dato */}
                 {lastAnswer.explanation && (
-                  <div className="mt-2 flex items-start gap-1.5 text-xs text-muted-foreground bg-card/40 border border-border/40 rounded-lg p-2">
-                    <Info className="w-3.5 h-3.5 mt-0.5 shrink-0 text-cyan-400" />
+                  <div className="mt-2 flex items-start gap-1.5 text-xs text-sky-700 bg-sky-50/70 border border-cyan-200/50 rounded-lg p-2">
+                    <Info className="w-3.5 h-3.5 mt-0.5 shrink-0 text-sky-500" />
                     <span className="leading-snug">{lastAnswer.explanation}</span>
                   </div>
                 )}
                 {lastAnswer.xpBreakdown && lastAnswer.isCorrect && (lastAnswer.xpBreakdown.timeBonus > 0 || lastAnswer.xpBreakdown.streakBonus > 0 || lastAnswer.xpBreakdown.difficultyBonus > 0) && (
-                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px] text-muted-foreground mt-2 font-mono">
+                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px] text-sky-700 mt-2 font-mono">
                     <span>Base: +{lastAnswer.xpBreakdown.base}</span>
-                    {lastAnswer.xpBreakdown.timeBonus > 0 && <span className="text-cyan-300">+{lastAnswer.xpBreakdown.timeBonus} tiempo</span>}
-                    {lastAnswer.xpBreakdown.streakBonus > 0 && <span style={{ color: "#00F5D4" }}>+{lastAnswer.xpBreakdown.streakBonus} combo</span>}
-                    {lastAnswer.xpBreakdown.difficultyBonus > 0 && <span className="text-purple-300">+{lastAnswer.xpBreakdown.difficultyBonus} dificultad</span>}
+                    {lastAnswer.xpBreakdown.timeBonus > 0 && <span className="text-sky-600">+{lastAnswer.xpBreakdown.timeBonus} tiempo</span>}
+                    {lastAnswer.xpBreakdown.streakBonus > 0 && <span className="text-emerald-600">+{lastAnswer.xpBreakdown.streakBonus} combo</span>}
+                    {lastAnswer.xpBreakdown.difficultyBonus > 0 && <span className="text-purple-600">+{lastAnswer.xpBreakdown.difficultyBonus} dificultad</span>}
                   </div>
                 )}
               </div>
@@ -464,9 +583,9 @@ export function GameScreen() {
                   sfx.waterDrop()
                   handleNext()
                 }}
-                className="w-full py-3.5 rounded-2xl font-bold uppercase tracking-widest text-sm bg-gradient-to-r from-[#00F5D4] via-[#00B4D8] to-[#2dd4bf] text-[#070F1E] hover:scale-[1.01] active:scale-[0.99] transition flex items-center justify-center gap-2 glow-bioluminescent"
+                className="w-full py-3.5 rounded-2xl font-bold uppercase tracking-widest text-sm crystal-bubble text-white hover:scale-[1.01] active:scale-[0.99] transition flex items-center justify-center gap-2"
               >
-                {(isSurvival && survivalEnded) || currentQuestionIndex + 1 >= activeGame.questions.length
+                {((isSurvival && survivalEnded) || (isSuddenDeath && suddenDeathEnded)) || currentQuestionIndex + 1 >= activeGame.questions.length
                   ? "Ver resultados"
                   : "Siguiente"}
                 <ChevronRight className="w-4 h-4" />
@@ -476,7 +595,7 @@ export function GameScreen() {
         </AnimatePresence>
       </main>
 
-      {/* Combo bioluminiscent toast (3 streak → x2, 5 streak → x3) */}
+      {/* Combo toast */}
       <AnimatePresence>
         {showCombo && (
           <motion.div
@@ -486,17 +605,27 @@ export function GameScreen() {
             className="fixed top-24 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
           >
             <div
-              className="px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-lg animate-bioluminescent"
+              className="px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-lg"
               style={{
-                background: "linear-gradient(135deg, #00F5D4, #00B4D8)",
-                color: "#070F1E",
-                border: "2px solid rgba(0,245,212,0.8)",
+                background: isSuddenDeath
+                  ? "linear-gradient(135deg, #fbbf24, #f59e0b)"
+                  : "linear-gradient(135deg, #4ADE80, #38BDF8)",
+                color: isSuddenDeath ? "#7c2d12" : "#ffffff",
+                border: isSuddenDeath
+                  ? "2px solid rgba(251,191,36,0.8)"
+                  : "2px solid rgba(74,222,128,0.8)",
+                boxShadow: isSuddenDeath
+                  ? "0 0 30px rgba(251,191,36,0.7)"
+                  : "0 0 30px rgba(56,189,248,0.5)",
               }}
             >
-              ⚡ COMBO ×{SURVIVAL_CONFIG.comboMultiplier(currentStreak)}! ⚡
+              {isSuddenDeath ? "⚡" : "🔥"} COMBO ×{currentCombo}! {isSuddenDeath ? "⚡" : "🔥"}
             </div>
-            <div className="text-center mt-1 text-xs" style={{ color: "#00F5D4" }}>
-              ¡Bioluminiscencia activada!
+            <div
+              className="text-center mt-1 text-xs font-bold"
+              style={{ color: isSuddenDeath ? "#b45309" : "#0ea5e9" }}
+            >
+              {isSuddenDeath ? "¡Tensión dorada!" : "¡Combo activado!"}
             </div>
           </motion.div>
         )}
@@ -511,10 +640,10 @@ export function GameScreen() {
             exit={{ opacity: 0, scale: 0.7 }}
             className="fixed top-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
           >
-            <div className="bg-gradient-to-r from-amber-500 via-yellow-400 to-amber-500 text-black px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-lg glow-gold">
+            <div className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-amber-900 px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-lg glow-gold">
               ⬆ ¡NIVEL {lastAnswer?.newLevel}!
             </div>
-            <div className="text-center mt-1 text-xs text-amber-200/80">+1 Loot Box disponible</div>
+            <div className="text-center mt-1 text-xs text-amber-700">+1 Loot Box disponible</div>
           </motion.div>
         )}
       </AnimatePresence>
