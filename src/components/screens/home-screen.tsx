@@ -34,12 +34,11 @@ import {
 import { cn } from "@/lib/utils"
 
 /**
- * HomeScreen V3.0 — Panel de Configuración Compacto (UI Acoplable)
- * GDD V3.0: matriz de selector en una sola vista compacta
- *   - Fila 1: Categorías en pastillas "Pills"
- *   - Fila 2: Segmented Control (Fácil | Normal | Difícil | Experto)
- *   - Fila 3: Botones circulares compactos (5, 10, 20, 50)
- *             En Muerte Súbita: bloqueado en "Infinitas / Hasta fallar"
+ * HomeScreen V4.0 — Panel espacioso + tipografía fancy
+ * - Más aire entre secciones (padding y gaps generosos)
+ * - Tipografía italic serif (font-fancy) para titulares
+ * - Paleta neutra (slate / sage / sand)
+ * - Una sola vista compacta pero cómoda
  */
 export function HomeScreen() {
   const {
@@ -58,24 +57,16 @@ export function HomeScreen() {
   const { sfx } = useAudio()
   const { data: profile } = useProfile()
 
-  // Estado multi-select de categorías
   const selectedCount = selectedCategories.length
   const hasSelection = selectedCount > 0
   const isMix = selectedCount > 1
 
-  // ¿Está en modo Muerte Súbita? Bloquea el selector de cantidad
   const isSuddenDeath = selectedMode === "suddendeath"
   const isSurvival = selectedMode === "survival"
   const isClassic = selectedMode === "classic"
   const isEndless = isSurvival || isSuddenDeath
 
-  // ===== FIX BUG "MUERTE ABISAL NO FUNCIONA" =====
-  // Dos problemas resueltos:
-  // 1) La API /api/game/start requiere `difficulty` incluso en modos endless.
-  //    Auto-asignamos "Medio" en survival/suddendeath (el backend la ignora).
-  // 2) Si el usuario entra directamente a un modo endless sin elegir categoría,
-  //    el botón CTA queda deshabilitado y parece "no funcionar".
-  //    Auto-seleccionamos Mix Total (todas las categorías) si no hay selección.
+  // FIX: auto-selecciona Mix Total + dificultad Medio en modos endless
   useEffect(() => {
     if ((isSurvival || isSuddenDeath) && !selectedDifficulty) {
       setDifficulty("Medio" as DifficultyId)
@@ -110,28 +101,27 @@ export function HomeScreen() {
     })
   }
 
-  // Configuración del CTA según modo
   const ctaConfig = isSuddenDeath
-    ? { label: "¡COMENZAR MUERTE SÚBITA!", class: "crystal-bubble-gold text-white" }
+    ? { label: "Comenzar Muerte Súbita", class: "crystal-bubble-gold text-white" }
     : isSurvival
-      ? { label: "¡COMENZAR ABISMO!", class: "crystal-bubble-coral text-white" }
-      : { label: "¡COMENZAR BATALLA!", class: "crystal-bubble text-white" }
+      ? { label: "Comenzar Abismo", class: "crystal-bubble-coral text-white" }
+      : { label: "Comenzar Batalla", class: "crystal-bubble text-white" }
 
   return (
     <div className="relative min-h-screen flex flex-col">
-      <BubblesBackground count={22} />
+      <BubblesBackground count={16} />
 
       {/* Header */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/60 border-b border-blue-300/50">
-        <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/50 border-b border-slate-300/40">
+        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
           <button
             onClick={() => { sfx.waterDrop(); setScreen("welcome") }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass border border-blue-300/60 hover:border-blue-500/70 transition text-sm font-bold text-blue-900"
+            className="flex items-center gap-2 px-4 py-2 rounded-2xl glass border border-slate-300/50 hover:border-slate-500/40 transition text-sm font-bold text-slate-700"
           >
             <ChevronLeft className="w-4 h-4" /> Volver
           </button>
-          <h1 className="text-base font-black tracking-tight text-gradient-neon">
-            PREPARADO PARA JUGAR
+          <h1 className="font-fancy text-2xl sm:text-3xl font-medium text-gradient-neon">
+            Preparado para jugar
           </h1>
           <div className="flex items-center gap-2">
             <AudioToggle compact />
@@ -140,22 +130,22 @@ export function HomeScreen() {
         </div>
       </header>
 
-      <main className="relative z-10 flex-1 max-w-3xl w-full mx-auto px-4 py-5 space-y-5">
+      <main className="relative z-10 flex-1 max-w-4xl w-full mx-auto px-6 py-8 space-y-7">
         {/* ============================================================
-            PANEL COMPACTO — Una sola vista (GDD V3.0)
+            PANEL PRINCIPAL — Una sola vista, espaciosa
             ============================================================ */}
         <motion.section
-          initial={{ opacity: 0, y: 10 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-3xl glass-strong p-5 sm:p-6 space-y-5"
+          className="rounded-[2rem] glass-strong p-7 sm:p-9 space-y-8"
         >
-          {/* Fila 0: Modo (selector de modo de juego) */}
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#1046AA] to-[#4E9215] text-white text-[10px] font-black flex items-center justify-center shrink-0">1</span>
-              <h3 className="font-black text-sm sm:text-base text-blue-900">Modo de Juego</h3>
+          {/* Fila 1: Modo de Juego */}
+          <div className="space-y-4">
+            <div className="flex items-baseline gap-3">
+              <span className="font-fancy text-3xl italic text-slate-400 leading-none">01</span>
+              <h3 className="font-fancy text-xl sm:text-2xl text-slate-700 italic">Modo de juego</h3>
             </div>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-3">
               {GAME_MODES.map((m) => {
                 const isSelected = selectedMode === m.id
                 return (
@@ -164,33 +154,33 @@ export function HomeScreen() {
                     onClick={() => { sfx.waterDrop(); setMode(m.id as GameModeId) }}
                     data-selected={isSelected}
                     className={cn(
-                      "relative overflow-hidden rounded-2xl border p-3 text-left transition-all",
+                      "relative overflow-hidden rounded-3xl border p-4 text-left transition-all",
                       isSelected
                         ? "scale-[1.02] border-transparent"
-                        : "border-blue-200/60 bg-white/60 hover:bg-white/90 hover:border-blue-400/50"
+                        : "border-slate-300/40 bg-white/60 hover:bg-white/95 hover:border-slate-500/40"
                     )}
                     style={
                       isSelected
                         ? {
                             background: `linear-gradient(135deg, ${m.color}22, ${m.color}08)`,
                             borderColor: m.color,
-                            boxShadow: `0 0 18px ${m.color}40, inset 0 1px 0 rgba(255,255,255,0.6)`,
+                            boxShadow: `0 4px 18px ${m.color}25, inset 0 1px 0 rgba(255,255,255,0.55)`,
                           }
                         : undefined
                     }
                   >
-                    <div className="flex items-center gap-1.5 mb-0.5">
-                      <span className="text-xl">{m.icon}</span>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-2xl">{m.icon}</span>
                       {isSelected && (
-                        <span className="ml-auto w-4 h-4 rounded-full flex items-center justify-center" style={{ background: m.color }}>
-                          <Check className="w-2.5 h-2.5 text-white" />
+                        <span className="ml-auto w-5 h-5 rounded-full flex items-center justify-center" style={{ background: m.color }}>
+                          <Check className="w-3 h-3 text-white" />
                         </span>
                       )}
                     </div>
-                    <div className="text-[11px] font-black uppercase tracking-wide" style={{ color: isSelected ? m.color : "#0A2E78" }}>
+                    <div className="font-fancy italic text-base font-semibold" style={{ color: isSelected ? m.color : "#4C5C75" }}>
                       {m.name}
                     </div>
-                    <div className="text-[9px] text-blue-700/70 mt-0.5 leading-tight">
+                    <div className="text-[11px] text-slate-500 mt-1 leading-snug">
                       {m.id === "classic" ? "Personalizable" : m.id === "survival" ? "3 vidas" : "1 fallo = fin"}
                     </div>
                   </button>
@@ -199,19 +189,23 @@ export function HomeScreen() {
             </div>
           </div>
 
-          {/* Fila 1: Categorías — Pastillas "Pills" (multi-select) */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between gap-2">
-              <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#1046AA] to-[#4E9215] text-white text-[10px] font-black flex items-center justify-center shrink-0">2</span>
-                <h3 className="font-black text-sm sm:text-base text-blue-900">Categorías</h3>
+          {/* Separador sutil */}
+          <div className="h-px bg-gradient-to-r from-transparent via-slate-300/40 to-transparent" />
+
+          {/* Fila 2: Categorías — Pastillas (multi-select) */}
+          <div className="space-y-4">
+            <div className="flex items-baseline justify-between gap-3 flex-wrap">
+              <div className="flex items-baseline gap-3">
+                <span className="font-fancy text-3xl italic text-slate-400 leading-none">02</span>
+                <h3 className="font-fancy text-xl sm:text-2xl text-slate-700 italic">Categorías</h3>
               </div>
-              <span className="text-[10px] text-blue-700/70">
-                {selectedCount === 0 ? "Tocá para elegir" : `${selectedCount} ${selectedCount === 1 ? "seleccionada" : "seleccionadas"}${isMix ? " · mix" : ""}`}
+              <span className="text-xs text-slate-500 italic font-script">
+                {selectedCount === 0
+                  ? "Tocá para elegir"
+                  : `${selectedCount} ${selectedCount === 1 ? "seleccionada" : "seleccionadas"}${isMix ? " · mix" : ""}`}
               </span>
             </div>
-            <div className="flex flex-wrap gap-1.5">
-              {/* Mix Total */}
+            <div className="flex flex-wrap gap-2">
               <button
                 onClick={() => {
                   sfx.waterDrop()
@@ -222,9 +216,9 @@ export function HomeScreen() {
                   }
                 }}
                 data-selected={selectedCount === CATEGORIES.length}
-                className="pill-selector rounded-full px-3 py-1.5 text-xs font-bold flex items-center gap-1.5"
+                className="pill-selector rounded-full px-4 py-2 text-sm font-bold flex items-center gap-2"
               >
-                <Shuffle className="w-3 h-3" /> Mix Total
+                <Shuffle className="w-3.5 h-3.5" /> Mix Total
               </button>
               {CATEGORIES.map((cat) => {
                 const isSelected = selectedCategories.includes(cat.id as CategoryId)
@@ -233,27 +227,30 @@ export function HomeScreen() {
                     key={cat.id}
                     onClick={() => { sfx.waterDrop(); toggleCategory(cat.id as CategoryId) }}
                     data-selected={isSelected}
-                    className="pill-selector rounded-full px-3 py-1.5 text-xs font-bold flex items-center gap-1.5"
+                    className="pill-selector rounded-full px-4 py-2 text-sm font-bold flex items-center gap-2"
                   >
                     <span>{cat.icon}</span>
-                    <span className="truncate max-w-[110px]">{cat.name}</span>
-                    {isSelected && <Check className="w-3 h-3" />}
+                    <span className="truncate max-w-[130px]">{cat.name}</span>
+                    {isSelected && <Check className="w-3.5 h-3.5" />}
                   </button>
                 )
               })}
             </div>
           </div>
 
-          {/* Fila 2: Dificultad — Cards grandes con icono + descripción
-              En modos endless (survival / sudden death) la dificultad es fija
-              y se oculta el selector para simplificar la interfaz. */}
+          {/* Separador sutil */}
           {isClassic && (
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#1046AA] to-[#4E9215] text-white text-[10px] font-black flex items-center justify-center shrink-0">3</span>
-                <h3 className="font-black text-sm sm:text-base text-blue-900">Dificultad</h3>
+            <div className="h-px bg-gradient-to-r from-transparent via-slate-300/40 to-transparent" />
+          )}
+
+          {/* Fila 3: Dificultad (sólo classic) */}
+          {isClassic && (
+            <div className="space-y-4">
+              <div className="flex items-baseline gap-3">
+                <span className="font-fancy text-3xl italic text-slate-400 leading-none">03</span>
+                <h3 className="font-fancy text-xl sm:text-2xl text-slate-700 italic">Dificultad</h3>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 {DIFFICULTIES.map((d) => {
                   const isSelected = selectedDifficulty === d.id
                   return (
@@ -262,24 +259,24 @@ export function HomeScreen() {
                       onClick={() => { sfx.waterDrop(); setDifficulty(d.id as DifficultyId) }}
                       data-selected={isSelected}
                       className={cn(
-                        "relative overflow-hidden rounded-2xl border p-3 text-left transition-all flex flex-col gap-1.5",
+                        "relative overflow-hidden rounded-3xl border p-4 text-left transition-all flex flex-col gap-2",
                         isSelected
                           ? "scale-[1.03] border-transparent"
-                          : "border-blue-200/60 bg-white/60 hover:bg-white/95 hover:border-blue-400/60"
+                          : "border-slate-300/40 bg-white/60 hover:bg-white/95 hover:border-slate-500/40"
                       )}
                       style={
                         isSelected
                           ? {
-                              background: `linear-gradient(135deg, ${d.color}26, ${d.color}08)`,
+                              background: `linear-gradient(135deg, ${d.color}22, ${d.color}08)`,
                               borderColor: d.color,
-                              boxShadow: `0 4px 16px ${d.color}45, inset 0 1px 0 rgba(255,255,255,0.7)`,
+                              boxShadow: `0 4px 18px ${d.color}30, inset 0 1px 0 rgba(255,255,255,0.65)`,
                             }
                           : undefined
                       }
                     >
                       <div className="flex items-center justify-between">
                         <div
-                          className="w-8 h-8 rounded-xl flex items-center justify-center"
+                          className="w-9 h-9 rounded-2xl flex items-center justify-center"
                           style={{
                             background: `${d.color}22`,
                             border: `1.5px solid ${d.color}`,
@@ -293,10 +290,10 @@ export function HomeScreen() {
                           </span>
                         )}
                       </div>
-                      <div className="text-sm font-black" style={{ color: isSelected ? d.color : "#0A2E78" }}>
+                      <div className="font-fancy italic text-base font-semibold" style={{ color: isSelected ? d.color : "#4C5C75" }}>
                         {d.name}
                       </div>
-                      <div className="flex items-center gap-1 text-[10px] text-blue-700/80">
+                      <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
                         <Clock className="w-3 h-3" />
                         <span>{d.time}s</span>
                         <span className="opacity-50">·</span>
@@ -309,43 +306,42 @@ export function HomeScreen() {
             </div>
           )}
 
-          {/* Fila 3: Cantidad de preguntas — Botones circulares compactos (5, 10, 20, 50)
-              Si es Muerte Súbita: bloqueado en "Infinitas / Hasta fallar" */}
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#1046AA] to-[#4E9215] text-white text-[10px] font-black flex items-center justify-center shrink-0">
-                {isClassic ? "4" : "3"}
+          {/* Separador sutil */}
+          <div className="h-px bg-gradient-to-r from-transparent via-slate-300/40 to-transparent" />
+
+          {/* Fila 4: Cantidad / Duración */}
+          <div className="space-y-4">
+            <div className="flex items-baseline gap-3">
+              <span className="font-fancy text-3xl italic text-slate-400 leading-none">
+                {isClassic ? "04" : "03"}
               </span>
-              <h3 className="font-black text-sm sm:text-base text-blue-900">
-                {isEndless ? "Duración" : "Cantidad de Preguntas"}
+              <h3 className="font-fancy text-xl sm:text-2xl text-slate-700 italic">
+                {isEndless ? "Duración" : "Cantidad de preguntas"}
               </h3>
             </div>
 
             {isSuddenDeath ? (
-              // Bloqueado en infinitas
-              <div className="rounded-2xl border-2 border-dashed border-amber-300/60 bg-amber-50/60 p-4 text-center">
-                <div className="flex items-center justify-center gap-2 text-amber-700">
-                  <Skull className="w-5 h-5" />
-                  <span className="font-black text-base uppercase tracking-wider">Infinitas · Hasta fallar</span>
+              <div className="rounded-3xl border-2 border-dashed border-amber-300/50 bg-amber-50/50 p-6 text-center">
+                <div className="flex items-center justify-center gap-3 text-amber-700">
+                  <Skull className="w-6 h-6" />
+                  <span className="font-fancy italic text-xl font-semibold tracking-wide">Infinitas · Hasta fallar</span>
                 </div>
-                <div className="text-[10px] text-amber-700/70 mt-1">
+                <div className="text-xs text-amber-700/80 mt-2 italic">
                   1 solo error termina la partida · Pool de {SUDDEN_DEATH_CONFIG.initialPoolSize} preguntas
                 </div>
               </div>
             ) : isSurvival ? (
-              // Bloqueado en infinitas
-              <div className="rounded-2xl border-2 border-dashed border-rose-300/60 bg-rose-50/60 p-4 text-center">
-                <div className="flex items-center justify-center gap-2 text-rose-700">
-                  <Heart className="w-5 h-5 fill-rose-500" />
-                  <span className="font-black text-base uppercase tracking-wider">Infinitas · Hasta perder 3 vidas</span>
+              <div className="rounded-3xl border-2 border-dashed border-rose-300/50 bg-rose-50/50 p-6 text-center">
+                <div className="flex items-center justify-center gap-3 text-rose-700">
+                  <Heart className="w-6 h-6 fill-rose-400" />
+                  <span className="font-fancy italic text-xl font-semibold tracking-wide">Infinitas · Hasta perder 3 vidas</span>
                 </div>
-                <div className="text-[10px] text-rose-700/70 mt-1">
+                <div className="text-xs text-rose-700/80 mt-2 italic">
                   Pool de 30 preguntas · tiempo decreciente
                 </div>
               </div>
             ) : (
-              // Selector circular de cantidades
-              <div className="grid grid-cols-4 gap-2">
+              <div className="grid grid-cols-4 gap-3">
                 {QUESTION_COUNTS.map((qc) => {
                   const isSelected = selectedQuestionCount === qc.id
                   return (
@@ -353,10 +349,10 @@ export function HomeScreen() {
                       key={qc.id}
                       onClick={() => { sfx.waterDrop(); setQuestionCount(qc.id) }}
                       data-selected={isSelected}
-                      className="circular-count rounded-2xl aspect-square flex flex-col items-center justify-center"
+                      className="circular-count rounded-3xl aspect-square flex flex-col items-center justify-center"
                     >
-                      <div className="text-2xl font-black leading-none">{qc.label}</div>
-                      <div className="text-[9px] uppercase tracking-wide opacity-70 mt-0.5">{qc.desc}</div>
+                      <div className="font-fancy italic text-3xl font-bold leading-none">{qc.label}</div>
+                      <div className="text-[10px] uppercase tracking-wide opacity-70 mt-1">{qc.desc}</div>
                     </button>
                   )
                 })}
@@ -365,31 +361,31 @@ export function HomeScreen() {
           </div>
         </motion.section>
 
-        {/* INFO del modo seleccionado — tarjetas informativas compactas */}
+        {/* INFO del modo seleccionado */}
         {isSuddenDeath && (
           <motion.section
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-2xl border border-amber-300/50 bg-amber-50/60 p-4 glass"
+            className="rounded-[1.5rem] border border-amber-300/40 bg-amber-50/40 p-6 glass"
           >
-            <div className="flex items-center gap-2 mb-2">
-              <Skull className="w-4 h-4 text-amber-600" />
-              <span className="font-bold text-sm text-amber-800">Reglas de Muerte Súbita</span>
+            <div className="flex items-center gap-2 mb-3">
+              <Skull className="w-5 h-5 text-amber-700" />
+              <span className="font-fancy italic text-lg text-amber-800 font-semibold">Reglas de Muerte Súbita</span>
             </div>
-            <ul className="text-xs text-amber-800/90 space-y-1.5 ml-6 list-disc">
-              <li>Sin margen de error: <span className="font-bold">fallar 1 pregunta termina la partida</span></li>
+            <ul className="text-sm text-amber-800/90 space-y-2 ml-6 list-disc italic font-script">
+              <li>Sin margen de error: <span className="font-bold not-italic">fallar 1 pregunta termina la partida</span></li>
               <li>Racha infinitamente escalable — tu High Score se guarda por separado</li>
-              <li>Combo: <span className="font-bold">5 seguidas ×2</span>, <span className="font-bold">10 seguidas ×3</span>, <span className="font-bold">15 seguidas ×4</span></li>
-              <li>Tiempo fijo de <span className="font-bold">15 segundos</span> por pregunta</li>
-              <li>Tensión dorada: al superar <span className="font-bold">10 aciertos</span> el fondo se tiñe dorado/alerta</li>
+              <li>Combo: <span className="font-bold not-italic">5 seguidas ×2</span>, <span className="font-bold not-italic">10 seguidas ×3</span>, <span className="font-bold not-italic">15 seguidas ×4</span></li>
+              <li>Tiempo fijo de <span className="font-bold not-italic">15 segundos</span> por pregunta</li>
+              <li>Tensión dorada: al superar <span className="font-bold not-italic">10 aciertos</span> el fondo se tiñe dorado/alerta</li>
             </ul>
 
             {profile?.user && profile.user.suddenDeathRuns > 0 && (
-              <div className="mt-3 pt-3 border-t border-amber-300/30 flex items-center gap-3">
-                <Crown className="w-4 h-4 text-amber-600 shrink-0" />
-                <div className="flex-1 text-xs">
-                  <div className="text-amber-700/70 uppercase tracking-wider text-[10px]">Tu récord de Muerte Súbita</div>
-                  <div className="flex items-center gap-3 mt-0.5">
+              <div className="mt-4 pt-4 border-t border-amber-300/30 flex items-center gap-3">
+                <Crown className="w-5 h-5 text-amber-700 shrink-0" />
+                <div className="flex-1 text-sm">
+                  <div className="text-amber-700/70 uppercase tracking-wider text-[10px] italic">Tu récord de Muerte Súbita</div>
+                  <div className="flex items-center gap-3 mt-1">
                     <span className="font-bold text-amber-700">{profile.user.suddenDeathBestCorrect} aciertos</span>
                     <span className="text-amber-700/60">·</span>
                     <span className="font-bold text-amber-700">+{profile.user.suddenDeathBestXp} XP</span>
@@ -406,25 +402,25 @@ export function HomeScreen() {
           <motion.section
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-2xl border border-rose-300/50 bg-rose-50/60 p-4 glass"
+            className="rounded-[1.5rem] border border-rose-300/40 bg-rose-50/40 p-6 glass"
           >
-            <div className="flex items-center gap-2 mb-2">
-              <Heart className="w-4 h-4 text-rose-600 fill-rose-500" />
-              <span className="font-bold text-sm text-rose-800">Reglas de Supervivencia</span>
+            <div className="flex items-center gap-2 mb-3">
+              <Heart className="w-5 h-5 text-rose-600 fill-rose-400" />
+              <span className="font-fancy italic text-lg text-rose-800 font-semibold">Reglas de Supervivencia</span>
             </div>
-            <ul className="text-xs text-rose-800/90 space-y-1.5 ml-6 list-disc">
-              <li>Comenzás con <span className="font-bold text-rose-700">3 corazones ❤️❤️❤️</span> — cada error resta 1 vida</li>
-              <li>Tiempo inicial: <span className="font-bold">15 segundos</span> por pregunta</li>
-              <li>Cada <span className="font-bold">5 aciertos</span> el tiempo baja 1s (mínimo 5s)</li>
-              <li>Combo: <span className="font-bold">3 seguidas ×2</span>, <span className="font-bold">5 seguidas ×3</span></li>
+            <ul className="text-sm text-rose-800/90 space-y-2 ml-6 list-disc italic font-script">
+              <li>Comenzás con <span className="font-bold not-italic text-rose-700">3 corazones</span> — cada error resta 1 vida</li>
+              <li>Tiempo inicial: <span className="font-bold not-italic">15 segundos</span> por pregunta</li>
+              <li>Cada <span className="font-bold not-italic">5 aciertos</span> el tiempo baja 1s (mínimo 5s)</li>
+              <li>Combo: <span className="font-bold not-italic">3 seguidas ×2</span>, <span className="font-bold not-italic">5 seguidas ×3</span></li>
             </ul>
 
             {profile?.user && profile.user.survivalRuns > 0 && (
-              <div className="mt-3 pt-3 border-t border-rose-300/30 flex items-center gap-3">
-                <Crown className="w-4 h-4 text-amber-600 shrink-0" />
-                <div className="flex-1 text-xs">
-                  <div className="text-rose-700/70 uppercase tracking-wider text-[10px]">Tu récord de Supervivencia</div>
-                  <div className="flex items-center gap-3 mt-0.5">
+              <div className="mt-4 pt-4 border-t border-rose-300/30 flex items-center gap-3">
+                <Crown className="w-5 h-5 text-amber-700 shrink-0" />
+                <div className="flex-1 text-sm">
+                  <div className="text-rose-700/70 uppercase tracking-wider text-[10px] italic">Tu récord de Supervivencia</div>
+                  <div className="flex items-center gap-3 mt-1">
                     <span className="font-bold text-rose-700">{profile.user.survivalBestCorrect} aciertos</span>
                     <span className="text-rose-700/60">·</span>
                     <span className="font-bold text-rose-700">+{profile.user.survivalBestXp} XP</span>
@@ -438,12 +434,12 @@ export function HomeScreen() {
         )}
 
         {/* RESUMEN + CTA */}
-        <section className="space-y-3 pb-4">
-          <div className="flex items-center gap-2">
-            <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-amber-400 to-rose-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">★</span>
-            <h3 className="font-black text-sm sm:text-base text-blue-900">Resumen</h3>
+        <section className="space-y-5 pb-8">
+          <div className="flex items-baseline gap-3">
+            <span className="font-fancy text-3xl italic text-amber-400 leading-none">★</span>
+            <h3 className="font-fancy text-xl sm:text-2xl text-slate-700 italic">Resumen</h3>
           </div>
-          <div className={cn("grid gap-2", isClassic ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2")}>
+          <div className={cn("grid gap-3", isClassic ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2")}>
             <SummaryCard
               icon={<Sparkles className="w-4 h-4" />}
               label="Modo"
@@ -454,7 +450,7 @@ export function HomeScreen() {
               icon={<Flame className="w-4 h-4" />}
               label={isMix ? "Categorías" : "Categoría"}
               value={selectedCount === 0 ? "—" : isMix ? `${selectedCount} mixtas` : (CATEGORIES.find((c) => c.id === selectedCategories[0])?.name ?? "—")}
-              color={selectedCount > 0 ? "#4E9215" : undefined}
+              color={selectedCount > 0 ? "#8AA088" : undefined}
             />
             {isClassic && (
               <>
@@ -468,7 +464,7 @@ export function HomeScreen() {
                   icon={<Zap className="w-4 h-4" />}
                   label="Preguntas"
                   value={selectedQuestionCount.toString()}
-                  color="#fbbf24"
+                  color="#D9A85E"
                 />
               </>
             )}
@@ -477,7 +473,7 @@ export function HomeScreen() {
                 icon={<Skull className="w-4 h-4" />}
                 label="Duración"
                 value="∞ hasta fallar"
-                color={isSuddenDeath ? "#fbbf24" : "#FF4D6D"}
+                color={isSuddenDeath ? "#D9A85E" : "#C98492"}
               />
             )}
           </div>
@@ -487,7 +483,7 @@ export function HomeScreen() {
             onClick={handleStart}
             disabled={!hasSelection || (isClassic && !selectedDifficulty) || startGameMut.isPending}
             className={cn(
-              "w-full py-4 rounded-3xl font-black text-base uppercase tracking-widest transition-all flex items-center justify-center gap-2 mt-3 relative overflow-hidden",
+              "w-full py-5 rounded-[2rem] font-fancy italic font-bold text-lg sm:text-xl tracking-wide transition-all flex items-center justify-center gap-3 mt-4 relative overflow-hidden",
               !hasSelection || (isClassic && !selectedDifficulty) || startGameMut.isPending
                 ? "bg-slate-200 text-slate-400 cursor-not-allowed"
                 : cn(ctaConfig.class, "animate-cta-pulse")
@@ -526,16 +522,16 @@ function SummaryCard({
   return (
     <div
       className={cn(
-        "rounded-2xl border bg-white/70 p-3 transition glass",
-        color ? "border-blue-200/60" : "border-dashed border-blue-200/40"
+        "rounded-2xl border bg-white/70 p-4 transition glass",
+        color ? "border-slate-300/40" : "border-dashed border-slate-300/40"
       )}
       style={color ? { borderColor: `${color}50`, boxShadow: `0 0 12px ${color}15` } : undefined}
     >
-      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-blue-700/70">
+      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-slate-500 italic">
         <span style={color ? { color } : undefined}>{icon}</span>
         {label}
       </div>
-      <div className="text-sm font-bold mt-1 truncate text-blue-900" style={color ? { color } : undefined}>
+      <div className="font-fancy italic text-base font-semibold mt-1 truncate text-slate-700" style={color ? { color } : undefined}>
         {value}
       </div>
     </div>

@@ -50,7 +50,7 @@ export function LootBoxScreen() {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="text-lg font-black tracking-tight">Loot Box</h1>
+            <h1 className="text-lg font-fancy italic font-bold tracking-tight text-slate-700">Loot Box</h1>
             <p className="text-[10px] text-muted-foreground">Rareza y suerte definieron tu recompensa</p>
           </div>
         </div>
@@ -127,7 +127,7 @@ export function LootBoxScreen() {
                 </div>
               </motion.div>
 
-              <h2 className="text-2xl font-black uppercase tracking-widest mb-2">
+              <h2 className="text-2xl font-fancy italic font-bold tracking-wide mb-2">
                 {phase === "shaking" ? "Abriendo…" : "Tu recompensa espera"}
               </h2>
               <p className="text-sm text-muted-foreground mb-6 text-center max-w-sm">
@@ -251,7 +251,7 @@ export function LootBoxScreen() {
                 initial={{ y: 10, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.7 }}
-                className="text-3xl font-black mb-1"
+                className="text-3xl font-fancy italic font-bold mb-1"
                 style={{ color: rarityConfig.hex, textShadow: `0 0 20px ${rarityConfig.hex}80` }}
               >
                 {result.item.name}
@@ -270,7 +270,7 @@ export function LootBoxScreen() {
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.9 }}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-blue-500/15 border border-blue-500/40 text-blue-200 text-xs mb-4"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-400/15 border border-slate-500/30 text-slate-200 text-xs mb-4"
                 >
                   <Zap className="w-3.5 h-3.5" />
                   Duplicado · +{result.xpBonus} XP de compensación
@@ -282,7 +282,7 @@ export function LootBoxScreen() {
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 1.0 }}
-                  className="mb-4 px-4 py-2 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-200 text-sm font-bold"
+                  className="mb-4 px-4 py-2 rounded-xl bg-amber-200/40 border border-amber-400/40 text-amber-200 text-sm font-bold"
                 >
                   ⬆ ¡Subiste al nivel {result.newLevel}! +1 Loot Box
                 </motion.div>

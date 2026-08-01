@@ -222,7 +222,7 @@ export function GameScreen() {
   }
 
   if (!activeGame || !currentQuestion || !diff) {
-    return <div className="p-8 text-center text-blue-700">Cargando partida…</div>
+    return <div className="p-8 text-center text-slate-600">Cargando partida…</div>
   }
 
   // Mix: usa un color cian por defecto
@@ -262,7 +262,7 @@ export function GameScreen() {
       )}
     >
       {/* Header compacto */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/60 border-b border-blue-200/50">
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/60 border-b border-slate-200/50">
         <div className="max-w-2xl mx-auto px-4 py-2.5">
           <div className="flex items-center justify-between gap-2">
             <button
@@ -270,7 +270,7 @@ export function GameScreen() {
               className="p-1.5 rounded-lg hover:bg-white/80 transition"
               title="Salir"
             >
-              <ChevronLeft className="w-4 h-4 text-blue-700" />
+              <ChevronLeft className="w-4 h-4 text-slate-600" />
             </button>
 
             {/* Center: category + progress */}
@@ -278,7 +278,7 @@ export function GameScreen() {
               <span className="text-xl">{catIcon}</span>
               <div className="leading-tight">
                 <div className="text-xs font-bold" style={{ color: catColor }}>{catName}</div>
-                <div className="text-[9px] text-blue-700/70">
+                <div className="text-[9px] text-slate-500">
                   {isSurvival
                     ? `Sobreviviendo: ${currentQuestionIndex + 1}`
                     : isSuddenDeath
@@ -290,9 +290,9 @@ export function GameScreen() {
 
             {/* Right: XP + streak */}
             <div className="flex items-center gap-1.5">
-              <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-blue-500/10 border border-blue-400/40">
-                <Zap className="w-3 h-3 text-blue-600" />
-                <span className="text-xs font-bold text-blue-700 tabular-nums">{totalXpEarned}</span>
+              <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-400/10 border border-blue-400/40">
+                <Zap className="w-3 h-3 text-slate-600" />
+                <span className="text-xs font-bold text-slate-600 tabular-nums">{totalXpEarned}</span>
               </div>
               {currentStreak >= 2 && (
                 <div
@@ -303,7 +303,7 @@ export function GameScreen() {
                       : currentCombo >= 3
                         ? "bg-emerald-400/20 border-emerald-400/60"
                         : currentCombo === 2
-                          ? "bg-blue-400/20 border-blue-400/60"
+                          ? "bg-slate-400/20 border-blue-400/60"
                           : "bg-orange-400/15 border-orange-400/40"
                   )}
                 >
@@ -359,7 +359,7 @@ export function GameScreen() {
                   </motion.div>
                 )
               })}
-              <span className="ml-2 text-[10px] uppercase tracking-wider text-blue-700/70">Vidas</span>
+              <span className="ml-2 text-[10px] uppercase tracking-wider text-slate-500">Vidas</span>
             </div>
           )}
 
@@ -432,11 +432,11 @@ export function GameScreen() {
 
         {/* Timer compacto */}
         <div className="flex items-center gap-3 mb-5">
-          <div className="flex items-center gap-1.5 text-xs text-blue-700/80">
+          <div className="flex items-center gap-1.5 text-xs text-slate-500">
             <Clock className="w-3.5 h-3.5" />
             <span className="uppercase tracking-wider">Tiempo</span>
           </div>
-          <div className="flex-1 h-2.5 rounded-full bg-blue-100/60 overflow-hidden border border-blue-200/50">
+          <div className="flex-1 h-2.5 rounded-full bg-blue-100/60 overflow-hidden border border-slate-200/50">
             {hasTimer && (
               <motion.div
                 className="h-full rounded-full"
@@ -468,7 +468,7 @@ export function GameScreen() {
             className="rounded-2xl border bg-white/80 backdrop-blur-sm p-5 sm:p-7 mb-5 glass"
             style={{ borderColor: `${catColor}40`, boxShadow: `0 0 25px ${catColor}15` }}
           >
-            <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-blue-700/80 mb-3 justify-center">
+            <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-slate-500 mb-3 justify-center">
               <span
                 className="px-2 py-0.5 rounded-full font-bold"
                 style={{ background: `${catColor}20`, color: catColor, border: `1px solid ${catColor}40` }}
@@ -480,7 +480,7 @@ export function GameScreen() {
                     : `${diff.name} · ${hasTimer ? `${totalTime}s` : "sin tiempo"}`}
               </span>
             </div>
-            <h2 className="text-lg sm:text-2xl font-bold text-center leading-snug text-blue-900">
+            <h2 className="text-lg sm:text-2xl font-bold text-center leading-snug text-slate-700">
               {currentQuestion.question}
             </h2>
           </motion.div>
@@ -508,24 +508,24 @@ export function GameScreen() {
                 }}
                 className={cn(
                   "relative text-left rounded-2xl border p-3.5 transition-all overflow-hidden flex items-center gap-3",
-                  phase === "question" && "border-blue-200/60 bg-white/70 hover:bg-white/95 hover:border-blue-400/60 cursor-pointer",
+                  phase === "question" && "border-slate-200/60 bg-white/70 hover:bg-white/95 hover:border-blue-400/60 cursor-pointer",
                   showCorrect && "border-emerald-400 bg-emerald-50 glow-emerald",
                   showWrong && "border-rose-400 bg-rose-50",
-                  phase === "feedback" && !showCorrect && !showWrong && "border-blue-200/40 bg-white/40 opacity-50"
+                  phase === "feedback" && !showCorrect && !showWrong && "border-slate-200/40 bg-white/40 opacity-50"
                 )}
               >
                 <span
                   className={cn(
                     "flex items-center justify-center w-8 h-8 rounded-lg shrink-0 font-black text-sm border",
-                    phase === "question" && "border-blue-200/60 bg-blue-100/60 text-blue-700",
+                    phase === "question" && "border-slate-200/60 bg-blue-100/60 text-slate-600",
                     showCorrect && "border-emerald-400 bg-emerald-400/30 text-emerald-900",
                     showWrong && "border-rose-400 bg-rose-400/30 text-rose-900",
-                    phase === "feedback" && !showCorrect && !showWrong && "border-blue-200/40 bg-blue-100/30 text-blue-700/60"
+                    phase === "feedback" && !showCorrect && !showWrong && "border-slate-200/40 bg-blue-100/30 text-slate-400"
                   )}
                 >
                   {showCorrect ? <Check className="w-4 h-4" /> : showWrong ? <X className="w-4 h-4" /> : letter}
                 </span>
-                <span className="font-medium text-sm sm:text-base break-words flex-1 text-blue-900">{option}</span>
+                <span className="font-medium text-sm sm:text-base break-words flex-1 text-slate-700">{option}</span>
               </motion.button>
             )
           })}
@@ -548,7 +548,7 @@ export function GameScreen() {
               )}>
                 <div className="flex items-center gap-2">
                   {lastAnswer.isCorrect ? (
-                    <><Check className="w-4 h-4 text-emerald-600" /><span className="font-bold text-sm text-emerald-700">¡Correcto!</span></>
+                    <><Check className="w-4 h-4 text-sage-700" /><span className="font-bold text-sm text-emerald-700">¡Correcto!</span></>
                   ) : (
                     <><X className="w-4 h-4 text-rose-600" /><span className="font-bold text-sm text-rose-700">Incorrecto</span></>
                   )}
@@ -557,22 +557,22 @@ export function GameScreen() {
                   )}
                 </div>
                 {!lastAnswer.isCorrect && (
-                  <div className="text-xs text-blue-700 mt-1.5">
-                    Respuesta: <span className="font-bold text-blue-900">{lastAnswer.correctAnswer}</span>
+                  <div className="text-xs text-slate-600 mt-1.5">
+                    Respuesta: <span className="font-bold text-slate-700">{lastAnswer.correctAnswer}</span>
                   </div>
                 )}
                 {/* Explicación del dato */}
                 {lastAnswer.explanation && (
-                  <div className="mt-2 flex items-start gap-1.5 text-xs text-blue-700 bg-blue-50/70 border border-blue-200/50 rounded-lg p-2">
-                    <Info className="w-3.5 h-3.5 mt-0.5 shrink-0 text-blue-500" />
+                  <div className="mt-2 flex items-start gap-1.5 text-xs text-slate-600 bg-blue-50/70 border border-slate-200/50 rounded-lg p-2">
+                    <Info className="w-3.5 h-3.5 mt-0.5 shrink-0 text-slate-500" />
                     <span className="leading-snug">{lastAnswer.explanation}</span>
                   </div>
                 )}
                 {lastAnswer.xpBreakdown && lastAnswer.isCorrect && (lastAnswer.xpBreakdown.timeBonus > 0 || lastAnswer.xpBreakdown.streakBonus > 0 || lastAnswer.xpBreakdown.difficultyBonus > 0) && (
-                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px] text-blue-700 mt-2 font-mono">
+                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px] text-slate-600 mt-2 font-mono">
                     <span>Base: +{lastAnswer.xpBreakdown.base}</span>
-                    {lastAnswer.xpBreakdown.timeBonus > 0 && <span className="text-blue-600">+{lastAnswer.xpBreakdown.timeBonus} tiempo</span>}
-                    {lastAnswer.xpBreakdown.streakBonus > 0 && <span className="text-emerald-600">+{lastAnswer.xpBreakdown.streakBonus} combo</span>}
+                    {lastAnswer.xpBreakdown.timeBonus > 0 && <span className="text-slate-600">+{lastAnswer.xpBreakdown.timeBonus} tiempo</span>}
+                    {lastAnswer.xpBreakdown.streakBonus > 0 && <span className="text-sage-700">+{lastAnswer.xpBreakdown.streakBonus} combo</span>}
                     {lastAnswer.xpBreakdown.difficultyBonus > 0 && <span className="text-purple-600">+{lastAnswer.xpBreakdown.difficultyBonus} dificultad</span>}
                   </div>
                 )}
@@ -605,18 +605,18 @@ export function GameScreen() {
             className="fixed top-24 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
           >
             <div
-              className="px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-lg"
+              className="px-6 py-3 rounded-2xl font-fancy italic font-bold tracking-wide text-lg"
               style={{
                 background: isSuddenDeath
-                  ? "linear-gradient(135deg, #fbbf24, #f59e0b)"
-                  : "linear-gradient(135deg, #4ADE80, #38BDF8)",
-                color: isSuddenDeath ? "#7c2d12" : "#ffffff",
+                  ? "linear-gradient(135deg, #D9A85E, #b8862e)"
+                  : "linear-gradient(135deg, #B0BFAE, #6E82A0)",
+                color: isSuddenDeath ? "#3d2914" : "#FAF7F1",
                 border: isSuddenDeath
-                  ? "2px solid rgba(251,191,36,0.8)"
-                  : "2px solid rgba(74,222,128,0.8)",
+                  ? "2px solid rgba(217,168,94,0.7)"
+                  : "2px solid rgba(138,160,136,0.7)",
                 boxShadow: isSuddenDeath
-                  ? "0 0 30px rgba(251,191,36,0.7)"
-                  : "0 0 30px rgba(56,189,248,0.5)",
+                  ? "0 0 30px rgba(217,168,94,0.6)"
+                  : "0 0 30px rgba(110,130,160,0.4)",
               }}
             >
               {isSuddenDeath ? "⚡" : "🔥"} COMBO ×{currentCombo}! {isSuddenDeath ? "⚡" : "🔥"}
@@ -640,10 +640,10 @@ export function GameScreen() {
             exit={{ opacity: 0, scale: 0.7 }}
             className="fixed top-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
           >
-            <div className="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-400 text-amber-900 px-6 py-3 rounded-2xl font-black uppercase tracking-widest text-lg glow-gold">
-              ⬆ ¡NIVEL {lastAnswer?.newLevel}!
+            <div className="bg-gradient-to-r from-amber-300 via-amber-200 to-amber-300 text-amber-800 px-6 py-3 rounded-2xl font-fancy italic font-bold tracking-wide text-lg glow-gold">
+              ⬆ ¡Nivel {lastAnswer?.newLevel}!
             </div>
-            <div className="text-center mt-1 text-xs text-amber-700">+1 Loot Box disponible</div>
+            <div className="text-center mt-1 text-xs text-amber-700 italic">+1 Loot Box disponible</div>
           </motion.div>
         )}
       </AnimatePresence>

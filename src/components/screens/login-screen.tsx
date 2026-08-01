@@ -57,10 +57,10 @@ export function LoginScreen() {
         >
           🧠
         </motion.div>
-        <h1 className="text-5xl sm:text-6xl font-black tracking-tighter text-gradient-neon leading-none">
-          TRIVIALS<br/>WARS
+        <h1 className="text-5xl sm:text-6xl font-fancy italic font-bold tracking-tight text-gradient-neon leading-none">
+          Trivials<br/>Wars
         </h1>
-        <p className="text-sm text-muted-foreground mt-3 uppercase tracking-[0.3em]">
+        <p className="text-sm text-slate-500 mt-3 uppercase tracking-[0.3em] italic">
           El conocimiento es poder
         </p>
       </motion.div>

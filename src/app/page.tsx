@@ -11,6 +11,7 @@ import { ResultsScreen } from "@/components/screens/results-screen"
 import { LootBoxScreen } from "@/components/screens/lootbox-screen"
 import { ProfileScreen } from "@/components/screens/profile-screen"
 import { BubblesBackground } from "@/components/bubbles-background"
+import { GlobalLofiPlayer } from "@/components/global-lofi-player"
 
 export default function Home() {
   const [client] = useState(
@@ -32,6 +33,8 @@ export default function Home() {
         <div className="relative" style={{ zIndex: 1 }}>
           <AppRouter />
         </div>
+        {/* Música lofi global (YouTube, sin copyright) */}
+        <GlobalLofiPlayer />
       </div>
     </QueryClientProvider>
   )

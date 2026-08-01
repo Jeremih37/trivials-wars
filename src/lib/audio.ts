@@ -284,150 +284,19 @@ export function playGameOver(): void {
   })
 }
 
-// ============= MÚSICA AMBIENTAL (loop infinito) =============
+// ============= MÚSICA AMBIENTAL (DELEGADA A YOUTUBE) =============
+//
+// La música ambiental ahora se reproduce desde YouTube (Lofi Girl 24/7
+// stream — sin copyright, libre escucha) a través del componente
+// <LofiPlayer />. Estas funciones son NO-OP pero se mantienen por
+// compatibilidad con el hook useAudio.
 
-/**
- * Pad lo-fi/synthwave acuático — loop generativo.
- * Crea una textura ambiental con:
- *   - 3 osciladores en frecuencias bajas (pad base)
- *   - Filtro lowpass suave
- *   - LFO de filtro para movimiento "acuoso"
- *   - Reverb larga
- *   - Cambios lentos de acordes (Am - F - C - G en octava baja)
- */
 export function startAmbientMusic(): void {
-  if (!state.enabled || !state.musicEnabled) return
-  if (state.ambientPlaying) return
-  const ctx = getCtx()
-  if (!ctx || !state.musicGain) return
-
-  state.ambientPlaying = true
-  const t0 = ctx.currentTime
-
-  // Acorde base: A2, E3, A3 (La menor)
-  // Cambia lentamente cada 8 segundos: Am → F → C → G
-  const chordProgression = [
-    [110, 164.81, 220], // Am: A2, E3, A3
-    [87.31, 130.81, 174.61], // F: F2, C3, F3
-    [130.81, 196.0, 261.63], // C: C3, G3, C4
-    [98.0, 146.83, 196.0], // G: G2, D3, G3
-  ]
-
-  // Pad principal — 3 osciladores sinusoidales con vibrato muy lento
-  const padGain = ctx.createGain()
-  padGain.gain.value = 0.5
-  padGain.connect(state.musicGain)
-
-  // Filtro lowpass para suavizar
-  const filter = ctx.createBiquadFilter()
-  filter.type = "lowpass"
-  filter.frequency.value = 800
-  filter.Q.value = 0.5
-  filter.connect(padGain)
-
-  // LFO para mover el filtro (efecto "acuoso")
-  const lfo = ctx.createOscillator()
-  const lfoGain = ctx.createGain()
-  lfo.type = "sine"
-  lfo.frequency.value = 0.08 // muy lento
-  lfoGain.gain.value = 300
-  lfo.connect(lfoGain)
-  lfoGain.connect(filter.frequency)
-  lfo.start(t0)
-
-  // Reverb larga para el pad
-  const reverb = makeReverb(ctx, 4, 1.5)
-  const reverbGain = ctx.createGain()
-  reverbGain.gain.value = 0.6
-  filter.connect(reverb)
-  reverb.connect(reverbGain)
-  reverbGain.connect(state.musicGain)
-
-  // Osciladores del pad (3 voces)
-  const oscs: OscillatorNode[] = []
-  const oscGains: GainNode[] = []
-  for (let i = 0; i < 3; i++) {
-    const osc = ctx.createOscillator()
-    const g = ctx.createGain()
-    osc.type = i === 0 ? "sine" : i === 1 ? "triangle" : "sine"
-    g.gain.value = i === 0 ? 0.4 : i === 1 ? 0.2 : 0.15
-    osc.connect(g)
-    g.connect(filter)
-    osc.start(t0)
-    oscs.push(osc)
-    oscGains.push(g)
-  }
-
-  // Programar cambios de acorde
-  let chordIndex = 0
-  const chordDuration = 8 // segundos por acorde
-
-  const scheduleNextChord = (startTime: number) => {
-    const chord = chordProgression[chordIndex % chordProgression.length]
-    chord.forEach((freq, i) => {
-      const osc = oscs[i]
-      const g = oscGains[i]
-      if (!osc || !g) return
-      // Fade out → change freq → fade in
-      g.gain.setValueAtTime(g.gain.value, startTime)
-      g.gain.linearRampToValueAtTime(0.01, startTime + 0.5)
-      osc.frequency.setValueAtTime(freq, startTime + 0.5)
-      g.gain.linearRampToValueAtTime(i === 0 ? 0.4 : i === 1 ? 0.2 : 0.15, startTime + 1.5)
-    })
-    chordIndex++
-  }
-
-  // Programar todos los cambios de acorde (loop largo)
-  const schedulerInterval = setInterval(() => {
-    if (!state.ambientPlaying) {
-      clearInterval(schedulerInterval)
-      return
-    }
-    scheduleNextChord(ctx.currentTime + 0.1)
-  }, chordDuration * 1000)
-
-  // Primer cambio de acorde a los 8s
-  setTimeout(() => {
-    if (state.ambientPlaying) scheduleNextChord(ctx.currentTime + 0.1)
-  }, chordDuration * 1000)
-
-  // Guardar referencias para detener
-  state.ambientNodes = [...oscs, lfo, filter, padGain, reverb, reverbGain, lfoGain]
-  state.ambientNodes.push({
-    stop: () => clearInterval(schedulerInterval),
-  } as unknown as OscillatorNode)
+  // No-op: la música la controla el componente LofiPlayer
 }
 
 export function stopAmbientMusic(): void {
-  if (!state.ambientPlaying) return
-  const ctx = state.ctx
-  if (!ctx) {
-    state.ambientPlaying = false
-    state.ambientNodes = []
-    return
-  }
-  // Fade out suave
-  const t0 = ctx.currentTime
-  state.ambientNodes.forEach((node) => {
-    if (node instanceof OscillatorNode) {
-      try {
-        node.stop(t0 + 0.5)
-      } catch {
-        // ya detenido
-      }
-    }
-  })
-  setTimeout(() => {
-    state.ambientNodes.forEach((node) => {
-      try {
-        if ("disconnect" in node) (node as AudioNode).disconnect()
-      } catch {
-        // noop
-      }
-    })
-    state.ambientNodes = []
-    state.ambientPlaying = false
-  }, 600)
+  // No-op: la música la controla el componente LofiPlayer
 }
 
 // ============= API pública =============

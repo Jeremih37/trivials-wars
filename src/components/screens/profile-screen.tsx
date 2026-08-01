@@ -50,7 +50,7 @@ export function ProfileScreen() {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="text-lg font-black tracking-tight">Perfil</h1>
+            <h1 className="text-lg font-fancy italic font-bold tracking-tight text-slate-700">Perfil</h1>
             <p className="text-[10px] text-muted-foreground">Tu progreso, marcos e inventario</p>
           </div>
         </div>
@@ -104,7 +104,7 @@ export function ProfileScreen() {
             <div className="space-y-3">
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 <StatBlock icon={<Trophy className="w-4 h-4" />} label="Nivel" value={u.level} color="text-amber-300" />
-                <StatBlock icon={<Zap className="w-4 h-4" />} label="XP total" value={u.xp} color="text-blue-300" />
+                <StatBlock icon={<Zap className="w-4 h-4" />} label="XP total" value={u.xp} color="text-slate-300" />
                 <StatBlock icon={<Gift className="w-4 h-4" />} label="Cajas" value={u.boxes} color="text-pink-300" />
                 <StatBlock icon={<Swords className="w-4 h-4" />} label="Victorias" value={u.wins} color="text-green-400" />
                 <StatBlock icon={<Target className="w-4 h-4" />} label="Derrotas" value={u.losses} color="text-red-400" />
@@ -191,7 +191,7 @@ export function ProfileScreen() {
                       </div>
                       <div>
                         <div className="text-muted-foreground text-[10px] uppercase">Aciertos</div>
-                        <div className="font-bold text-blue-300">{correct}</div>
+                        <div className="font-bold text-slate-300">{correct}</div>
                       </div>
                       <div>
                         <div className="text-muted-foreground text-[10px] uppercase">Precisión</div>
