@@ -10,6 +10,7 @@ import { GameScreen } from "@/components/screens/game-screen"
 import { ResultsScreen } from "@/components/screens/results-screen"
 import { LootBoxScreen } from "@/components/screens/lootbox-screen"
 import { ProfileScreen } from "@/components/screens/profile-screen"
+import { BubblesBackground } from "@/components/bubbles-background"
 
 export default function Home() {
   const [client] = useState(
@@ -26,7 +27,12 @@ export default function Home() {
 
   return (
     <QueryClientProvider client={client}>
-      <AppRouter />
+      <div className="relative min-h-screen">
+        <BubblesBackground count={18} />
+        <div className="relative" style={{ zIndex: 1 }}>
+          <AppRouter />
+        </div>
+      </div>
     </QueryClientProvider>
   )
 }

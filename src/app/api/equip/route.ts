@@ -1,15 +1,17 @@
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { ITEMS_BY_ID } from "@/lib/gacha-catalog"
+import { apiHandler, safeJson } from "@/lib/api-handler"
 
 export const dynamic = "force-dynamic"
+export const runtime = "nodejs"
 
 interface EquipBody {
   itemId: string
 }
 
-export async function POST(req: Request) {
-  const body = (await req.json()) as EquipBody
+export const POST = apiHandler(async (req: Request) => {
+  const body = await safeJson<EquipBody>(req)
   const item = ITEMS_BY_ID[body.itemId]
   if (!item) {
     return NextResponse.json({ error: "Item inválido" }, { status: 400 })
@@ -47,14 +49,14 @@ export async function POST(req: Request) {
   }
 
   return NextResponse.json({ ok: true, slot, itemId: item.id })
-}
+})
 
 interface UnequipBody {
   slot: "hat" | "top" | "aura"
 }
 
-export async function DELETE(req: Request) {
-  const body = (await req.json()) as UnequipBody
+export const DELETE = apiHandler(async (req: Request) => {
+  const body = await safeJson<UnequipBody>(req)
   const user = await db.user.findFirst({ include: { equipped: true } })
   if (!user) {
     return NextResponse.json({ error: "Usuario no encontrado" }, { status: 404 })
@@ -64,4 +66,4 @@ export async function DELETE(req: Request) {
     await db.equippedItem.delete({ where: { id: existing.id } })
   }
   return NextResponse.json({ ok: true })
-}
+})

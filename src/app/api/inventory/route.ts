@@ -2,10 +2,12 @@ import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/auth"
 import { GACHA_ITEMS, RARITY_CONFIG } from "@/lib/gacha-catalog"
+import { apiHandler } from "@/lib/api-handler"
 
 export const dynamic = "force-dynamic"
+export const runtime = "nodejs"
 
-export async function GET() {
+export const GET = apiHandler(async () => {
   const user = await getCurrentUser()
 
   const fullUser = await db.user.findUnique({
@@ -43,4 +45,4 @@ export async function GET() {
     inventoryCount: fullUser.inventory.length,
     totalCount: GACHA_ITEMS.length,
   })
-}
+})

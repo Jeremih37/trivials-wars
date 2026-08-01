@@ -3,12 +3,14 @@ import { db } from "@/lib/db"
 import { getCurrentUser, autoUnlockByLevel } from "@/lib/auth"
 import { FRAMES_BY_ID, PROFILE_ICONS, ICONS_BY_ID } from "@/lib/profile-catalog"
 import { AVATAR_BASES } from "@/lib/gacha-catalog"
+import { apiHandler, safeJson } from "@/lib/api-handler"
 
 export const dynamic = "force-dynamic"
+export const runtime = "nodejs"
 
 // Equipar marco / icono / base
-export async function POST(req: Request) {
-  const body = (await req.json()) as { type: "frame" | "icon" | "base"; key: string }
+export const POST = apiHandler(async (req: Request) => {
+  const body = await safeJson<{ type: "frame" | "icon" | "base"; key: string }>(req)
   const user = await getCurrentUser()
 
   if (body.type === "frame") {
@@ -48,4 +50,4 @@ export async function POST(req: Request) {
   }
 
   return NextResponse.json({ error: "Tipo inválido" }, { status: 400 })
-}
+})

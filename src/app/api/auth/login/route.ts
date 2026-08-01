@@ -2,8 +2,10 @@ import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { autoUnlockByLevel } from "@/lib/auth"
 import { computeLevelFromXp } from "@/lib/game"
+import { apiHandler, safeJson } from "@/lib/api-handler"
 
 export const dynamic = "force-dynamic"
+export const runtime = "nodejs"
 
 interface LoginBody {
   provider: "google" | "guest"
@@ -12,8 +14,8 @@ interface LoginBody {
   googleId?: string
 }
 
-export async function POST(req: Request) {
-  const body = (await req.json()) as LoginBody
+export const POST = apiHandler(async (req: Request) => {
+  const body = await safeJson<LoginBody>(req)
 
   // Modo invitado: devuelve el primer usuario existente (o crea uno)
   if (body.provider === "guest") {
@@ -87,4 +89,4 @@ export async function POST(req: Request) {
   }
 
   return NextResponse.json({ error: "Provider inválido" }, { status: 400 })
-}
+})

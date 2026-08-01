@@ -1,17 +1,34 @@
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
-import { DIFFICULTIES, type DifficultyId, type CategoryId } from "@/lib/game"
+import {
+  DIFFICULTIES,
+  SURVIVAL_CONFIG,
+  type DifficultyId,
+  type CategoryId,
+  type GameModeId,
+} from "@/lib/game"
+import { apiHandler, safeJson } from "@/lib/api-handler"
 
 export const dynamic = "force-dynamic"
+export const runtime = "nodejs"
 
 interface StartBody {
-  category: CategoryId
+  category: CategoryId | "mix"
   difficulty: DifficultyId
+  mode?: GameModeId
+  questionCount?: number
+  timePreset?: number // 10 | 15 | 0 (sin tiempo) — sólo classic
 }
 
-export async function POST(req: Request) {
-  const body = (await req.json()) as StartBody
-  const { category, difficulty } = body
+export const POST = apiHandler(async (req: Request) => {
+  const body = await safeJson<StartBody>(req)
+  const {
+    category,
+    difficulty,
+    mode = "classic",
+    questionCount = 10,
+    timePreset,
+  } = body
 
   if (!category || !difficulty) {
     return NextResponse.json({ error: "Faltan parámetros" }, { status: 400 })
@@ -22,11 +39,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Dificultad inválida" }, { status: 400 })
   }
 
-  // Tomar 10 preguntas aleatorias de la categoría+difficultad
-  // SQLite no soporta take+random nativamente, así que traemos y barajamos
-  const allQuestions = await db.question.findMany({
-    where: { category, difficulty },
-  })
+  // En modo supervivencia: traer TODAS las preguntas de la categoría (mezclando dificultades)
+  // En modo clásico: solo de la categoría+difficultad solicitada
+  // En "mix": todas las categorías de esa dificultad
+  const isMix = category === "mix"
+  const allQuestions =
+    mode === "survival"
+      ? isMix
+        ? await db.question.findMany({})
+        : await db.question.findMany({ where: { category } })
+      : isMix
+        ? await db.question.findMany({ where: { difficulty } })
+        : await db.question.findMany({ where: { category, difficulty } })
 
   if (allQuestions.length === 0) {
     return NextResponse.json({ error: "No hay preguntas para esa combinación" }, { status: 404 })
@@ -38,7 +62,12 @@ export async function POST(req: Request) {
     ;[allQuestions[i], allQuestions[j]] = [allQuestions[j], allQuestions[i]]
   }
 
-  const selected = allQuestions.slice(0, Math.min(10, allQuestions.length))
+  // En modo clásico: limitar a questionCount (default 10)
+  // En modo supervivencia: enviar un pool grande inicial
+  const selected =
+    mode === "survival"
+      ? allQuestions.slice(0, Math.min(SURVIVAL_CONFIG.initialPoolSize, allQuestions.length))
+      : allQuestions.slice(0, Math.min(questionCount, allQuestions.length))
 
   // Crear sesión
   const user = await db.user.findFirst()
@@ -49,9 +78,9 @@ export async function POST(req: Request) {
   const session = await db.gameSession.create({
     data: {
       userId: user.id,
-      category,
+      category: isMix ? "mix" : category,
       difficulty,
-      totalQuestions: selected.length,
+      totalQuestions: mode === "survival" ? 0 : selected.length, // 0 indica sin límite
       correctCount: 0,
       xpEarned: 0,
       bestStreak: 0,
@@ -61,7 +90,6 @@ export async function POST(req: Request) {
   // Mapear preguntas para el cliente (sin revelar la respuesta correcta)
   const questionsForClient = selected.map((q) => {
     const options = JSON.parse(q.options) as string[]
-    // Barajar las opciones también para evitar sesgo de posición
     const shuffled = [...options]
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1))
@@ -72,16 +100,28 @@ export async function POST(req: Request) {
       uuid: q.uuid,
       question: q.question,
       options: shuffled,
+      explanation: (q as { explanation?: string | null }).explanation ?? null,
     }
   })
+
+  // Time: en classic, el timePreset sobreescribe diff.time si viene. 0 = sin tiempo.
+  // En survival, usa SURVIVAL_CONFIG.initialTime.
+  const timePerQuestion =
+    mode === "survival"
+      ? SURVIVAL_CONFIG.initialTime
+      : typeof timePreset === "number"
+        ? timePreset
+        : diff.time
 
   return NextResponse.json({
     sessionId: session.id,
     difficulty,
-    category,
-    timePerQuestion: diff.time,
+    category: isMix ? "mix" : category,
+    mode,
+    timePerQuestion,
     xpBase: diff.xpBase,
     multiplier: diff.multiplier,
     questions: questionsForClient,
+    initialLives: mode === "survival" ? SURVIVAL_CONFIG.initialLives : undefined,
   })
-}
+})

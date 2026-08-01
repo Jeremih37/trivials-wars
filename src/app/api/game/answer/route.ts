@@ -2,14 +2,17 @@ import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import {
   computeAnswerXp,
+  computeSurvivalXp,
   computeLevelFromXp,
   computeSessionResult,
   DIFFICULTIES,
   type DifficultyId,
 } from "@/lib/game"
 import { autoUnlockByLevel } from "@/lib/auth"
+import { apiHandler, safeJson } from "@/lib/api-handler"
 
 export const dynamic = "force-dynamic"
+export const runtime = "nodejs"
 
 interface AnswerBody {
   sessionId: string
@@ -18,10 +21,11 @@ interface AnswerBody {
   timeRemaining: number // segundos restantes
   totalTime: number // tiempo total de la pregunta
   streak: number
+  lives: number // vidas restantes (survival)
 }
 
-export async function POST(req: Request) {
-  const body = (await req.json()) as AnswerBody
+export const POST = apiHandler(async (req: Request) => {
+  const body = await safeJson<AnswerBody>(req)
 
   const session = await db.gameSession.findUnique({
     where: { id: body.sessionId },
@@ -39,13 +43,28 @@ export async function POST(req: Request) {
   const difficultyId = session.difficulty as DifficultyId
   const diff = DIFFICULTIES.find((d) => d.id === difficultyId)!
 
-  const xp = computeAnswerXp({
-    difficultyId,
-    isCorrect,
-    timeRemaining: body.timeRemaining,
-    totalTime: body.totalTime,
-    streak: body.streak,
-  })
+  // En modo supervivencia (totalQuestions === 0), usar la lógica de XP survival
+  const isSurvival = session.totalQuestions === 0
+  const xp = isSurvival
+    ? (() => {
+        const survivalXp = computeSurvivalXp(body.streak)
+        return {
+          base: isCorrect ? survivalXp.base : 0,
+          difficultyMultiplier: 1,
+          difficultyBonus: 0,
+          timeBonus: 0,
+          streakBonus: isCorrect ? survivalXp.streakBonus : 0,
+          total: isCorrect ? survivalXp.total : 0,
+          combo: isCorrect ? survivalXp.combo : 1,
+        }
+      })()
+    : computeAnswerXp({
+        difficultyId,
+        isCorrect,
+        timeRemaining: body.timeRemaining,
+        totalTime: body.totalTime,
+        streak: body.streak,
+      })
 
   // Actualizar sesión
   const newCorrect = session.correctCount + (isCorrect ? 1 : 0)
@@ -120,6 +139,7 @@ export async function POST(req: Request) {
         newLevel: newLevelInfo.level,
         levelUp,
         boxesAvailable: newBoxes,
+        explanation: (question as { explanation?: string | null }).explanation ?? null,
       })
     }
   }
@@ -130,22 +150,27 @@ export async function POST(req: Request) {
     xpGained: 0,
     xpBreakdown: xp,
     levelUp: false,
+    explanation: (question as { explanation?: string | null }).explanation ?? null,
   })
-}
+})
 
-export async function PATCH(req: Request) {
+export const PATCH = apiHandler(async (req: Request) => {
   // Finalizar sesión: marcar endedAt y registrar resultado win/loss + actualizar stats del usuario
-  const { sessionId } = await req.json()
-  const session = await db.gameSession.findUnique({ where: { id: sessionId } })
+  const body = await safeJson<{ sessionId: string }>(req)
+  const session = await db.gameSession.findUnique({ where: { id: body.sessionId } })
   if (!session) {
     return NextResponse.json({ error: "Sesión no encontrada" }, { status: 404 })
   }
 
-  const result = computeSessionResult(session.correctCount, session.totalQuestions)
+  // En modo supervivencia (totalQuestions === 0), la sesión cuenta como "win" si acertó >=1
+  const isSurvival = session.totalQuestions === 0
+  const result = isSurvival
+    ? (session.correctCount > 0 ? "win" : "loss")
+    : computeSessionResult(session.correctCount, session.totalQuestions)
 
   await db.gameSession.update({
-    where: { id: sessionId },
-    data: { endedAt: new Date(), result },
+    where: { id: body.sessionId },
+    data: { endedAt: new Date(), result, totalQuestions: isSurvival ? session.correctCount : session.totalQuestions },
   })
 
   // Actualizar wins/losses/streaks en el usuario
@@ -157,6 +182,23 @@ export async function PATCH(req: Request) {
     const newCurrentStreak = result === "win" ? user.currentStreak + 1 : 0
     const newMaxStreak = Math.max(user.maxStreak, newCurrentStreak)
 
+    // Stats específicas de Supervivencia (GDD: sistema de récord personal / High Score)
+    let survivalUpdate: Record<string, number> | null = null
+    let isNewSurvivalRecord = false
+
+    if (isSurvival) {
+      const newBestCorrect = Math.max(user.survivalBestCorrect, session.correctCount)
+      const newBestXp = Math.max(user.survivalBestXp, session.xpEarned)
+      isNewSurvivalRecord =
+        session.correctCount > user.survivalBestCorrect ||
+        session.xpEarned > user.survivalBestXp
+      survivalUpdate = {
+        survivalBestCorrect: newBestCorrect,
+        survivalBestXp: newBestXp,
+        survivalRuns: user.survivalRuns + 1,
+      }
+    }
+
     await db.user.update({
       where: { id: user.id },
       data: {
@@ -165,9 +207,26 @@ export async function PATCH(req: Request) {
         losses: newLosses,
         currentStreak: newCurrentStreak,
         maxStreak: newMaxStreak,
+        ...(survivalUpdate ?? {}),
       },
+    })
+
+    return NextResponse.json({
+      ok: true,
+      result,
+      isSurvival,
+      isNewRecord: isSurvival && isNewSurvivalRecord,
+      survivalStats: isSurvival
+        ? {
+            correct: session.correctCount,
+            xp: session.xpEarned,
+            bestCorrect: survivalUpdate?.survivalBestCorrect ?? user.survivalBestCorrect,
+            bestXp: survivalUpdate?.survivalBestXp ?? user.survivalBestXp,
+            totalRuns: survivalUpdate?.survivalRuns ?? user.survivalRuns,
+          }
+        : null,
     })
   }
 
   return NextResponse.json({ ok: true, result })
-}
+})

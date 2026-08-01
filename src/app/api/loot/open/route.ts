@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { openLootBox, computeLevelFromXp } from "@/lib/game"
+import { apiHandler } from "@/lib/api-handler"
 
 export const dynamic = "force-dynamic"
+export const runtime = "nodejs"
 
-export async function POST() {
+export const POST = apiHandler(async () => {
   const user = await db.user.findFirst({
     include: { inventory: true },
   })
@@ -79,4 +81,4 @@ export async function POST() {
     levelUp,
     boxesRemaining: user.boxes - 1 + (levelUp ? 1 : 0),
   })
-}
+})

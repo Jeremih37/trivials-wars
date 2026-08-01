@@ -2,7 +2,8 @@
 
 import { create } from "zustand"
 import type { ClientQuestion, StartGameResponse, AnswerResponse } from "@/lib/types"
-import type { DifficultyId, CategoryId } from "@/lib/game"
+import type { DifficultyId, CategoryId, GameModeId } from "@/lib/game"
+import { SURVIVAL_CONFIG } from "@/lib/game"
 
 export type GameScreen = "login" | "welcome" | "home" | "playing" | "results" | "profile" | "lootbox"
 
@@ -10,8 +11,11 @@ export interface ActiveGame {
   sessionId: string
   category: CategoryId
   difficulty: DifficultyId
-  timePerQuestion: number
+  timePerQuestion: number // tiempo base (puede ser 0 = sin tiempo)
   questions: ClientQuestion[]
+  mode: GameModeId
+  // Survival: vidas restantes
+  lives: number
 }
 
 interface GameState {
@@ -26,8 +30,14 @@ interface GameState {
   // Setup del juego
   selectedCategory: CategoryId | null
   selectedDifficulty: DifficultyId | null
+  selectedMode: GameModeId
+  selectedQuestionCount: number
+  selectedTimePreset: number // 10, 15 o 0 (sin tiempo)
   setCategory: (c: CategoryId) => void
   setDifficulty: (d: DifficultyId) => void
+  setMode: (m: GameModeId) => void
+  setQuestionCount: (n: number) => void
+  setTimePreset: (t: number) => void
 
   // Juego activo
   activeGame: ActiveGame | null
@@ -50,9 +60,42 @@ interface GameState {
   bestStreak: number
   setBestStreak: (s: number) => void
 
+  // Survival: vidas
+  lives: number
+  loseLife: () => void
+  resetLives: () => void
+
   // Resultados de la última respuesta
   lastAnswer: AnswerResponse | null
   setLastAnswer: (a: AnswerResponse | null) => void
+
+  // Modo supervivencia — para saber si terminó por quedarse sin vidas
+  survivalEnded: boolean
+  setSurvivalEnded: (v: boolean) => void
+
+  // Resultado de finalizar sesión (incluye info de récord personal)
+  lastSessionResult: {
+    isSurvival?: boolean
+    isNewRecord?: boolean
+    survivalStats?: {
+      correct: number
+      xp: number
+      bestCorrect: number
+      bestXp: number
+      totalRuns: number
+    } | null
+  } | null
+  setLastSessionResult: (r: {
+    isSurvival?: boolean
+    isNewRecord?: boolean
+    survivalStats?: {
+      correct: number
+      xp: number
+      bestCorrect: number
+      bestXp: number
+      totalRuns: number
+    } | null
+  } | null) => void
 
   // Reset completo
   reset: () => void
@@ -67,8 +110,14 @@ export const useGameStore = create<GameState>((set) => ({
 
   selectedCategory: null,
   selectedDifficulty: null,
+  selectedMode: "classic",
+  selectedQuestionCount: 10,
+  selectedTimePreset: 15,
   setCategory: (c) => set({ selectedCategory: c }),
   setDifficulty: (d) => set({ selectedDifficulty: d }),
+  setMode: (m) => set({ selectedMode: m }),
+  setQuestionCount: (n) => set({ selectedQuestionCount: n }),
+  setTimePreset: (t) => set({ selectedTimePreset: t }),
 
   activeGame: null,
   startGame: (data) =>
@@ -79,13 +128,17 @@ export const useGameStore = create<GameState>((set) => ({
         difficulty: data.difficulty as DifficultyId,
         timePerQuestion: data.timePerQuestion,
         questions: data.questions,
+        mode: (data as StartGameResponse & { mode?: GameModeId }).mode ?? "classic",
+        lives: SURVIVAL_CONFIG.initialLives,
       },
       currentQuestionIndex: 0,
       correctCount: 0,
       totalXpEarned: 0,
       currentStreak: 0,
       bestStreak: 0,
+      lives: SURVIVAL_CONFIG.initialLives,
       lastAnswer: null,
+      survivalEnded: false,
       screen: "playing",
     }),
   endGame: () => set({ screen: "results" }),
@@ -105,8 +158,18 @@ export const useGameStore = create<GameState>((set) => ({
   bestStreak: 0,
   setBestStreak: (s) => set((state) => ({ bestStreak: Math.max(state.bestStreak, s) })),
 
+  lives: SURVIVAL_CONFIG.initialLives,
+  loseLife: () => set((s) => ({ lives: Math.max(0, s.lives - 1) })),
+  resetLives: () => set({ lives: SURVIVAL_CONFIG.initialLives }),
+
   lastAnswer: null,
   setLastAnswer: (a) => set({ lastAnswer: a }),
+
+  survivalEnded: false,
+  setSurvivalEnded: (v) => set({ survivalEnded: v }),
+
+  lastSessionResult: null,
+  setLastSessionResult: (r) => set({ lastSessionResult: r }),
 
   reset: () =>
     set({
@@ -116,7 +179,10 @@ export const useGameStore = create<GameState>((set) => ({
       totalXpEarned: 0,
       currentStreak: 0,
       bestStreak: 0,
+      lives: SURVIVAL_CONFIG.initialLives,
       lastAnswer: null,
+      survivalEnded: false,
+      lastSessionResult: null,
       screen: "home",
       selectedCategory: null,
       selectedDifficulty: null,

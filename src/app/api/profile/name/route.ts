@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server"
 import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/auth"
+import { apiHandler, safeJson } from "@/lib/api-handler"
 
 export const dynamic = "force-dynamic"
+export const runtime = "nodejs"
 
 // PATCH /api/profile/name — actualizar el nombre del jugador
-export async function PATCH(req: Request) {
+export const PATCH = apiHandler(async (req: Request) => {
   const user = await getCurrentUser()
-  const body = (await req.json()) as { name?: string }
+  const body = await safeJson<{ name?: string }>(req)
 
   const raw = (body.name ?? "").trim()
   if (!raw) {
@@ -22,4 +24,4 @@ export async function PATCH(req: Request) {
   })
 
   return NextResponse.json({ ok: true, name })
-}
+})

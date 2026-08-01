@@ -3,11 +3,13 @@ import { db } from "@/lib/db"
 import { getCurrentUser } from "@/lib/auth"
 import { computeLevelFromXp } from "@/lib/game"
 import { ITEMS_BY_ID } from "@/lib/gacha-catalog"
-import { FRAMES, FRAMES_BY_ID, PROFILE_ICONS, ICONS_BY_ID, getIconEmoji } from "@/lib/profile-catalog"
+import { FRAMES, PROFILE_ICONS, getIconEmoji } from "@/lib/profile-catalog"
+import { apiHandler } from "@/lib/api-handler"
 
 export const dynamic = "force-dynamic"
+export const runtime = "nodejs"
 
-export async function GET() {
+export const GET = apiHandler(async () => {
   const user = await getCurrentUser()
 
   const fullUser = await db.user.findUnique({
@@ -111,6 +113,10 @@ export async function GET() {
       winRate: fullUser.gamesPlayed > 0
         ? Math.round((fullUser.wins / fullUser.gamesPlayed) * 100)
         : 0,
+      // Stats específicas de Supervivencia (GDD: récord personal)
+      survivalBestCorrect: fullUser.survivalBestCorrect,
+      survivalBestXp: fullUser.survivalBestXp,
+      survivalRuns: fullUser.survivalRuns,
     },
     progress: fullUser.progress.map((p) => ({
       category: p.category,
@@ -122,4 +128,4 @@ export async function GET() {
     frames,
     icons,
   })
-}
+})

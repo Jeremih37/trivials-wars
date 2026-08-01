@@ -26,9 +26,18 @@ async function main() {
   // 2. Insertar preguntas (upsert por uuid)
   let inserted = 0
   let skipped = 0
+  let updated = 0
   for (const q of QUESTIONS_SEED) {
     const existing = await db.question.findUnique({ where: { uuid: q.uuid } })
     if (existing) {
+      // Si ya existe pero no tiene explicación, actualizar con la nueva
+      if (!existing.explanation && q.explanation) {
+        await db.question.update({
+          where: { id: existing.id },
+          data: { explanation: q.explanation },
+        })
+        updated++
+      }
       skipped++
       continue
     }
@@ -40,11 +49,12 @@ async function main() {
         options: JSON.stringify(q.options),
         correctAnswer: q.correctAnswer,
         difficulty: q.difficulty,
+        explanation: q.explanation ?? null,
       },
     })
     inserted++
   }
-  console.log(`📚 Preguntas: ${inserted} insertadas, ${skipped} existentes`)
+  console.log(`📚 Preguntas: ${inserted} insertadas, ${skipped} existentes, ${updated} actualizadas con explicación`)
 
   const totalQuestions = await db.question.count()
   console.log(`📊 Total preguntas en BD: ${totalQuestions}`)

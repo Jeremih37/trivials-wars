@@ -6,6 +6,7 @@ export interface ClientQuestion {
   uuid: string
   question: string
   options: string[]
+  explanation?: string | null
 }
 
 export interface StartGameResponse {
@@ -16,6 +17,8 @@ export interface StartGameResponse {
   xpBase: number
   multiplier: number
   questions: ClientQuestion[]
+  mode?: "classic" | "survival"
+  initialLives?: number
 }
 
 export interface AnswerResponse {
@@ -29,11 +32,13 @@ export interface AnswerResponse {
     timeBonus: number
     streakBonus: number
     total: number
+    combo?: number
   }
   newTotalXp?: number
   newLevel?: number
   levelUp?: boolean
   boxesAvailable?: number
+  explanation?: string | null
 }
 
 export interface LootBoxResultResponse {
@@ -100,6 +105,10 @@ export interface ProfileData {
     maxStreak: number
     gamesPlayed: number
     winRate: number
+    // Stats específicas de Supervivencia (GDD: récord personal)
+    survivalBestCorrect: number
+    survivalBestXp: number
+    survivalRuns: number
   }
   progress: Array<{
     category: string

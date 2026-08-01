@@ -41,79 +41,94 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  /* Galaxy Pop palette */
-  --color-neon-cyan: #22d3ee;
-  --color-neon-magenta: #f0abfc;
-  --color-neon-purple: #a855f7;
-  --color-neon-pink: #ec4899;
+  /* Aquatic Ambience palette — The Future We Were Promised */
+  --color-abyssal: #070F1E;
+  --color-deepteal: #0D1B2A;
+  --color-bioluminescent: #00F5D4;
+  --color-aquaelectric: #00B4D8;
+  --color-coralline: #FF4D6D;
+  --color-neon-cyan: #00F5D4;
+  --color-neon-aqua: #00B4D8;
+  --color-neon-teal: #2dd4bf;
+  --color-neon-emerald: #10b981;
+  --color-neon-blue: #3b82f6;
+  --color-neon-deep: #0ea5e9;
   --color-neon-gold: #fbbf24;
-  --color-neon-green: #22c55e;
-  --color-neon-lime: #84cc16;
+  --color-neon-coral: #FF4D6D;
+  --color-neon-violet: #8b5cf6;
 }
 
-/* Trivials Wars — Galaxy Pop palette (vibrant purple / pink / cyan on deep violet) */
+/* ============================================================
+   Trivials Wars — "Aquatic Ambience / The Future We Were Promised"
+   Frutiger Aero / Y2K Aquatic Modernism
+   ============================================================ */
 :root {
-  --radius: 0.85rem;
-  --background: #0e0824; /* deep electric violet */
-  --foreground: #ffffff;
-  --card: #1a0f3a;
-  --card-foreground: #ffffff;
-  --popover: #1a0f3a;
-  --popover-foreground: #ffffff;
-  --primary: #ec4899; /* hot pink */
-  --primary-foreground: #ffffff;
-  --secondary: #2a1758;
-  --secondary-foreground: #ffffff;
-  --muted: #1f1248;
-  --muted-foreground: #c4b5fd;
-  --accent: #06b6d4; /* electric cyan */
-  --accent-foreground: #0e0824;
-  --destructive: #f43f5e;
-  --border: rgba(236, 72, 153, 0.22);
-  --input: #2a1758;
-  --ring: #ec4899;
-  --chart-1: #ec4899;
-  --chart-2: #06b6d4;
+  --radius: 0.95rem;
+  /* Fondo Principal: Abyssal Navy */
+  --background: #070F1E;
+  --foreground: #e6faff;
+  /* Superficie / Tarjetas: Deep Teal */
+  --card: #0D1B2A;
+  --card-foreground: #e6faff;
+  --popover: #0D1B2A;
+  --popover-foreground: #e6faff;
+  /* Acento Secundario: Aqua Electric (botones primarios, bordes activos, temporizador) */
+  --primary: #00B4D8;
+  --primary-foreground: #070F1E;
+  --secondary: #0a2a45;
+  --secondary-foreground: #e6faff;
+  --muted: #102a43;
+  --muted-foreground: #7dd3fc;
+  /* Acento Neón / Correcto: Bioluminescent Cyan */
+  --accent: #00F5D4;
+  --accent-foreground: #070F1E;
+  /* Alerta / Error / Vida: Coralline Red */
+  --destructive: #FF4D6D;
+  --border: rgba(0, 180, 216, 0.22);
+  --input: #0a2a45;
+  --ring: #00B4D8;
+  --chart-1: #00F5D4;
+  --chart-2: #00B4D8;
   --chart-3: #fbbf24;
-  --chart-4: #a855f7;
-  --chart-5: #84cc16;
-  --sidebar: #0e0824;
-  --sidebar-foreground: #ffffff;
-  --sidebar-primary: #ec4899;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #2a1758;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: rgba(236, 72, 153, 0.22);
-  --sidebar-ring: #ec4899;
+  --chart-4: #8b5cf6;
+  --chart-5: #FF4D6D;
+  --sidebar: #070F1E;
+  --sidebar-foreground: #e6faff;
+  --sidebar-primary: #00B4D8;
+  --sidebar-primary-foreground: #070F1E;
+  --sidebar-accent: #0a2a45;
+  --sidebar-accent-foreground: #e6faff;
+  --sidebar-border: rgba(0, 180, 216, 0.22);
+  --sidebar-ring: #00B4D8;
 }
 
 .dark {
-  --background: #0e0824;
-  --foreground: #ffffff;
-  --card: #1a0f3a;
-  --card-foreground: #ffffff;
-  --popover: #1a0f3a;
-  --popover-foreground: #ffffff;
-  --primary: #ec4899;
-  --primary-foreground: #ffffff;
-  --secondary: #2a1758;
-  --secondary-foreground: #ffffff;
-  --muted: #1f1248;
-  --muted-foreground: #c4b5fd;
-  --accent: #06b6d4;
-  --accent-foreground: #0e0824;
-  --destructive: #f43f5e;
-  --border: rgba(236, 72, 153, 0.22);
-  --input: #2a1758;
-  --ring: #ec4899;
-  --sidebar: #0e0824;
-  --sidebar-foreground: #ffffff;
-  --sidebar-primary: #ec4899;
-  --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #2a1758;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: rgba(236, 72, 153, 0.22);
-  --sidebar-ring: #ec4899;
+  --background: #070F1E;
+  --foreground: #e6faff;
+  --card: #0D1B2A;
+  --card-foreground: #e6faff;
+  --popover: #0D1B2A;
+  --popover-foreground: #e6faff;
+  --primary: #00B4D8;
+  --primary-foreground: #070F1E;
+  --secondary: #0a2a45;
+  --secondary-foreground: #e6faff;
+  --muted: #102a43;
+  --muted-foreground: #7dd3fc;
+  --accent: #00F5D4;
+  --accent-foreground: #070F1E;
+  --destructive: #FF4D6D;
+  --border: rgba(0, 180, 216, 0.22);
+  --input: #0a2a45;
+  --ring: #00B4D8;
+  --sidebar: #070F1E;
+  --sidebar-foreground: #e6faff;
+  --sidebar-primary: #00B4D8;
+  --sidebar-primary-foreground: #070F1E;
+  --sidebar-accent: #0a2a45;
+  --sidebar-accent-foreground: #e6faff;
+  --sidebar-border: rgba(0, 180, 216, 0.22);
+  --sidebar-ring: #00B4D8;
 }
 
 @layer base {
@@ -125,36 +140,53 @@
   }
   body {
     background:
-      radial-gradient(1200px 600px at 80% -10%, rgba(236, 72, 153, 0.32), transparent 60%),
-      radial-gradient(900px 500px at -10% 110%, rgba(6, 182, 212, 0.28), transparent 60%),
-      radial-gradient(700px 400px at 50% 50%, rgba(168, 85, 247, 0.18), transparent 70%),
+      radial-gradient(1200px 600px at 80% -10%, rgba(0, 245, 212, 0.22), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(0, 180, 216, 0.28), transparent 60%),
+      radial-gradient(700px 400px at 50% 50%, rgba(59, 130, 246, 0.12), transparent 70%),
       var(--background);
     background-attachment: fixed;
     min-height: 100vh;
   }
 }
 
-/* Vibrant glow utilities */
-@utility glow-pink {
-  box-shadow: 0 0 20px rgba(236, 72, 153, 0.55), 0 0 40px rgba(236, 72, 153, 0.28);
-}
+/* ============================================================
+   Bioluminescent glow utilities (Aquatic Ambience)
+   ============================================================ */
 @utility glow-cyan {
-  box-shadow: 0 0 20px rgba(6, 182, 212, 0.55), 0 0 40px rgba(6, 182, 212, 0.28);
+  box-shadow: 0 0 20px rgba(0, 245, 212, 0.55), 0 0 40px rgba(0, 245, 212, 0.28);
 }
-@utility glow-purple {
-  box-shadow: 0 0 20px rgba(168, 85, 247, 0.55), 0 0 40px rgba(168, 85, 247, 0.28);
+@utility glow-bioluminescent {
+  box-shadow: 0 0 20px rgba(0, 245, 212, 0.65), 0 0 45px rgba(0, 245, 212, 0.32);
+}
+@utility glow-aqua {
+  box-shadow: 0 0 20px rgba(0, 180, 216, 0.55), 0 0 40px rgba(0, 180, 216, 0.32);
+}
+@utility glow-teal {
+  box-shadow: 0 0 20px rgba(45, 212, 191, 0.55), 0 0 40px rgba(45, 212, 191, 0.28);
+}
+@utility glow-blue {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.55), 0 0 40px rgba(59, 130, 246, 0.28);
+}
+@utility glow-emerald {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.55), 0 0 40px rgba(16, 185, 129, 0.28);
 }
 @utility glow-gold {
-  box-shadow: 0 0 25px rgba(251, 191, 36, 0.65), 0 0 50px rgba(236, 72, 153, 0.35);
+  box-shadow: 0 0 25px rgba(251, 191, 36, 0.65), 0 0 50px rgba(251, 191, 36, 0.35);
 }
-@utility glow-green {
-  box-shadow: 0 0 20px rgba(132, 204, 22, 0.55), 0 0 40px rgba(132, 204, 22, 0.28);
+@utility glow-coral {
+  box-shadow: 0 0 22px rgba(255, 77, 109, 0.65), 0 0 45px rgba(255, 77, 109, 0.35);
 }
-@utility glow-magenta {
-  box-shadow: 0 0 20px rgba(240, 171, 252, 0.55), 0 0 40px rgba(240, 171, 252, 0.28);
+@utility glow-coral-strong {
+  box-shadow: 0 0 28px rgba(255, 77, 109, 0.85), 0 0 55px rgba(255, 77, 109, 0.45);
+}
+@utility glow-violet {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.55), 0 0 40px rgba(139, 92, 246, 0.28);
 }
 @utility glow-red {
-  box-shadow: 0 0 20px rgba(244, 63, 94, 0.55), 0 0 40px rgba(244, 63, 94, 0.28);
+  box-shadow: 0 0 20px rgba(255, 77, 109, 0.65), 0 0 40px rgba(255, 77, 109, 0.35);
+}
+@utility glow-green {
+  box-shadow: 0 0 20px rgba(0, 245, 212, 0.55), 0 0 40px rgba(0, 245, 212, 0.32);
 }
 @utility glow-orange {
   box-shadow: 0 0 20px rgba(251, 146, 60, 0.55), 0 0 40px rgba(251, 146, 60, 0.28);
@@ -162,11 +194,42 @@
 @utility glow-yellow {
   box-shadow: 0 0 20px rgba(251, 191, 36, 0.55), 0 0 40px rgba(251, 191, 36, 0.28);
 }
+@utility glow-magenta {
+  box-shadow: 0 0 20px rgba(240, 171, 252, 0.55), 0 0 40px rgba(240, 171, 252, 0.28);
+}
+@utility glow-pink {
+  box-shadow: 0 0 20px rgba(255, 77, 109, 0.55), 0 0 40px rgba(255, 77, 109, 0.32);
+}
+@utility glow-purple {
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.55), 0 0 40px rgba(168, 85, 247, 0.28);
+}
 
-/* Custom scrollbar */
+/* ============================================================
+   Glassmorphism utilities (Frutiger Aero / Y2K Aquatic)
+   ============================================================ */
+@utility glass {
+  background: rgba(13, 27, 42, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 180, 216, 0.22);
+}
+@utility glass-strong {
+  background: rgba(13, 27, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 245, 212, 0.28);
+}
+@utility glass-light {
+  background: rgba(0, 180, 216, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 180, 216, 0.18);
+}
+
+/* Custom scrollbar — aquatic */
 @utility scrollbar-neon {
   scrollbar-width: thin;
-  scrollbar-color: rgba(236, 72, 153, 0.5) transparent;
+  scrollbar-color: rgba(0, 180, 216, 0.5) transparent;
 }
 .scrollbar-neon::-webkit-scrollbar {
   width: 6px;
@@ -176,14 +239,16 @@
   background: transparent;
 }
 .scrollbar-neon::-webkit-scrollbar-thumb {
-  background: rgba(236, 72, 153, 0.4);
+  background: rgba(0, 245, 212, 0.4);
   border-radius: 3px;
 }
 .scrollbar-neon::-webkit-scrollbar-thumb:hover {
-  background: rgba(236, 72, 153, 0.7);
+  background: rgba(0, 245, 212, 0.7);
 }
 
-/* Pulse keyframes */
+/* ============================================================
+   Animations — Aquatic Ambience
+   ============================================================ */
 @keyframes pulse-glow {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.6; transform: scale(1.05); }
@@ -199,21 +264,99 @@
   100% { background-position: 200% 0; }
 }
 
+/* Bubbles rising — aquatic ambient */
+@keyframes bubble-rise {
+  0% { transform: translateY(100vh) scale(0.3); opacity: 0; }
+  10% { opacity: 0.7; }
+  90% { opacity: 0.4; }
+  100% { transform: translateY(-10vh) scale(1.1); opacity: 0; }
+}
+
+@keyframes wave-flow {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(-25%); }
+}
+
+/* Bioluminescent pulse for combo / hearts */
+@keyframes bioluminescent-pulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(0, 245, 212, 0.55), 0 0 16px rgba(0, 245, 212, 0.32);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 16px rgba(0, 245, 212, 0.85), 0 0 32px rgba(0, 245, 212, 0.55);
+    transform: scale(1.06);
+  }
+}
+
+@keyframes heart-pulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 6px rgba(255, 77, 109, 0.65));
+  }
+  50% {
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 12px rgba(255, 77, 109, 0.95));
+  }
+}
+
+@keyframes heart-break {
+  0% { transform: scale(1) rotate(0deg); opacity: 1; }
+  50% { transform: scale(1.3) rotate(-12deg); opacity: 0.7; }
+  100% { transform: scale(0.6) rotate(20deg); opacity: 0; }
+}
+
 .animate-float-slow {
   animation: float-slow 3s ease-in-out infinite;
 }
 
-/* Text gradient utility — Galaxy Pop */
+.animate-bubble {
+  animation: bubble-rise 12s ease-in infinite;
+}
+
+.animate-wave {
+  animation: wave-flow 8s ease-in-out infinite;
+}
+
+.animate-bioluminescent {
+  animation: bioluminescent-pulse 1.8s ease-in-out infinite;
+}
+
+.animate-heart-pulse {
+  animation: heart-pulse 1.4s ease-in-out infinite;
+}
+
+.animate-heart-break {
+  animation: heart-break 0.5s ease-out forwards;
+}
+
+/* Text gradient utility — Aquatic Ambience */
 @utility text-gradient-neon {
-  background: linear-gradient(135deg, #fbbf24 0%, #ec4899 50%, #06b6d4 100%);
+  background: linear-gradient(135deg, #00F5D4 0%, #00B4D8 50%, #2dd4bf 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
 }
 
-@utility text-gradient-pink {
-  background: linear-gradient(135deg, #f0abfc 0%, #ec4899 100%);
+@utility text-gradient-aqua {
+  background: linear-gradient(135deg, #7dd3fc 0%, #00B4D8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+@utility text-gradient-bioluminescent {
+  background: linear-gradient(135deg, #00F5D4 0%, #00B4D8 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+@utility text-gradient-teal {
+  background: linear-gradient(135deg, #5eead4 0%, #2dd4bf 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -221,9 +364,42 @@
 }
 
 @utility text-gradient-cyan {
-  background: linear-gradient(135deg, #67e8f9 0%, #06b6d4 100%);
+  background: linear-gradient(135deg, #00F5D4 0%, #00B4D8 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+}
+
+@utility text-gradient-coral {
+  background: linear-gradient(135deg, #FF4D6D 0%, #ff8fab 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+@utility text-gradient-pink {
+  background: linear-gradient(135deg, #ff8fab 0%, #FF4D6D 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Caustic water shimmer overlay — subtle moving light */
+@utility caustic-overlay {
+  position: relative;
+  overflow: hidden;
+}
+.caustic-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(0, 245, 212, 0.18) 0%, transparent 30%),
+    radial-gradient(circle at 70% 80%, rgba(0, 180, 216, 0.14) 0%, transparent 35%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: float-slow 6s ease-in-out infinite;
 }

@@ -6,7 +6,6 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  // Permite usar pgbouncer/direct URL en Vercel/Neon sin conflicto
   directUrl = env("DIRECT_URL")
 }
 
@@ -30,6 +29,10 @@ model User {
   currentStreak Int     @default(0) // racha actual de victorias consecutivas
   maxStreak    Int      @default(0) // mejor racha histórica
   gamesPlayed  Int      @default(0)
+  // Stats específicas del modo Supervivencia (GDD: sistema de récord personal)
+  survivalBestCorrect Int @default(0) // mejor cantidad de aciertos en una run
+  survivalBestXp      Int @default(0) // mejor XP en una run
+  survivalRuns        Int @default(0) // total de runs jugadas
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -71,6 +74,7 @@ model Question {
   options         String
   correctAnswer   String
   difficulty      String
+  explanation     String?  // Explicación opcional del dato (Aquatic Ambience GDD)
   createdAt       DateTime @default(now())
 }
 
