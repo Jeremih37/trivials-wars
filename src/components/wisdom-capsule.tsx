@@ -373,20 +373,18 @@ export function WisdomCapsule() {
                 <ChevronRight className="w-3 h-3" />
               </button>
 
-              {/* Indicadores */}
-              <div className="flex sm:flex-col items-center gap-1">
-                {WISDOM_CAPSULES.map((c, i) => (
-                  <button
-                    key={c.id}
-                    onClick={() => setIdx(i)}
-                    className="h-1 rounded-full transition-all"
-                    style={{
-                      width: i === idx ? 14 : 4,
-                      background: i === idx ? meta.color : "rgba(128, 144, 192, 0.30)",
-                    }}
-                    aria-label={`Ver cápsula ${i + 1}`}
-                  />
-                ))}
+              {/* Contador compacto: solo muestra posición actual / total */}
+              <div className="flex items-center gap-1.5">
+                <span
+                  className="text-[10px] font-mono font-bold tabular-nums"
+                  style={{ color: meta.color }}
+                >
+                  {idx + 1}
+                </span>
+                <span className="text-[10px] text-[#8090C0]">/</span>
+                <span className="text-[10px] font-mono text-[#8090C0] tabular-nums">
+                  {WISDOM_CAPSULES.length}
+                </span>
               </div>
             </div>
           </div>

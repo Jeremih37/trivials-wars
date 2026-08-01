@@ -193,6 +193,11 @@ export function LofiPlayer({ enabled, volume, onStateChange, className }: LofiPl
     }
   }, [volume])
 
+  // Si falla YouTube, ocultar el widget silenciosamente (no mostrar ERROR rojo feo)
+  if (state === "error") {
+    return null
+  }
+
   return (
     <div
       className={cn(
@@ -212,13 +217,8 @@ export function LofiPlayer({ enabled, volume, onStateChange, className }: LofiPl
     >
       <div ref={containerRef} />
       {state === "loading" && (
-        <div className="absolute inset-0 flex items-center justify-center bg-slate-800 text-white text-[9px] font-bold uppercase tracking-wider">
-          cargando…
-        </div>
-      )}
-      {state === "error" && (
-        <div className="absolute inset-0 flex items-center justify-center bg-[#5C0A1F] text-white text-[9px] font-bold uppercase tracking-wider">
-          error
+        <div className="absolute inset-0 flex items-center justify-center bg-[#131838] text-[#C8D0F0] text-[9px] font-bold uppercase tracking-wider">
+          lofi…
         </div>
       )}
       {state === "paused" && (
