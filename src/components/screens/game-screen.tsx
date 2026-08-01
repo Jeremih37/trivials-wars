@@ -222,7 +222,7 @@ export function GameScreen() {
   }
 
   if (!activeGame || !currentQuestion || !diff) {
-    return <div className="p-8 text-center text-slate-600">Cargando partida…</div>
+    return <div className="p-8 text-center text-[#4E5A6C]">Cargando partida…</div>
   }
 
   // Mix: usa un color cian por defecto
@@ -262,15 +262,15 @@ export function GameScreen() {
       )}
     >
       {/* Header compacto */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/60 border-b border-slate-200/50">
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#F2ECDD]/60 border-b border-[#BFB39A]/50">
         <div className="max-w-2xl mx-auto px-4 py-2.5">
           <div className="flex items-center justify-between gap-2">
             <button
               onClick={handleAbort}
-              className="p-1.5 rounded-lg hover:bg-white/80 transition"
+              className="p-1.5 rounded-lg hover:bg-[#F2ECDD]/80 transition"
               title="Salir"
             >
-              <ChevronLeft className="w-4 h-4 text-slate-600" />
+              <ChevronLeft className="w-4 h-4 text-[#4E5A6C]" />
             </button>
 
             {/* Center: category + progress */}
@@ -278,7 +278,7 @@ export function GameScreen() {
               <span className="text-xl">{catIcon}</span>
               <div className="leading-tight">
                 <div className="text-xs font-bold" style={{ color: catColor }}>{catName}</div>
-                <div className="text-[9px] text-slate-500">
+                <div className="text-[9px] text-[#7A8492]">
                   {isSurvival
                     ? `Sobreviviendo: ${currentQuestionIndex + 1}`
                     : isSuddenDeath
@@ -290,20 +290,20 @@ export function GameScreen() {
 
             {/* Right: XP + streak */}
             <div className="flex items-center gap-1.5">
-              <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-400/10 border border-blue-400/40">
-                <Zap className="w-3 h-3 text-slate-600" />
-                <span className="text-xs font-bold text-slate-600 tabular-nums">{totalXpEarned}</span>
+              <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#7A8492]/10 border border-blue-400/40">
+                <Zap className="w-3 h-3 text-[#4E5A6C]" />
+                <span className="text-xs font-bold text-[#4E5A6C] tabular-nums">{totalXpEarned}</span>
               </div>
               {currentStreak >= 2 && (
                 <div
                   className={cn(
                     "flex items-center gap-1 px-2 py-1 rounded-lg border",
                     isGoldenAlert
-                      ? "bg-amber-400/20 border-amber-400/60 animate-gold-pulse"
+                      ? "bg-amber-400/20 border-[#C99A50]/60 animate-gold-pulse"
                       : currentCombo >= 3
                         ? "bg-emerald-400/20 border-emerald-400/60"
                         : currentCombo === 2
-                          ? "bg-slate-400/20 border-blue-400/60"
+                          ? "bg-[#7A8492]/20 border-blue-400/60"
                           : "bg-orange-400/15 border-orange-400/40"
                   )}
                 >
@@ -359,7 +359,7 @@ export function GameScreen() {
                   </motion.div>
                 )
               })}
-              <span className="ml-2 text-[10px] uppercase tracking-wider text-slate-500">Vidas</span>
+              <span className="ml-2 text-[10px] uppercase tracking-wider text-[#7A8492]">Vidas</span>
             </div>
           )}
 
@@ -384,7 +384,7 @@ export function GameScreen() {
                   }}
                 />
               </motion.div>
-              <span className="ml-2 text-[10px] uppercase tracking-wider text-amber-700/80">
+              <span className="ml-2 text-[10px] uppercase tracking-wider text-[#8A6428]/80">
                 {suddenDeathEnded ? "Sin vidas" : "1 vida · 1 fallo = fin"}
               </span>
             </div>
@@ -416,14 +416,14 @@ export function GameScreen() {
               initial={{ opacity: 0, y: -10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10 }}
-              className="mb-4 rounded-2xl border-2 border-amber-400/70 bg-amber-100/80 p-3 text-center"
+              className="mb-4 rounded-2xl border-2 border-[#C99A50]/70 bg-amber-100/80 p-3 text-center"
             >
-              <div className="flex items-center justify-center gap-2 text-amber-800">
+              <div className="flex items-center justify-center gap-2 text-[#6B4D1C]">
                 <Skull className="w-5 h-5" />
                 <span className="font-black text-sm uppercase tracking-widest">¡Zona de Alerta Dorada!</span>
                 <Skull className="w-5 h-5" />
               </div>
-              <div className="text-[10px] text-amber-700 mt-0.5">
+              <div className="text-[10px] text-[#8A6428] mt-0.5">
                 Llevás {correctCount} aciertos seguidos — un fallo y se acaba la racha
               </div>
             </motion.div>
@@ -432,11 +432,11 @@ export function GameScreen() {
 
         {/* Timer compacto */}
         <div className="flex items-center gap-3 mb-5">
-          <div className="flex items-center gap-1.5 text-xs text-slate-500">
+          <div className="flex items-center gap-1.5 text-xs text-[#7A8492]">
             <Clock className="w-3.5 h-3.5" />
             <span className="uppercase tracking-wider">Tiempo</span>
           </div>
-          <div className="flex-1 h-2.5 rounded-full bg-blue-100/60 overflow-hidden border border-slate-200/50">
+          <div className="flex-1 h-2.5 rounded-full bg-blue-100/60 overflow-hidden border border-[#BFB39A]/50">
             {hasTimer && (
               <motion.div
                 className="h-full rounded-full"
@@ -465,10 +465,10 @@ export function GameScreen() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.3 }}
-            className="rounded-2xl border bg-white/80 backdrop-blur-sm p-5 sm:p-7 mb-5 glass"
+            className="rounded-2xl border bg-[#F2ECDD]/80 backdrop-blur-sm p-5 sm:p-7 mb-5 glass"
             style={{ borderColor: `${catColor}40`, boxShadow: `0 0 25px ${catColor}15` }}
           >
-            <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-slate-500 mb-3 justify-center">
+            <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#7A8492] mb-3 justify-center">
               <span
                 className="px-2 py-0.5 rounded-full font-bold"
                 style={{ background: `${catColor}20`, color: catColor, border: `1px solid ${catColor}40` }}
@@ -480,7 +480,7 @@ export function GameScreen() {
                     : `${diff.name} · ${hasTimer ? `${totalTime}s` : "sin tiempo"}`}
               </span>
             </div>
-            <h2 className="text-lg sm:text-2xl font-bold text-center leading-snug text-slate-700">
+            <h2 className="text-lg sm:text-2xl font-bold text-center leading-snug text-[#3D4A60]">
               {currentQuestion.question}
             </h2>
           </motion.div>
@@ -508,24 +508,24 @@ export function GameScreen() {
                 }}
                 className={cn(
                   "relative text-left rounded-2xl border p-3.5 transition-all overflow-hidden flex items-center gap-3",
-                  phase === "question" && "border-slate-200/60 bg-white/70 hover:bg-white/95 hover:border-blue-400/60 cursor-pointer",
+                  phase === "question" && "border-[#BFB39A]/60 bg-[#F2ECDD]/70 hover:bg-[#F2ECDD]/95 hover:border-blue-400/60 cursor-pointer",
                   showCorrect && "border-emerald-400 bg-emerald-50 glow-emerald",
                   showWrong && "border-rose-400 bg-rose-50",
-                  phase === "feedback" && !showCorrect && !showWrong && "border-slate-200/40 bg-white/40 opacity-50"
+                  phase === "feedback" && !showCorrect && !showWrong && "border-[#BFB39A]/40 bg-[#F2ECDD]/40 opacity-50"
                 )}
               >
                 <span
                   className={cn(
                     "flex items-center justify-center w-8 h-8 rounded-lg shrink-0 font-black text-sm border",
-                    phase === "question" && "border-slate-200/60 bg-blue-100/60 text-slate-600",
+                    phase === "question" && "border-[#BFB39A]/60 bg-blue-100/60 text-[#4E5A6C]",
                     showCorrect && "border-emerald-400 bg-emerald-400/30 text-emerald-900",
                     showWrong && "border-rose-400 bg-rose-400/30 text-rose-900",
-                    phase === "feedback" && !showCorrect && !showWrong && "border-slate-200/40 bg-blue-100/30 text-slate-400"
+                    phase === "feedback" && !showCorrect && !showWrong && "border-[#BFB39A]/40 bg-blue-100/30 text-[#8E9DB4]"
                   )}
                 >
                   {showCorrect ? <Check className="w-4 h-4" /> : showWrong ? <X className="w-4 h-4" /> : letter}
                 </span>
-                <span className="font-medium text-sm sm:text-base break-words flex-1 text-slate-700">{option}</span>
+                <span className="font-medium text-sm sm:text-base break-words flex-1 text-[#3D4A60]">{option}</span>
               </motion.button>
             )
           })}
@@ -544,35 +544,35 @@ export function GameScreen() {
                 "rounded-2xl border p-3.5 mb-3 glass",
                 lastAnswer.isCorrect
                   ? "border-emerald-300/60 bg-emerald-50/70"
-                  : "border-rose-300/60 bg-rose-50/70"
+                  : "border-[#C98896]/60 bg-rose-50/70"
               )}>
                 <div className="flex items-center gap-2">
                   {lastAnswer.isCorrect ? (
-                    <><Check className="w-4 h-4 text-sage-700" /><span className="font-bold text-sm text-emerald-700">¡Correcto!</span></>
+                    <><Check className="w-4 h-4 text-[#4D6450]" /><span className="font-bold text-sm text-[#4D6450]">¡Correcto!</span></>
                   ) : (
-                    <><X className="w-4 h-4 text-rose-600" /><span className="font-bold text-sm text-rose-700">Incorrecto</span></>
+                    <><X className="w-4 h-4 text-rose-600" /><span className="font-bold text-sm text-[#8B4A56]">Incorrecto</span></>
                   )}
                   {lastAnswer.xpGained > 0 && (
-                    <span className="ml-auto text-sm font-mono font-bold text-amber-700">+{lastAnswer.xpGained} XP{lastAnswer.xpBreakdown.combo && lastAnswer.xpBreakdown.combo > 1 ? ` ×${lastAnswer.xpBreakdown.combo}` : ""}</span>
+                    <span className="ml-auto text-sm font-mono font-bold text-[#8A6428]">+{lastAnswer.xpGained} XP{lastAnswer.xpBreakdown.combo && lastAnswer.xpBreakdown.combo > 1 ? ` ×${lastAnswer.xpBreakdown.combo}` : ""}</span>
                   )}
                 </div>
                 {!lastAnswer.isCorrect && (
-                  <div className="text-xs text-slate-600 mt-1.5">
-                    Respuesta: <span className="font-bold text-slate-700">{lastAnswer.correctAnswer}</span>
+                  <div className="text-xs text-[#4E5A6C] mt-1.5">
+                    Respuesta: <span className="font-bold text-[#3D4A60]">{lastAnswer.correctAnswer}</span>
                   </div>
                 )}
                 {/* Explicación del dato */}
                 {lastAnswer.explanation && (
-                  <div className="mt-2 flex items-start gap-1.5 text-xs text-slate-600 bg-blue-50/70 border border-slate-200/50 rounded-lg p-2">
-                    <Info className="w-3.5 h-3.5 mt-0.5 shrink-0 text-slate-500" />
+                  <div className="mt-2 flex items-start gap-1.5 text-xs text-[#4E5A6C] bg-blue-50/70 border border-[#BFB39A]/50 rounded-lg p-2">
+                    <Info className="w-3.5 h-3.5 mt-0.5 shrink-0 text-[#7A8492]" />
                     <span className="leading-snug">{lastAnswer.explanation}</span>
                   </div>
                 )}
                 {lastAnswer.xpBreakdown && lastAnswer.isCorrect && (lastAnswer.xpBreakdown.timeBonus > 0 || lastAnswer.xpBreakdown.streakBonus > 0 || lastAnswer.xpBreakdown.difficultyBonus > 0) && (
-                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px] text-slate-600 mt-2 font-mono">
+                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px] text-[#4E5A6C] mt-2 font-mono">
                     <span>Base: +{lastAnswer.xpBreakdown.base}</span>
-                    {lastAnswer.xpBreakdown.timeBonus > 0 && <span className="text-slate-600">+{lastAnswer.xpBreakdown.timeBonus} tiempo</span>}
-                    {lastAnswer.xpBreakdown.streakBonus > 0 && <span className="text-sage-700">+{lastAnswer.xpBreakdown.streakBonus} combo</span>}
+                    {lastAnswer.xpBreakdown.timeBonus > 0 && <span className="text-[#4E5A6C]">+{lastAnswer.xpBreakdown.timeBonus} tiempo</span>}
+                    {lastAnswer.xpBreakdown.streakBonus > 0 && <span className="text-[#4D6450]">+{lastAnswer.xpBreakdown.streakBonus} combo</span>}
                     {lastAnswer.xpBreakdown.difficultyBonus > 0 && <span className="text-purple-600">+{lastAnswer.xpBreakdown.difficultyBonus} dificultad</span>}
                   </div>
                 )}
@@ -640,10 +640,10 @@ export function GameScreen() {
             exit={{ opacity: 0, scale: 0.7 }}
             className="fixed top-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
           >
-            <div className="bg-gradient-to-r from-amber-300 via-amber-200 to-amber-300 text-amber-800 px-6 py-3 rounded-2xl font-fancy italic font-bold tracking-wide text-lg glow-gold">
+            <div className="bg-gradient-to-r from-amber-300 via-amber-200 to-amber-300 text-[#6B4D1C] px-6 py-3 rounded-2xl font-fancy italic font-bold tracking-wide text-lg glow-gold">
               ⬆ ¡Nivel {lastAnswer?.newLevel}!
             </div>
-            <div className="text-center mt-1 text-xs text-amber-700 italic">+1 Loot Box disponible</div>
+            <div className="text-center mt-1 text-xs text-[#8A6428] italic">+1 Loot Box disponible</div>
           </motion.div>
         )}
       </AnimatePresence>

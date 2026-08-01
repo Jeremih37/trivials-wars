@@ -94,14 +94,14 @@ export function ResultsScreen() {
           transition={{ delay: 0.2 }}
           className="text-center"
         >
-          <div className="text-xs uppercase tracking-widest text-slate-500 italic">Rango obtenido</div>
+          <div className="text-xs uppercase tracking-widest text-[#7A8492] italic">Rango obtenido</div>
           <h1
             className="text-4xl font-fancy italic font-bold tracking-tight mt-1"
             style={{ color: rank.color, textShadow: `0 0 30px ${rank.color}40` }}
           >
             {rank.label}
           </h1>
-          <div className="text-sm text-slate-600 mt-2">
+          <div className="text-sm text-[#4E5A6C] mt-2">
             {cat?.icon} {cat?.name} · {isSuddenDeath ? "☠ Muerte Súbita" : isSurvival ? "Supervivencia" : diff?.name}
           </div>
         </motion.div>
@@ -142,24 +142,24 @@ export function ResultsScreen() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="w-full mt-4 rounded-2xl border border-amber-300/60 bg-amber-50/70 p-4 glass"
+            className="w-full mt-4 rounded-2xl border border-[#D9A85E]/60 bg-amber-50/70 p-4 glass"
           >
             <div className="flex items-center gap-2 mb-2">
-              <Skull className="w-4 h-4 text-amber-700" />
-              <span className="font-bold text-sm text-amber-800">Estadísticas de Muerte Súbita</span>
+              <Skull className="w-4 h-4 text-[#8A6428]" />
+              <span className="font-bold text-sm text-[#6B4D1C]">Estadísticas de Muerte Súbita</span>
             </div>
             <div className="grid grid-cols-3 gap-3 text-center">
               <div>
-                <div className="text-lg font-black text-amber-700">{suddenDeathStats.bestCorrect}</div>
-                <div className="text-[9px] uppercase tracking-wider text-amber-700/70">Mejor run (aciertos)</div>
+                <div className="text-lg font-black text-[#8A6428]">{suddenDeathStats.bestCorrect}</div>
+                <div className="text-[9px] uppercase tracking-wider text-[#8A6428]/70">Mejor run (aciertos)</div>
               </div>
               <div>
-                <div className="text-lg font-black text-amber-700">{suddenDeathStats.bestXp}</div>
-                <div className="text-[9px] uppercase tracking-wider text-amber-700/70">Mejor run (XP)</div>
+                <div className="text-lg font-black text-[#8A6428]">{suddenDeathStats.bestXp}</div>
+                <div className="text-[9px] uppercase tracking-wider text-[#8A6428]/70">Mejor run (XP)</div>
               </div>
               <div>
                 <div className="text-lg font-black text-orange-600">{suddenDeathStats.totalRuns}</div>
-                <div className="text-[9px] uppercase tracking-wider text-amber-700/70">Runs totales</div>
+                <div className="text-[9px] uppercase tracking-wider text-[#8A6428]/70">Runs totales</div>
               </div>
             </div>
           </motion.div>
@@ -171,24 +171,24 @@ export function ResultsScreen() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4 }}
-            className="w-full mt-4 rounded-2xl border border-rose-300/60 bg-rose-50/70 p-4 glass"
+            className="w-full mt-4 rounded-2xl border border-[#C98896]/60 bg-rose-50/70 p-4 glass"
           >
             <div className="flex items-center gap-2 mb-2">
               <Waves className="w-4 h-4 text-rose-600" />
-              <span className="font-bold text-sm text-rose-800">Estadísticas de Supervivencia</span>
+              <span className="font-bold text-sm text-[#6F3A45]">Estadísticas de Supervivencia</span>
             </div>
             <div className="grid grid-cols-3 gap-3 text-center">
               <div>
-                <div className="text-lg font-black text-amber-700">{survivalStats.bestCorrect}</div>
-                <div className="text-[9px] uppercase tracking-wider text-rose-700/70">Mejor run (aciertos)</div>
+                <div className="text-lg font-black text-[#8A6428]">{survivalStats.bestCorrect}</div>
+                <div className="text-[9px] uppercase tracking-wider text-[#8B4A56]/70">Mejor run (aciertos)</div>
               </div>
               <div>
-                <div className="text-lg font-black text-slate-600">{survivalStats.bestXp}</div>
-                <div className="text-[9px] uppercase tracking-wider text-rose-700/70">Mejor run (XP)</div>
+                <div className="text-lg font-black text-[#4E5A6C]">{survivalStats.bestXp}</div>
+                <div className="text-[9px] uppercase tracking-wider text-[#8B4A56]/70">Mejor run (XP)</div>
               </div>
               <div>
-                <div className="text-lg font-black text-rose-700">{survivalStats.totalRuns}</div>
-                <div className="text-[9px] uppercase tracking-wider text-rose-700/70">Runs totales</div>
+                <div className="text-lg font-black text-[#8B4A56]">{survivalStats.totalRuns}</div>
+                <div className="text-[9px] uppercase tracking-wider text-[#8B4A56]/70">Runs totales</div>
               </div>
             </div>
           </motion.div>
@@ -200,9 +200,9 @@ export function ResultsScreen() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="w-full mt-6 rounded-2xl border border-slate-200/60 bg-white/70 p-4 glass"
+            className="w-full mt-6 rounded-2xl border border-[#BFB39A]/60 bg-[#F2ECDD]/70 p-4 glass"
           >
-            <div className="flex justify-between text-xs text-slate-600 mb-1">
+            <div className="flex justify-between text-xs text-[#4E5A6C] mb-1">
               <span className="font-bold">Nivel {profile.user.level}</span>
               <span className="font-mono">{profile.user.xpIntoLevel} / {profile.user.xpForNextLevel} XP</span>
             </div>
@@ -215,7 +215,7 @@ export function ResultsScreen() {
               />
             </div>
             {profile.user.boxes > 0 && (
-              <div className="mt-3 text-xs flex items-center gap-2 text-amber-700">
+              <div className="mt-3 text-xs flex items-center gap-2 text-[#8A6428]">
                 <Gift className="w-4 h-4" />
                 Tienes {profile.user.boxes} {profile.user.boxes === 1 ? "caja disponible" : "cajas disponibles"} para abrir
               </div>
@@ -233,7 +233,7 @@ export function ResultsScreen() {
           {profile?.user.boxes ? (
             <button
               onClick={() => { sfx.waterDrop(); setScreen("lootbox") }}
-              className="py-3 px-4 rounded-xl font-bold text-sm bg-amber-400/30 border border-amber-400/60 text-amber-800 hover:bg-amber-400/40 transition flex items-center justify-center gap-2 glow-gold"
+              className="py-3 px-4 rounded-xl font-bold text-sm bg-amber-400/30 border border-[#C99A50]/60 text-[#6B4D1C] hover:bg-amber-400/40 transition flex items-center justify-center gap-2 glow-gold"
             >
               <Gift className="w-4 h-4" /> Abrir caja
             </button>
@@ -249,7 +249,7 @@ export function ResultsScreen() {
           </button>
           <button
             onClick={() => { sfx.waterDrop(); reset(); setScreen("welcome") }}
-            className="py-3 px-4 rounded-xl font-bold text-sm bg-white/70 border border-slate-200/60 hover:bg-white/95 transition flex items-center justify-center gap-2 text-slate-700"
+            className="py-3 px-4 rounded-xl font-bold text-sm bg-[#F2ECDD]/70 border border-[#BFB39A]/60 hover:bg-[#F2ECDD]/95 transition flex items-center justify-center gap-2 text-[#3D4A60]"
           >
             <Home className="w-4 h-4" /> Inicio
           </button>
@@ -263,14 +263,14 @@ function StatCard({ icon, value, label, color, highlight = false }: { icon: Reac
   return (
     <div
       className={cn(
-        "rounded-2xl border bg-white/70 p-4 text-center transition-all glass",
-        highlight ? "border-amber-400/70 animate-gold-pulse" : "border-slate-200/60"
+        "rounded-2xl border bg-[#F2ECDD]/70 p-4 text-center transition-all glass",
+        highlight ? "border-[#C99A50]/70 animate-gold-pulse" : "border-[#BFB39A]/60"
       )}
       style={{ boxShadow: highlight ? `0 0 30px ${color}60` : `0 0 20px ${color}15` }}
     >
       <div className="flex justify-center mb-1" style={{ color }}>{icon}</div>
       <div className="text-2xl font-black" style={{ color }}>{value}</div>
-      <div className="text-[10px] uppercase tracking-wider text-slate-500 mt-0.5">{label}</div>
+      <div className="text-[10px] uppercase tracking-wider text-[#7A8492] mt-0.5">{label}</div>
     </div>
   )
 }

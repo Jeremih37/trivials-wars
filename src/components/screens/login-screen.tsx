@@ -60,7 +60,7 @@ export function LoginScreen() {
         <h1 className="text-5xl sm:text-6xl font-fancy italic font-bold tracking-tight text-gradient-neon leading-none">
           Trivials<br/>Wars
         </h1>
-        <p className="text-sm text-slate-500 mt-3 uppercase tracking-[0.3em] italic">
+        <p className="text-sm text-[#7A8492] mt-3 uppercase tracking-[0.3em] italic">
           El conocimiento es poder
         </p>
       </motion.div>
@@ -100,7 +100,7 @@ export function LoginScreen() {
             <button
               onClick={() => setShowGoogleMock(true)}
               disabled={loginMut.isPending}
-              className="w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-3 bg-white text-gray-900 hover:bg-gray-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-3 bg-[#F2ECDD] text-[#2A3340] hover:bg-[#E5DCC5] transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <GoogleIcon />
               Continuar con Google
@@ -160,7 +160,7 @@ export function LoginScreen() {
                 <button
                   onClick={handleGoogleDemo}
                   disabled={loginMut.isPending}
-                  className="flex-1 py-3 rounded-xl bg-white text-gray-900 hover:bg-gray-100 transition text-sm font-bold flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="flex-1 py-3 rounded-xl bg-[#F2ECDD] text-[#2A3340] hover:bg-[#E5DCC5] transition text-sm font-bold flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   <GoogleIcon />
                   {loginMut.isPending ? "Conectando…" : "Continuar"}

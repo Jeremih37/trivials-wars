@@ -218,7 +218,7 @@ export function WelcomeScreen() {
       <BubblesBackground count={28} />
 
       {/* Header */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/50 border-b border-slate-300/40">
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#F2ECDD]/50 border-b border-[#7A8492]/40">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <motion.div
@@ -231,7 +231,7 @@ export function WelcomeScreen() {
             </motion.div>
             <div>
               <h1 className="text-xl font-fancy italic font-bold tracking-tight text-gradient-neon">Trivials Wars</h1>
-              <p className="text-[10px] text-slate-600 -mt-1 tracking-widest uppercase">El conocimiento es poder</p>
+              <p className="text-[10px] text-[#4E5A6C] -mt-1 tracking-widest uppercase">El conocimiento es poder</p>
             </div>
           </div>
 
@@ -239,7 +239,7 @@ export function WelcomeScreen() {
             <AudioToggle compact />
             <button
               onClick={() => setScreen("lootbox")}
-              className="relative px-3 py-2 rounded-xl bg-amber-200/40 border border-amber-400/50 text-amber-700 hover:bg-amber-300/40 transition glow-gold"
+              className="relative px-3 py-2 rounded-xl bg-[#E8D4A8]/40 border border-[#C99A50]/50 text-[#8A6428] hover:bg-amber-300/40 transition glow-gold"
               title="Abrir Loot Box"
             >
               <Gift className="w-5 h-5" />
@@ -251,7 +251,7 @@ export function WelcomeScreen() {
             </button>
             <button
               onClick={() => setScreen("profile")}
-              className="relative p-1 rounded-xl bg-white/70 border border-slate-300/60 hover:border-slate-500/60 transition"
+              className="relative p-1 rounded-xl bg-[#F2ECDD]/70 border border-[#7A8492]/60 hover:border-[#5C6E8A]/60 transition"
               title="Perfil"
             >
               {profile && frame ? (
@@ -264,7 +264,7 @@ export function WelcomeScreen() {
                   </div>
                 </div>
               ) : (
-                <div className="p-2"><User className="w-5 h-5 text-slate-600" /></div>
+                <div className="p-2"><User className="w-5 h-5 text-[#4E5A6C]" /></div>
               )}
             </button>
           </div>
@@ -292,7 +292,7 @@ export function WelcomeScreen() {
                   <div className="relative">
                     <div className="absolute inset-0 bg-gradient-to-br from-[#6E82A0]/40 to-[#B0BFAE]/40 blur-2xl rounded-full" />
                     <div
-                      className="relative w-28 h-28 rounded-full bg-white/80 border-2 flex items-center justify-center overflow-hidden"
+                      className="relative w-28 h-28 rounded-full bg-[#F2ECDD]/80 border-2 flex items-center justify-center overflow-hidden"
                       style={{ borderColor: frame?.hex ?? "#6E82A0", boxShadow: `0 0 25px ${frame?.hex ?? "#6E82A0"}80` }}
                     >
                       {avatarData && <AvatarSvg {...avatarData} size={100} />}
@@ -304,14 +304,14 @@ export function WelcomeScreen() {
                     )}
                   </div>
                   <div className="text-center">
-                    <div className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Nivel</div>
+                    <div className="text-[10px] uppercase tracking-widest text-[#7A8492] font-bold">Nivel</div>
                     <div className="text-lg font-fancy italic font-bold text-gradient-neon leading-none">{profile?.user.level ?? 1}</div>
                   </div>
                 </div>
 
                 {/* Saludo + edición de nombre */}
                 <div className="flex-1 space-y-3 min-w-0 w-full">
-                  <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-slate-600 font-bold">
+                  <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-[#4E5A6C] font-bold">
                     <Sparkles className="w-3.5 h-3.5" /> ¡Bienvenido!
                   </div>
 
@@ -322,10 +322,10 @@ export function WelcomeScreen() {
                       </h2>
                       <button
                         onClick={startEditName}
-                        className="p-2 rounded-xl bg-white/80 border border-slate-300/60 hover:border-slate-500/60 transition shrink-0"
+                        className="p-2 rounded-xl bg-[#F2ECDD]/80 border border-[#7A8492]/60 hover:border-[#5C6E8A]/60 transition shrink-0"
                         title="Editar nombre"
                       >
-                        <Pencil className="w-4 h-4 text-slate-600" />
+                        <Pencil className="w-4 h-4 text-[#4E5A6C]" />
                       </button>
                     </div>
                   ) : (
@@ -340,7 +340,7 @@ export function WelcomeScreen() {
                         }}
                         autoFocus
                         placeholder="Tu nombre de jugador"
-                        className="px-4 py-3 rounded-xl bg-white/90 border border-slate-300/60 text-lg font-bold focus:border-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-500/40 w-full sm:w-auto sm:min-w-[280px]"
+                        className="px-4 py-3 rounded-xl bg-[#F2ECDD]/90 border border-[#7A8492]/60 text-lg font-bold focus:border-[#5C6E8A] focus:outline-none focus:ring-2 focus:ring-slate-500/40 w-full sm:w-auto sm:min-w-[280px]"
                       />
                       <button
                         onClick={saveName}
@@ -352,22 +352,22 @@ export function WelcomeScreen() {
                       </button>
                       <button
                         onClick={() => setEditingName(false)}
-                        className="px-4 py-3 rounded-xl bg-white/80 border border-slate-300/60 hover:bg-white/90 transition text-sm font-bold"
+                        className="px-4 py-3 rounded-xl bg-[#F2ECDD]/80 border border-[#7A8492]/60 hover:bg-[#F2ECDD]/90 transition text-sm font-bold"
                       >
                         Cancelar
                       </button>
                     </div>
                   )}
 
-                  <p className="text-slate-600 text-sm">
+                  <p className="text-[#4E5A6C] text-sm">
                     Cada partida es una nueva oportunidad para aprender algo increíble, ganar XP y subir de nivel.
                   </p>
 
                   {/* Mini stats en fila */}
                   <div className="flex flex-wrap gap-2 pt-1">
-                    <MiniStat icon={<Trophy className="w-3.5 h-3.5" />} label="Nivel" value={profile?.user.level ?? 1} color="text-amber-700" />
+                    <MiniStat icon={<Trophy className="w-3.5 h-3.5" />} label="Nivel" value={profile?.user.level ?? 1} color="text-[#8A6428]" />
                     <MiniStat icon={<Zap className="w-3.5 h-3.5" />} label="XP" value={profile?.user.xp ?? 0} color="text-[#8AA088]" />
-                    <MiniStat icon={<Swords className="w-3.5 h-3.5" />} label="Victorias" value={profile?.user.wins ?? 0} color="text-sage-700" />
+                    <MiniStat icon={<Swords className="w-3.5 h-3.5" />} label="Victorias" value={profile?.user.wins ?? 0} color="text-[#4D6450]" />
                     <MiniStat icon={<Flame className="w-3.5 h-3.5" />} label="Racha" value={profile?.user.currentStreak ?? 0} color="text-orange-500" />
                   </div>
                 </div>
@@ -420,7 +420,7 @@ export function WelcomeScreen() {
                   }}
                 />
               </div>
-              <p className="text-center text-[11px] text-slate-500">
+              <p className="text-center text-[11px] text-[#7A8492]">
                 Elegí categoría y dificultad · Acumula XP · Sube de nivel · Desbloquea accesorios
               </p>
             </motion.section>
@@ -436,12 +436,12 @@ export function WelcomeScreen() {
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-slate-400/15 border border-slate-500/30 text-slate-600 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-xl bg-[#7A8492]/15 border border-[#5C6E8A]/30 text-[#4E5A6C] flex items-center justify-center">
                     <Brain className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="font-fancy italic font-semibold text-lg sm:text-xl text-slate-700">¿Sabías que…?</h3>
-                    <p className="text-xs text-slate-500">Datos curiosos de cultura general</p>
+                    <h3 className="font-fancy italic font-semibold text-lg sm:text-xl text-[#3D4A60]">¿Sabías que…?</h3>
+                    <p className="text-xs text-[#7A8492]">Datos curiosos de cultura general</p>
                   </div>
                 </div>
                 <button
@@ -449,8 +449,8 @@ export function WelcomeScreen() {
                   className={cn(
                     "px-3 py-1.5 rounded-xl text-xs font-bold border transition",
                     autoPlay
-                      ? "bg-slate-400/15 border-slate-500/30 text-slate-600"
-                      : "bg-white/60 border-slate-300/40 text-slate-500"
+                      ? "bg-[#7A8492]/15 border-[#5C6E8A]/30 text-[#4E5A6C]"
+                      : "bg-[#F2ECDD]/60 border-[#7A8492]/40 text-[#7A8492]"
                   )}
                 >
                   {autoPlay ? "Auto: ON" : "Auto: OFF"}
@@ -459,7 +459,7 @@ export function WelcomeScreen() {
 
               {/* Card principal del dato — layout 2 lados */}
               <div
-                className="relative overflow-hidden rounded-3xl border bg-white/70 backdrop-blur-md"
+                className="relative overflow-hidden rounded-3xl border bg-[#F2ECDD]/70 backdrop-blur-md"
                 style={{ borderColor: `${currentFact.color}50`, boxShadow: `0 0 30px ${currentFact.color}25` }}
                 onPointerEnter={() => setAutoPlay(false)}
                 onPointerLeave={() => setAutoPlay(true)}
@@ -499,8 +499,8 @@ export function WelcomeScreen() {
                         transition={{ duration: 0.3 }}
                         className="mt-2"
                       >
-                        <h4 className="text-lg sm:text-xl font-fancy italic font-semibold leading-tight text-slate-700">{currentFact.title}</h4>
-                        <p className="text-sm text-slate-600 leading-relaxed mt-1.5">
+                        <h4 className="text-lg sm:text-xl font-fancy italic font-semibold leading-tight text-[#3D4A60]">{currentFact.title}</h4>
+                        <p className="text-sm text-[#4E5A6C] leading-relaxed mt-1.5">
                           {currentFact.description}
                         </p>
                       </motion.div>
@@ -524,20 +524,20 @@ export function WelcomeScreen() {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={goPrev}
-                          className="p-2 rounded-xl bg-white/80 border border-slate-300/60 hover:border-slate-500/60 hover:bg-white transition"
+                          className="p-2 rounded-xl bg-[#F2ECDD]/80 border border-[#7A8492]/60 hover:border-[#5C6E8A]/60 hover:bg-[#F2ECDD] transition"
                           aria-label="Dato anterior"
                         >
-                          <ChevronLeft className="w-4 h-4 text-slate-600" />
+                          <ChevronLeft className="w-4 h-4 text-[#4E5A6C]" />
                         </button>
-                        <span className="text-xs font-mono text-slate-500 tabular-nums">
+                        <span className="text-xs font-mono text-[#7A8492] tabular-nums">
                           {factIdx + 1} / {FUN_FACTS.length}
                         </span>
                         <button
                           onClick={goNext}
-                          className="p-2 rounded-xl bg-white/80 border border-slate-300/60 hover:border-slate-500/60 hover:bg-white transition"
+                          className="p-2 rounded-xl bg-[#F2ECDD]/80 border border-[#7A8492]/60 hover:border-[#5C6E8A]/60 hover:bg-[#F2ECDD] transition"
                           aria-label="Dato siguiente"
                         >
-                          <ChevronRight className="w-4 h-4 text-slate-600" />
+                          <ChevronRight className="w-4 h-4 text-[#4E5A6C]" />
                         </button>
                       </div>
                     </div>
@@ -558,7 +558,7 @@ export function WelcomeScreen() {
         </div>
       </main>
 
-      <footer className="relative z-10 mt-auto text-center text-xs text-slate-500 py-4">
+      <footer className="relative z-10 mt-auto text-center text-xs text-[#7A8492] py-4">
         Trivials Wars · {profile?.user.provider === "google" ? "Cuenta Google" : "Modo Invitado"}
       </footer>
     </div>
@@ -567,10 +567,10 @@ export function WelcomeScreen() {
 
 function MiniStat({ icon, label, value, color }: { icon: React.ReactNode; label: string; value: number | string; color?: string }) {
   return (
-    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/70 border border-slate-300/40">
+    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#F2ECDD]/70 border border-[#7A8492]/40">
       <span className={color}>{icon}</span>
-      <span className="text-[9px] uppercase text-slate-500 tracking-wider">{label}</span>
-      <span className="text-xs font-bold text-slate-800">{value}</span>
+      <span className="text-[9px] uppercase text-[#7A8492] tracking-wider">{label}</span>
+      <span className="text-xs font-bold text-[#2A3340]">{value}</span>
     </div>
   )
 }
@@ -589,7 +589,7 @@ function QuickMode({
   return (
     <button
       onClick={onClick}
-      className="flex items-center justify-center gap-1.5 py-2.5 rounded-2xl border bg-white/70 transition hover:scale-[1.03] active:scale-[0.98]"
+      className="flex items-center justify-center gap-1.5 py-2.5 rounded-2xl border bg-[#F2ECDD]/70 transition hover:scale-[1.03] active:scale-[0.98]"
       style={{
         borderColor: `${color}50`,
         boxShadow: `0 2px 8px ${color}15`,

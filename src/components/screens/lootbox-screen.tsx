@@ -50,7 +50,7 @@ export function LootBoxScreen() {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="text-lg font-fancy italic font-bold tracking-tight text-slate-700">Loot Box</h1>
+            <h1 className="text-lg font-fancy italic font-bold tracking-tight text-[#3D4A60]">Loot Box</h1>
             <p className="text-[10px] text-muted-foreground">Rareza y suerte definieron tu recompensa</p>
           </div>
         </div>
@@ -117,7 +117,7 @@ export function LootBoxScreen() {
                   className={cn(
                     "relative w-48 h-48 rounded-3xl flex items-center justify-center text-8xl",
                     "bg-gradient-to-br from-amber-500/20 via-purple-500/20 to-pink-500/20",
-                    "border-2 border-amber-400/50",
+                    "border-2 border-[#C99A50]/50",
                     phase === "shaking" ? "glow-gold" : "shadow-2xl"
                   )}
                 >
@@ -270,7 +270,7 @@ export function LootBoxScreen() {
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.9 }}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-400/15 border border-slate-500/30 text-slate-200 text-xs mb-4"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#7A8492]/15 border border-[#5C6E8A]/30 text-[#DDE3EC] text-xs mb-4"
                 >
                   <Zap className="w-3.5 h-3.5" />
                   Duplicado · +{result.xpBonus} XP de compensación
@@ -282,7 +282,7 @@ export function LootBoxScreen() {
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 1.0 }}
-                  className="mb-4 px-4 py-2 rounded-xl bg-amber-200/40 border border-amber-400/40 text-amber-200 text-sm font-bold"
+                  className="mb-4 px-4 py-2 rounded-xl bg-[#E8D4A8]/40 border border-[#C99A50]/40 text-amber-200 text-sm font-bold"
                 >
                   ⬆ ¡Subiste al nivel {result.newLevel}! +1 Loot Box
                 </motion.div>

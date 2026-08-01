@@ -20,7 +20,6 @@ import { BubblesBackground } from "@/components/bubbles-background"
 import {
   ChevronLeft,
   Swords,
-  Zap,
   Sparkles,
   Skull,
   Shuffle,
@@ -30,15 +29,16 @@ import {
   Flame,
   Clock,
   Target,
+  Play,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 /**
- * HomeScreen V4.0 — Panel espacioso + tipografía fancy
- * - Más aire entre secciones (padding y gaps generosos)
- * - Tipografía italic serif (font-fancy) para titulares
- * - Paleta neutra (slate / sage / sand)
- * - Una sola vista compacta pero cómoda
+ * HomeScreen V5.0 — Burbujas tipo "pop" + CTA chico fijo abajo
+ * - Cada selector es una burbuja independiente (no lista)
+ * - CTA pequeño flotante abajo (no gigante)
+ * - Más aire entre elementos
+ * - Fondo cálido arena (no blanco)
  */
 export function HomeScreen() {
   const {
@@ -66,7 +66,6 @@ export function HomeScreen() {
   const isClassic = selectedMode === "classic"
   const isEndless = isSurvival || isSuddenDeath
 
-  // FIX: auto-selecciona Mix Total + dificultad Medio en modos endless
   useEffect(() => {
     if ((isSurvival || isSuddenDeath) && !selectedDifficulty) {
       setDifficulty("Medio" as DifficultyId)
@@ -101,26 +100,28 @@ export function HomeScreen() {
     })
   }
 
-  const ctaConfig = isSuddenDeath
-    ? { label: "Comenzar Muerte Súbita", class: "crystal-bubble-gold text-white" }
+  const ctaLabel = isSuddenDeath
+    ? "Comenzar Muerte Súbita"
     : isSurvival
-      ? { label: "Comenzar Abismo", class: "crystal-bubble-coral text-white" }
-      : { label: "Comenzar Batalla", class: "crystal-bubble text-white" }
+      ? "Comenzar Abismo"
+      : "Comenzar Batalla"
+
+  const canStart = hasSelection && (!isClassic || !!selectedDifficulty) && !startGameMut.isPending
 
   return (
     <div className="relative min-h-screen flex flex-col">
-      <BubblesBackground count={16} />
+      <BubblesBackground count={14} />
 
       {/* Header */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/50 border-b border-slate-300/40">
-        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#EFE7D4]/70 border-b border-[#3D4A60]/15">
+        <div className="max-w-3xl mx-auto px-5 py-4 flex items-center justify-between">
           <button
             onClick={() => { sfx.waterDrop(); setScreen("welcome") }}
-            className="flex items-center gap-2 px-4 py-2 rounded-2xl glass border border-slate-300/50 hover:border-slate-500/40 transition text-sm font-bold text-slate-700"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-2xl glass border border-[#3D4A60]/20 hover:border-[#5C6E8A]/50 transition text-sm font-semibold text-[#3D4A60]"
           >
             <ChevronLeft className="w-4 h-4" /> Volver
           </button>
-          <h1 className="font-fancy text-2xl sm:text-3xl font-medium text-gradient-neon">
+          <h1 className="font-fancy text-xl sm:text-2xl italic font-bold text-gradient-neon">
             Preparado para jugar
           </h1>
           <div className="flex items-center gap-2">
@@ -130,235 +131,240 @@ export function HomeScreen() {
         </div>
       </header>
 
-      <main className="relative z-10 flex-1 max-w-4xl w-full mx-auto px-6 py-8 space-y-7">
+      <main className="relative z-10 flex-1 max-w-3xl w-full mx-auto px-5 py-7 space-y-10 pb-32">
         {/* ============================================================
-            PANEL PRINCIPAL — Una sola vista, espaciosa
+            SECCIÓN 1 — Modo de Juego (3 burbujas grandes)
             ============================================================ */}
         <motion.section
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-[2rem] glass-strong p-7 sm:p-9 space-y-8"
+          className="space-y-5"
         >
-          {/* Fila 1: Modo de Juego */}
-          <div className="space-y-4">
+          <div className="flex items-baseline gap-3 px-1">
+            <span className="font-fancy text-2xl italic text-[#8E9DB4] leading-none">01</span>
+            <h3 className="font-fancy text-lg sm:text-xl italic font-semibold text-[#3D4A60]">Modo de juego</h3>
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            {GAME_MODES.map((m) => {
+              const isSelected = selectedMode === m.id
+              return (
+                <button
+                  key={m.id}
+                  onClick={() => { sfx.waterDrop(); setMode(m.id as GameModeId) }}
+                  className={cn(
+                    "relative overflow-hidden rounded-3xl p-5 text-center transition-all",
+                    isSelected ? "bubble-pop-selected scale-[1.02]" : "bubble-pop hover:scale-[1.01]",
+                  )}
+                >
+                  <div className="flex flex-col items-center gap-2">
+                    <span className="text-3xl">{m.icon}</span>
+                    {isSelected && (
+                      <span className="absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center bg-[#F2ECDD]/30 backdrop-blur">
+                        <Check className="w-3 h-3 text-white" />
+                      </span>
+                    )}
+                    <div
+                      className="font-fancy italic text-sm font-semibold"
+                      style={{ color: isSelected ? "#F2ECDD" : m.color }}
+                    >
+                      {m.name}
+                    </div>
+                    <div className="text-[10px] leading-tight italic" style={{ color: isSelected ? "rgba(242,236,221,0.85)" : "#7A8492" }}>
+                      {m.id === "classic" ? "Personalizable" : m.id === "survival" ? "3 vidas" : "1 fallo = fin"}
+                    </div>
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+        </motion.section>
+
+        {/* ============================================================
+            SECCIÓN 2 — Categorías (burbujas tipo pills grandes)
+            ============================================================ */}
+        <motion.section
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05 }}
+          className="space-y-5"
+        >
+          <div className="flex items-baseline justify-between gap-3 px-1 flex-wrap">
             <div className="flex items-baseline gap-3">
-              <span className="font-fancy text-3xl italic text-slate-400 leading-none">01</span>
-              <h3 className="font-fancy text-xl sm:text-2xl text-slate-700 italic">Modo de juego</h3>
+              <span className="font-fancy text-2xl italic text-[#8E9DB4] leading-none">02</span>
+              <h3 className="font-fancy text-lg sm:text-xl italic font-semibold text-[#3D4A60]">Categorías</h3>
             </div>
-            <div className="grid grid-cols-3 gap-3">
-              {GAME_MODES.map((m) => {
-                const isSelected = selectedMode === m.id
+            <span className="text-xs text-[#7A8492] italic font-script">
+              {selectedCount === 0
+                ? "Tocá para elegir"
+                : `${selectedCount} ${selectedCount === 1 ? "seleccionada" : "seleccionadas"}${isMix ? " · mix" : ""}`}
+            </span>
+          </div>
+
+          {/* Botón Mix Total destacado */}
+          <button
+            onClick={() => {
+              sfx.waterDrop()
+              if (selectedCount === CATEGORIES.length) {
+                useGameStore.getState().setCategories([])
+              } else {
+                useGameStore.getState().setCategories(CATEGORIES.map((c) => c.id as CategoryId))
+              }
+            }}
+            data-selected={selectedCount === CATEGORIES.length}
+            className={cn(
+              "w-full rounded-3xl px-5 py-3.5 flex items-center justify-center gap-2.5 text-sm font-bold transition-all",
+              selectedCount === CATEGORIES.length
+                ? "bubble-pop-selected scale-[1.01]"
+                : "bubble-pop hover:scale-[1.01]",
+            )}
+          >
+            <Shuffle className="w-4 h-4" />
+            <span className="font-fancy italic">Mix Total — todas las categorías</span>
+            {selectedCount === CATEGORIES.length && <Check className="w-4 h-4" />}
+          </button>
+
+          {/* Pills de categorías */}
+          <div className="flex flex-wrap gap-2 justify-center">
+            {CATEGORIES.map((cat) => {
+              const isSelected = selectedCategories.includes(cat.id as CategoryId)
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => { sfx.waterDrop(); toggleCategory(cat.id as CategoryId) }}
+                  data-selected={isSelected}
+                  className="pill-selector rounded-full px-4 py-2 text-sm font-semibold flex items-center gap-1.5"
+                >
+                  <span>{cat.icon}</span>
+                  <span className="truncate max-w-[120px]">{cat.name}</span>
+                  {isSelected && <Check className="w-3.5 h-3.5" />}
+                </button>
+              )
+            })}
+          </div>
+        </motion.section>
+
+        {/* ============================================================
+            SECCIÓN 3 — Dificultad (sólo classic) — 4 burbujas
+            ============================================================ */}
+        {isClassic && (
+          <motion.section
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.10 }}
+            className="space-y-5"
+          >
+            <div className="flex items-baseline gap-3 px-1">
+              <span className="font-fancy text-2xl italic text-[#8E9DB4] leading-none">03</span>
+              <h3 className="font-fancy text-lg sm:text-xl italic font-semibold text-[#3D4A60]">Dificultad</h3>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {DIFFICULTIES.map((d) => {
+                const isSelected = selectedDifficulty === d.id
                 return (
                   <button
-                    key={m.id}
-                    onClick={() => { sfx.waterDrop(); setMode(m.id as GameModeId) }}
-                    data-selected={isSelected}
+                    key={d.id}
+                    onClick={() => { sfx.waterDrop(); setDifficulty(d.id as DifficultyId) }}
                     className={cn(
-                      "relative overflow-hidden rounded-3xl border p-4 text-left transition-all",
-                      isSelected
-                        ? "scale-[1.02] border-transparent"
-                        : "border-slate-300/40 bg-white/60 hover:bg-white/95 hover:border-slate-500/40"
+                      "relative overflow-hidden rounded-3xl p-4 text-left transition-all flex flex-col gap-2",
+                      isSelected ? "bubble-pop-selected scale-[1.03]" : "bubble-pop hover:scale-[1.02]",
                     )}
-                    style={
-                      isSelected
-                        ? {
-                            background: `linear-gradient(135deg, ${m.color}22, ${m.color}08)`,
-                            borderColor: m.color,
-                            boxShadow: `0 4px 18px ${m.color}25, inset 0 1px 0 rgba(255,255,255,0.55)`,
-                          }
-                        : undefined
-                    }
                   >
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-2xl">{m.icon}</span>
+                    <div className="flex items-center justify-between">
+                      <div
+                        className="w-9 h-9 rounded-2xl flex items-center justify-center"
+                        style={{
+                          background: isSelected ? "rgba(255,248,230,0.20)" : `${d.color}22`,
+                          border: `1.5px solid ${isSelected ? "rgba(248,240,222,0.5)" : d.color}`,
+                        }}
+                      >
+                        <Target className="w-4 h-4" style={{ color: isSelected ? "#F2ECDD" : d.color }} />
+                      </div>
                       {isSelected && (
-                        <span className="ml-auto w-5 h-5 rounded-full flex items-center justify-center" style={{ background: m.color }}>
+                        <span className="w-5 h-5 rounded-full flex items-center justify-center bg-[#F2ECDD]/30 backdrop-blur">
                           <Check className="w-3 h-3 text-white" />
                         </span>
                       )}
                     </div>
-                    <div className="font-fancy italic text-base font-semibold" style={{ color: isSelected ? m.color : "#4C5C75" }}>
-                      {m.name}
+                    <div
+                      className="font-fancy italic text-base font-semibold"
+                      style={{ color: isSelected ? "#F2ECDD" : d.color }}
+                    >
+                      {d.name}
                     </div>
-                    <div className="text-[11px] text-slate-500 mt-1 leading-snug">
-                      {m.id === "classic" ? "Personalizable" : m.id === "survival" ? "3 vidas" : "1 fallo = fin"}
+                    <div
+                      className="flex items-center gap-1.5 text-[11px] italic"
+                      style={{ color: isSelected ? "rgba(242,236,221,0.85)" : "#7A8492" }}
+                    >
+                      <Clock className="w-3 h-3" />
+                      <span>{d.time}s</span>
+                      <span className="opacity-50">·</span>
+                      <span className="font-bold">×{d.multiplier}</span>
                     </div>
                   </button>
                 )
               })}
             </div>
+          </motion.section>
+        )}
+
+        {/* ============================================================
+            SECCIÓN 4 — Cantidad / Duración
+            ============================================================ */}
+        <motion.section
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="space-y-5"
+        >
+          <div className="flex items-baseline gap-3 px-1">
+            <span className="font-fancy text-2xl italic text-[#8E9DB4] leading-none">
+              {isClassic ? "04" : "03"}
+            </span>
+            <h3 className="font-fancy text-lg sm:text-xl italic font-semibold text-[#3D4A60]">
+              {isEndless ? "Duración" : "Cantidad de preguntas"}
+            </h3>
           </div>
 
-          {/* Separador sutil */}
-          <div className="h-px bg-gradient-to-r from-transparent via-slate-300/40 to-transparent" />
-
-          {/* Fila 2: Categorías — Pastillas (multi-select) */}
-          <div className="space-y-4">
-            <div className="flex items-baseline justify-between gap-3 flex-wrap">
-              <div className="flex items-baseline gap-3">
-                <span className="font-fancy text-3xl italic text-slate-400 leading-none">02</span>
-                <h3 className="font-fancy text-xl sm:text-2xl text-slate-700 italic">Categorías</h3>
+          {isSuddenDeath ? (
+            <div className="rounded-3xl border-2 border-dashed border-[#C99A50]/50 bg-[#F0E0C0]/40 p-6 text-center bubble-pop">
+              <div className="flex items-center justify-center gap-3 text-[#6B4D1C]">
+                <Skull className="w-6 h-6" />
+                <span className="font-fancy italic text-lg font-semibold tracking-wide">Infinitas · Hasta fallar</span>
               </div>
-              <span className="text-xs text-slate-500 italic font-script">
-                {selectedCount === 0
-                  ? "Tocá para elegir"
-                  : `${selectedCount} ${selectedCount === 1 ? "seleccionada" : "seleccionadas"}${isMix ? " · mix" : ""}`}
-              </span>
+              <div className="text-xs text-[#6B4D1C]/80 mt-2 italic">
+                1 solo error termina la partida · Pool de {SUDDEN_DEATH_CONFIG.initialPoolSize} preguntas
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2">
-              <button
-                onClick={() => {
-                  sfx.waterDrop()
-                  if (selectedCount === CATEGORIES.length) {
-                    useGameStore.getState().setCategories([])
-                  } else {
-                    useGameStore.getState().setCategories(CATEGORIES.map((c) => c.id as CategoryId))
-                  }
-                }}
-                data-selected={selectedCount === CATEGORIES.length}
-                className="pill-selector rounded-full px-4 py-2 text-sm font-bold flex items-center gap-2"
-              >
-                <Shuffle className="w-3.5 h-3.5" /> Mix Total
-              </button>
-              {CATEGORIES.map((cat) => {
-                const isSelected = selectedCategories.includes(cat.id as CategoryId)
+          ) : isSurvival ? (
+            <div className="rounded-3xl border-2 border-dashed border-[#B57482]/50 bg-[#F0D4D8]/40 p-6 text-center bubble-pop">
+              <div className="flex items-center justify-center gap-3 text-[#6F3A45]">
+                <Heart className="w-6 h-6 fill-[#C98896]" />
+                <span className="font-fancy italic text-lg font-semibold tracking-wide">Infinitas · Hasta perder 3 vidas</span>
+              </div>
+              <div className="text-xs text-[#6F3A45]/80 mt-2 italic">
+                Pool de 30 preguntas · tiempo decreciente
+              </div>
+            </div>
+          ) : (
+            <div className="grid grid-cols-4 gap-3">
+              {QUESTION_COUNTS.map((qc) => {
+                const isSelected = selectedQuestionCount === qc.id
                 return (
                   <button
-                    key={cat.id}
-                    onClick={() => { sfx.waterDrop(); toggleCategory(cat.id as CategoryId) }}
-                    data-selected={isSelected}
-                    className="pill-selector rounded-full px-4 py-2 text-sm font-bold flex items-center gap-2"
+                    key={qc.id}
+                    onClick={() => { sfx.waterDrop(); setQuestionCount(qc.id) }}
+                    className={cn(
+                      "rounded-3xl aspect-square flex flex-col items-center justify-center transition-all",
+                      isSelected ? "bubble-pop-selected scale-[1.03]" : "bubble-pop hover:scale-[1.04]",
+                    )}
                   >
-                    <span>{cat.icon}</span>
-                    <span className="truncate max-w-[130px]">{cat.name}</span>
-                    {isSelected && <Check className="w-3.5 h-3.5" />}
+                    <div className="font-fancy italic text-3xl font-bold leading-none">{qc.label}</div>
+                    <div className="text-[10px] uppercase tracking-wide mt-1 italic opacity-80">{qc.desc}</div>
                   </button>
                 )
               })}
             </div>
-          </div>
-
-          {/* Separador sutil */}
-          {isClassic && (
-            <div className="h-px bg-gradient-to-r from-transparent via-slate-300/40 to-transparent" />
           )}
-
-          {/* Fila 3: Dificultad (sólo classic) */}
-          {isClassic && (
-            <div className="space-y-4">
-              <div className="flex items-baseline gap-3">
-                <span className="font-fancy text-3xl italic text-slate-400 leading-none">03</span>
-                <h3 className="font-fancy text-xl sm:text-2xl text-slate-700 italic">Dificultad</h3>
-              </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                {DIFFICULTIES.map((d) => {
-                  const isSelected = selectedDifficulty === d.id
-                  return (
-                    <button
-                      key={d.id}
-                      onClick={() => { sfx.waterDrop(); setDifficulty(d.id as DifficultyId) }}
-                      data-selected={isSelected}
-                      className={cn(
-                        "relative overflow-hidden rounded-3xl border p-4 text-left transition-all flex flex-col gap-2",
-                        isSelected
-                          ? "scale-[1.03] border-transparent"
-                          : "border-slate-300/40 bg-white/60 hover:bg-white/95 hover:border-slate-500/40"
-                      )}
-                      style={
-                        isSelected
-                          ? {
-                              background: `linear-gradient(135deg, ${d.color}22, ${d.color}08)`,
-                              borderColor: d.color,
-                              boxShadow: `0 4px 18px ${d.color}30, inset 0 1px 0 rgba(255,255,255,0.65)`,
-                            }
-                          : undefined
-                      }
-                    >
-                      <div className="flex items-center justify-between">
-                        <div
-                          className="w-9 h-9 rounded-2xl flex items-center justify-center"
-                          style={{
-                            background: `${d.color}22`,
-                            border: `1.5px solid ${d.color}`,
-                          }}
-                        >
-                          <Target className="w-4 h-4" style={{ color: d.color }} />
-                        </div>
-                        {isSelected && (
-                          <span className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: d.color }}>
-                            <Check className="w-3 h-3 text-white" />
-                          </span>
-                        )}
-                      </div>
-                      <div className="font-fancy italic text-base font-semibold" style={{ color: isSelected ? d.color : "#4C5C75" }}>
-                        {d.name}
-                      </div>
-                      <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
-                        <Clock className="w-3 h-3" />
-                        <span>{d.time}s</span>
-                        <span className="opacity-50">·</span>
-                        <span className="font-bold" style={{ color: d.color }}>×{d.multiplier}</span>
-                      </div>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Separador sutil */}
-          <div className="h-px bg-gradient-to-r from-transparent via-slate-300/40 to-transparent" />
-
-          {/* Fila 4: Cantidad / Duración */}
-          <div className="space-y-4">
-            <div className="flex items-baseline gap-3">
-              <span className="font-fancy text-3xl italic text-slate-400 leading-none">
-                {isClassic ? "04" : "03"}
-              </span>
-              <h3 className="font-fancy text-xl sm:text-2xl text-slate-700 italic">
-                {isEndless ? "Duración" : "Cantidad de preguntas"}
-              </h3>
-            </div>
-
-            {isSuddenDeath ? (
-              <div className="rounded-3xl border-2 border-dashed border-amber-300/50 bg-amber-50/50 p-6 text-center">
-                <div className="flex items-center justify-center gap-3 text-amber-700">
-                  <Skull className="w-6 h-6" />
-                  <span className="font-fancy italic text-xl font-semibold tracking-wide">Infinitas · Hasta fallar</span>
-                </div>
-                <div className="text-xs text-amber-700/80 mt-2 italic">
-                  1 solo error termina la partida · Pool de {SUDDEN_DEATH_CONFIG.initialPoolSize} preguntas
-                </div>
-              </div>
-            ) : isSurvival ? (
-              <div className="rounded-3xl border-2 border-dashed border-rose-300/50 bg-rose-50/50 p-6 text-center">
-                <div className="flex items-center justify-center gap-3 text-rose-700">
-                  <Heart className="w-6 h-6 fill-rose-400" />
-                  <span className="font-fancy italic text-xl font-semibold tracking-wide">Infinitas · Hasta perder 3 vidas</span>
-                </div>
-                <div className="text-xs text-rose-700/80 mt-2 italic">
-                  Pool de 30 preguntas · tiempo decreciente
-                </div>
-              </div>
-            ) : (
-              <div className="grid grid-cols-4 gap-3">
-                {QUESTION_COUNTS.map((qc) => {
-                  const isSelected = selectedQuestionCount === qc.id
-                  return (
-                    <button
-                      key={qc.id}
-                      onClick={() => { sfx.waterDrop(); setQuestionCount(qc.id) }}
-                      data-selected={isSelected}
-                      className="circular-count rounded-3xl aspect-square flex flex-col items-center justify-center"
-                    >
-                      <div className="font-fancy italic text-3xl font-bold leading-none">{qc.label}</div>
-                      <div className="text-[10px] uppercase tracking-wide opacity-70 mt-1">{qc.desc}</div>
-                    </button>
-                  )
-                })}
-              </div>
-            )}
-          </div>
         </motion.section>
 
         {/* INFO del modo seleccionado */}
@@ -366,31 +372,28 @@ export function HomeScreen() {
           <motion.section
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-[1.5rem] border border-amber-300/40 bg-amber-50/40 p-6 glass"
+            className="rounded-3xl border border-[#C99A50]/30 bg-[#F0E0C0]/30 p-5 bubble-pop"
           >
             <div className="flex items-center gap-2 mb-3">
-              <Skull className="w-5 h-5 text-amber-700" />
-              <span className="font-fancy italic text-lg text-amber-800 font-semibold">Reglas de Muerte Súbita</span>
+              <Skull className="w-5 h-5 text-[#8A6428]" />
+              <span className="font-fancy italic text-base text-[#6B4D1C] font-semibold">Reglas de Muerte Súbita</span>
             </div>
-            <ul className="text-sm text-amber-800/90 space-y-2 ml-6 list-disc italic font-script">
-              <li>Sin margen de error: <span className="font-bold not-italic">fallar 1 pregunta termina la partida</span></li>
-              <li>Racha infinitamente escalable — tu High Score se guarda por separado</li>
-              <li>Combo: <span className="font-bold not-italic">5 seguidas ×2</span>, <span className="font-bold not-italic">10 seguidas ×3</span>, <span className="font-bold not-italic">15 seguidas ×4</span></li>
-              <li>Tiempo fijo de <span className="font-bold not-italic">15 segundos</span> por pregunta</li>
-              <li>Tensión dorada: al superar <span className="font-bold not-italic">10 aciertos</span> el fondo se tiñe dorado/alerta</li>
+            <ul className="text-sm text-[#6B4D1C]/90 space-y-1.5 ml-5 list-disc italic font-script">
+              <li>Sin margen de error: <span className="font-bold not-italic">1 fallo = fin</span></li>
+              <li>Combo: <span className="font-bold not-italic">5 ×2</span>, <span className="font-bold not-italic">10 ×3</span>, <span className="font-bold not-italic">15 ×4</span></li>
+              <li>Tiempo fijo de <span className="font-bold not-italic">15s</span> por pregunta</li>
+              <li>Tensión dorada tras <span className="font-bold not-italic">10 aciertos</span></li>
             </ul>
 
             {profile?.user && profile.user.suddenDeathRuns > 0 && (
-              <div className="mt-4 pt-4 border-t border-amber-300/30 flex items-center gap-3">
-                <Crown className="w-5 h-5 text-amber-700 shrink-0" />
+              <div className="mt-4 pt-4 border-t border-[#C99A50]/25 flex items-center gap-3">
+                <Crown className="w-5 h-5 text-[#8A6428] shrink-0" />
                 <div className="flex-1 text-sm">
-                  <div className="text-amber-700/70 uppercase tracking-wider text-[10px] italic">Tu récord de Muerte Súbita</div>
-                  <div className="flex items-center gap-3 mt-1">
-                    <span className="font-bold text-amber-700">{profile.user.suddenDeathBestCorrect} aciertos</span>
-                    <span className="text-amber-700/60">·</span>
-                    <span className="font-bold text-amber-700">+{profile.user.suddenDeathBestXp} XP</span>
-                    <span className="text-amber-700/60">·</span>
-                    <span className="text-amber-700/70">{profile.user.suddenDeathRuns} runs</span>
+                  <div className="text-[#8A6428]/80 uppercase tracking-wider text-[10px] italic">Tu récord</div>
+                  <div className="flex items-center gap-3 mt-0.5">
+                    <span className="font-bold text-[#6B4D1C]">{profile.user.suddenDeathBestCorrect} aciertos</span>
+                    <span className="text-[#8A6428]/60">·</span>
+                    <span className="font-bold text-[#6B4D1C]">+{profile.user.suddenDeathBestXp} XP</span>
                   </div>
                 </div>
               </div>
@@ -402,30 +405,27 @@ export function HomeScreen() {
           <motion.section
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-[1.5rem] border border-rose-300/40 bg-rose-50/40 p-6 glass"
+            className="rounded-3xl border border-[#B57482]/30 bg-[#F0D4D8]/30 p-5 bubble-pop"
           >
             <div className="flex items-center gap-2 mb-3">
-              <Heart className="w-5 h-5 text-rose-600 fill-rose-400" />
-              <span className="font-fancy italic text-lg text-rose-800 font-semibold">Reglas de Supervivencia</span>
+              <Heart className="w-5 h-5 text-[#8B4A56] fill-[#C98896]" />
+              <span className="font-fancy italic text-base text-[#6F3A45] font-semibold">Reglas de Supervivencia</span>
             </div>
-            <ul className="text-sm text-rose-800/90 space-y-2 ml-6 list-disc italic font-script">
-              <li>Comenzás con <span className="font-bold not-italic text-rose-700">3 corazones</span> — cada error resta 1 vida</li>
-              <li>Tiempo inicial: <span className="font-bold not-italic">15 segundos</span> por pregunta</li>
-              <li>Cada <span className="font-bold not-italic">5 aciertos</span> el tiempo baja 1s (mínimo 5s)</li>
-              <li>Combo: <span className="font-bold not-italic">3 seguidas ×2</span>, <span className="font-bold not-italic">5 seguidas ×3</span></li>
+            <ul className="text-sm text-[#6F3A45]/90 space-y-1.5 ml-5 list-disc italic font-script">
+              <li>Comenzás con <span className="font-bold not-italic text-[#8B4A56]">3 corazones</span> — cada error resta 1</li>
+              <li>Tiempo inicial: <span className="font-bold not-italic">15s</span> · baja 1s cada <span className="font-bold not-italic">5 aciertos</span></li>
+              <li>Combo: <span className="font-bold not-italic">3 ×2</span>, <span className="font-bold not-italic">5 ×3</span></li>
             </ul>
 
             {profile?.user && profile.user.survivalRuns > 0 && (
-              <div className="mt-4 pt-4 border-t border-rose-300/30 flex items-center gap-3">
-                <Crown className="w-5 h-5 text-amber-700 shrink-0" />
+              <div className="mt-4 pt-4 border-t border-[#B57482]/25 flex items-center gap-3">
+                <Crown className="w-5 h-5 text-[#8A6428] shrink-0" />
                 <div className="flex-1 text-sm">
-                  <div className="text-rose-700/70 uppercase tracking-wider text-[10px] italic">Tu récord de Supervivencia</div>
-                  <div className="flex items-center gap-3 mt-1">
-                    <span className="font-bold text-rose-700">{profile.user.survivalBestCorrect} aciertos</span>
-                    <span className="text-rose-700/60">·</span>
-                    <span className="font-bold text-rose-700">+{profile.user.survivalBestXp} XP</span>
-                    <span className="text-rose-700/60">·</span>
-                    <span className="text-rose-700/70">{profile.user.survivalRuns} runs</span>
+                  <div className="text-[#8B4A56]/80 uppercase tracking-wider text-[10px] italic">Tu récord</div>
+                  <div className="flex items-center gap-3 mt-0.5">
+                    <span className="font-bold text-[#6F3A45]">{profile.user.survivalBestCorrect} aciertos</span>
+                    <span className="text-[#8B4A56]/60">·</span>
+                    <span className="font-bold text-[#6F3A45]">+{profile.user.survivalBestXp} XP</span>
                   </div>
                 </div>
               </div>
@@ -433,82 +433,92 @@ export function HomeScreen() {
           </motion.section>
         )}
 
-        {/* RESUMEN + CTA */}
-        <section className="space-y-5 pb-8">
-          <div className="flex items-baseline gap-3">
-            <span className="font-fancy text-3xl italic text-amber-400 leading-none">★</span>
-            <h3 className="font-fancy text-xl sm:text-2xl text-slate-700 italic">Resumen</h3>
+        {/* Mini resumen — burbujas pequeñas */}
+        <section className="space-y-3">
+          <div className="flex items-baseline gap-3 px-1">
+            <span className="font-fancy text-2xl italic text-amber-500 leading-none">★</span>
+            <h3 className="font-fancy text-lg sm:text-xl italic font-semibold text-[#3D4A60]">Resumen</h3>
           </div>
-          <div className={cn("grid gap-3", isClassic ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2")}>
-            <SummaryCard
-              icon={<Sparkles className="w-4 h-4" />}
+          <div className={cn("grid gap-2", isClassic ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2")}>
+            <SummaryChip
+              icon={<Sparkles className="w-3.5 h-3.5" />}
               label="Modo"
               value={GAME_MODES.find((m) => m.id === selectedMode)?.name ?? "—"}
               color={GAME_MODES.find((m) => m.id === selectedMode)?.color}
             />
-            <SummaryCard
-              icon={<Flame className="w-4 h-4" />}
+            <SummaryChip
+              icon={<Flame className="w-3.5 h-3.5" />}
               label={isMix ? "Categorías" : "Categoría"}
               value={selectedCount === 0 ? "—" : isMix ? `${selectedCount} mixtas` : (CATEGORIES.find((c) => c.id === selectedCategories[0])?.name ?? "—")}
-              color={selectedCount > 0 ? "#8AA088" : undefined}
+              color={selectedCount > 0 ? "#718C6F" : undefined}
             />
             {isClassic && (
               <>
-                <SummaryCard
-                  icon={<Zap className="w-4 h-4" />}
+                <SummaryChip
+                  icon={<Target className="w-3.5 h-3.5" />}
                   label="Dificultad"
                   value={selectedDifficulty ? DIFFICULTIES.find((d) => d.id === selectedDifficulty)?.name ?? "—" : "—"}
                   color={selectedDifficulty ? DIFFICULTIES.find((d) => d.id === selectedDifficulty)?.color : undefined}
                 />
-                <SummaryCard
-                  icon={<Zap className="w-4 h-4" />}
+                <SummaryChip
+                  icon={<Target className="w-3.5 h-3.5" />}
                   label="Preguntas"
                   value={selectedQuestionCount.toString()}
-                  color="#D9A85E"
+                  color="#C99A50"
                 />
               </>
             )}
             {isEndless && (
-              <SummaryCard
-                icon={<Skull className="w-4 h-4" />}
+              <SummaryChip
+                icon={<Skull className="w-3.5 h-3.5" />}
                 label="Duración"
                 value="∞ hasta fallar"
-                color={isSuddenDeath ? "#D9A85E" : "#C98492"}
+                color={isSuddenDeath ? "#C99A50" : "#B57482"}
               />
             )}
           </div>
-
-          {/* Crystal Bubble CTA */}
-          <button
-            onClick={handleStart}
-            disabled={!hasSelection || (isClassic && !selectedDifficulty) || startGameMut.isPending}
-            className={cn(
-              "w-full py-5 rounded-[2rem] font-fancy italic font-bold text-lg sm:text-xl tracking-wide transition-all flex items-center justify-center gap-3 mt-4 relative overflow-hidden",
-              !hasSelection || (isClassic && !selectedDifficulty) || startGameMut.isPending
-                ? "bg-slate-200 text-slate-400 cursor-not-allowed"
-                : cn(ctaConfig.class, "animate-cta-pulse")
-            )}
-          >
-            {startGameMut.isPending ? (
-              <>Iniciando…</>
-            ) : !hasSelection ? (
-              "Seleccioná al menos una categoría"
-            ) : (isClassic && !selectedDifficulty) ? (
-              "Seleccioná una dificultad"
-            ) : (
-              <>
-                <Swords className="w-5 h-5 relative z-10" />
-                <span className="relative z-10">{ctaConfig.label}</span>
-              </>
-            )}
-          </button>
         </section>
       </main>
+
+      {/* ============================================================
+          CTA — Sticky bottom, pequeño, redondeado tipo píldora
+          NO gigante. Flota sobre el contenido al hacer scroll.
+          ============================================================ */}
+      <div className="sticky-cta-bottom">
+        <button
+          onClick={handleStart}
+          disabled={!canStart}
+          className={cn(
+            "flex items-center gap-2",
+            !canStart
+              ? "bg-[#D9CFB8] text-[#7A8492] cursor-not-allowed"
+              : isSuddenDeath
+                ? "crystal-bubble-gold"
+                : isSurvival
+                  ? "crystal-bubble-coral"
+                  : "crystal-bubble",
+          )}
+        >
+          {startGameMut.isPending ? (
+            <>Iniciando…</>
+          ) : !hasSelection ? (
+            "Elegí una categoría"
+          ) : (isClassic && !selectedDifficulty) ? (
+            "Elegí una dificultad"
+          ) : (
+            <>
+              <Play className="w-4 h-4 fill-current" />
+              <span>{ctaLabel}</span>
+              <Swords className="w-4 h-4" />
+            </>
+          )}
+        </button>
+      </div>
     </div>
   )
 }
 
-function SummaryCard({
+function SummaryChip({
   icon,
   label,
   value,
@@ -520,18 +530,15 @@ function SummaryCard({
   color?: string
 }) {
   return (
-    <div
-      className={cn(
-        "rounded-2xl border bg-white/70 p-4 transition glass",
-        color ? "border-slate-300/40" : "border-dashed border-slate-300/40"
-      )}
-      style={color ? { borderColor: `${color}50`, boxShadow: `0 0 12px ${color}15` } : undefined}
-    >
-      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-slate-500 italic">
+    <div className="rounded-2xl px-3 py-2.5 bubble-pop">
+      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[#7A8492] italic">
         <span style={color ? { color } : undefined}>{icon}</span>
         {label}
       </div>
-      <div className="font-fancy italic text-base font-semibold mt-1 truncate text-slate-700" style={color ? { color } : undefined}>
+      <div
+        className="font-fancy italic text-sm font-semibold mt-0.5 truncate"
+        style={{ color: color ?? "#2A3340" }}
+      >
         {value}
       </div>
     </div>
