@@ -1,0 +1,894 @@
+     1→@import "tailwindcss";
+     2→@import "tw-animate-css";
+     3→
+     4→@custom-variant dark (&:is(.dark *));
+     5→
+     6→@theme inline {
+     7→  --color-background: var(--background);
+     8→  --color-foreground: var(--foreground);
+     9→  --font-sans: var(--font-geist-sans);
+    10→  --font-mono: var(--font-geist-mono);
+    11→  --font-fancy: var(--font-fancy);
+    12→  --font-script: var(--font-script);
+    13→  --color-sidebar-ring: var(--sidebar-ring);
+    14→  --color-sidebar-border: var(--sidebar-border);
+    15→  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    16→  --color-sidebar-accent: var(--sidebar-accent);
+    17→  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    18→  --color-sidebar-primary: var(--sidebar-primary);
+    19→  --color-sidebar-foreground: var(--sidebar-foreground);
+    20→  --color-sidebar: var(--sidebar);
+    21→  --color-chart-5: var(--chart-5);
+    22→  --color-chart-4: var(--chart-4);
+    23→  --color-chart-3: var(--chart-3);
+    24→  --color-chart-2: var(--chart-2);
+    25→  --color-chart-1: var(--chart-1);
+    26→  --color-ring: var(--ring);
+    27→  --color-input: var(--input);
+    28→  --color-border: var(--border);
+    29→  --color-destructive: var(--destructive);
+    30→  --color-accent-foreground: var(--accent-foreground);
+    31→  --color-accent: var(--accent);
+    32→  --color-muted-foreground: var(--muted-foreground);
+    33→  --color-muted: var(--muted);
+    34→  --color-secondary-foreground: var(--secondary-foreground);
+    35→  --color-secondary: var(--secondary);
+    36→  --color-primary-foreground: var(--primary-foreground);
+    37→  --color-primary: var(--primary);
+    38→  --color-popover-foreground: var(--popover-foreground);
+    39→  --color-popover: var(--popover);
+    40→  --color-card-foreground: var(--card-foreground);
+    41→  --color-card: var(--card);
+    42→  --radius-sm: calc(var(--radius) - 4px);
+    43→  --radius-md: calc(var(--radius) - 2px);
+    44→  --radius-lg: var(--radius);
+    45→  --radius-xl: calc(var(--radius) + 4px);
+    46→
+    47→  /* ============================================================
+    48→     PALETA NEUTRA CÁLIDA — Soft Sand · Dusty Blue · Sage
+    49→     Inspiración: spa marino, arena clara, cielo brumoso
+    50→     Versión V5: menos blanco (calmar la vista), más profundidad
+    51→     ============================================================ */
+    52→  --color-sand-50:  #F2ECDD;   /* crema cálido - fondo principal */
+    53→  --color-sand-100: #E8E0CC;   /* arena suave */
+    54→  --color-sand-200: #D9CFB8;   /* arena media */
+    55→  --color-sand-300: #BFB39A;   /* arena oscura */
+    56→
+    57→  --color-slate-ink:    #2A3340;  /* texto principal: gris pizarra profundo */
+    58→  --color-slate-ink-soft: #4E5A6C; /* texto secundario */
+    59→  --color-slate-mist:   #7A8492;   /* texto terciario / muted */
+    60→
+    61→  --color-dusty-50:   #DDE3EC;   /* azul brumoso claro */
+    62→  --color-dusty-100:  #BFCBDB;   /* azul brumoso */
+    63→  --color-dusty-300:  #8E9DB4;   /* azul medio suave */
+    64→  --color-dusty-500:  #5C6E8A;   /* azul polvoriento - primario */
+    65→  --color-dusty-700:  #3D4A60;   /* azul oscuro */
+    66→
+    67→  --color-sage-50:   #DEE5DC;   /* salvia claro */
+    68→  --color-sage-300:  #97A894;   /* salvia media */
+    69→  --color-sage-500:  #718C6F;   /* salvia - acento */
+    70→  --color-sage-700:  #4D6450;   /* salvia oscuro */
+    71→
+    72→  --color-clay-300:  #C9A082;   /* terracota suave */
+    73→  --color-clay-500:  #A87859;   /* terracota medio - acento cálido */
+    74→  --color-clay-700:  #7A5641;   /* terracota oscuro */
+    75→
+    76→  --color-amber-soft: #C99A50;  /* ámbar apagado - alertas */
+    77→  --color-rose-soft:  #B57482;  /* rosa apagado - vidas */
+    78→  --color-violet-soft:#8A8AB5;  /* violeta apagado - rareza */
+    79→
+    80→  /* Compatibilidad legacy con utilidades anteriores */
+    81→  --color-image-blue-deep: #4C5C75;
+    82→  --color-image-blue: #6E82A0;
+    83→  --color-image-blue-light: #A4B3C8;
+    84→  --color-image-blue-sky: #D6DEEA;
+    85→  --color-image-green: #8AA088;
+    86→  --color-image-green-light: #B0BFAE;
+    87→  --color-image-green-dark: #5F7560;
+    88→  --color-image-white: #FAF7F1;
+    89→  --color-image-cream: #F2EDE3;
+    90→  --color-abyssal: #4C5C75;
+    91→  --color-deepteal: #6E82A0;
+    92→  --color-bioluminescent: #8AA088;
+    93→  --color-aquaelectric: #A4B3C8;
+    94→  --color-coralline: #C98492;
+    95→  --color-neon-cyan: #A4B3C8;
+    96→  --color-neon-aqua: #A4B3C8;
+    97→  --color-neon-teal: #B0BFAE;
+    98→  --color-neon-emerald: #8AA088;
+    99→  --color-neon-blue: #6E82A0;
+   100→  --color-neon-deep: #4C5C75;
+   101→  --color-neon-gold: #D9A85E;
+   102→  --color-neon-coral: #C98492;
+   103→  --color-neon-violet: #9D9DC4;
+   104→  --color-glass-tint: rgba(255, 252, 247, 0.78);
+   105→  --color-cyan-bright: #A4B3C8;
+   106→  --color-mint: #B0BFAE;
+   107→  --color-coral: #C98492;
+   108→  --color-gold-alert: #D9A85E;
+   109→  --color-violet-bright: #9D9DC4;
+   110→  --color-lime: #B0BFAE;
+   111→  --color-sky-light: #D6DEEA;
+   112→  --color-sky-mid: #A4B3C8;
+   113→  --color-sky-deep: #6E82A0;
+   114→  --color-grass: #8AA088;
+   115→  --color-water: #6E82A0;
+   116→  --color-water-deep: #4C5C75;
+   117→}
+   118→
+   119→/* ============================================================
+   120→   Trivials Wars — Paleta Neutra Cálida V5
+   121→   Estética: arena cálida, calma, espaciosa, NO blanca
+   122→   ============================================================ */
+   123→:root {
+   124→  --radius: 1.5rem;
+   125→  /* Fondo principal: arena cálida con halos suaves azul/salvia */
+   126→  --background: #EFE7D4;
+   127→  --foreground: #2A3340;
+   128→  /* Tarjetas: arena tibia translúcida (no blanca) */
+   129→  --card: rgba(245, 235, 215, 0.78);
+   130→  --card-foreground: #2A3340;
+   131→  --popover: rgba(245, 235, 215, 0.95);
+   132→  --popover-foreground: #2A3340;
+   133→  /* Primario: azul polvoriento suave */
+   134→  --primary: #5C6E8A;
+   135→  --primary-foreground: #F2ECDD;
+   136→  --secondary: rgba(143, 157, 180, 0.32);
+   137→  --secondary-foreground: #3D4A60;
+   138→  --muted: rgba(122, 132, 146, 0.25);
+   139→  --muted-foreground: #4E5A6C;
+   140→  /* Acento: salvia suave */
+   141→  --accent: #718C6F;
+   142→  --accent-foreground: #F2ECDD;
+   143→  /* Alerta: terracota/rosa apagado */
+   144→  --destructive: #B57482;
+   145→  --border: rgba(61, 74, 96, 0.20);
+   146→  --input: rgba(245, 235, 215, 0.78);
+   147→  --ring: #5C6E8A;
+   148→  --chart-1: #5C6E8A;
+   149→  --chart-2: #718C6F;
+   150→  --chart-3: #C99A50;
+   151→  --chart-4: #8A8AB5;
+   152→  --chart-5: #B57482;
+   153→  --sidebar: rgba(232, 224, 204, 0.92);
+   154→  --sidebar-foreground: #2A3340;
+   155→  --sidebar-primary: #5C6E8A;
+   156→  --sidebar-primary-foreground: #F2ECDD;
+   157→  --sidebar-accent: rgba(143, 157, 180, 0.35);
+   158→  --sidebar-accent-foreground: #3D4A60;
+   159→  --sidebar-border: rgba(61, 74, 96, 0.18);
+   160→  --sidebar-ring: #5C6E8A;
+   161→}
+   162→
+   163→.dark {
+   164→  /* Misma paleta — el tema es inherentemente cálido claro */
+   165→  --background: #EFE7D4;
+   166→  --foreground: #2A3340;
+   167→  --card: rgba(245, 235, 215, 0.78);
+   168→  --card-foreground: #2A3340;
+   169→  --popover: rgba(245, 235, 215, 0.95);
+   170→  --popover-foreground: #2A3340;
+   171→  --primary: #5C6E8A;
+   172→  --primary-foreground: #F2ECDD;
+   173→  --secondary: rgba(143, 157, 180, 0.32);
+   174→  --secondary-foreground: #3D4A60;
+   175→  --muted: rgba(122, 132, 146, 0.25);
+   176→  --muted-foreground: #4E5A6C;
+   177→  --accent: #718C6F;
+   178→  --accent-foreground: #F2ECDD;
+   179→  --destructive: #B57482;
+   180→  --border: rgba(61, 74, 96, 0.20);
+   181→  --input: rgba(245, 235, 215, 0.78);
+   182→  --ring: #5C6E8A;
+   183→  --sidebar: rgba(232, 224, 204, 0.92);
+   184→  --sidebar-foreground: #2A3340;
+   185→  --sidebar-primary: #5C6E8A;
+   186→  --sidebar-primary-foreground: #F2ECDD;
+   187→  --sidebar-accent: rgba(143, 157, 180, 0.35);
+   188→  --sidebar-accent-foreground: #3D4A60;
+   189→  --sidebar-border: rgba(61, 74, 96, 0.18);
+   190→  --sidebar-ring: #5C6E8A;
+   191→}
+   192→
+   193→@layer base {
+   194→  * {
+   195→    @apply border-border outline-ring/50;
+   196→  }
+   197→  html, body {
+   198→    @apply bg-background text-foreground;
+   199→    font-family: var(--font-sans), system-ui, sans-serif;
+   200→  }
+   201→  body {
+   202→    /* Fondo: arena cálida con halos suaves azul y salvia
+   203→       NO blanco — calma visual, sin fatiga ocular */
+   204→    background:
+   205→      radial-gradient(1200px 600px at 85% -10%, rgba(191, 203, 219, 0.50), transparent 60%),
+   206→      radial-gradient(900px 500px at 10% 110%, rgba(151, 168, 148, 0.35), transparent 65%),
+   207→      radial-gradient(700px 400px at -10% 30%, rgba(143, 157, 180, 0.22), transparent 65%),
+   208→      linear-gradient(180deg, #EFE7D4 0%, #E5DCC5 50%, #D9CFB8 100%);
+   209→    background-attachment: fixed;
+   210→    min-height: 100vh;
+   211→  }
+   212→  /* Tipografía fancy para titulares con clase .font-fancy */
+   213→  .font-fancy {
+   214→    font-family: var(--font-fancy), "Playfair Display", Georgia, serif;
+   215→    font-style: italic;
+   216→    letter-spacing: 0.01em;
+   217→  }
+   218→  .font-script {
+   219→    font-family: var(--font-script), "Cormorant Garamond", Georgia, serif;
+   220→    font-style: italic;
+   221→  }
+   222→}
+   223→
+   224→/* ============================================================
+   225→   Sistema de Cursores — Pointer en elementos interactivos
+   226→   ============================================================ */
+   227→@layer base {
+   228→  button,
+   229→  [role="button"],
+   230→  a,
+   231→  summary,
+   232→  label[for],
+   233→  select,
+   234→  option {
+   235→    cursor: pointer;
+   236→  }
+   237→  input[type="text"],
+   238→  input[type="email"],
+   239→  input[type="number"],
+   240→  input[type="password"],
+   241→  input[type="search"],
+   242→  input[type="range"],
+   243→  textarea,
+   244→  [contenteditable="true"] {
+   245→    cursor: text;
+   246→  }
+   247→  .clickable,
+   248→  [data-clickable="true"],
+   249→  .cursor-pointer-soft {
+   250→    cursor: pointer;
+   251→  }
+   252→}
+   253→
+   254→/* ============================================================
+   255→   Glow utilities — tonos apagados, sutiles
+   256→   ============================================================ */
+   257→@utility glow-cyan {
+   258→  box-shadow: 0 0 18px rgba(110, 130, 160, 0.25), 0 0 36px rgba(110, 130, 160, 0.12);
+   259→}
+   260→@utility glow-bioluminescent {
+   261→  box-shadow: 0 0 18px rgba(138, 160, 136, 0.30), 0 0 40px rgba(138, 160, 136, 0.14);
+   262→}
+   263→@utility glow-aqua {
+   264→  box-shadow: 0 0 18px rgba(164, 179, 200, 0.30), 0 0 36px rgba(164, 179, 200, 0.14);
+   265→}
+   266→@utility glow-teal {
+   267→  box-shadow: 0 0 18px rgba(176, 191, 174, 0.30), 0 0 36px rgba(176, 191, 174, 0.13);
+   268→}
+   269→@utility glow-blue {
+   270→  box-shadow: 0 0 18px rgba(110, 130, 160, 0.30), 0 0 36px rgba(110, 130, 160, 0.13);
+   271→}
+   272→@utility glow-emerald {
+   273→  box-shadow: 0 0 18px rgba(138, 160, 136, 0.30), 0 0 36px rgba(138, 160, 136, 0.14);
+   274→}
+   275→@utility glow-gold {
+   276→  box-shadow: 0 0 22px rgba(217, 168, 94, 0.40), 0 0 44px rgba(217, 168, 94, 0.20);
+   277→}
+   278→@utility glow-coral {
+   279→  box-shadow: 0 0 20px rgba(201, 132, 146, 0.40), 0 0 40px rgba(201, 132, 146, 0.20);
+   280→}
+   281→@utility glow-coral-strong {
+   282→  box-shadow: 0 0 26px rgba(201, 132, 146, 0.55), 0 0 50px rgba(201, 132, 146, 0.28);
+   283→}
+   284→@utility glow-violet {
+   285→  box-shadow: 0 0 18px rgba(157, 157, 196, 0.30), 0 0 36px rgba(157, 157, 196, 0.14);
+   286→}
+   287→@utility glow-red {
+   288→  box-shadow: 0 0 18px rgba(201, 132, 146, 0.40), 0 0 36px rgba(201, 132, 146, 0.20);
+   289→}
+   290→@utility glow-green {
+   291→  box-shadow: 0 0 18px rgba(138, 160, 136, 0.30), 0 0 36px rgba(138, 160, 136, 0.14);
+   292→}
+   293→@utility glow-orange {
+   294→  box-shadow: 0 0 18px rgba(217, 168, 94, 0.30), 0 0 36px rgba(217, 168, 94, 0.14);
+   295→}
+   296→@utility glow-yellow {
+   297→  box-shadow: 0 0 18px rgba(217, 168, 94, 0.30), 0 0 36px rgba(217, 168, 94, 0.14);
+   298→}
+   299→@utility glow-magenta {
+   300→  box-shadow: 0 0 18px rgba(157, 157, 196, 0.30), 0 0 36px rgba(157, 157, 196, 0.14);
+   301→}
+   302→@utility glow-pink {
+   303→  box-shadow: 0 0 18px rgba(201, 132, 146, 0.30), 0 0 36px rgba(201, 132, 146, 0.14);
+   304→}
+   305→@utility glow-purple {
+   306→  box-shadow: 0 0 18px rgba(157, 157, 196, 0.30), 0 0 36px rgba(157, 157, 196, 0.14);
+   307→}
+   308→
+   309→/* ============================================================
+   310→   Glassmorphism — Arena cálida translúcida (NO blanco)
+   311→   ============================================================ */
+   312→@utility glass {
+   313→  background: rgba(245, 235, 215, 0.65);
+   314→  backdrop-filter: blur(14px);
+   315→  -webkit-backdrop-filter: blur(14px);
+   316→  border: 1px solid rgba(245, 235, 215, 0.50);
+   317→  box-shadow: 0 4px 22px rgba(61, 74, 96, 0.14), inset 0 1px 0 rgba(255, 248, 230, 0.50);
+   318→}
+   319→@utility glass-strong {
+   320→  background: rgba(248, 240, 222, 0.82);
+   321→  backdrop-filter: blur(18px);
+   322→  -webkit-backdrop-filter: blur(18px);
+   323→  border: 1.5px solid rgba(245, 235, 215, 0.62);
+   324→  box-shadow: 0 8px 32px rgba(61, 74, 96, 0.18), inset 0 1px 0 rgba(255, 248, 230, 0.60);
+   325→}
+   326→@utility glass-light {
+   327→  background: rgba(245, 235, 215, 0.50);
+   328→  backdrop-filter: blur(10px);
+   329→  -webkit-backdrop-filter: blur(10px);
+   330→  border: 1px solid rgba(245, 235, 215, 0.45);
+   331→}
+   332→
+   333→/* Custom scrollbar — themed neutral */
+   334→@utility scrollbar-neon {
+   335→  scrollbar-width: thin;
+   336→  scrollbar-color: rgba(110, 130, 160, 0.35) transparent;
+   337→}
+   338→.scrollbar-neon::-webkit-scrollbar {
+   339→  width: 6px;
+   340→  height: 6px;
+   341→}
+   342→.scrollbar-neon::-webkit-scrollbar-track {
+   343→  background: transparent;
+   344→}
+   345→.scrollbar-neon::-webkit-scrollbar-thumb {
+   346→  background: rgba(138, 160, 136, 0.35);
+   347→  border-radius: 3px;
+   348→}
+   349→.scrollbar-neon::-webkit-scrollbar-thumb:hover {
+   350→  background: rgba(138, 160, 136, 0.55);
+   351→}
+   352→
+   353→/* ============================================================
+   354→   Animations — sutiles, calmadas
+   355→   ============================================================ */
+   356→@keyframes pulse-glow {
+   357→  0%, 100% { opacity: 1; transform: scale(1); }
+   358→  50% { opacity: 0.7; transform: scale(1.04); }
+   359→}
+   360→
+   361→@keyframes float-slow {
+   362→  0%, 100% { transform: translateY(0px); }
+   363→  50% { transform: translateY(-6px); }
+   364→}
+   365→
+   366→@keyframes shimmer {
+   367→  0% { background-position: -200% 0; }
+   368→  100% { background-position: 200% 0; }
+   369→}
+   370→
+   371→/* Bubbles rising — más lentas y suaves */
+   372→@keyframes bubble-rise {
+   373→  0% { transform: translateY(100vh) scale(0.3); opacity: 0; }
+   374→  10% { opacity: 0.5; }
+   375→  90% { opacity: 0.3; }
+   376→  100% { transform: translateY(-10vh) scale(1.1); opacity: 0; }
+   377→}
+   378→
+   379→@keyframes wave-flow {
+   380→  0%, 100% { transform: translateX(0); }
+   381→  50% { transform: translateX(-25%); }
+   382→}
+   383→
+   384→/* Bioluminescent pulse — suave */
+   385→@keyframes bioluminescent-pulse {
+   386→  0%, 100% {
+   387→    box-shadow: 0 0 6px rgba(138, 160, 136, 0.35), 0 0 14px rgba(138, 160, 136, 0.18);
+   388→    transform: scale(1);
+   389→  }
+   390→  50% {
+   391→    box-shadow: 0 0 14px rgba(138, 160, 136, 0.55), 0 0 28px rgba(138, 160, 136, 0.32);
+   392→    transform: scale(1.04);
+   393→  }
+   394→}
+   395→
+   396→@keyframes heart-pulse {
+   397→  0%, 100% {
+   398→    transform: scale(1);
+   399→    filter: drop-shadow(0 0 4px rgba(201, 132, 146, 0.45));
+   400→  }
+   401→  50% {
+   402→    transform: scale(1.10);
+   403→    filter: drop-shadow(0 0 8px rgba(201, 132, 146, 0.65));
+   404→  }
+   405→}
+   406→
+   407→@keyframes heart-break {
+   408→  0% { transform: scale(1) rotate(0deg); opacity: 1; }
+   409→  50% { transform: scale(1.3) rotate(-12deg); opacity: 0.7; }
+   410→  100% { transform: scale(0.6) rotate(20deg); opacity: 0; }
+   411→}
+   412→
+   413→.animate-float-slow {
+   414→  animation: float-slow 4s ease-in-out infinite;
+   415→}
+   416→
+   417→.animate-bubble {
+   418→  animation: bubble-rise 16s ease-in infinite;
+   419→}
+   420→
+   421→.animate-wave {
+   422→  animation: wave-flow 10s ease-in-out infinite;
+   423→}
+   424→
+   425→.animate-bioluminescent {
+   426→  animation: bioluminescent-pulse 2.2s ease-in-out infinite;
+   427→}
+   428→
+   429→.animate-heart-pulse {
+   430→  animation: heart-pulse 1.6s ease-in-out infinite;
+   431→}
+   432→
+   433→.animate-heart-break {
+   434→  animation: heart-break 0.5s ease-out forwards;
+   435→}
+   436→
+   437→/* Text gradient utility — paleta neutra */
+   438→@utility text-gradient-neon {
+   439→  background: linear-gradient(135deg, #6E82A0 0%, #8AA088 60%, #B0BFAE 100%);
+   440→  -webkit-background-clip: text;
+   441→  background-clip: text;
+   442→  -webkit-text-fill-color: transparent;
+   443→  color: transparent;
+   444→}
+   445→
+   446→@utility text-gradient-aqua {
+   447→  background: linear-gradient(135deg, #A4B3C8 0%, #6E82A0 100%);
+   448→  -webkit-background-clip: text;
+   449→  background-clip: text;
+   450→  -webkit-text-fill-color: transparent;
+   451→  color: transparent;
+   452→}
+   453→
+   454→@utility text-gradient-bioluminescent {
+   455→  background: linear-gradient(135deg, #8AA088 0%, #6E82A0 100%);
+   456→  -webkit-background-clip: text;
+   457→  background-clip: text;
+   458→  -webkit-text-fill-color: transparent;
+   459→  color: transparent;
+   460→}
+   461→
+   462→@utility text-gradient-teal {
+   463→  background: linear-gradient(135deg, #B0BFAE 0%, #8AA088 100%);
+   464→  -webkit-background-clip: text;
+   465→  background-clip: text;
+   466→  -webkit-text-fill-color: transparent;
+   467→  color: transparent;
+   468→}
+   469→
+   470→@utility text-gradient-cyan {
+   471→  background: linear-gradient(135deg, #D6DEEA 0%, #6E82A0 100%);
+   472→  -webkit-background-clip: text;
+   473→  background-clip: text;
+   474→  -webkit-text-fill-color: transparent;
+   475→  color: transparent;
+   476→}
+   477→
+   478→@utility text-gradient-coral {
+   479→  background: linear-gradient(135deg, #C98492 0%, #D2A98E 100%);
+   480→  -webkit-background-clip: text;
+   481→  background-clip: text;
+   482→  -webkit-text-fill-color: transparent;
+   483→  color: transparent;
+   484→}
+   485→
+   486→@utility text-gradient-pink {
+   487→  background: linear-gradient(135deg, #D2A98E 0%, #C98492 100%);
+   488→  -webkit-background-clip: text;
+   489→  background-clip: text;
+   490→  -webkit-text-fill-color: transparent;
+   491→  color: transparent;
+   492→}
+   493→
+   494→/* Caustic shimmer overlay — muy sutil */
+   495→@utility caustic-overlay {
+   496→  position: relative;
+   497→  overflow: hidden;
+   498→}
+   499→.caustic-overlay::after {
+   500→  content: "";
+   501→  position: absolute;
+   502→  inset: 0;
+   503→  background:
+   504→    radial-gradient(circle at 30% 20%, rgba(138, 160, 136, 0.10) 0%, transparent 30%),
+   505→    radial-gradient(circle at 70% 80%, rgba(164, 179, 200, 0.08) 0%, transparent 35%);
+   506→  mix-blend-mode: screen;
+   507→  pointer-events: none;
+   508→  animation: float-slow 8s ease-in-out infinite;
+   509→}
+   510→
+   511→/* ============================================================
+   512→   Crystal Bubble button — paleta neutra
+   513→   Degradado: dusty blue claro → salvia → azul polvoriento
+   514→   con brillo de gota suave en la parte superior
+   515→   ============================================================ */
+   516→
+   517→@keyframes aqua-sky-flow {
+   518→  0% { background-position: 0% 50%; }
+   519→  50% { background-position: 100% 50%; }
+   520→  100% { background-position: 0% 50%; }
+   521→}
+   522→.aqua-sky-bg {
+   523→  background: linear-gradient(135deg, #4C5C75 0%, #6E82A0 25%, #A4B3C8 55%, #B0BFAE 80%, #8AA088 100%);
+   524→  background-size: 400% 400%;
+   525→  animation: aqua-sky-flow 18s ease-in-out infinite;
+   526→}
+   527→
+   528→/* Crystal Bubble principal — dusty blue → sage */
+   529→@utility crystal-bubble {
+   530→  position: relative;
+   531→  background: linear-gradient(180deg, rgba(176, 191, 174, 0.95) 0%, rgba(110, 130, 160, 0.95) 55%, rgba(76, 92, 117, 0.97) 100%);
+   532→  border: 1.5px solid rgba(255, 252, 247, 0.55);
+   533→  box-shadow:
+   534→    inset 0 2px 4px rgba(255, 255, 255, 0.55),
+   535→    inset 0 -3px 6px rgba(47, 58, 74, 0.20),
+   536→    0 8px 22px rgba(76, 92, 117, 0.35),
+   537→    0 0 32px rgba(138, 160, 136, 0.25);
+   538→  overflow: hidden;
+   539→}
+   540→.crystal-bubble::before {
+   541→  content: "";
+   542→  position: absolute;
+   543→  top: 8%;
+   544→  left: 12%;
+   545→  right: 12%;
+   546→  height: 38%;
+   547→  background: linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.15) 100%);
+   548→  border-radius: 999px;
+   549→  filter: blur(2px);
+   550→  pointer-events: none;
+   551→}
+   552→.crystal-bubble:hover {
+   553→  box-shadow:
+   554→    inset 0 2px 4px rgba(255, 255, 255, 0.65),
+   555→    inset 0 -3px 6px rgba(47, 58, 74, 0.20),
+   556→    0 12px 30px rgba(76, 92, 117, 0.45),
+   557→    0 0 48px rgba(138, 160, 136, 0.40);
+   558→}
+   559→.crystal-bubble:active {
+   560→  transform: scale(0.985);
+   561→}
+   562→
+   563→/* Crystal Bubble variant — coral suave para supervivencia */
+   564→@utility crystal-bubble-coral {
+   565→  position: relative;
+   566→  background: linear-gradient(180deg, rgba(210, 169, 142, 0.95) 0%, rgba(201, 132, 146, 0.95) 55%, rgba(138, 100, 80, 0.95) 100%);
+   567→  border: 1.5px solid rgba(255, 252, 247, 0.55);
+   568→  box-shadow:
+   569→    inset 0 2px 4px rgba(255, 255, 255, 0.55),
+   570→    inset 0 -3px 6px rgba(80, 50, 40, 0.20),
+   571→    0 8px 20px rgba(201, 132, 146, 0.35),
+   572→    0 0 32px rgba(201, 132, 146, 0.22);
+   573→  overflow: hidden;
+   574→}
+   575→.crystal-bubble-coral::before {
+   576→  content: "";
+   577→  position: absolute;
+   578→  top: 8%;
+   579→  left: 12%;
+   580→  right: 12%;
+   581→  height: 38%;
+   582→  background: linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.15) 100%);
+   583→  border-radius: 999px;
+   584→  filter: blur(2px);
+   585→  pointer-events: none;
+   586→}
+   587→.crystal-bubble-coral:hover {
+   588→  box-shadow:
+   589→    inset 0 2px 4px rgba(255, 255, 255, 0.65),
+   590→    inset 0 -3px 6px rgba(80, 50, 40, 0.20),
+   591→    0 12px 28px rgba(201, 132, 146, 0.45),
+   592→    0 0 44px rgba(201, 132, 146, 0.35);
+   593→}
+   594→.crystal-bubble-coral:active {
+   595→  transform: scale(0.985);
+   596→}
+   597→
+   598→/* Crystal Bubble variant — ámbar apagado para Muerte Súbita */
+   599→@utility crystal-bubble-gold {
+   600→  position: relative;
+   601→  background: linear-gradient(180deg, rgba(234, 210, 162, 0.95) 0%, rgba(217, 168, 94, 0.95) 55%, rgba(138, 90, 30, 0.95) 100%);
+   602→  border: 1.5px solid rgba(255, 252, 247, 0.55);
+   603→  box-shadow:
+   604→    inset 0 2px 4px rgba(255, 255, 255, 0.55),
+   605→    inset 0 -3px 6px rgba(80, 53, 15, 0.20),
+   606→    0 8px 20px rgba(217, 168, 94, 0.35),
+   607→    0 0 32px rgba(217, 168, 94, 0.22);
+   608→  overflow: hidden;
+   609→}
+   610→.crystal-bubble-gold::before {
+   611→  content: "";
+   612→  position: absolute;
+   613→  top: 8%;
+   614→  left: 12%;
+   615→  right: 12%;
+   616→  height: 38%;
+   617→  background: linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.15) 100%);
+   618→  border-radius: 999px;
+   619→  filter: blur(2px);
+   620→  pointer-events: none;
+   621→}
+   622→.crystal-bubble-gold:hover {
+   623→  box-shadow:
+   624→    inset 0 2px 4px rgba(255, 255, 255, 0.65),
+   625→    inset 0 -3px 6px rgba(80, 53, 15, 0.20),
+   626→    0 12px 28px rgba(217, 168, 94, 0.45),
+   627→    0 0 44px rgba(217, 168, 94, 0.40);
+   628→}
+   629→.crystal-bubble-gold:active {
+   630→  transform: scale(0.985);
+   631→}
+   632→
+   633→/* Floating light bubbles for background — suaves */
+   634→@keyframes frutiger-bubble {
+   635→  0% { transform: translate(0, 100vh) scale(0.4); opacity: 0; }
+   636→  10% { opacity: 0.40; }
+   637→  50% { transform: translate(20px, 50vh) scale(0.9); opacity: 0.50; }
+   638→  90% { opacity: 0.20; }
+   639→  100% { transform: translate(-20px, -10vh) scale(1.2); opacity: 0; }
+   640→}
+   641→
+   642→.frutiger-bubble {
+   643→  position: absolute;
+   644→  border-radius: 50%;
+   645→  background: radial-gradient(circle at 30% 30%, rgba(255, 252, 247, 0.75) 0%, rgba(176, 191, 174, 0.25) 50%, rgba(110, 130, 160, 0.08) 100%);
+   646→  box-shadow:
+   647→    inset 0 0 10px rgba(255, 252, 247, 0.35),
+   648→    0 0 14px rgba(138, 160, 136, 0.20);
+   649→  pointer-events: none;
+   650→  animation: frutiger-bubble 18s ease-in infinite;
+   651→}
+   652→
+   653→/* Glass card with stronger feel — translúcida cálida */
+   654→@utility glass-frutiger {
+   655→  background: linear-gradient(135deg, rgba(248, 240, 222, 0.80) 0%, rgba(232, 224, 204, 0.60) 100%);
+   656→  backdrop-filter: blur(18px);
+   657→  -webkit-backdrop-filter: blur(18px);
+   658→  border: 1.5px solid rgba(245, 235, 215, 0.55);
+   659→  box-shadow:
+   660→    inset 0 1px 0 rgba(255, 248, 230, 0.55),
+   661→    0 8px 32px rgba(61, 74, 96, 0.18),
+   662→    0 0 40px rgba(151, 168, 148, 0.10);
+   663→}
+   664→
+   665→/* Soft pulse glow for primary CTA — gentle breathe */
+   666→@keyframes cta-pulse {
+   667→  0%, 100% {
+   668→    box-shadow:
+   669→      inset 0 2px 4px rgba(255, 255, 255, 0.45),
+   670→      inset 0 -3px 6px rgba(0, 0, 0, 0.18),
+   671→      0 8px 20px rgba(76, 92, 117, 0.35),
+   672→      0 0 30px rgba(138, 160, 136, 0.25);
+   673→  }
+   674→  50% {
+   675→    box-shadow:
+   676→      inset 0 2px 4px rgba(255, 255, 255, 0.55),
+   677→      inset 0 -3px 6px rgba(0, 0, 0, 0.18),
+   678→      0 12px 28px rgba(76, 92, 117, 0.45),
+   679→      0 0 48px rgba(138, 160, 136, 0.40);
+   680→  }
+   681→}
+   682→.animate-cta-pulse {
+   683→  animation: cta-pulse 3s ease-in-out infinite;
+   684→}
+   685→
+   686→/* Wisdom card glass — slightly more ethereal */
+   687→@utility glass-wisdom {
+   688→  background: linear-gradient(135deg, rgba(248, 240, 222, 0.75) 0%, rgba(232, 224, 204, 0.50) 100%);
+   689→  backdrop-filter: blur(16px);
+   690→  -webkit-backdrop-filter: blur(16px);
+   691→  border: 1px solid rgba(245, 235, 215, 0.52);
+   692→  box-shadow:
+   693→    inset 0 1px 0 rgba(255, 248, 230, 0.55),
+   694→    0 6px 24px rgba(61, 74, 96, 0.15);
+   695→}
+   696→
+   697→/* Sparkle accent */
+   698→@keyframes sparkle-rotate {
+   699→  0% { transform: rotate(0deg) scale(1); opacity: 0.7; }
+   700→  50% { transform: rotate(180deg) scale(1.12); opacity: 0.9; }
+   701→  100% { transform: rotate(360deg) scale(1); opacity: 0.7; }
+   702→}
+   703→.animate-sparkle {
+   704→  animation: sparkle-rotate 5s ease-in-out infinite;
+   705→}
+   706→
+   707→/* Fade-in for transitions */
+   708→@keyframes fade-in-up {
+   709→  0% { opacity: 0; transform: translateY(8px); }
+   710→  100% { opacity: 1; transform: translateY(0); }
+   711→}
+   712→.animate-fade-in-up {
+   713→  animation: fade-in-up 0.5s ease-out both;
+   714→}
+   715→
+   716→/* ============================================================
+   717→   Modo Muerte Súbita — Fondo ámbar suave de alerta
+   718→   ============================================================ */
+   719→@keyframes sudden-death-alert {
+   720→  0%, 100% {
+   721→    background-color: rgba(217, 168, 94, 0.06);
+   722→  }
+   723→  50% {
+   724→    background-color: rgba(217, 168, 94, 0.14);
+   725→  }
+   726→}
+   727→.sudden-death-alert-bg {
+   728→  animation: sudden-death-alert 2.6s ease-in-out infinite;
+   729→}
+   730→
+   731→@keyframes gold-pulse {
+   732→  0%, 100% {
+   733→    box-shadow: 0 0 12px rgba(217, 168, 94, 0.45), 0 0 26px rgba(217, 168, 94, 0.22);
+   734→    transform: scale(1);
+   735→  }
+   736→  50% {
+   737→    box-shadow: 0 0 20px rgba(217, 168, 94, 0.65), 0 0 40px rgba(217, 168, 94, 0.35);
+   738→    transform: scale(1.03);
+   739→  }
+   740→}
+   741→.animate-gold-pulse {
+   742→  animation: gold-pulse 1.8s ease-in-out infinite;
+   743→}
+   744→
+   745→/* Pill (selector compacto) — paleta cálida arena */
+   746→@utility pill-selector {
+   747→  transition: all 0.20s ease-out;
+   748→  border: 1.5px solid rgba(92, 110, 138, 0.30);
+   749→  background: rgba(248, 240, 222, 0.75);
+   750→  color: #3D4A60;
+   751→}
+   752→.pill-selector:hover {
+   753→  border-color: rgba(92, 110, 138, 0.55);
+   754→  background: rgba(252, 246, 232, 0.95);
+   755→}
+   756→.pill-selector[data-selected="true"] {
+   757→  background: linear-gradient(135deg, #718C6F 0%, #97A894 50%, #5C6E8A 100%);
+   758→  color: #F2ECDD;
+   759→  border-color: rgba(248, 240, 222, 0.65);
+   760→  box-shadow: 0 4px 14px rgba(61, 74, 96, 0.30), inset 0 1px 0 rgba(255, 248, 230, 0.40);
+   761→}
+   762→
+   763→/* Segmented control */
+   764→@utility segmented-option {
+   765→  transition: all 0.18s ease-out;
+   766→  color: #3D4A60;
+   767→}
+   768→.segmented-option[data-selected="true"] {
+   769→  background: linear-gradient(135deg, #718C6F 0%, #97A894 50%, #5C6E8A 100%);
+   770→  color: #F2ECDD;
+   771→  box-shadow: 0 3px 12px rgba(61, 74, 96, 0.32), inset 0 1px 0 rgba(255, 248, 230, 0.40);
+   772→}
+   773→
+   774→/* Botón circular compacto (5, 10, 20, 50) */
+   775→@utility circular-count {
+   776→  transition: all 0.20s ease-out;
+   777→  border: 1.5px solid rgba(92, 110, 138, 0.30);
+   778→  background: rgba(248, 240, 222, 0.80);
+   779→  color: #3D4A60;
+   780→}
+   781→.circular-count:hover {
+   782→  border-color: rgba(92, 110, 138, 0.55);
+   783→  background: rgba(252, 246, 232, 0.98);
+   784→  transform: scale(1.04);
+   785→}
+   786→.circular-count[data-selected="true"] {
+   787→  background: linear-gradient(135deg, #718C6F 0%, #97A894 50%, #5C6E8A 100%);
+   788→  color: #F2ECDD;
+   789→  border-color: rgba(248, 240, 222, 0.65);
+   790→  box-shadow: 0 4px 14px rgba(61, 74, 96, 0.32), inset 0 1px 0 rgba(255, 248, 230, 0.40);
+   791→}
+   792→
+   793→/* ============================================================
+   794→   YouTube lofi player widget — small visible thumbnail
+   795→   ============================================================ */
+   796→.yt-lofi-widget {
+   797→  position: fixed;
+   798→  bottom: 14px;
+   799→  right: 14px;
+   800→  z-index: 60;
+   801→  width: 120px;
+   802→  height: 70px;
+   803→  border-radius: 12px;
+   804→  overflow: hidden;
+   805→  box-shadow: 0 8px 24px rgba(61, 74, 96, 0.30), 0 0 0 1.5px rgba(248, 240, 222, 0.6);
+   806→  transition: all 0.30s ease-out;
+   807→  opacity: 0.85;
+   808→}
+   809→.yt-lofi-widget:hover {
+   810→  opacity: 1;
+   811→  transform: scale(1.04);
+   812→  box-shadow: 0 12px 32px rgba(61, 74, 96, 0.40), 0 0 0 1.5px rgba(248, 240, 222, 0.8);
+   813→}
+   814→.yt-lofi-widget iframe {
+   815→  width: 100%;
+   816→  height: 100%;
+   817→  border: 0;
+   818→  pointer-events: none;
+   819→}
+   820→.yt-lofi-widgetExpanded {
+   821→  width: 240px;
+   822→  height: 140px;
+   823→}
+   824→.yt-lofi-hidden {
+   825→  display: none !important;
+   826→}
+   827→
+   828→/* ============================================================
+   829→   Bubble-pop card — tarjetas redondeadas tipo "pops" bonitas
+   830→   Estilo: muy redondeadas, sombra suave, superficie cálida
+   831→   No son listas, son burbujas independientes
+   832→   ============================================================ */
+   833→@utility bubble-pop {
+   834→  background: linear-gradient(135deg, rgba(252, 246, 232, 0.92) 0%, rgba(245, 235, 215, 0.80) 100%);
+   835→  backdrop-filter: blur(14px);
+   836→  -webkit-backdrop-filter: blur(14px);
+   837→  border: 1.5px solid rgba(248, 240, 222, 0.65);
+   838→  box-shadow:
+   839→    inset 0 1px 0 rgba(255, 248, 230, 0.60),
+   840→    0 6px 22px rgba(61, 74, 96, 0.14);
+   841→  transition: all 0.25s ease-out;
+   842→}
+   843→.bubble-pop:hover {
+   844→  transform: translateY(-2px);
+   845→  box-shadow:
+   846→    inset 0 1px 0 rgba(255, 248, 230, 0.65),
+   847→    0 10px 30px rgba(61, 74, 96, 0.22);
+   848→}
+   849→
+   850→/* Variante seleccionada — burbuja con gradiente salvia→azul */
+   851→@utility bubble-pop-selected {
+   852→  background: linear-gradient(135deg, #718C6F 0%, #97A894 50%, #5C6E8A 100%);
+   853→  border: 1.5px solid rgba(248, 240, 222, 0.70);
+   854→  color: #F2ECDD;
+   855→  box-shadow:
+   856→    inset 0 1px 0 rgba(255, 248, 230, 0.45),
+   857→    0 6px 22px rgba(61, 74, 96, 0.35),
+   858→    0 0 28px rgba(151, 168, 148, 0.30);
+   859→}
+   860→
+   861→/* Sticky bottom CTA — flotante, pequeño, no gigante */
+   862→.sticky-cta-bottom {
+   863→  position: sticky;
+   864→  bottom: 14px;
+   865→  z-index: 30;
+   866→  width: calc(100% - 32px);
+   867→  max-width: 320px;
+   868→  margin: 0 auto;
+   869→  display: flex;
+   870→  justify-content: center;
+   871→}
+   872→.sticky-cta-bottom button {
+   873→  padding: 12px 32px;
+   874→  border-radius: 9999px;
+   875→  font-family: var(--font-fancy), "Playfair Display", Georgia, serif;
+   876→  font-style: italic;
+   877→  font-weight: 600;
+   878→  font-size: 1rem;
+   879→  letter-spacing: 0.02em;
+   880→  box-shadow:
+   881→    0 8px 24px rgba(61, 74, 96, 0.30),
+   882→    0 0 0 1.5px rgba(248, 240, 222, 0.50);
+   883→  transition: all 0.20s ease-out;
+   884→}
+   885→.sticky-cta-bottom button:hover {
+   886→  transform: translateY(-2px);
+   887→  box-shadow:
+   888→    0 12px 32px rgba(61, 74, 96, 0.40),
+   889→    0 0 0 1.5px rgba(248, 240, 222, 0.70);
+   890→}
+   891→.sticky-cta-bottom button:active {
+   892→  transform: translateY(0);
+   893→}
+   894→

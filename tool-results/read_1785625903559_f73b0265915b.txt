@@ -1,0 +1,894 @@
+     1→     1→@import "tailwindcss";
+     2→     2→@import "tw-animate-css";
+     3→     3→
+     4→     4→@custom-variant dark (&:is(.dark *));
+     5→     5→
+     6→     6→@theme inline {
+     7→     7→  --color-background: var(--background);
+     8→     8→  --color-foreground: var(--foreground);
+     9→     9→  --font-sans: var(--font-geist-sans);
+    10→    10→  --font-mono: var(--font-geist-mono);
+    11→    11→  --font-fancy: var(--font-fancy);
+    12→    12→  --font-script: var(--font-script);
+    13→    13→  --color-sidebar-ring: var(--sidebar-ring);
+    14→    14→  --color-sidebar-border: var(--sidebar-border);
+    15→    15→  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    16→    16→  --color-sidebar-accent: var(--sidebar-accent);
+    17→    17→  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    18→    18→  --color-sidebar-primary: var(--sidebar-primary);
+    19→    19→  --color-sidebar-foreground: var(--sidebar-foreground);
+    20→    20→  --color-sidebar: var(--sidebar);
+    21→    21→  --color-chart-5: var(--chart-5);
+    22→    22→  --color-chart-4: var(--chart-4);
+    23→    23→  --color-chart-3: var(--chart-3);
+    24→    24→  --color-chart-2: var(--chart-2);
+    25→    25→  --color-chart-1: var(--chart-1);
+    26→    26→  --color-ring: var(--ring);
+    27→    27→  --color-input: var(--input);
+    28→    28→  --color-border: var(--border);
+    29→    29→  --color-destructive: var(--destructive);
+    30→    30→  --color-accent-foreground: var(--accent-foreground);
+    31→    31→  --color-accent: var(--accent);
+    32→    32→  --color-muted-foreground: var(--muted-foreground);
+    33→    33→  --color-muted: var(--muted);
+    34→    34→  --color-secondary-foreground: var(--secondary-foreground);
+    35→    35→  --color-secondary: var(--secondary);
+    36→    36→  --color-primary-foreground: var(--primary-foreground);
+    37→    37→  --color-primary: var(--primary);
+    38→    38→  --color-popover-foreground: var(--popover-foreground);
+    39→    39→  --color-popover: var(--popover);
+    40→    40→  --color-card-foreground: var(--card-foreground);
+    41→    41→  --color-card: var(--card);
+    42→    42→  --radius-sm: calc(var(--radius) - 4px);
+    43→    43→  --radius-md: calc(var(--radius) - 2px);
+    44→    44→  --radius-lg: var(--radius);
+    45→    45→  --radius-xl: calc(var(--radius) + 4px);
+    46→    46→
+    47→    47→  /* ============================================================
+    48→    48→     PALETA NEUTRA CÁLIDA — Soft Sand · Dusty Blue · Sage
+    49→    49→     Inspiración: spa marino, arena clara, cielo brumoso
+    50→    50→     Versión V5: menos blanco (calmar la vista), más profundidad
+    51→    51→     ============================================================ */
+    52→    52→  --color-sand-50:  #F2ECDD;   /* crema cálido - fondo principal */
+    53→    53→  --color-sand-100: #E8E0CC;   /* arena suave */
+    54→    54→  --color-sand-200: #D9CFB8;   /* arena media */
+    55→    55→  --color-sand-300: #BFB39A;   /* arena oscura */
+    56→    56→
+    57→    57→  --color-slate-ink:    #2A3340;  /* texto principal: gris pizarra profundo */
+    58→    58→  --color-slate-ink-soft: #4E5A6C; /* texto secundario */
+    59→    59→  --color-slate-mist:   #7A8492;   /* texto terciario / muted */
+    60→    60→
+    61→    61→  --color-dusty-50:   #DDE3EC;   /* azul brumoso claro */
+    62→    62→  --color-dusty-100:  #BFCBDB;   /* azul brumoso */
+    63→    63→  --color-dusty-300:  #8E9DB4;   /* azul medio suave */
+    64→    64→  --color-dusty-500:  #5C6E8A;   /* azul polvoriento - primario */
+    65→    65→  --color-dusty-700:  #3D4A60;   /* azul oscuro */
+    66→    66→
+    67→    67→  --color-sage-50:   #DEE5DC;   /* salvia claro */
+    68→    68→  --color-sage-300:  #97A894;   /* salvia media */
+    69→    69→  --color-sage-500:  #718C6F;   /* salvia - acento */
+    70→    70→  --color-sage-700:  #4D6450;   /* salvia oscuro */
+    71→    71→
+    72→    72→  --color-clay-300:  #C9A082;   /* terracota suave */
+    73→    73→  --color-clay-500:  #A87859;   /* terracota medio - acento cálido */
+    74→    74→  --color-clay-700:  #7A5641;   /* terracota oscuro */
+    75→    75→
+    76→    76→  --color-amber-soft: #C99A50;  /* ámbar apagado - alertas */
+    77→    77→  --color-rose-soft:  #B57482;  /* rosa apagado - vidas */
+    78→    78→  --color-violet-soft:#8A8AB5;  /* violeta apagado - rareza */
+    79→    79→
+    80→    80→  /* Compatibilidad legacy con utilidades anteriores */
+    81→    81→  --color-image-blue-deep: #4C5C75;
+    82→    82→  --color-image-blue: #6E82A0;
+    83→    83→  --color-image-blue-light: #A4B3C8;
+    84→    84→  --color-image-blue-sky: #D6DEEA;
+    85→    85→  --color-image-green: #8AA088;
+    86→    86→  --color-image-green-light: #B0BFAE;
+    87→    87→  --color-image-green-dark: #5F7560;
+    88→    88→  --color-image-white: #FAF7F1;
+    89→    89→  --color-image-cream: #F2EDE3;
+    90→    90→  --color-abyssal: #4C5C75;
+    91→    91→  --color-deepteal: #6E82A0;
+    92→    92→  --color-bioluminescent: #8AA088;
+    93→    93→  --color-aquaelectric: #A4B3C8;
+    94→    94→  --color-coralline: #C98492;
+    95→    95→  --color-neon-cyan: #A4B3C8;
+    96→    96→  --color-neon-aqua: #A4B3C8;
+    97→    97→  --color-neon-teal: #B0BFAE;
+    98→    98→  --color-neon-emerald: #8AA088;
+    99→    99→  --color-neon-blue: #6E82A0;
+   100→   100→  --color-neon-deep: #4C5C75;
+   101→   101→  --color-neon-gold: #D9A85E;
+   102→   102→  --color-neon-coral: #C98492;
+   103→   103→  --color-neon-violet: #9D9DC4;
+   104→   104→  --color-glass-tint: rgba(255, 252, 247, 0.78);
+   105→   105→  --color-cyan-bright: #A4B3C8;
+   106→   106→  --color-mint: #B0BFAE;
+   107→   107→  --color-coral: #C98492;
+   108→   108→  --color-gold-alert: #D9A85E;
+   109→   109→  --color-violet-bright: #9D9DC4;
+   110→   110→  --color-lime: #B0BFAE;
+   111→   111→  --color-sky-light: #D6DEEA;
+   112→   112→  --color-sky-mid: #A4B3C8;
+   113→   113→  --color-sky-deep: #6E82A0;
+   114→   114→  --color-grass: #8AA088;
+   115→   115→  --color-water: #6E82A0;
+   116→   116→  --color-water-deep: #4C5C75;
+   117→   117→}
+   118→   118→
+   119→   119→/* ============================================================
+   120→   120→   Trivials Wars — Paleta Neutra Cálida V5
+   121→   121→   Estética: arena cálida, calma, espaciosa, NO blanca
+   122→   122→   ============================================================ */
+   123→   123→:root {
+   124→   124→  --radius: 1.5rem;
+   125→   125→  /* Fondo principal: arena cálida con halos suaves azul/salvia */
+   126→   126→  --background: #EFE7D4;
+   127→   127→  --foreground: #2A3340;
+   128→   128→  /* Tarjetas: arena tibia translúcida (no blanca) */
+   129→   129→  --card: rgba(245, 235, 215, 0.78);
+   130→   130→  --card-foreground: #2A3340;
+   131→   131→  --popover: rgba(245, 235, 215, 0.95);
+   132→   132→  --popover-foreground: #2A3340;
+   133→   133→  /* Primario: azul polvoriento suave */
+   134→   134→  --primary: #5C6E8A;
+   135→   135→  --primary-foreground: #F2ECDD;
+   136→   136→  --secondary: rgba(143, 157, 180, 0.32);
+   137→   137→  --secondary-foreground: #3D4A60;
+   138→   138→  --muted: rgba(122, 132, 146, 0.25);
+   139→   139→  --muted-foreground: #4E5A6C;
+   140→   140→  /* Acento: salvia suave */
+   141→   141→  --accent: #718C6F;
+   142→   142→  --accent-foreground: #F2ECDD;
+   143→   143→  /* Alerta: terracota/rosa apagado */
+   144→   144→  --destructive: #B57482;
+   145→   145→  --border: rgba(61, 74, 96, 0.20);
+   146→   146→  --input: rgba(245, 235, 215, 0.78);
+   147→   147→  --ring: #5C6E8A;
+   148→   148→  --chart-1: #5C6E8A;
+   149→   149→  --chart-2: #718C6F;
+   150→   150→  --chart-3: #C99A50;
+   151→   151→  --chart-4: #8A8AB5;
+   152→   152→  --chart-5: #B57482;
+   153→   153→  --sidebar: rgba(232, 224, 204, 0.92);
+   154→   154→  --sidebar-foreground: #2A3340;
+   155→   155→  --sidebar-primary: #5C6E8A;
+   156→   156→  --sidebar-primary-foreground: #F2ECDD;
+   157→   157→  --sidebar-accent: rgba(143, 157, 180, 0.35);
+   158→   158→  --sidebar-accent-foreground: #3D4A60;
+   159→   159→  --sidebar-border: rgba(61, 74, 96, 0.18);
+   160→   160→  --sidebar-ring: #5C6E8A;
+   161→   161→}
+   162→   162→
+   163→   163→.dark {
+   164→   164→  /* Misma paleta — el tema es inherentemente cálido claro */
+   165→   165→  --background: #EFE7D4;
+   166→   166→  --foreground: #2A3340;
+   167→   167→  --card: rgba(245, 235, 215, 0.78);
+   168→   168→  --card-foreground: #2A3340;
+   169→   169→  --popover: rgba(245, 235, 215, 0.95);
+   170→   170→  --popover-foreground: #2A3340;
+   171→   171→  --primary: #5C6E8A;
+   172→   172→  --primary-foreground: #F2ECDD;
+   173→   173→  --secondary: rgba(143, 157, 180, 0.32);
+   174→   174→  --secondary-foreground: #3D4A60;
+   175→   175→  --muted: rgba(122, 132, 146, 0.25);
+   176→   176→  --muted-foreground: #4E5A6C;
+   177→   177→  --accent: #718C6F;
+   178→   178→  --accent-foreground: #F2ECDD;
+   179→   179→  --destructive: #B57482;
+   180→   180→  --border: rgba(61, 74, 96, 0.20);
+   181→   181→  --input: rgba(245, 235, 215, 0.78);
+   182→   182→  --ring: #5C6E8A;
+   183→   183→  --sidebar: rgba(232, 224, 204, 0.92);
+   184→   184→  --sidebar-foreground: #2A3340;
+   185→   185→  --sidebar-primary: #5C6E8A;
+   186→   186→  --sidebar-primary-foreground: #F2ECDD;
+   187→   187→  --sidebar-accent: rgba(143, 157, 180, 0.35);
+   188→   188→  --sidebar-accent-foreground: #3D4A60;
+   189→   189→  --sidebar-border: rgba(61, 74, 96, 0.18);
+   190→   190→  --sidebar-ring: #5C6E8A;
+   191→   191→}
+   192→   192→
+   193→   193→@layer base {
+   194→   194→  * {
+   195→   195→    @apply border-border outline-ring/50;
+   196→   196→  }
+   197→   197→  html, body {
+   198→   198→    @apply bg-background text-foreground;
+   199→   199→    font-family: var(--font-sans), system-ui, sans-serif;
+   200→   200→  }
+   201→   201→  body {
+   202→   202→    /* Fondo: arena cálida con halos suaves azul y salvia
+   203→   203→       NO blanco — calma visual, sin fatiga ocular */
+   204→   204→    background:
+   205→   205→      radial-gradient(1200px 600px at 85% -10%, rgba(191, 203, 219, 0.50), transparent 60%),
+   206→   206→      radial-gradient(900px 500px at 10% 110%, rgba(151, 168, 148, 0.35), transparent 65%),
+   207→   207→      radial-gradient(700px 400px at -10% 30%, rgba(143, 157, 180, 0.22), transparent 65%),
+   208→   208→      linear-gradient(180deg, #EFE7D4 0%, #E5DCC5 50%, #D9CFB8 100%);
+   209→   209→    background-attachment: fixed;
+   210→   210→    min-height: 100vh;
+   211→   211→  }
+   212→   212→  /* Tipografía fancy para titulares con clase .font-fancy */
+   213→   213→  .font-fancy {
+   214→   214→    font-family: var(--font-fancy), "Playfair Display", Georgia, serif;
+   215→   215→    font-style: italic;
+   216→   216→    letter-spacing: 0.01em;
+   217→   217→  }
+   218→   218→  .font-script {
+   219→   219→    font-family: var(--font-script), "Cormorant Garamond", Georgia, serif;
+   220→   220→    font-style: italic;
+   221→   221→  }
+   222→   222→}
+   223→   223→
+   224→   224→/* ============================================================
+   225→   225→   Sistema de Cursores — Pointer en elementos interactivos
+   226→   226→   ============================================================ */
+   227→   227→@layer base {
+   228→   228→  button,
+   229→   229→  [role="button"],
+   230→   230→  a,
+   231→   231→  summary,
+   232→   232→  label[for],
+   233→   233→  select,
+   234→   234→  option {
+   235→   235→    cursor: pointer;
+   236→   236→  }
+   237→   237→  input[type="text"],
+   238→   238→  input[type="email"],
+   239→   239→  input[type="number"],
+   240→   240→  input[type="password"],
+   241→   241→  input[type="search"],
+   242→   242→  input[type="range"],
+   243→   243→  textarea,
+   244→   244→  [contenteditable="true"] {
+   245→   245→    cursor: text;
+   246→   246→  }
+   247→   247→  .clickable,
+   248→   248→  [data-clickable="true"],
+   249→   249→  .cursor-pointer-soft {
+   250→   250→    cursor: pointer;
+   251→   251→  }
+   252→   252→}
+   253→   253→
+   254→   254→/* ============================================================
+   255→   255→   Glow utilities — tonos apagados, sutiles
+   256→   256→   ============================================================ */
+   257→   257→@utility glow-cyan {
+   258→   258→  box-shadow: 0 0 18px rgba(110, 130, 160, 0.25), 0 0 36px rgba(110, 130, 160, 0.12);
+   259→   259→}
+   260→   260→@utility glow-bioluminescent {
+   261→   261→  box-shadow: 0 0 18px rgba(138, 160, 136, 0.30), 0 0 40px rgba(138, 160, 136, 0.14);
+   262→   262→}
+   263→   263→@utility glow-aqua {
+   264→   264→  box-shadow: 0 0 18px rgba(164, 179, 200, 0.30), 0 0 36px rgba(164, 179, 200, 0.14);
+   265→   265→}
+   266→   266→@utility glow-teal {
+   267→   267→  box-shadow: 0 0 18px rgba(176, 191, 174, 0.30), 0 0 36px rgba(176, 191, 174, 0.13);
+   268→   268→}
+   269→   269→@utility glow-blue {
+   270→   270→  box-shadow: 0 0 18px rgba(110, 130, 160, 0.30), 0 0 36px rgba(110, 130, 160, 0.13);
+   271→   271→}
+   272→   272→@utility glow-emerald {
+   273→   273→  box-shadow: 0 0 18px rgba(138, 160, 136, 0.30), 0 0 36px rgba(138, 160, 136, 0.14);
+   274→   274→}
+   275→   275→@utility glow-gold {
+   276→   276→  box-shadow: 0 0 22px rgba(217, 168, 94, 0.40), 0 0 44px rgba(217, 168, 94, 0.20);
+   277→   277→}
+   278→   278→@utility glow-coral {
+   279→   279→  box-shadow: 0 0 20px rgba(201, 132, 146, 0.40), 0 0 40px rgba(201, 132, 146, 0.20);
+   280→   280→}
+   281→   281→@utility glow-coral-strong {
+   282→   282→  box-shadow: 0 0 26px rgba(201, 132, 146, 0.55), 0 0 50px rgba(201, 132, 146, 0.28);
+   283→   283→}
+   284→   284→@utility glow-violet {
+   285→   285→  box-shadow: 0 0 18px rgba(157, 157, 196, 0.30), 0 0 36px rgba(157, 157, 196, 0.14);
+   286→   286→}
+   287→   287→@utility glow-red {
+   288→   288→  box-shadow: 0 0 18px rgba(201, 132, 146, 0.40), 0 0 36px rgba(201, 132, 146, 0.20);
+   289→   289→}
+   290→   290→@utility glow-green {
+   291→   291→  box-shadow: 0 0 18px rgba(138, 160, 136, 0.30), 0 0 36px rgba(138, 160, 136, 0.14);
+   292→   292→}
+   293→   293→@utility glow-orange {
+   294→   294→  box-shadow: 0 0 18px rgba(217, 168, 94, 0.30), 0 0 36px rgba(217, 168, 94, 0.14);
+   295→   295→}
+   296→   296→@utility glow-yellow {
+   297→   297→  box-shadow: 0 0 18px rgba(217, 168, 94, 0.30), 0 0 36px rgba(217, 168, 94, 0.14);
+   298→   298→}
+   299→   299→@utility glow-magenta {
+   300→   300→  box-shadow: 0 0 18px rgba(157, 157, 196, 0.30), 0 0 36px rgba(157, 157, 196, 0.14);
+   301→   301→}
+   302→   302→@utility glow-pink {
+   303→   303→  box-shadow: 0 0 18px rgba(201, 132, 146, 0.30), 0 0 36px rgba(201, 132, 146, 0.14);
+   304→   304→}
+   305→   305→@utility glow-purple {
+   306→   306→  box-shadow: 0 0 18px rgba(157, 157, 196, 0.30), 0 0 36px rgba(157, 157, 196, 0.14);
+   307→   307→}
+   308→   308→
+   309→   309→/* ============================================================
+   310→   310→   Glassmorphism — Arena cálida translúcida (NO blanco)
+   311→   311→   ============================================================ */
+   312→   312→@utility glass {
+   313→   313→  background: rgba(245, 235, 215, 0.65);
+   314→   314→  backdrop-filter: blur(14px);
+   315→   315→  -webkit-backdrop-filter: blur(14px);
+   316→   316→  border: 1px solid rgba(245, 235, 215, 0.50);
+   317→   317→  box-shadow: 0 4px 22px rgba(61, 74, 96, 0.14), inset 0 1px 0 rgba(255, 248, 230, 0.50);
+   318→   318→}
+   319→   319→@utility glass-strong {
+   320→   320→  background: rgba(248, 240, 222, 0.82);
+   321→   321→  backdrop-filter: blur(18px);
+   322→   322→  -webkit-backdrop-filter: blur(18px);
+   323→   323→  border: 1.5px solid rgba(245, 235, 215, 0.62);
+   324→   324→  box-shadow: 0 8px 32px rgba(61, 74, 96, 0.18), inset 0 1px 0 rgba(255, 248, 230, 0.60);
+   325→   325→}
+   326→   326→@utility glass-light {
+   327→   327→  background: rgba(245, 235, 215, 0.50);
+   328→   328→  backdrop-filter: blur(10px);
+   329→   329→  -webkit-backdrop-filter: blur(10px);
+   330→   330→  border: 1px solid rgba(245, 235, 215, 0.45);
+   331→   331→}
+   332→   332→
+   333→   333→/* Custom scrollbar — themed neutral */
+   334→   334→@utility scrollbar-neon {
+   335→   335→  scrollbar-width: thin;
+   336→   336→  scrollbar-color: rgba(110, 130, 160, 0.35) transparent;
+   337→   337→}
+   338→   338→.scrollbar-neon::-webkit-scrollbar {
+   339→   339→  width: 6px;
+   340→   340→  height: 6px;
+   341→   341→}
+   342→   342→.scrollbar-neon::-webkit-scrollbar-track {
+   343→   343→  background: transparent;
+   344→   344→}
+   345→   345→.scrollbar-neon::-webkit-scrollbar-thumb {
+   346→   346→  background: rgba(138, 160, 136, 0.35);
+   347→   347→  border-radius: 3px;
+   348→   348→}
+   349→   349→.scrollbar-neon::-webkit-scrollbar-thumb:hover {
+   350→   350→  background: rgba(138, 160, 136, 0.55);
+   351→   351→}
+   352→   352→
+   353→   353→/* ============================================================
+   354→   354→   Animations — sutiles, calmadas
+   355→   355→   ============================================================ */
+   356→   356→@keyframes pulse-glow {
+   357→   357→  0%, 100% { opacity: 1; transform: scale(1); }
+   358→   358→  50% { opacity: 0.7; transform: scale(1.04); }
+   359→   359→}
+   360→   360→
+   361→   361→@keyframes float-slow {
+   362→   362→  0%, 100% { transform: translateY(0px); }
+   363→   363→  50% { transform: translateY(-6px); }
+   364→   364→}
+   365→   365→
+   366→   366→@keyframes shimmer {
+   367→   367→  0% { background-position: -200% 0; }
+   368→   368→  100% { background-position: 200% 0; }
+   369→   369→}
+   370→   370→
+   371→   371→/* Bubbles rising — más lentas y suaves */
+   372→   372→@keyframes bubble-rise {
+   373→   373→  0% { transform: translateY(100vh) scale(0.3); opacity: 0; }
+   374→   374→  10% { opacity: 0.5; }
+   375→   375→  90% { opacity: 0.3; }
+   376→   376→  100% { transform: translateY(-10vh) scale(1.1); opacity: 0; }
+   377→   377→}
+   378→   378→
+   379→   379→@keyframes wave-flow {
+   380→   380→  0%, 100% { transform: translateX(0); }
+   381→   381→  50% { transform: translateX(-25%); }
+   382→   382→}
+   383→   383→
+   384→   384→/* Bioluminescent pulse — suave */
+   385→   385→@keyframes bioluminescent-pulse {
+   386→   386→  0%, 100% {
+   387→   387→    box-shadow: 0 0 6px rgba(138, 160, 136, 0.35), 0 0 14px rgba(138, 160, 136, 0.18);
+   388→   388→    transform: scale(1);
+   389→   389→  }
+   390→   390→  50% {
+   391→   391→    box-shadow: 0 0 14px rgba(138, 160, 136, 0.55), 0 0 28px rgba(138, 160, 136, 0.32);
+   392→   392→    transform: scale(1.04);
+   393→   393→  }
+   394→   394→}
+   395→   395→
+   396→   396→@keyframes heart-pulse {
+   397→   397→  0%, 100% {
+   398→   398→    transform: scale(1);
+   399→   399→    filter: drop-shadow(0 0 4px rgba(201, 132, 146, 0.45));
+   400→   400→  }
+   401→   401→  50% {
+   402→   402→    transform: scale(1.10);
+   403→   403→    filter: drop-shadow(0 0 8px rgba(201, 132, 146, 0.65));
+   404→   404→  }
+   405→   405→}
+   406→   406→
+   407→   407→@keyframes heart-break {
+   408→   408→  0% { transform: scale(1) rotate(0deg); opacity: 1; }
+   409→   409→  50% { transform: scale(1.3) rotate(-12deg); opacity: 0.7; }
+   410→   410→  100% { transform: scale(0.6) rotate(20deg); opacity: 0; }
+   411→   411→}
+   412→   412→
+   413→   413→.animate-float-slow {
+   414→   414→  animation: float-slow 4s ease-in-out infinite;
+   415→   415→}
+   416→   416→
+   417→   417→.animate-bubble {
+   418→   418→  animation: bubble-rise 16s ease-in infinite;
+   419→   419→}
+   420→   420→
+   421→   421→.animate-wave {
+   422→   422→  animation: wave-flow 10s ease-in-out infinite;
+   423→   423→}
+   424→   424→
+   425→   425→.animate-bioluminescent {
+   426→   426→  animation: bioluminescent-pulse 2.2s ease-in-out infinite;
+   427→   427→}
+   428→   428→
+   429→   429→.animate-heart-pulse {
+   430→   430→  animation: heart-pulse 1.6s ease-in-out infinite;
+   431→   431→}
+   432→   432→
+   433→   433→.animate-heart-break {
+   434→   434→  animation: heart-break 0.5s ease-out forwards;
+   435→   435→}
+   436→   436→
+   437→   437→/* Text gradient utility — paleta neutra */
+   438→   438→@utility text-gradient-neon {
+   439→   439→  background: linear-gradient(135deg, #6E82A0 0%, #8AA088 60%, #B0BFAE 100%);
+   440→   440→  -webkit-background-clip: text;
+   441→   441→  background-clip: text;
+   442→   442→  -webkit-text-fill-color: transparent;
+   443→   443→  color: transparent;
+   444→   444→}
+   445→   445→
+   446→   446→@utility text-gradient-aqua {
+   447→   447→  background: linear-gradient(135deg, #A4B3C8 0%, #6E82A0 100%);
+   448→   448→  -webkit-background-clip: text;
+   449→   449→  background-clip: text;
+   450→   450→  -webkit-text-fill-color: transparent;
+   451→   451→  color: transparent;
+   452→   452→}
+   453→   453→
+   454→   454→@utility text-gradient-bioluminescent {
+   455→   455→  background: linear-gradient(135deg, #8AA088 0%, #6E82A0 100%);
+   456→   456→  -webkit-background-clip: text;
+   457→   457→  background-clip: text;
+   458→   458→  -webkit-text-fill-color: transparent;
+   459→   459→  color: transparent;
+   460→   460→}
+   461→   461→
+   462→   462→@utility text-gradient-teal {
+   463→   463→  background: linear-gradient(135deg, #B0BFAE 0%, #8AA088 100%);
+   464→   464→  -webkit-background-clip: text;
+   465→   465→  background-clip: text;
+   466→   466→  -webkit-text-fill-color: transparent;
+   467→   467→  color: transparent;
+   468→   468→}
+   469→   469→
+   470→   470→@utility text-gradient-cyan {
+   471→   471→  background: linear-gradient(135deg, #D6DEEA 0%, #6E82A0 100%);
+   472→   472→  -webkit-background-clip: text;
+   473→   473→  background-clip: text;
+   474→   474→  -webkit-text-fill-color: transparent;
+   475→   475→  color: transparent;
+   476→   476→}
+   477→   477→
+   478→   478→@utility text-gradient-coral {
+   479→   479→  background: linear-gradient(135deg, #C98492 0%, #D2A98E 100%);
+   480→   480→  -webkit-background-clip: text;
+   481→   481→  background-clip: text;
+   482→   482→  -webkit-text-fill-color: transparent;
+   483→   483→  color: transparent;
+   484→   484→}
+   485→   485→
+   486→   486→@utility text-gradient-pink {
+   487→   487→  background: linear-gradient(135deg, #D2A98E 0%, #C98492 100%);
+   488→   488→  -webkit-background-clip: text;
+   489→   489→  background-clip: text;
+   490→   490→  -webkit-text-fill-color: transparent;
+   491→   491→  color: transparent;
+   492→   492→}
+   493→   493→
+   494→   494→/* Caustic shimmer overlay — muy sutil */
+   495→   495→@utility caustic-overlay {
+   496→   496→  position: relative;
+   497→   497→  overflow: hidden;
+   498→   498→}
+   499→   499→.caustic-overlay::after {
+   500→   500→  content: "";
+   501→   501→  position: absolute;
+   502→   502→  inset: 0;
+   503→   503→  background:
+   504→   504→    radial-gradient(circle at 30% 20%, rgba(138, 160, 136, 0.10) 0%, transparent 30%),
+   505→   505→    radial-gradient(circle at 70% 80%, rgba(164, 179, 200, 0.08) 0%, transparent 35%);
+   506→   506→  mix-blend-mode: screen;
+   507→   507→  pointer-events: none;
+   508→   508→  animation: float-slow 8s ease-in-out infinite;
+   509→   509→}
+   510→   510→
+   511→   511→/* ============================================================
+   512→   512→   Crystal Bubble button — paleta neutra
+   513→   513→   Degradado: dusty blue claro → salvia → azul polvoriento
+   514→   514→   con brillo de gota suave en la parte superior
+   515→   515→   ============================================================ */
+   516→   516→
+   517→   517→@keyframes aqua-sky-flow {
+   518→   518→  0% { background-position: 0% 50%; }
+   519→   519→  50% { background-position: 100% 50%; }
+   520→   520→  100% { background-position: 0% 50%; }
+   521→   521→}
+   522→   522→.aqua-sky-bg {
+   523→   523→  background: linear-gradient(135deg, #4C5C75 0%, #6E82A0 25%, #A4B3C8 55%, #B0BFAE 80%, #8AA088 100%);
+   524→   524→  background-size: 400% 400%;
+   525→   525→  animation: aqua-sky-flow 18s ease-in-out infinite;
+   526→   526→}
+   527→   527→
+   528→   528→/* Crystal Bubble principal — dusty blue → sage */
+   529→   529→@utility crystal-bubble {
+   530→   530→  position: relative;
+   531→   531→  background: linear-gradient(180deg, rgba(176, 191, 174, 0.95) 0%, rgba(110, 130, 160, 0.95) 55%, rgba(76, 92, 117, 0.97) 100%);
+   532→   532→  border: 1.5px solid rgba(255, 252, 247, 0.55);
+   533→   533→  box-shadow:
+   534→   534→    inset 0 2px 4px rgba(255, 255, 255, 0.55),
+   535→   535→    inset 0 -3px 6px rgba(47, 58, 74, 0.20),
+   536→   536→    0 8px 22px rgba(76, 92, 117, 0.35),
+   537→   537→    0 0 32px rgba(138, 160, 136, 0.25);
+   538→   538→  overflow: hidden;
+   539→   539→}
+   540→   540→.crystal-bubble::before {
+   541→   541→  content: "";
+   542→   542→  position: absolute;
+   543→   543→  top: 8%;
+   544→   544→  left: 12%;
+   545→   545→  right: 12%;
+   546→   546→  height: 38%;
+   547→   547→  background: linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.15) 100%);
+   548→   548→  border-radius: 999px;
+   549→   549→  filter: blur(2px);
+   550→   550→  pointer-events: none;
+   551→   551→}
+   552→   552→.crystal-bubble:hover {
+   553→   553→  box-shadow:
+   554→   554→    inset 0 2px 4px rgba(255, 255, 255, 0.65),
+   555→   555→    inset 0 -3px 6px rgba(47, 58, 74, 0.20),
+   556→   556→    0 12px 30px rgba(76, 92, 117, 0.45),
+   557→   557→    0 0 48px rgba(138, 160, 136, 0.40);
+   558→   558→}
+   559→   559→.crystal-bubble:active {
+   560→   560→  transform: scale(0.985);
+   561→   561→}
+   562→   562→
+   563→   563→/* Crystal Bubble variant — coral suave para supervivencia */
+   564→   564→@utility crystal-bubble-coral {
+   565→   565→  position: relative;
+   566→   566→  background: linear-gradient(180deg, rgba(210, 169, 142, 0.95) 0%, rgba(201, 132, 146, 0.95) 55%, rgba(138, 100, 80, 0.95) 100%);
+   567→   567→  border: 1.5px solid rgba(255, 252, 247, 0.55);
+   568→   568→  box-shadow:
+   569→   569→    inset 0 2px 4px rgba(255, 255, 255, 0.55),
+   570→   570→    inset 0 -3px 6px rgba(80, 50, 40, 0.20),
+   571→   571→    0 8px 20px rgba(201, 132, 146, 0.35),
+   572→   572→    0 0 32px rgba(201, 132, 146, 0.22);
+   573→   573→  overflow: hidden;
+   574→   574→}
+   575→   575→.crystal-bubble-coral::before {
+   576→   576→  content: "";
+   577→   577→  position: absolute;
+   578→   578→  top: 8%;
+   579→   579→  left: 12%;
+   580→   580→  right: 12%;
+   581→   581→  height: 38%;
+   582→   582→  background: linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.15) 100%);
+   583→   583→  border-radius: 999px;
+   584→   584→  filter: blur(2px);
+   585→   585→  pointer-events: none;
+   586→   586→}
+   587→   587→.crystal-bubble-coral:hover {
+   588→   588→  box-shadow:
+   589→   589→    inset 0 2px 4px rgba(255, 255, 255, 0.65),
+   590→   590→    inset 0 -3px 6px rgba(80, 50, 40, 0.20),
+   591→   591→    0 12px 28px rgba(201, 132, 146, 0.45),
+   592→   592→    0 0 44px rgba(201, 132, 146, 0.35);
+   593→   593→}
+   594→   594→.crystal-bubble-coral:active {
+   595→   595→  transform: scale(0.985);
+   596→   596→}
+   597→   597→
+   598→   598→/* Crystal Bubble variant — ámbar apagado para Muerte Súbita */
+   599→   599→@utility crystal-bubble-gold {
+   600→   600→  position: relative;
+   601→   601→  background: linear-gradient(180deg, rgba(234, 210, 162, 0.95) 0%, rgba(217, 168, 94, 0.95) 55%, rgba(138, 90, 30, 0.95) 100%);
+   602→   602→  border: 1.5px solid rgba(255, 252, 247, 0.55);
+   603→   603→  box-shadow:
+   604→   604→    inset 0 2px 4px rgba(255, 255, 255, 0.55),
+   605→   605→    inset 0 -3px 6px rgba(80, 53, 15, 0.20),
+   606→   606→    0 8px 20px rgba(217, 168, 94, 0.35),
+   607→   607→    0 0 32px rgba(217, 168, 94, 0.22);
+   608→   608→  overflow: hidden;
+   609→   609→}
+   610→   610→.crystal-bubble-gold::before {
+   611→   611→  content: "";
+   612→   612→  position: absolute;
+   613→   613→  top: 8%;
+   614→   614→  left: 12%;
+   615→   615→  right: 12%;
+   616→   616→  height: 38%;
+   617→   617→  background: linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.15) 100%);
+   618→   618→  border-radius: 999px;
+   619→   619→  filter: blur(2px);
+   620→   620→  pointer-events: none;
+   621→   621→}
+   622→   622→.crystal-bubble-gold:hover {
+   623→   623→  box-shadow:
+   624→   624→    inset 0 2px 4px rgba(255, 255, 255, 0.65),
+   625→   625→    inset 0 -3px 6px rgba(80, 53, 15, 0.20),
+   626→   626→    0 12px 28px rgba(217, 168, 94, 0.45),
+   627→   627→    0 0 44px rgba(217, 168, 94, 0.40);
+   628→   628→}
+   629→   629→.crystal-bubble-gold:active {
+   630→   630→  transform: scale(0.985);
+   631→   631→}
+   632→   632→
+   633→   633→/* Floating light bubbles for background — suaves */
+   634→   634→@keyframes frutiger-bubble {
+   635→   635→  0% { transform: translate(0, 100vh) scale(0.4); opacity: 0; }
+   636→   636→  10% { opacity: 0.40; }
+   637→   637→  50% { transform: translate(20px, 50vh) scale(0.9); opacity: 0.50; }
+   638→   638→  90% { opacity: 0.20; }
+   639→   639→  100% { transform: translate(-20px, -10vh) scale(1.2); opacity: 0; }
+   640→   640→}
+   641→   641→
+   642→   642→.frutiger-bubble {
+   643→   643→  position: absolute;
+   644→   644→  border-radius: 50%;
+   645→   645→  background: radial-gradient(circle at 30% 30%, rgba(255, 252, 247, 0.75) 0%, rgba(176, 191, 174, 0.25) 50%, rgba(110, 130, 160, 0.08) 100%);
+   646→   646→  box-shadow:
+   647→   647→    inset 0 0 10px rgba(255, 252, 247, 0.35),
+   648→   648→    0 0 14px rgba(138, 160, 136, 0.20);
+   649→   649→  pointer-events: none;
+   650→   650→  animation: frutiger-bubble 18s ease-in infinite;
+   651→   651→}
+   652→   652→
+   653→   653→/* Glass card with stronger feel — translúcida cálida */
+   654→   654→@utility glass-frutiger {
+   655→   655→  background: linear-gradient(135deg, rgba(248, 240, 222, 0.80) 0%, rgba(232, 224, 204, 0.60) 100%);
+   656→   656→  backdrop-filter: blur(18px);
+   657→   657→  -webkit-backdrop-filter: blur(18px);
+   658→   658→  border: 1.5px solid rgba(245, 235, 215, 0.55);
+   659→   659→  box-shadow:
+   660→   660→    inset 0 1px 0 rgba(255, 248, 230, 0.55),
+   661→   661→    0 8px 32px rgba(61, 74, 96, 0.18),
+   662→   662→    0 0 40px rgba(151, 168, 148, 0.10);
+   663→   663→}
+   664→   664→
+   665→   665→/* Soft pulse glow for primary CTA — gentle breathe */
+   666→   666→@keyframes cta-pulse {
+   667→   667→  0%, 100% {
+   668→   668→    box-shadow:
+   669→   669→      inset 0 2px 4px rgba(255, 255, 255, 0.45),
+   670→   670→      inset 0 -3px 6px rgba(0, 0, 0, 0.18),
+   671→   671→      0 8px 20px rgba(76, 92, 117, 0.35),
+   672→   672→      0 0 30px rgba(138, 160, 136, 0.25);
+   673→   673→  }
+   674→   674→  50% {
+   675→   675→    box-shadow:
+   676→   676→      inset 0 2px 4px rgba(255, 255, 255, 0.55),
+   677→   677→      inset 0 -3px 6px rgba(0, 0, 0, 0.18),
+   678→   678→      0 12px 28px rgba(76, 92, 117, 0.45),
+   679→   679→      0 0 48px rgba(138, 160, 136, 0.40);
+   680→   680→  }
+   681→   681→}
+   682→   682→.animate-cta-pulse {
+   683→   683→  animation: cta-pulse 3s ease-in-out infinite;
+   684→   684→}
+   685→   685→
+   686→   686→/* Wisdom card glass — slightly more ethereal */
+   687→   687→@utility glass-wisdom {
+   688→   688→  background: linear-gradient(135deg, rgba(248, 240, 222, 0.75) 0%, rgba(232, 224, 204, 0.50) 100%);
+   689→   689→  backdrop-filter: blur(16px);
+   690→   690→  -webkit-backdrop-filter: blur(16px);
+   691→   691→  border: 1px solid rgba(245, 235, 215, 0.52);
+   692→   692→  box-shadow:
+   693→   693→    inset 0 1px 0 rgba(255, 248, 230, 0.55),
+   694→   694→    0 6px 24px rgba(61, 74, 96, 0.15);
+   695→   695→}
+   696→   696→
+   697→   697→/* Sparkle accent */
+   698→   698→@keyframes sparkle-rotate {
+   699→   699→  0% { transform: rotate(0deg) scale(1); opacity: 0.7; }
+   700→   700→  50% { transform: rotate(180deg) scale(1.12); opacity: 0.9; }
+   701→   701→  100% { transform: rotate(360deg) scale(1); opacity: 0.7; }
+   702→   702→}
+   703→   703→.animate-sparkle {
+   704→   704→  animation: sparkle-rotate 5s ease-in-out infinite;
+   705→   705→}
+   706→   706→
+   707→   707→/* Fade-in for transitions */
+   708→   708→@keyframes fade-in-up {
+   709→   709→  0% { opacity: 0; transform: translateY(8px); }
+   710→   710→  100% { opacity: 1; transform: translateY(0); }
+   711→   711→}
+   712→   712→.animate-fade-in-up {
+   713→   713→  animation: fade-in-up 0.5s ease-out both;
+   714→   714→}
+   715→   715→
+   716→   716→/* ============================================================
+   717→   717→   Modo Muerte Súbita — Fondo ámbar suave de alerta
+   718→   718→   ============================================================ */
+   719→   719→@keyframes sudden-death-alert {
+   720→   720→  0%, 100% {
+   721→   721→    background-color: rgba(217, 168, 94, 0.06);
+   722→   722→  }
+   723→   723→  50% {
+   724→   724→    background-color: rgba(217, 168, 94, 0.14);
+   725→   725→  }
+   726→   726→}
+   727→   727→.sudden-death-alert-bg {
+   728→   728→  animation: sudden-death-alert 2.6s ease-in-out infinite;
+   729→   729→}
+   730→   730→
+   731→   731→@keyframes gold-pulse {
+   732→   732→  0%, 100% {
+   733→   733→    box-shadow: 0 0 12px rgba(217, 168, 94, 0.45), 0 0 26px rgba(217, 168, 94, 0.22);
+   734→   734→    transform: scale(1);
+   735→   735→  }
+   736→   736→  50% {
+   737→   737→    box-shadow: 0 0 20px rgba(217, 168, 94, 0.65), 0 0 40px rgba(217, 168, 94, 0.35);
+   738→   738→    transform: scale(1.03);
+   739→   739→  }
+   740→   740→}
+   741→   741→.animate-gold-pulse {
+   742→   742→  animation: gold-pulse 1.8s ease-in-out infinite;
+   743→   743→}
+   744→   744→
+   745→   745→/* Pill (selector compacto) — paleta cálida arena */
+   746→   746→@utility pill-selector {
+   747→   747→  transition: all 0.20s ease-out;
+   748→   748→  border: 1.5px solid rgba(92, 110, 138, 0.30);
+   749→   749→  background: rgba(248, 240, 222, 0.75);
+   750→   750→  color: #3D4A60;
+   751→   751→}
+   752→   752→.pill-selector:hover {
+   753→   753→  border-color: rgba(92, 110, 138, 0.55);
+   754→   754→  background: rgba(252, 246, 232, 0.95);
+   755→   755→}
+   756→   756→.pill-selector[data-selected="true"] {
+   757→   757→  background: linear-gradient(135deg, #718C6F 0%, #97A894 50%, #5C6E8A 100%);
+   758→   758→  color: #F2ECDD;
+   759→   759→  border-color: rgba(248, 240, 222, 0.65);
+   760→   760→  box-shadow: 0 4px 14px rgba(61, 74, 96, 0.30), inset 0 1px 0 rgba(255, 248, 230, 0.40);
+   761→   761→}
+   762→   762→
+   763→   763→/* Segmented control */
+   764→   764→@utility segmented-option {
+   765→   765→  transition: all 0.18s ease-out;
+   766→   766→  color: #3D4A60;
+   767→   767→}
+   768→   768→.segmented-option[data-selected="true"] {
+   769→   769→  background: linear-gradient(135deg, #718C6F 0%, #97A894 50%, #5C6E8A 100%);
+   770→   770→  color: #F2ECDD;
+   771→   771→  box-shadow: 0 3px 12px rgba(61, 74, 96, 0.32), inset 0 1px 0 rgba(255, 248, 230, 0.40);
+   772→   772→}
+   773→   773→
+   774→   774→/* Botón circular compacto (5, 10, 20, 50) */
+   775→   775→@utility circular-count {
+   776→   776→  transition: all 0.20s ease-out;
+   777→   777→  border: 1.5px solid rgba(92, 110, 138, 0.30);
+   778→   778→  background: rgba(248, 240, 222, 0.80);
+   779→   779→  color: #3D4A60;
+   780→   780→}
+   781→   781→.circular-count:hover {
+   782→   782→  border-color: rgba(92, 110, 138, 0.55);
+   783→   783→  background: rgba(252, 246, 232, 0.98);
+   784→   784→  transform: scale(1.04);
+   785→   785→}
+   786→   786→.circular-count[data-selected="true"] {
+   787→   787→  background: linear-gradient(135deg, #718C6F 0%, #97A894 50%, #5C6E8A 100%);
+   788→   788→  color: #F2ECDD;
+   789→   789→  border-color: rgba(248, 240, 222, 0.65);
+   790→   790→  box-shadow: 0 4px 14px rgba(61, 74, 96, 0.32), inset 0 1px 0 rgba(255, 248, 230, 0.40);
+   791→   791→}
+   792→   792→
+   793→   793→/* ============================================================
+   794→   794→   YouTube lofi player widget — small visible thumbnail
+   795→   795→   ============================================================ */
+   796→   796→.yt-lofi-widget {
+   797→   797→  position: fixed;
+   798→   798→  bottom: 14px;
+   799→   799→  right: 14px;
+   800→   800→  z-index: 60;
+   801→   801→  width: 120px;
+   802→   802→  height: 70px;
+   803→   803→  border-radius: 12px;
+   804→   804→  overflow: hidden;
+   805→   805→  box-shadow: 0 8px 24px rgba(61, 74, 96, 0.30), 0 0 0 1.5px rgba(248, 240, 222, 0.6);
+   806→   806→  transition: all 0.30s ease-out;
+   807→   807→  opacity: 0.85;
+   808→   808→}
+   809→   809→.yt-lofi-widget:hover {
+   810→   810→  opacity: 1;
+   811→   811→  transform: scale(1.04);
+   812→   812→  box-shadow: 0 12px 32px rgba(61, 74, 96, 0.40), 0 0 0 1.5px rgba(248, 240, 222, 0.8);
+   813→   813→}
+   814→   814→.yt-lofi-widget iframe {
+   815→   815→  width: 100%;
+   816→   816→  height: 100%;
+   817→   817→  border: 0;
+   818→   818→  pointer-events: none;
+   819→   819→}
+   820→   820→.yt-lofi-widgetExpanded {
+   821→   821→  width: 240px;
+   822→   822→  height: 140px;
+   823→   823→}
+   824→   824→.yt-lofi-hidden {
+   825→   825→  display: none !important;
+   826→   826→}
+   827→   827→
+   828→   828→/* ============================================================
+   829→   829→   Bubble-pop card — tarjetas redondeadas tipo "pops" bonitas
+   830→   830→   Estilo: muy redondeadas, sombra suave, superficie cálida
+   831→   831→   No son listas, son burbujas independientes
+   832→   832→   ============================================================ */
+   833→   833→@utility bubble-pop {
+   834→   834→  background: linear-gradient(135deg, rgba(252, 246, 232, 0.92) 0%, rgba(245, 235, 215, 0.80) 100%);
+   835→   835→  backdrop-filter: blur(14px);
+   836→   836→  -webkit-backdrop-filter: blur(14px);
+   837→   837→  border: 1.5px solid rgba(248, 240, 222, 0.65);
+   838→   838→  box-shadow:
+   839→   839→    inset 0 1px 0 rgba(255, 248, 230, 0.60),
+   840→   840→    0 6px 22px rgba(61, 74, 96, 0.14);
+   841→   841→  transition: all 0.25s ease-out;
+   842→   842→}
+   843→   843→.bubble-pop:hover {
+   844→   844→  transform: translateY(-2px);
+   845→   845→  box-shadow:
+   846→   846→    inset 0 1px 0 rgba(255, 248, 230, 0.65),
+   847→   847→    0 10px 30px rgba(61, 74, 96, 0.22);
+   848→   848→}
+   849→   849→
+   850→   850→/* Variante seleccionada — burbuja con gradiente salvia→azul */
+   851→   851→@utility bubble-pop-selected {
+   852→   852→  background: linear-gradient(135deg, #718C6F 0%, #97A894 50%, #5C6E8A 100%);
+   853→   853→  border: 1.5px solid rgba(248, 240, 222, 0.70);
+   854→   854→  color: #F2ECDD;
+   855→   855→  box-shadow:
+   856→   856→    inset 0 1px 0 rgba(255, 248, 230, 0.45),
+   857→   857→    0 6px 22px rgba(61, 74, 96, 0.35),
+   858→   858→    0 0 28px rgba(151, 168, 148, 0.30);
+   859→   859→}
+   860→   860→
+   861→   861→/* Sticky bottom CTA — flotante, pequeño, no gigante */
+   862→   862→.sticky-cta-bottom {
+   863→   863→  position: sticky;
+   864→   864→  bottom: 14px;
+   865→   865→  z-index: 30;
+   866→   866→  width: calc(100% - 32px);
+   867→   867→  max-width: 320px;
+   868→   868→  margin: 0 auto;
+   869→   869→  display: flex;
+   870→   870→  justify-content: center;
+   871→   871→}
+   872→   872→.sticky-cta-bottom button {
+   873→   873→  padding: 12px 32px;
+   874→   874→  border-radius: 9999px;
+   875→   875→  font-family: var(--font-fancy), "Playfair Display", Georgia, serif;
+   876→   876→  font-style: italic;
+   877→   877→  font-weight: 600;
+   878→   878→  font-size: 1rem;
+   879→   879→  letter-spacing: 0.02em;
+   880→   880→  box-shadow:
+   881→   881→    0 8px 24px rgba(61, 74, 96, 0.30),
+   882→   882→    0 0 0 1.5px rgba(248, 240, 222, 0.50);
+   883→   883→  transition: all 0.20s ease-out;
+   884→   884→}
+   885→   885→.sticky-cta-bottom button:hover {
+   886→   886→  transform: translateY(-2px);
+   887→   887→  box-shadow:
+   888→   888→    0 12px 32px rgba(61, 74, 96, 0.40),
+   889→   889→    0 0 0 1.5px rgba(248, 240, 222, 0.70);
+   890→   890→}
+   891→   891→.sticky-cta-bottom button:active {
+   892→   892→  transform: translateY(0);
+   893→   893→}
+   894→   894→
