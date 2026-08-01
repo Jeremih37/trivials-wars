@@ -270,7 +270,7 @@ export function LootBoxScreen() {
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.9 }}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-cyan-500/15 border border-cyan-500/40 text-cyan-200 text-xs mb-4"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-blue-500/15 border border-blue-500/40 text-blue-200 text-xs mb-4"
                 >
                   <Zap className="w-3.5 h-3.5" />
                   Duplicado · +{result.xpBonus} XP de compensación

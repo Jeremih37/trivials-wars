@@ -70,14 +70,20 @@ export function HomeScreen() {
   const isEndless = isSurvival || isSuddenDeath
 
   // ===== FIX BUG "MUERTE ABISAL NO FUNCIONA" =====
-  // Cuando el usuario entra en Survival o SuddenDeath, el selector de dificultad
-  // se oculta, pero la API /api/game/start requiere `difficulty`. Auto-asignamos
-  // "Medio" (es ignorada por el backend en modos endless, pero pasa la validación).
+  // Dos problemas resueltos:
+  // 1) La API /api/game/start requiere `difficulty` incluso en modos endless.
+  //    Auto-asignamos "Medio" en survival/suddendeath (el backend la ignora).
+  // 2) Si el usuario entra directamente a un modo endless sin elegir categoría,
+  //    el botón CTA queda deshabilitado y parece "no funcionar".
+  //    Auto-seleccionamos Mix Total (todas las categorías) si no hay selección.
   useEffect(() => {
     if ((isSurvival || isSuddenDeath) && !selectedDifficulty) {
       setDifficulty("Medio" as DifficultyId)
     }
-  }, [isSurvival, isSuddenDeath, selectedDifficulty, setDifficulty])
+    if (selectedCategories.length === 0) {
+      useGameStore.getState().setCategories(CATEGORIES.map((c) => c.id as CategoryId))
+    }
+  }, [isSurvival, isSuddenDeath, selectedDifficulty, setDifficulty, selectedCategories])
 
   const handleStart = () => {
     if (!hasSelection || !selectedDifficulty) return
@@ -116,15 +122,15 @@ export function HomeScreen() {
       <BubblesBackground count={22} />
 
       {/* Header */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/60 border-b border-cyan-200/50">
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/60 border-b border-blue-300/50">
         <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
           <button
             onClick={() => { sfx.waterDrop(); setScreen("welcome") }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass border border-cyan-200/60 hover:border-sky-400/70 transition text-sm font-bold text-sky-900"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass border border-blue-300/60 hover:border-blue-500/70 transition text-sm font-bold text-blue-900"
           >
             <ChevronLeft className="w-4 h-4" /> Volver
           </button>
-          <h1 className="text-base font-black tracking-tight bg-gradient-to-r from-blue-600 via-emerald-500 to-cyan-500 bg-clip-text text-transparent">
+          <h1 className="text-base font-black tracking-tight text-gradient-neon">
             PREPARADO PARA JUGAR
           </h1>
           <div className="flex items-center gap-2">
@@ -146,8 +152,8 @@ export function HomeScreen() {
           {/* Fila 0: Modo (selector de modo de juego) */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-500 to-emerald-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">1</span>
-              <h3 className="font-black text-sm sm:text-base text-sky-900">Modo de Juego</h3>
+              <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#1046AA] to-[#4E9215] text-white text-[10px] font-black flex items-center justify-center shrink-0">1</span>
+              <h3 className="font-black text-sm sm:text-base text-blue-900">Modo de Juego</h3>
             </div>
             <div className="grid grid-cols-3 gap-2">
               {GAME_MODES.map((m) => {
@@ -161,7 +167,7 @@ export function HomeScreen() {
                       "relative overflow-hidden rounded-2xl border p-3 text-left transition-all",
                       isSelected
                         ? "scale-[1.02] border-transparent"
-                        : "border-cyan-200/60 bg-white/60 hover:bg-white/90 hover:border-sky-400/50"
+                        : "border-blue-200/60 bg-white/60 hover:bg-white/90 hover:border-blue-400/50"
                     )}
                     style={
                       isSelected
@@ -181,10 +187,10 @@ export function HomeScreen() {
                         </span>
                       )}
                     </div>
-                    <div className="text-[11px] font-black uppercase tracking-wide" style={{ color: isSelected ? m.color : "#0A2472" }}>
+                    <div className="text-[11px] font-black uppercase tracking-wide" style={{ color: isSelected ? m.color : "#0A2E78" }}>
                       {m.name}
                     </div>
-                    <div className="text-[9px] text-sky-700/70 mt-0.5 leading-tight">
+                    <div className="text-[9px] text-blue-700/70 mt-0.5 leading-tight">
                       {m.id === "classic" ? "Personalizable" : m.id === "survival" ? "3 vidas" : "1 fallo = fin"}
                     </div>
                   </button>
@@ -197,10 +203,10 @@ export function HomeScreen() {
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-500 to-emerald-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">2</span>
-                <h3 className="font-black text-sm sm:text-base text-sky-900">Categorías</h3>
+                <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#1046AA] to-[#4E9215] text-white text-[10px] font-black flex items-center justify-center shrink-0">2</span>
+                <h3 className="font-black text-sm sm:text-base text-blue-900">Categorías</h3>
               </div>
-              <span className="text-[10px] text-sky-700/70">
+              <span className="text-[10px] text-blue-700/70">
                 {selectedCount === 0 ? "Tocá para elegir" : `${selectedCount} ${selectedCount === 1 ? "seleccionada" : "seleccionadas"}${isMix ? " · mix" : ""}`}
               </span>
             </div>
@@ -244,8 +250,8 @@ export function HomeScreen() {
           {isClassic && (
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-500 to-emerald-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">3</span>
-                <h3 className="font-black text-sm sm:text-base text-sky-900">Dificultad</h3>
+                <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#1046AA] to-[#4E9215] text-white text-[10px] font-black flex items-center justify-center shrink-0">3</span>
+                <h3 className="font-black text-sm sm:text-base text-blue-900">Dificultad</h3>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {DIFFICULTIES.map((d) => {
@@ -259,7 +265,7 @@ export function HomeScreen() {
                         "relative overflow-hidden rounded-2xl border p-3 text-left transition-all flex flex-col gap-1.5",
                         isSelected
                           ? "scale-[1.03] border-transparent"
-                          : "border-cyan-200/60 bg-white/60 hover:bg-white/95 hover:border-sky-400/60"
+                          : "border-blue-200/60 bg-white/60 hover:bg-white/95 hover:border-blue-400/60"
                       )}
                       style={
                         isSelected
@@ -287,10 +293,10 @@ export function HomeScreen() {
                           </span>
                         )}
                       </div>
-                      <div className="text-sm font-black" style={{ color: isSelected ? d.color : "#0A2472" }}>
+                      <div className="text-sm font-black" style={{ color: isSelected ? d.color : "#0A2E78" }}>
                         {d.name}
                       </div>
-                      <div className="flex items-center gap-1 text-[10px] text-sky-700/80">
+                      <div className="flex items-center gap-1 text-[10px] text-blue-700/80">
                         <Clock className="w-3 h-3" />
                         <span>{d.time}s</span>
                         <span className="opacity-50">·</span>
@@ -307,10 +313,10 @@ export function HomeScreen() {
               Si es Muerte Súbita: bloqueado en "Infinitas / Hasta fallar" */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-500 to-emerald-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">
+              <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-[#1046AA] to-[#4E9215] text-white text-[10px] font-black flex items-center justify-center shrink-0">
                 {isClassic ? "4" : "3"}
               </span>
-              <h3 className="font-black text-sm sm:text-base text-sky-900">
+              <h3 className="font-black text-sm sm:text-base text-blue-900">
                 {isEndless ? "Duración" : "Cantidad de Preguntas"}
               </h3>
             </div>
@@ -435,7 +441,7 @@ export function HomeScreen() {
         <section className="space-y-3 pb-4">
           <div className="flex items-center gap-2">
             <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-amber-400 to-rose-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">★</span>
-            <h3 className="font-black text-sm sm:text-base text-sky-900">Resumen</h3>
+            <h3 className="font-black text-sm sm:text-base text-blue-900">Resumen</h3>
           </div>
           <div className={cn("grid gap-2", isClassic ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2")}>
             <SummaryCard
@@ -448,7 +454,7 @@ export function HomeScreen() {
               icon={<Flame className="w-4 h-4" />}
               label={isMix ? "Categorías" : "Categoría"}
               value={selectedCount === 0 ? "—" : isMix ? `${selectedCount} mixtas` : (CATEGORIES.find((c) => c.id === selectedCategories[0])?.name ?? "—")}
-              color={selectedCount > 0 ? "#4CAF50" : undefined}
+              color={selectedCount > 0 ? "#4E9215" : undefined}
             />
             {isClassic && (
               <>
@@ -521,15 +527,15 @@ function SummaryCard({
     <div
       className={cn(
         "rounded-2xl border bg-white/70 p-3 transition glass",
-        color ? "border-cyan-200/60" : "border-dashed border-cyan-200/40"
+        color ? "border-blue-200/60" : "border-dashed border-blue-200/40"
       )}
       style={color ? { borderColor: `${color}50`, boxShadow: `0 0 12px ${color}15` } : undefined}
     >
-      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-sky-700/70">
+      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-blue-700/70">
         <span style={color ? { color } : undefined}>{icon}</span>
         {label}
       </div>
-      <div className="text-sm font-bold mt-1 truncate text-sky-900" style={color ? { color } : undefined}>
+      <div className="text-sm font-bold mt-1 truncate text-blue-900" style={color ? { color } : undefined}>
         {value}
       </div>
     </div>

@@ -94,14 +94,14 @@ export function ResultsScreen() {
           transition={{ delay: 0.2 }}
           className="text-center"
         >
-          <div className="text-xs uppercase tracking-widest text-sky-700/80">Rango obtenido</div>
+          <div className="text-xs uppercase tracking-widest text-blue-700/80">Rango obtenido</div>
           <h1
             className="text-4xl font-black uppercase tracking-tight mt-1"
             style={{ color: rank.color, textShadow: `0 0 30px ${rank.color}40` }}
           >
             {rank.label}
           </h1>
-          <div className="text-sm text-sky-700 mt-2">
+          <div className="text-sm text-blue-700 mt-2">
             {cat?.icon} {cat?.name} · {isSuddenDeath ? "☠ Muerte Súbita" : isSurvival ? "Supervivencia" : diff?.name}
           </div>
         </motion.div>
@@ -183,7 +183,7 @@ export function ResultsScreen() {
                 <div className="text-[9px] uppercase tracking-wider text-rose-700/70">Mejor run (aciertos)</div>
               </div>
               <div>
-                <div className="text-lg font-black text-sky-700">{survivalStats.bestXp}</div>
+                <div className="text-lg font-black text-blue-700">{survivalStats.bestXp}</div>
                 <div className="text-[9px] uppercase tracking-wider text-rose-700/70">Mejor run (XP)</div>
               </div>
               <div>
@@ -200,13 +200,13 @@ export function ResultsScreen() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="w-full mt-6 rounded-2xl border border-cyan-200/60 bg-white/70 p-4 glass"
+            className="w-full mt-6 rounded-2xl border border-blue-200/60 bg-white/70 p-4 glass"
           >
-            <div className="flex justify-between text-xs text-sky-700 mb-1">
+            <div className="flex justify-between text-xs text-blue-700 mb-1">
               <span className="font-bold">Nivel {profile.user.level}</span>
               <span className="font-mono">{profile.user.xpIntoLevel} / {profile.user.xpForNextLevel} XP</span>
             </div>
-            <div className="h-2 rounded-full bg-sky-100/80 overflow-hidden">
+            <div className="h-2 rounded-full bg-blue-100/80 overflow-hidden">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${profile.user.progressPct}%` }}
@@ -249,7 +249,7 @@ export function ResultsScreen() {
           </button>
           <button
             onClick={() => { sfx.waterDrop(); reset(); setScreen("welcome") }}
-            className="py-3 px-4 rounded-xl font-bold text-sm bg-white/70 border border-cyan-200/60 hover:bg-white/95 transition flex items-center justify-center gap-2 text-sky-800"
+            className="py-3 px-4 rounded-xl font-bold text-sm bg-white/70 border border-blue-200/60 hover:bg-white/95 transition flex items-center justify-center gap-2 text-blue-800"
           >
             <Home className="w-4 h-4" /> Inicio
           </button>
@@ -264,13 +264,13 @@ function StatCard({ icon, value, label, color, highlight = false }: { icon: Reac
     <div
       className={cn(
         "rounded-2xl border bg-white/70 p-4 text-center transition-all glass",
-        highlight ? "border-amber-400/70 animate-gold-pulse" : "border-cyan-200/60"
+        highlight ? "border-amber-400/70 animate-gold-pulse" : "border-blue-200/60"
       )}
       style={{ boxShadow: highlight ? `0 0 30px ${color}60` : `0 0 20px ${color}15` }}
     >
       <div className="flex justify-center mb-1" style={{ color }}>{icon}</div>
       <div className="text-2xl font-black" style={{ color }}>{value}</div>
-      <div className="text-[10px] uppercase tracking-wider text-sky-700/70 mt-0.5">{label}</div>
+      <div className="text-[10px] uppercase tracking-wider text-blue-700/70 mt-0.5">{label}</div>
     </div>
   )
 }

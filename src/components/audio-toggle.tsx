@@ -45,8 +45,8 @@ export function AudioToggle({ compact = false }: { compact?: boolean }) {
         className={cn(
           "p-1.5 rounded-lg border transition-colors",
           showVolume
-            ? "bg-sky-400/15 border-sky-400/50 text-sky-700"
-            : "bg-white/60 border-cyan-200/60 text-sky-700 hover:bg-white/90",
+            ? "bg-blue-400/15 border-blue-400/50 text-blue-700"
+            : "bg-white/60 border-blue-200/60 text-blue-700 hover:bg-white/90",
         )}
       >
         {volume === 0 ? (
@@ -61,7 +61,7 @@ export function AudioToggle({ compact = false }: { compact?: boolean }) {
       {/* Popover con slider de volumen */}
       {showVolume && (
         <div className="absolute top-full right-0 mt-2 z-50 rounded-2xl glass-strong p-3 shadow-xl min-w-[180px]">
-          <div className="text-[10px] uppercase tracking-wider text-sky-700/80 font-bold mb-2">
+          <div className="text-[10px] uppercase tracking-wider text-blue-700/80 font-bold mb-2">
             Volumen Ambiental
           </div>
           <input
@@ -73,7 +73,7 @@ export function AudioToggle({ compact = false }: { compact?: boolean }) {
             className="w-full accent-sky-500 cursor-pointer"
             style={{ cursor: "pointer" }}
           />
-          <div className="flex justify-between text-[9px] text-sky-700/70 mt-1 font-mono">
+          <div className="flex justify-between text-[9px] text-blue-700/70 mt-1 font-mono">
             <span>0%</span>
             <span className="font-bold">{Math.round(volume * 100)}%</span>
             <span>100%</span>
@@ -92,7 +92,7 @@ export function AudioToggle({ compact = false }: { compact?: boolean }) {
           "p-1.5 rounded-lg border transition-colors",
           sfxEnabled
             ? "bg-emerald-400/15 border-emerald-400/50 text-emerald-700 hover:bg-emerald-400/25"
-            : "bg-white/40 border-cyan-200/40 text-slate-400 hover:bg-white/60",
+            : "bg-white/40 border-blue-200/40 text-slate-400 hover:bg-white/60",
         )}
       >
         {sfxEnabled ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
@@ -108,8 +108,8 @@ export function AudioToggle({ compact = false }: { compact?: boolean }) {
         className={cn(
           "p-1.5 rounded-lg border transition-colors",
           musicEnabled
-            ? "bg-sky-400/15 border-sky-400/50 text-sky-700 hover:bg-sky-400/25"
-            : "bg-white/40 border-cyan-200/40 text-slate-400 hover:bg-white/60",
+            ? "bg-blue-400/15 border-blue-400/50 text-blue-700 hover:bg-blue-400/25"
+            : "bg-white/40 border-blue-200/40 text-slate-400 hover:bg-white/60",
         )}
       >
         {musicEnabled ? <Music className="w-3.5 h-3.5" /> : <Music2 className="w-3.5 h-3.5" />}

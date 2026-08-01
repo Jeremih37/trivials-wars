@@ -44,7 +44,7 @@ const FUN_FACTS: FunFact[] = [
     id: 1,
     emoji: "🐙",
     category: "Ciencia",
-    color: "#1E5BFF",
+    color: "#1046AA",
     title: "El pulpo tiene tres corazones",
     description:
       "Dos corazones bombean sangre a las branquias y el tercero al resto del cuerpo. Cuando nada, el corazón principal se detiene, por eso prefieren caminar.",
@@ -71,7 +71,7 @@ const FUN_FACTS: FunFact[] = [
     id: 4,
     emoji: "🧠",
     category: "Ciencia",
-    color: "#00E5FF",
+    color: "#3B7BD9",
     title: "El cerebro usa el 20% de tu energía",
     description:
       "Pesa apenas 1.4 kg pero consume el 20% del oxígeno y calorías. Genera energía suficiente para encender una bombilla de bajo consumo.",
@@ -80,7 +80,7 @@ const FUN_FACTS: FunFact[] = [
     id: 5,
     emoji: "🐜",
     category: "Naturaleza",
-    color: "#4CAF50",
+    color: "#4E9215",
     title: "Las hormigas pueden cargar 50x su peso",
     description:
       "Si un humano tuviera esa fuerza proporcional, levantaría un automóvil. Existen más de 12,000 especies de hormigas en el planeta.",
@@ -89,7 +89,7 @@ const FUN_FACTS: FunFact[] = [
     id: 6,
     emoji: "🏔️",
     category: "Geografía",
-    color: "#1E5BFF",
+    color: "#1046AA",
     title: "El Everest crece 4 mm cada año",
     description:
       "La colisión de placas tectónicas entre India y Asia empuja la montaña hacia arriba. Hace 50 millones de años esta zona estaba bajo el mar.",
@@ -218,14 +218,14 @@ export function WelcomeScreen() {
       <BubblesBackground count={28} />
 
       {/* Header */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/50 border-b border-cyan-200/40">
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/50 border-b border-blue-300/40">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <motion.div
               initial={{ rotate: -10, scale: 0.9 }}
               animate={{ rotate: 0, scale: 1 }}
               className="text-3xl"
-              style={{ filter: "drop-shadow(0 0 12px rgba(30,91,255,0.6))" }}
+              style={{ filter: "drop-shadow(0 0 12px rgba(16,70,170,0.6))" }}
             >
               🧠
             </motion.div>
@@ -259,7 +259,7 @@ export function WelcomeScreen() {
                   <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
                     {frame.render()}
                   </svg>
-                  <div className="absolute inset-2 rounded-full bg-gradient-to-br from-blue-400/30 to-cyan-300/30 flex items-center justify-center text-base">
+                  <div className="absolute inset-2 rounded-full bg-gradient-to-br from-[#1046AA]/30 to-[#7BBE3A]/30 flex items-center justify-center text-base">
                     {profile.user.profileIconEmoji}
                   </div>
                 </div>
@@ -283,17 +283,17 @@ export function WelcomeScreen() {
               animate={{ opacity: 1, x: 0 }}
               className="relative overflow-hidden rounded-3xl glass-frutiger p-5 sm:p-6"
             >
-              <div className="absolute -top-20 -right-20 w-72 h-72 bg-blue-400/20 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-cyan-400/20 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -top-20 -right-20 w-72 h-72 bg-[#7BBE3A]/20 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-[#7BBE3A]/20 rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative flex flex-col sm:flex-row gap-5 items-center sm:items-start">
                 {/* Avatar + marco */}
                 <div className="flex flex-col items-center gap-2 shrink-0">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/40 to-cyan-300/40 blur-2xl rounded-full" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#1046AA]/40 to-[#7BBE3A]/40 blur-2xl rounded-full" />
                     <div
                       className="relative w-28 h-28 rounded-full bg-white/80 border-2 flex items-center justify-center overflow-hidden"
-                      style={{ borderColor: frame?.hex ?? "#1E5BFF", boxShadow: `0 0 25px ${frame?.hex ?? "#1E5BFF"}80` }}
+                      style={{ borderColor: frame?.hex ?? "#1046AA", boxShadow: `0 0 25px ${frame?.hex ?? "#1046AA"}80` }}
                     >
                       {avatarData && <AvatarSvg {...avatarData} size={100} />}
                     </div>
@@ -366,7 +366,7 @@ export function WelcomeScreen() {
                   {/* Mini stats en fila */}
                   <div className="flex flex-wrap gap-2 pt-1">
                     <MiniStat icon={<Trophy className="w-3.5 h-3.5" />} label="Nivel" value={profile?.user.level ?? 1} color="text-amber-600" />
-                    <MiniStat icon={<Zap className="w-3.5 h-3.5" />} label="XP" value={profile?.user.xp ?? 0} color="text-cyan-600" />
+                    <MiniStat icon={<Zap className="w-3.5 h-3.5" />} label="XP" value={profile?.user.xp ?? 0} color="text-[#4E9215]" />
                     <MiniStat icon={<Swords className="w-3.5 h-3.5" />} label="Victorias" value={profile?.user.wins ?? 0} color="text-emerald-600" />
                     <MiniStat icon={<Flame className="w-3.5 h-3.5" />} label="Racha" value={profile?.user.currentStreak ?? 0} color="text-orange-500" />
                   </div>
@@ -395,7 +395,7 @@ export function WelcomeScreen() {
                 <QuickMode
                   icon={<Swords className="w-4 h-4" />}
                   label="Reto"
-                  color="#1E5BFF"
+                  color="#1046AA"
                   onClick={() => {
                     useGameStore.getState().setMode("classic")
                     setScreen("home")
