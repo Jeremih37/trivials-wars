@@ -281,3 +281,81 @@ Stage Summary:
 - ✅ Todos los componentes actualizados a la nueva paleta consistentemente
 - ✅ Cambios deployed en Vercel (auto-deploy desde main)
 - 🎯 Próximo paso del usuario: probar la app en https://trivials-wars.vercel.app
+
+---
+Task ID: paleta-neutra-fancy-font-lofi-youtube
+Agent: main
+Task: Aplicar paleta neutra + tipografía fancy (𝒇𝒂𝒏𝒄𝒚 𝒕𝒆𝒙𝒕) + música lofi YouTube sin copyright + layout más espacioso
+
+Work Log:
+- Leí mensaje del usuario pidiendo:
+  * Paleta más neutra (la anterior era muy colorida/saturada)
+  * Layout más espacioso, no todo pegado, pero manteniendo la organización
+  * Tipografía "fancy text" (italic serif estilo 𝒇𝒂𝒏𝒄𝒚 𝒕𝒆𝒙𝒕)
+  * Música: el "pitido" procedural actual es molesto, usar lofi de YouTube sin copyright
+- Nueva paleta "Soft Sand & Dusty Blue":
+  * Fondo: crema arena #FAF7F1 con halos suaves
+  * Texto principal: slate #2F3A4A (no saturado)
+  * Acento primario: dusty blue #6E82A0 (sustituye #1046AA azul saturado)
+  * Acento secundario: sage #8AA088 (sustituye #4E9215 verde lima saturado)
+  * CTA: gradiente dusty blue → sage (más suave que verde lima → azul profundo)
+  * Alertas: terracota, ámbar y rosa apagados (no saturados)
+- Tipografía fancy cargada en layout.tsx:
+  * Playfair Display italic (peso 400-900) para titulares y CTA
+  * Cormorant Garamond italic (peso 300-700) para texto secundario decorativo
+  * Clases .font-fancy y .font-script disponibles
+- Layout home-screen rediseñado:
+  * Padding p-7 sm:p-9 (era p-5 sm:p-6)
+  * Gaps entre secciones space-y-8 (era space-y-5)
+  * Numeración 01/02/03/04 con font-fancy italic 3xl
+  * Separadores sutiles (h-px gradient) entre secciones
+  * Pills más grandes: px-4 py-2 text-sm (era px-3 py-1.5 text-xs)
+  * CTA con font-fancy italic font-bold
+- Reemplazo de música procedural por YouTube IFrame API:
+  * Nuevo componente LofiPlayer (src/components/lofi-player.tsx):
+    - Carga YouTube IFrame API dinámicamente
+    - Reproduce Lofi Girl 24/7 stream (jfKfPfyJRdk) - libre escucha
+    - Widget thumbnail 120x70px en esquina inferior derecha
+    - Expandible a 240x140px al hover
+    - Controles play/pause/volume integrados
+    - Loop infinito
+  * Nuevo GlobalLofiPlayer (src/components/global-lofi-player.tsx):
+    - Monta LofiPlayer a nivel global en page.tsx
+    - Espera primer gesto del usuario (autoplay policy)
+    - Lee musicEnabled y volume del hook useAudio
+  * audio.ts: startAmbientMusic/stopAmbientMusic ahora son no-op
+    (la música la controla el componente LofiPlayer)
+  * use-audio.ts: removida lógica de procedural ambient music
+- Migración masiva de paleta en 6 componentes:
+  * Script scripts/migrate-palette.py aplicado
+  * text-blue-* → text-slate-* (más neutro)
+  * border-blue-* → border-slate-*
+  * bg-blue-* → bg-slate-*
+  * Hex directos #1046AA → #6E82A0, #4E9215 → #8AA088, etc.
+  * RGBA literals migrados igual
+  * amber suavizado, emerald → sage, rose suavizado
+- Tipografía fancy aplicada a titulares clave:
+  * login: "Trivials Wars" (era "TRIVIALS WARS" uppercase)
+  * welcome: "Trivials Wars", "Hola {name}", "Jugar ahora", "¿Sabías que…?"
+  * home: "Preparado para jugar", numeración 01-04, CTAs
+  * results: "Rango obtenido", nombre del rango
+  * lootbox: "Loot Box", "Tu recompensa espera"
+  * profile: "Perfil"
+  * game: combo banner, level up banner
+- Audio-toggle rediseñado:
+  * Padding p-2 (era p-1.5) - más cómodo al tacto
+  * Colores slate/sage (era blue/emerald saturados)
+  * Mantiene popover de volumen maestro
+- TypeScript: 0 errores
+- Next.js build: 7.5s, 13 rutas, success
+- Commit 39229d0 + push a GitHub exitoso
+- Vercel deploy verificado: HTTP 200 en / y /api/health
+
+Stage Summary:
+- ✅ Paleta neutra aplicada: Soft Sand & Dusty Blue (crema + azul polvoriento + salvia)
+- ✅ Tipografía fancy: Playfair Display italic + Cormorant Garamond italic en titulares
+- ✅ Layout más espacioso: paddings y gaps generosos, separadores sutiles
+- ✅ Música lofi real desde YouTube (Lofi Girl 24/7) sustituye el pitido procedural
+- ✅ Widget pequeño de YouTube en esquina inferior derecha (expandible al hover)
+- ✅ Build exitoso y deploy a Vercel confirmado
+- 🎯 Próximo paso: probar la app en https://trivials-wars.vercel.app
