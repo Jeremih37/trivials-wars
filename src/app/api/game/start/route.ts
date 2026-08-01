@@ -61,14 +61,17 @@ export const POST = apiHandler(async (req: Request) => {
   } else {
     return NextResponse.json({ error: "Faltan parámetros" }, { status: 400 })
   }
-  const isMix = selectedCategoryIds.length === 0 || selectedCategoryIds.length > 1
+  // isMixTotal = "todas las categorías mezcladas" (sin filtro de categoría)
+  const isMixTotal = selectedCategoryIds.length === 0
 
-  // En modo supervivencia: traer TODAS las preguntas (de las categorías seleccionadas o todas si mix)
+  // En modo supervivencia: traer TODAS las preguntas (de las categorías seleccionadas o todas si mix total)
   // En modo clásico: solo de las categorías+difficultad solicitada
   const whereClause =
     mode === "survival"
-      ? (isMix ? {} : { category: { in: selectedCategoryIds } })
-      : (isMix ? { difficulty } : { category: { in: selectedCategoryIds }, difficulty })
+      ? (isMixTotal ? {} : { category: { in: selectedCategoryIds } })
+      : (isMixTotal
+        ? { difficulty }
+        : { category: { in: selectedCategoryIds }, difficulty })
 
   const allQuestions = await db.question.findMany({ where: whereClause })
 
