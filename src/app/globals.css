@@ -42,36 +42,37 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   /* ============================================================
-     Frutiger Aero Brillante V3.0 — "Bright Nature & Aqua"
-     Cielo azul radiante · Nubes esponjosas · Agua cristalina · Prado verde
+     Frutiger Aero "Eco-Futurist Fantasy" — Paleta de la imagen
+     Cielo azul vibrante · Burbujas blancas · Cian eléctrico · Verde pradera
      ============================================================ */
-  --color-sky-light: #F0F9FF;
-  --color-sky-mid: #E0F2FE;
-  --color-sky-deep: #BAE6FD;
-  --color-grass: #4ADE80;
-  --color-water: #38BDF8;
-  --color-water-deep: #0EA5E9;
+  --color-sky-light: #BBDEFB;
+  --color-sky-mid: #87CEEB;
+  --color-sky-deep: #4A90E2;
+  --color-grass: #4CAF50;
+  --color-water: #1E5BFF;
+  --color-water-deep: #0000CD;
   --color-glass-tint: rgba(255, 255, 255, 0.85);
-  --color-neon-soft: #7DD3FC;
-  --color-cyan-bright: #06b6d4;
-  --color-mint: #34d399;
-  --color-coral: #fb7185;
+  --color-neon-soft: #87CEEB;
+  --color-cyan-bright: #00FFFF;
+  --color-mint: #7FFFD4;
+  --color-coral: #FF4D6D;
   --color-gold-alert: #fbbf24;
   --color-violet-bright: #a855f7;
+  --color-lime: #9AFF00;
   /* Compat retro-con paleta Aquatic Ambience (legacy utilities) */
-  --color-abyssal: #0c4a6e;
-  --color-deepteal: #075985;
-  --color-bioluminescent: #06b6d4;
-  --color-aquaelectric: #38BDF8;
-  --color-coralline: #fb7185;
-  --color-neon-cyan: #06b6d4;
-  --color-neon-aqua: #38BDF8;
-  --color-neon-teal: #2dd4bf;
-  --color-neon-emerald: #10b981;
-  --color-neon-blue: #3b82f6;
-  --color-neon-deep: #0ea5e9;
+  --color-abyssal: #0000CD;
+  --color-deepteal: #1E5BFF;
+  --color-bioluminescent: #00FFFF;
+  --color-aquaelectric: #00E5FF;
+  --color-coralline: #FF4D6D;
+  --color-neon-cyan: #00FFFF;
+  --color-neon-aqua: #00E5FF;
+  --color-neon-teal: #7FFFD4;
+  --color-neon-emerald: #4CAF50;
+  --color-neon-blue: #1E5BFF;
+  --color-neon-deep: #0000CD;
   --color-neon-gold: #fbbf24;
-  --color-neon-coral: #fb7185;
+  --color-neon-coral: #FF4D6D;
   --color-neon-violet: #8b5cf6;
 }
 
@@ -81,72 +82,72 @@
    ============================================================ */
 :root {
   --radius: 1.15rem;
-  /* Fondo Principal: Cielo despejado y frescura (degradado vertical sutil) */
-  --background: #F0F9FF;
-  --foreground: #0c4a6e;
-  /* Superficie / Tarjetas: Cristal limpio translúcido (Glassmorphism blanco) */
-  --card: rgba(255, 255, 255, 0.85);
-  --card-foreground: #0c4a6e;
+  /* Fondo Principal: Cielo azul radiante + horizonte + nubes (paleta de la imagen) */
+  --background: #BBDEFB;
+  --foreground: #0A2472;
+  /* Superficie / Tarjetas: Cristal blanco translúcido (burbujas) */
+  --card: rgba(255, 255, 255, 0.78);
+  --card-foreground: #0A2472;
   --popover: rgba(255, 255, 255, 0.95);
-  --popover-foreground: #0c4a6e;
-  /* Botones primarios: Agua → Césped (degradado) */
-  --primary: #38BDF8;
+  --popover-foreground: #0A2472;
+  /* Botones primarios: Azul vibrante de la mariposa + cian caribeño */
+  --primary: #1E5BFF;
   --primary-foreground: #ffffff;
-  --secondary: rgba(186, 230, 253, 0.6);
-  --secondary-foreground: #0c4a6e;
-  --muted: rgba(224, 242, 254, 0.7);
-  --muted-foreground: #0369a1;
-  /* Acento: Cian brillante (gotas de agua con brillo solar) */
-  --accent: #0ea5e9;
-  --accent-foreground: #ffffff;
+  --secondary: rgba(135, 206, 235, 0.55);
+  --secondary-foreground: #0A2472;
+  --muted: rgba(173, 216, 230, 0.6);
+  --muted-foreground: #1A237E;
+  /* Acento: Cian eléctrico brillante (chispas de la imagen) */
+  --accent: #00E5FF;
+  --accent-foreground: #003c4d;
   /* Alerta / Error / Vida: Coral suave */
-  --destructive: #fb7185;
-  --border: rgba(125, 211, 252, 0.5);
+  --destructive: #FF4D6D;
+  --border: rgba(74, 144, 226, 0.45);
   --input: rgba(255, 255, 255, 0.7);
-  --ring: #38BDF8;
-  --chart-1: #38BDF8;
-  --chart-2: #4ADE80;
+  --ring: #1E5BFF;
+  --chart-1: #1E5BFF;
+  --chart-2: #4CAF50;
   --chart-3: #fbbf24;
   --chart-4: #a855f7;
-  --chart-5: #fb7185;
-  --sidebar: rgba(240, 249, 255, 0.9);
-  --sidebar-foreground: #0c4a6e;
-  --sidebar-primary: #38BDF8;
+  --chart-5: #FF4D6D;
+  --sidebar: rgba(224, 247, 250, 0.92);
+  --sidebar-foreground: #0A2472;
+  --sidebar-primary: #1E5BFF;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: rgba(186, 230, 253, 0.5);
-  --sidebar-accent-foreground: #0c4a6e;
-  --sidebar-border: rgba(125, 211, 252, 0.4);
-  --sidebar-ring: #38BDF8;
+  --sidebar-accent: rgba(135, 206, 235, 0.5);
+  --sidebar-accent-foreground: #0A2472;
+  --sidebar-border: rgba(74, 144, 226, 0.35);
+  --sidebar-ring: #1E5BFF;
 }
 
 .dark {
   /* En modo oscuro mantenemos la misma estética brillante — el tema es inherentemente luminoso */
-  --background: #F0F9FF;
-  --foreground: #0c4a6e;
-  --card: rgba(255, 255, 255, 0.85);
-  --card-foreground: #0c4a6e;
+  --background: #BBDEFB;
+  --foreground: #0A2472;
+  --card: rgba(255, 255, 255, 0.78);
+  --card-foreground: #0A2472;
   --popover: rgba(255, 255, 255, 0.95);
-  --popover-foreground: #0c4a6e;
-  --primary: #38BDF8;
+  --popover-foreground: #0A2472;
+  --primary: #1E5BFF;
   --primary-foreground: #ffffff;
-  --secondary: rgba(186, 230, 253, 0.6);
-  --secondary-foreground: #0c4a6e;
-  --muted: rgba(224, 242, 254, 0.7);
-  --muted-foreground: #0369a1;
-  --accent: #0ea5e9;
-  --accent-foreground: #ffffff;
-  --destructive: #fb7185;
-  --border: rgba(125, 211, 252, 0.5);
+  --secondary: rgba(135, 206, 235, 0.55);
+  --secondary-foreground: #0A2472;
+  --muted: rgba(173, 216, 230, 0.6);
+  --muted-foreground: #1A237E;
+  --accent: #00E5FF;
+  --accent-foreground: #003c4d;
+  --destructive: #FF4D6D;
+  --border: rgba(74, 144, 226, 0.45);
   --input: rgba(255, 255, 255, 0.7);
-  --ring: #38BDF8;
-  --sidebar: rgba(240, 249, 255, 0.9);
-  --sidebar-foreground: #0c4a6e;
-  --sidebar-primary: #38BDF8;
+  --ring: #1E5BFF;
+  --sidebar: rgba(224, 247, 250, 0.92);
+  --sidebar-foreground: #0A2472;
+  --sidebar-primary: #1E5BFF;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: rgba(186, 230, 253, 0.5);
-  --sidebar-accent-foreground: #0c4a6e;
-  --sidebar-border: rgba(125, 211, 252, 0.4);
-  --sidebar-ring: #38BDF8;
+  --sidebar-accent: rgba(135, 206, 235, 0.5);
+  --sidebar-accent-foreground: #0A2472;
+  --sidebar-border: rgba(74, 144, 226, 0.35);
+  --sidebar-ring: #1E5BFF;
 }
 
 @layer base {
@@ -157,12 +158,12 @@
     @apply bg-background text-foreground;
   }
   body {
-    /* Cielo despejado: degradado azul claro #F0F9FF → #E0F2FE + halos de agua/sol */
+    /* Cielo azul radiante: degradado vertical profundo → horizonte claro + halos de sol/burbujas */
     background:
-      radial-gradient(1100px 600px at 80% -10%, rgba(74, 222, 128, 0.18), transparent 60%),
-      radial-gradient(900px 500px at -10% 110%, rgba(56, 189, 248, 0.25), transparent 60%),
-      radial-gradient(800px 500px at 50% 30%, rgba(255, 255, 255, 0.55), transparent 70%),
-      linear-gradient(180deg, #F0F9FF 0%, #E0F2FE 60%, #DBF4FF 100%);
+      radial-gradient(900px 500px at 85% -10%, rgba(255, 255, 255, 0.7), transparent 55%),
+      radial-gradient(900px 500px at 10% 110%, rgba(74, 222, 128, 0.22), transparent 60%),
+      radial-gradient(700px 400px at -10% 30%, rgba(0, 229, 255, 0.18), transparent 60%),
+      linear-gradient(180deg, #1E5BFF 0%, #4A90E2 35%, #87CEEB 70%, #BBDEFB 100%);
     background-attachment: fixed;
     min-height: 100vh;
   }
@@ -261,28 +262,28 @@
 }
 
 /* ============================================================
-   Glassmorphism utilities (Frutiger Aero Brillante V3.0)
+   Glassmorphism utilities (Frutiger Aero Brillante — paleta imagen)
    Cristal limpio con agua filtrada — paneles blancos translúcidos
    ============================================================ */
 @utility glass {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.78);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(125, 211, 252, 0.5);
-  box-shadow: 0 4px 20px rgba(56, 189, 248, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 20px rgba(30, 91, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 @utility glass-strong {
-  background: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(125, 211, 252, 0.65);
-  box-shadow: 0 8px 30px rgba(56, 189, 248, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  border: 1.5px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 8px 30px rgba(30, 91, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
 @utility glass-light {
-  background: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(125, 211, 252, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.45);
 }
 
 /* Custom scrollbar — aquatic */
@@ -389,9 +390,9 @@
   animation: heart-break 0.5s ease-out forwards;
 }
 
-/* Text gradient utility — Frutiger Aero Brillante V3.0 */
+/* Text gradient utility — Frutiger Aero Brillante V3.0 (paleta imagen) */
 @utility text-gradient-neon {
-  background: linear-gradient(135deg, #38BDF8 0%, #4ADE80 50%, #0ea5e9 100%);
+  background: linear-gradient(135deg, #1E5BFF 0%, #4CAF50 50%, #00E5FF 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -399,7 +400,7 @@
 }
 
 @utility text-gradient-aqua {
-  background: linear-gradient(135deg, #7dd3fc 0%, #38BDF8 100%);
+  background: linear-gradient(135deg, #87CEEB 0%, #1E5BFF 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -407,7 +408,7 @@
 }
 
 @utility text-gradient-bioluminescent {
-  background: linear-gradient(135deg, #4ADE80 0%, #38BDF8 100%);
+  background: linear-gradient(135deg, #4CAF50 0%, #1E5BFF 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -415,7 +416,7 @@
 }
 
 @utility text-gradient-teal {
-  background: linear-gradient(135deg, #5eead4 0%, #2dd4bf 100%);
+  background: linear-gradient(135deg, #7FFFD4 0%, #00E5FF 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -423,7 +424,7 @@
 }
 
 @utility text-gradient-cyan {
-  background: linear-gradient(135deg, #00F5D4 0%, #00B4D8 100%);
+  background: linear-gradient(135deg, #00FFFF 0%, #1E5BFF 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -479,17 +480,17 @@
   animation: aqua-sky-flow 16s ease-in-out infinite;
 }
 
-/* Crystal Bubble button — GDD V3.0: degradado verde césped (#4ADE80) → cian (#38BDF8)
+/* Crystal Bubble button — GDD V3.0: degradado verde césped (#4CAF50) → cian (#00E5FF) → azul vibrante (#1E5BFF)
    con brillo de gota de agua en la parte superior */
 @utility crystal-bubble {
   position: relative;
-  background: linear-gradient(180deg, rgba(74, 222, 128, 0.95) 0%, rgba(56, 189, 248, 0.95) 55%, rgba(14, 165, 233, 0.95) 100%);
-  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  background: linear-gradient(180deg, rgba(76, 175, 80, 0.97) 0%, rgba(0, 229, 255, 0.95) 55%, rgba(30, 91, 255, 0.97) 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.6);
   box-shadow:
-    inset 0 2px 4px rgba(255, 255, 255, 0.65),
-    inset 0 -3px 6px rgba(7, 89, 133, 0.25),
-    0 8px 20px rgba(56, 189, 248, 0.55),
-    0 0 35px rgba(74, 222, 128, 0.45);
+    inset 0 2px 4px rgba(255, 255, 255, 0.7),
+    inset 0 -3px 6px rgba(10, 36, 114, 0.3),
+    0 8px 22px rgba(30, 91, 255, 0.6),
+    0 0 38px rgba(0, 229, 255, 0.55);
   overflow: hidden;
 }
 .crystal-bubble::before {
@@ -499,17 +500,17 @@
   left: 12%;
   right: 12%;
   height: 38%;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.25) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.25) 100%);
   border-radius: 999px;
   filter: blur(2px);
   pointer-events: none;
 }
 .crystal-bubble:hover {
   box-shadow:
-    inset 0 2px 4px rgba(255, 255, 255, 0.75),
-    inset 0 -3px 6px rgba(7, 89, 133, 0.25),
-    0 12px 28px rgba(56, 189, 248, 0.7),
-    0 0 50px rgba(74, 222, 128, 0.7);
+    inset 0 2px 4px rgba(255, 255, 255, 0.8),
+    inset 0 -3px 6px rgba(10, 36, 114, 0.3),
+    0 12px 30px rgba(30, 91, 255, 0.75),
+    0 0 55px rgba(0, 229, 255, 0.85);
 }
 .crystal-bubble:active {
   transform: scale(0.985);
@@ -605,16 +606,16 @@
   animation: frutiger-bubble 14s ease-in infinite;
 }
 
-/* Glass card with stronger Frutiger Aero feel — translucent + glossy border (V3.0 Brillante) */
+/* Glass card with stronger Frutiger Aero feel — translucent + glossy border (paleta imagen) */
 @utility glass-frutiger {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(224, 242, 254, 0.75) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(187, 222, 251, 0.78) 100%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1.5px solid rgba(56, 189, 248, 0.45);
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.85),
-    0 8px 32px rgba(56, 189, 248, 0.18),
-    0 0 50px rgba(74, 222, 128, 0.12);
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 8px 32px rgba(30, 91, 255, 0.25),
+    0 0 50px rgba(0, 229, 255, 0.18);
 }
 
 /* Soft pulse glow for primary CTA — gentle breathe */
@@ -638,15 +639,15 @@
   animation: cta-pulse 2.4s ease-in-out infinite;
 }
 
-/* Wisdom card glass — slightly more ethereal (V3.0 Brillante) */
+/* Wisdom card glass — slightly more ethereal (paleta imagen) */
 @utility glass-wisdom {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.88) 0%, rgba(219, 244, 255, 0.6) 100%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(173, 216, 230, 0.62) 100%);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(56, 189, 248, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.65);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.7),
-    0 6px 24px rgba(56, 189, 248, 0.12);
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    0 6px 24px rgba(30, 91, 255, 0.18);
 }
 
 /* Sparkle accent — tiny rotating shine for wisdom icon */
@@ -699,50 +700,50 @@
   animation: gold-pulse 1.6s ease-in-out infinite;
 }
 
-/* Pill (selector compacto) — Frutiger Aero Brillante */
+/* Pill (selector compacto) — Frutiger Aero Brillante (paleta imagen) */
 @utility pill-selector {
   transition: all 0.18s ease-out;
-  border: 1.5px solid rgba(125, 211, 252, 0.4);
-  background: rgba(255, 255, 255, 0.6);
-  color: #0369a1;
+  border: 1.5px solid rgba(74, 144, 226, 0.45);
+  background: rgba(255, 255, 255, 0.7);
+  color: #0A2472;
 }
 .pill-selector:hover {
-  border-color: rgba(56, 189, 248, 0.7);
-  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(30, 91, 255, 0.8);
+  background: rgba(255, 255, 255, 0.92);
 }
 .pill-selector[data-selected="true"] {
-  background: linear-gradient(135deg, #4ADE80 0%, #38BDF8 100%);
+  background: linear-gradient(135deg, #4CAF50 0%, #00E5FF 50%, #1E5BFF 100%);
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 14px rgba(30, 91, 255, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 
-/* Segmented control (Fácil | Normal | Difícil | Muerte Súbita) */
+/* Segmented control (Fácil | Normal | Difícil | Experto) */
 @utility segmented-option {
   transition: all 0.15s ease-out;
-  color: #0369a1;
+  color: #0A2472;
 }
 .segmented-option[data-selected="true"] {
-  background: linear-gradient(135deg, #4ADE80 0%, #38BDF8 100%);
+  background: linear-gradient(135deg, #4CAF50 0%, #00E5FF 50%, #1E5BFF 100%);
   color: #ffffff;
-  box-shadow: 0 3px 10px rgba(56, 189, 248, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  box-shadow: 0 3px 12px rgba(30, 91, 255, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.55);
 }
 
 /* Botón circular compacto (5, 10, 20, 50) */
 @utility circular-count {
   transition: all 0.18s ease-out;
-  border: 1.5px solid rgba(125, 211, 252, 0.4);
-  background: rgba(255, 255, 255, 0.7);
-  color: #0c4a6e;
+  border: 1.5px solid rgba(74, 144, 226, 0.45);
+  background: rgba(255, 255, 255, 0.78);
+  color: #0A2472;
 }
 .circular-count:hover {
-  border-color: rgba(56, 189, 248, 0.7);
-  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(30, 91, 255, 0.8);
+  background: rgba(255, 255, 255, 0.98);
   transform: scale(1.05);
 }
 .circular-count[data-selected="true"] {
-  background: linear-gradient(135deg, #4ADE80 0%, #38BDF8 100%);
+  background: linear-gradient(135deg, #4CAF50 0%, #00E5FF 50%, #1E5BFF 100%);
   color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.6);
-  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 14px rgba(30, 91, 255, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.5);
 }

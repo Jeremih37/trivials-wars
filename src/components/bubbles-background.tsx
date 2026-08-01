@@ -6,15 +6,18 @@ import { useMemo } from "react"
  * BubblesBackground
  * Frutiger Aero / Y2K Aquatic ambience: subtle floating bubbles rising upward.
  * Purely decorative — pointer-events:none, fixed, behind all content.
+ *
+ * Inspirado en la imagen: burbujas más realistas con brillo blanco,
+ * tinte cian/azul y pequeño reflejo superior (specular highlight).
  */
-export function BubblesBackground({ count = 18 }: { count?: number }) {
+export function BubblesBackground({ count = 22 }: { count?: number }) {
   const bubbles = useMemo(() => {
     return Array.from({ length: count }, (_, i) => {
-      const size = 8 + Math.random() * 28
+      const size = 12 + Math.random() * 48
       const left = Math.random() * 100
-      const duration = 9 + Math.random() * 9
-      const delay = Math.random() * -18
-      const opacity = 0.15 + Math.random() * 0.35
+      const duration = 11 + Math.random() * 11
+      const delay = Math.random() * -22
+      const opacity = 0.25 + Math.random() * 0.45
       return { i, size, left, duration, delay, opacity }
     })
   }, [count])
@@ -31,13 +34,13 @@ export function BubblesBackground({ count = 18 }: { count?: number }) {
           className="absolute rounded-full animate-bubble"
           style={{
             left: `${b.left}%`,
-            bottom: "-40px",
+            bottom: "-60px",
             width: `${b.size}px`,
             height: `${b.size}px`,
             background:
-              "radial-gradient(circle at 30% 30%, rgba(0,245,212,0.45) 0%, rgba(0,180,216,0.18) 60%, rgba(0,180,216,0.05) 100%)",
-            border: "1px solid rgba(0, 245, 212, 0.35)",
-            boxShadow: `0 0 ${b.size / 2}px rgba(0, 245, 212, 0.35)`,
+              "radial-gradient(circle at 30% 28%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.55) 18%, rgba(0,229,255,0.35) 55%, rgba(30,91,255,0.15) 100%)",
+            border: "1px solid rgba(255, 255, 255, 0.6)",
+            boxShadow: `inset -2px -3px 6px rgba(30,91,255,0.18), inset 2px 2px 4px rgba(255,255,255,0.6), 0 0 ${b.size / 1.8}px rgba(0, 229, 255, 0.45)`,
             opacity: b.opacity,
             animationDuration: `${b.duration}s`,
             animationDelay: `${b.delay}s`,

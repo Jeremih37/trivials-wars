@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import { useEffect } from "react"
 import {
   CATEGORIES,
   DIFFICULTIES,
@@ -27,6 +28,8 @@ import {
   Check,
   Heart,
   Flame,
+  Clock,
+  Target,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -34,7 +37,7 @@ import { cn } from "@/lib/utils"
  * HomeScreen V3.0 — Panel de Configuración Compacto (UI Acoplable)
  * GDD V3.0: matriz de selector en una sola vista compacta
  *   - Fila 1: Categorías en pastillas "Pills"
- *   - Fila 2: Segmented Control (Fácil | Normal | Difícil | Muerte Súbita)
+ *   - Fila 2: Segmented Control (Fácil | Normal | Difícil | Experto)
  *   - Fila 3: Botones circulares compactos (5, 10, 20, 50)
  *             En Muerte Súbita: bloqueado en "Infinitas / Hasta fallar"
  */
@@ -65,6 +68,16 @@ export function HomeScreen() {
   const isSurvival = selectedMode === "survival"
   const isClassic = selectedMode === "classic"
   const isEndless = isSurvival || isSuddenDeath
+
+  // ===== FIX BUG "MUERTE ABISAL NO FUNCIONA" =====
+  // Cuando el usuario entra en Survival o SuddenDeath, el selector de dificultad
+  // se oculta, pero la API /api/game/start requiere `difficulty`. Auto-asignamos
+  // "Medio" (es ignorada por el backend en modos endless, pero pasa la validación).
+  useEffect(() => {
+    if ((isSurvival || isSuddenDeath) && !selectedDifficulty) {
+      setDifficulty("Medio" as DifficultyId)
+    }
+  }, [isSurvival, isSuddenDeath, selectedDifficulty, setDifficulty])
 
   const handleStart = () => {
     if (!hasSelection || !selectedDifficulty) return
@@ -100,7 +113,7 @@ export function HomeScreen() {
 
   return (
     <div className="relative min-h-screen flex flex-col">
-      <BubblesBackground count={14} />
+      <BubblesBackground count={22} />
 
       {/* Header */}
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/60 border-b border-cyan-200/50">
@@ -111,7 +124,7 @@ export function HomeScreen() {
           >
             <ChevronLeft className="w-4 h-4" /> Volver
           </button>
-          <h1 className="text-base font-black tracking-tight bg-gradient-to-r from-sky-500 via-emerald-500 to-sky-600 bg-clip-text text-transparent">
+          <h1 className="text-base font-black tracking-tight bg-gradient-to-r from-blue-600 via-emerald-500 to-cyan-500 bg-clip-text text-transparent">
             PREPARADO PARA JUGAR
           </h1>
           <div className="flex items-center gap-2">
@@ -133,7 +146,7 @@ export function HomeScreen() {
           {/* Fila 0: Modo (selector de modo de juego) */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-sky-400 to-emerald-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">1</span>
+              <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-500 to-emerald-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">1</span>
               <h3 className="font-black text-sm sm:text-base text-sky-900">Modo de Juego</h3>
             </div>
             <div className="grid grid-cols-3 gap-2">
@@ -168,7 +181,7 @@ export function HomeScreen() {
                         </span>
                       )}
                     </div>
-                    <div className="text-[11px] font-black uppercase tracking-wide" style={{ color: isSelected ? m.color : "#0369a1" }}>
+                    <div className="text-[11px] font-black uppercase tracking-wide" style={{ color: isSelected ? m.color : "#0A2472" }}>
                       {m.name}
                     </div>
                     <div className="text-[9px] text-sky-700/70 mt-0.5 leading-tight">
@@ -184,7 +197,7 @@ export function HomeScreen() {
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-sky-400 to-emerald-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">2</span>
+                <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-500 to-emerald-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">2</span>
                 <h3 className="font-black text-sm sm:text-base text-sky-900">Categorías</h3>
               </div>
               <span className="text-[10px] text-sky-700/70">
@@ -225,17 +238,16 @@ export function HomeScreen() {
             </div>
           </div>
 
-          {/* Fila 2: Dificultad — Segmented Control (Fácil | Normal | Difícil | Muerte Súbita)
-              NOTA: En el GDD V3.0 el segmented control incluye Muerte Súbita.
-              Aquí lo usamos como selector de dificultad para classic; el modo Muerte Súbita
-              se selecciona arriba (Fila 0) por compatibilidad con la lógica existente. */}
+          {/* Fila 2: Dificultad — Cards grandes con icono + descripción
+              En modos endless (survival / sudden death) la dificultad es fija
+              y se oculta el selector para simplificar la interfaz. */}
           {isClassic && (
             <div className="space-y-2">
               <div className="flex items-center gap-2">
-                <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-sky-400 to-emerald-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">3</span>
+                <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-500 to-emerald-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">3</span>
                 <h3 className="font-black text-sm sm:text-base text-sky-900">Dificultad</h3>
               </div>
-              <div className="grid grid-cols-4 gap-1 rounded-2xl bg-white/50 border border-cyan-200/50 p-1">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {DIFFICULTIES.map((d) => {
                   const isSelected = selectedDifficulty === d.id
                   return (
@@ -243,10 +255,47 @@ export function HomeScreen() {
                       key={d.id}
                       onClick={() => { sfx.waterDrop(); setDifficulty(d.id as DifficultyId) }}
                       data-selected={isSelected}
-                      className="segmented-option rounded-xl py-2 px-1 text-center"
+                      className={cn(
+                        "relative overflow-hidden rounded-2xl border p-3 text-left transition-all flex flex-col gap-1.5",
+                        isSelected
+                          ? "scale-[1.03] border-transparent"
+                          : "border-cyan-200/60 bg-white/60 hover:bg-white/95 hover:border-sky-400/60"
+                      )}
+                      style={
+                        isSelected
+                          ? {
+                              background: `linear-gradient(135deg, ${d.color}26, ${d.color}08)`,
+                              borderColor: d.color,
+                              boxShadow: `0 4px 16px ${d.color}45, inset 0 1px 0 rgba(255,255,255,0.7)`,
+                            }
+                          : undefined
+                      }
                     >
-                      <div className="text-[11px] font-black uppercase tracking-wide">{d.name}</div>
-                      <div className="text-[9px] opacity-70">{d.time}s · ×{d.multiplier}</div>
+                      <div className="flex items-center justify-between">
+                        <div
+                          className="w-8 h-8 rounded-xl flex items-center justify-center"
+                          style={{
+                            background: `${d.color}22`,
+                            border: `1.5px solid ${d.color}`,
+                          }}
+                        >
+                          <Target className="w-4 h-4" style={{ color: d.color }} />
+                        </div>
+                        {isSelected && (
+                          <span className="w-5 h-5 rounded-full flex items-center justify-center" style={{ background: d.color }}>
+                            <Check className="w-3 h-3 text-white" />
+                          </span>
+                        )}
+                      </div>
+                      <div className="text-sm font-black" style={{ color: isSelected ? d.color : "#0A2472" }}>
+                        {d.name}
+                      </div>
+                      <div className="flex items-center gap-1 text-[10px] text-sky-700/80">
+                        <Clock className="w-3 h-3" />
+                        <span>{d.time}s</span>
+                        <span className="opacity-50">·</span>
+                        <span className="font-bold" style={{ color: d.color }}>×{d.multiplier}</span>
+                      </div>
                     </button>
                   )
                 })}
@@ -258,7 +307,7 @@ export function HomeScreen() {
               Si es Muerte Súbita: bloqueado en "Infinitas / Hasta fallar" */}
           <div className="space-y-2">
             <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-sky-400 to-emerald-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">
+              <span className="w-6 h-6 rounded-lg bg-gradient-to-br from-blue-500 to-emerald-400 text-white text-[10px] font-black flex items-center justify-center shrink-0">
                 {isClassic ? "4" : "3"}
               </span>
               <h3 className="font-black text-sm sm:text-base text-sky-900">
@@ -399,7 +448,7 @@ export function HomeScreen() {
               icon={<Flame className="w-4 h-4" />}
               label={isMix ? "Categorías" : "Categoría"}
               value={selectedCount === 0 ? "—" : isMix ? `${selectedCount} mixtas` : (CATEGORIES.find((c) => c.id === selectedCategories[0])?.name ?? "—")}
-              color={selectedCount > 0 ? "#4ADE80" : undefined}
+              color={selectedCount > 0 ? "#4CAF50" : undefined}
             />
             {isClassic && (
               <>
@@ -422,7 +471,7 @@ export function HomeScreen() {
                 icon={<Skull className="w-4 h-4" />}
                 label="Duración"
                 value="∞ hasta fallar"
-                color={isSuddenDeath ? "#fbbf24" : "#fb7185"}
+                color={isSuddenDeath ? "#fbbf24" : "#FF4D6D"}
               />
             )}
           </div>
