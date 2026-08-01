@@ -236,3 +236,48 @@ Stage Summary:
 - Sistema de cursores pointer/default aplicado globalmente
 - BD Neon sincronizada con campos nuevos (suddenDeathBestCorrect, etc.)
 - Build de producción exitoso, listo para deploy a Vercel
+
+---
+Task ID: paleta-imagen-usuario-fix-abisal
+Agent: main
+Task: Aplicar paleta exacta de la imagen del usuario + fix botón Muerte Abisal
+
+Work Log:
+- Leí el PDF original (Aquatic Ambience V1.0) y el PDF V3.0 (Frutiger Aero Brillante)
+- Extraí la paleta de la imagen del usuario (pasted_image_1785623749937.png):
+  * Azul profundo vibrante #1046AA (color primario)
+  * Verde lima intenso #4E9215 (acento)
+  * Blanco puro #FBFFFE (superficies)
+- Identifiqué que el código anterior usaba una paleta DIFERENTE:
+  * #1E5BFF (azul cielo pastel) en lugar de #1046AA (azul profundo)
+  * #4CAF50 (verde pastel) en lugar de #4E9215 (verde lima)
+  * #00E5FF (cian) en lugar de derivados del azul profundo
+- Reescribí globals.css completamente con la paleta de la imagen:
+  * Variables --color-image-* nuevas + compatibilidad legacy
+  * Body: degradado vertical azul profundo → azul claro → blanco
+  * Crystal bubble principal: verde lima → azul profundo
+  * Text gradient neon: azul profundo → verde lima
+  * Pills, segmented, circular count: gradiente verde lima → azul profundo
+  * Glass utilities: cristal blanco con sombra azul profundo
+  * Glow utilities: tinte verde lima (bioluminiscente)
+- Fix botón Muerte Abisal/Súbita en home-screen.tsx:
+  * Antes: el botón CTA quedaba deshabilitado si el usuario no elegía categoría
+  * Ahora: auto-selecciona Mix Total (16 categorías) al entrar en home screen
+  * También: auto-asigna dificultad 'Medio' en modos endless (survival/suddendeath)
+  * Resultado: el usuario puede hacer clic inmediatamente en COMENZAR ABISMO
+- Actualicé todos los componentes a la nueva paleta:
+  * welcome-screen, game-screen, results-screen, lootbox-screen, profile-screen
+  * login-screen, wisdom-capsule, audio-toggle, bubbles-background
+  * Reemplazos masivos: text-sky-* → text-blue-*, border-cyan-* → border-blue-*
+  * Preservados: amber/rose para survival/sudden death (semántica de alerta)
+- Verifiqué TypeScript: 0 errores
+- Verifiqué Next.js build: success (6.9s, 13 rutas)
+- Commit 2d2354f + push a GitHub exitoso
+- Vercel deploy verificado: HTTP 200 en / y /api/health
+
+Stage Summary:
+- ✅ Paleta de la imagen del usuario aplicada EXACTAMENTE: #1046AA + #4E9215 + #FBFFFE
+- ✅ Botón Muerte Abisal/Súbita funcional: auto-selecciona Mix Total + dificultad Medio
+- ✅ Todos los componentes actualizados a la nueva paleta consistentemente
+- ✅ Cambios deployed en Vercel (auto-deploy desde main)
+- 🎯 Próximo paso del usuario: probar la app en https://trivials-wars.vercel.app
