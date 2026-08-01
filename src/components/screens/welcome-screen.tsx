@@ -428,7 +428,7 @@ export function WelcomeScreen() {
 
           {/* ====== COLUMNA DERECHA — Datos curiosos + Wisdom ====== */}
           <div className="space-y-5">
-            {/* Carrusel de datos curiosos */}
+            {/* Carrusel de datos curiosos — ocupa toda la columna derecha */}
             <motion.section
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -545,17 +545,20 @@ export function WelcomeScreen() {
                 </div>
               </div>
             </motion.section>
-
-            {/* Cápsulas de Sabiduría */}
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
-            >
-              <WisdomCapsule />
-            </motion.section>
           </div>
         </div>
+
+        {/* ============================================================
+            CÁPSULAS DE SABIDURÍA — Bloque ancho abajo, bien organizado
+            ============================================================ */}
+        <motion.section
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="mt-5 lg:mt-6"
+        >
+          <WisdomCapsule />
+        </motion.section>
       </main>
 
       <footer className="relative z-10 mt-auto text-center text-xs text-[#8090C0] py-4">

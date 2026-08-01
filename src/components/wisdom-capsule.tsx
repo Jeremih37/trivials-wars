@@ -257,7 +257,7 @@ const WISDOM_CAPSULES: WisdomCapsule[] = [
 const TYPE_META = {
   cientifico: { label: "Científico", color: "#00E5FF", emoji: "🔬" },
   poeta: { label: "Poeta / Escritor", color: "#FFEA00", emoji: "📖" },
-  dato: { label: "Dato Curioso", color: "#10b981", emoji: "✨" },
+  dato: { label: "Dato Curioso", color: "#39FF14", emoji: "✨" },
 } as const
 
 /**
@@ -281,26 +281,27 @@ export function WisdomCapsule() {
   const meta = TYPE_META[capsule.type]
 
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-between">
+    <div className="space-y-2.5">
+      {/* Header compacto */}
+      <div className="flex items-center justify-between px-1">
         <div className="flex items-center gap-2">
           <div
-            className="w-8 h-8 rounded-xl flex items-center justify-center animate-sparkle"
+            className="w-7 h-7 rounded-lg flex items-center justify-center animate-sparkle"
             style={{
               background: `linear-gradient(135deg, ${meta.color}30, ${meta.color}10)`,
               border: `1px solid ${meta.color}50`,
-              boxShadow: `0 0 16px ${meta.color}40`,
+              boxShadow: `0 0 12px ${meta.color}40`,
             }}
           >
-            <Sparkles className="w-4 h-4" style={{ color: meta.color }} />
+            <Sparkles className="w-3.5 h-3.5" style={{ color: meta.color }} />
           </div>
-          <div>
-            <h3 className="font-black text-base sm:text-lg">Cápsulas de Sabiduría</h3>
-            <p className="text-xs text-muted-foreground">Enfocá tu mente antes de jugar</p>
+          <div className="flex items-baseline gap-2">
+            <h3 className="font-fancy italic font-bold text-base sm:text-lg text-[#F0F4FF]">Cápsulas de Sabiduría</h3>
+            <span className="text-[10px] text-[#8090C0] italic font-script hidden sm:inline">Enfocá tu mente antes de jugar</span>
           </div>
         </div>
         <span
-          className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 rounded-full"
+          className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
           style={{
             background: `${meta.color}20`,
             color: meta.color,
@@ -314,75 +315,80 @@ export function WisdomCapsule() {
       <AnimatePresence mode="wait">
         <motion.div
           key={capsule.id}
-          initial={{ opacity: 0, y: 8 }}
+          initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -8 }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
-          className="relative overflow-hidden rounded-3xl glass-wisdom p-5 sm:p-6"
+          exit={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.35, ease: "easeOut" }}
+          className="relative overflow-hidden rounded-3xl glass-wisdom p-4 sm:p-5"
         >
           {/* Quote icon decorativo */}
           <Quote
-            className="absolute top-3 left-3 w-10 h-10 opacity-15"
+            className="absolute top-2 left-2 w-8 h-8 opacity-20"
             style={{ color: meta.color }}
           />
 
-          <div className="relative">
-            <p className="text-base sm:text-lg leading-relaxed font-medium italic">
-              &ldquo;{capsule.text}&rdquo;
-            </p>
-
-            {capsule.author && (
-              <div className="mt-3 flex items-center gap-2">
-                <div className="h-px flex-1 max-w-[24px]" style={{ background: `${meta.color}80` }} />
-                <span
-                  className="text-sm font-bold uppercase tracking-wider"
-                  style={{ color: meta.color }}
-                >
-                  {capsule.author}
-                </span>
-              </div>
-            )}
-
-            {capsule.context && !capsule.author && (
-              <p className="mt-3 text-xs text-muted-foreground italic">
-                {capsule.context}
+          <div className="relative grid sm:grid-cols-[1fr_auto] gap-4 items-center">
+            {/* Texto principal */}
+            <div className="min-w-0">
+              <p className="text-sm sm:text-base leading-relaxed font-medium italic font-script text-[#F0F4FF]">
+                &ldquo;{capsule.text}&rdquo;
               </p>
-            )}
-            {capsule.context && capsule.author && (
-              <p className="mt-1 text-[11px] text-muted-foreground/80">
-                {capsule.context}
-              </p>
-            )}
-          </div>
 
-          {/* Botón "Siguiente Sabiduría" */}
-          <button
-            onClick={next}
-            className="mt-4 w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 border"
-            style={{
-              background: `${meta.color}15`,
-              color: meta.color,
-              borderColor: `${meta.color}40`,
-            }}
-          >
-            Siguiente Sabiduría
-            <ChevronRight className="w-3.5 h-3.5" />
-          </button>
+              {capsule.author && (
+                <div className="mt-2 flex items-center gap-2">
+                  <div className="h-px flex-1 max-w-[20px]" style={{ background: `${meta.color}80` }} />
+                  <span
+                    className="text-xs font-bold uppercase tracking-wider"
+                    style={{ color: meta.color }}
+                  >
+                    {capsule.author}
+                  </span>
+                  {capsule.context && (
+                    <span className="text-[10px] text-[#8090C0] italic hidden sm:inline">
+                      · {capsule.context}
+                    </span>
+                  )}
+                </div>
+              )}
 
-          {/* Indicadores */}
-          <div className="mt-3 flex items-center justify-center gap-1.5">
-            {WISDOM_CAPSULES.map((c, i) => (
+              {!capsule.author && capsule.context && (
+                <p className="mt-1.5 text-[11px] text-[#8090C0] italic">
+                  {capsule.context}
+                </p>
+              )}
+            </div>
+
+            {/* Controles laterales compactos */}
+            <div className="flex sm:flex-col items-center justify-between sm:justify-center gap-2 sm:gap-2.5 sm:border-l sm:border-[#8090C0]/20 sm:pl-4">
               <button
-                key={c.id}
-                onClick={() => setIdx(i)}
-                className="h-1 rounded-full transition-all"
+                onClick={next}
+                className="px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 border hover:scale-[1.04]"
                 style={{
-                  width: i === idx ? 16 : 4,
-                  background: i === idx ? meta.color : "rgba(125, 211, 252, 0.3)",
+                  background: `${meta.color}15`,
+                  color: meta.color,
+                  borderColor: `${meta.color}40`,
                 }}
-                aria-label={`Ver cápsula ${i + 1}`}
-              />
-            ))}
+              >
+                Siguiente
+                <ChevronRight className="w-3 h-3" />
+              </button>
+
+              {/* Indicadores */}
+              <div className="flex sm:flex-col items-center gap-1">
+                {WISDOM_CAPSULES.map((c, i) => (
+                  <button
+                    key={c.id}
+                    onClick={() => setIdx(i)}
+                    className="h-1 rounded-full transition-all"
+                    style={{
+                      width: i === idx ? 14 : 4,
+                      background: i === idx ? meta.color : "rgba(128, 144, 192, 0.30)",
+                    }}
+                    aria-label={`Ver cápsula ${i + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </motion.div>
       </AnimatePresence>
