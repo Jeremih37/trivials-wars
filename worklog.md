@@ -359,3 +359,58 @@ Stage Summary:
 - ✅ Widget pequeño de YouTube en esquina inferior derecha (expandible al hover)
 - ✅ Build exitoso y deploy a Vercel confirmado
 - 🎯 Próximo paso: probar la app en https://trivials-wars.vercel.app
+
+---
+Task ID: paleta-calida-burbujas-pop-cta-chico
+Agent: main
+Task: Feedback usuario - interfaz muy pegada, botón abajo chico, no lista sino pops bonitas, muy blanco daña vista
+
+Work Log:
+- Analicé imagen enviada por usuario (pasted_image_1785625398995.png) - era screenshot del estado actual
+- Identifiqué 4 problemas concretos:
+  1. Interfaz muy pegada (poco aire entre secciones)
+  2. CTA gigante en el medio (debería estar abajo y más chico)
+  3. Parece lista (quiere burbujas tipo "pop" bonitas)
+  4. Fondos muy blancos (daña la vista)
+- Cambios en paleta (globals.css):
+  * Fondo principal: #FAF7F1 (crema casi blanco) → #EFE7D4 (arena cálida)
+  * Gradiente de fondo: ahora termina en #D9CFB8 (arena media)
+  * Cards: rgba(255,252,247,*) (blanco) → rgba(245,235,215,*) (arena tibia)
+  * Texto principal: #2F3A4A → #2A3340 (más contraste sobre fondo arenoso)
+  * Primario: #6E82A0 → #5C6E8A (más profundo)
+  * Acento: #8AA088 → #718C6F (salvia más oscuro)
+  * Amber suave: #D9A85E → #C99A50 (más apagado)
+  * Rose suave: #C98492 → #B57482 (más apagado)
+- Nuevas utilidades CSS:
+  * bubble-pop: tarjeta burbuja con gradiente arena, sombra suave, hover lift -2px
+  * bubble-pop-selected: variante con gradiente salvia→azul, texto crema
+  * sticky-cta-bottom: contenedor para CTA chico pegado al fondo (max 320px)
+  * glass, glass-strong, glass-frutiger, glass-wisdom: tonos arena (no blanco)
+  * pill-selector, circular-count: fondos arena cálida
+- Home-screen rediseñado completamente:
+  * Layout: cada selector es una burbuja independiente (no lista continua)
+  * Sección 1 (Modo): 3 burbujas grandes con icono 3xl centrado
+  * Sección 2 (Categorías): burbuja ancha 'Mix Total' destacada + pills centradas debajo
+  * Sección 3 (Dificultad): 4 burbujas con icono Target + nombre + tiempo/multiplicador
+  * Sección 4 (Cantidad): 4 burbujas circulares con número grande
+  * Espaciado: space-y-10 entre secciones (era space-y-7)
+  * Padding inferior pb-32 para que el CTA no tape contenido
+  * Resumen: 4 burbujas pequeñas en grid (no tarjetas largas)
+  * CTA: píldora chiquita flotante abajo (max 320px, padding 12x32, font-fancy italic)
+- Migración masiva V5 en 8 componentes (script migrate-warm-sand.py):
+  * bg-white/* → bg-[#F2ECDD]/* (arena cálida)
+  * text-slate-* → text-[#2A3340/#4E5A6C/#7A8492]
+  * border-slate-* → border-[#BFB39A/#7A8492]
+  * amber/rose/emerald suaves conservados como acentos semánticos
+- TypeScript: 0 errores
+- Next.js build: success
+- Commit ce73748 + push a GitHub exitoso
+- Vercel deploy verificado: HTTP 200 en / y /api/health
+
+Stage Summary:
+- ✅ Fondo menos blanco: arena cálida #EFE7D4 → #D9CFB8
+- ✅ Tarjetas tipo 'pop' (bubble-pop utility) en lugar de lista
+- ✅ CTA chico pegado al fondo (sticky-cta-bottom, max 320px)
+- ✅ Más respiración entre secciones (space-y-10)
+- ✅ Build exitoso y deploy a Vercel
+- 🎯 Próximo paso: probar la app en https://trivials-wars.vercel.app
