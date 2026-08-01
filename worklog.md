@@ -118,3 +118,48 @@ Stage Summary:
 - ✅ Todos los API routes devuelven JSON incluso en errores
 - ✅ Frontend maneja bodies vacíos con mensajes útiles
 - 🎯 Próximo paso del usuario: probar la app en https://trivials-wars.vercel.app
+
+---
+Task ID: frutiger-aero-v2
+Agent: main
+Task: Implementar 3 mejoras del Propuesta_Rediseno_FrutigerAero.pdf (Frutiger Aero, multi-select categorías, Wisdom Capsules)
+
+Work Log:
+- Leí PDF Propuesta_Rediseno_FrutigerAero.pdf (2 páginas, GDD V2)
+- 3 mejoras solicitadas: (1) rediseño Frutiger Aero en pantalla Preparado para Jugar, (2) eliminar selector de tiempo + multi-select categorías, (3) cápsulas de sabiduría en pantalla de inicio
+
+Mejora 1 — Frutiger Aero UI:
+- Agregué al globals.css: aqua-sky-bg (gradiente animado), crystal-bubble + crystal-bubble-coral (botones 3D glossy con inner shine), glass-frutiger (tarjetas translúcidas con borde neón), cta-pulse animation, glass-wisdom, sparkle-rotate, fade-in-up
+- Rediseñé home-screen.tsx: botón CTA ahora es "Crystal Bubble" con efecto 3D glossy, tarjetas usan glass-frutiger con inner highlight, agregué BubblesBackground en pantalla home
+
+Mejora 2 — Multi-select categorías:
+- Agregué selectedCategories[] al store (zustand) con toggleCategory() y setCategories()
+- Rediseñé la sección de categorías: ahora es multi-select (toca para activar/desactivar cada una)
+- "Mix Total" button: activa/desactiva todas las 16 categorías de una vez
+- Backend /api/game/start: acepta categories[] además de category, usa category: { in: [...] } de Prisma
+- Bug corregido: isMix era true cuando >1 categoría seleccionada, ignorando el filtro. Ahora distingue isMixTotal (sin categorías específicas) de multi-categoría (varias específicas)
+- ELIMINÉ el Paso 5 (selector de tiempo). La dificultad define el tiempo (Fácil=30s, Medio=20s, etc.)
+- Verificado en Vercel: Ciencia+Oceano → solo preguntas de esas 2 categorías
+
+Mejora 3 — Cápsulas de Sabiduría:
+- Creé src/components/wisdom-capsule.tsx con 17 cápsulas (6 científicos + 5 poetas/escritores + 6 datos curiosos)
+- Científicos: Einstein, Sagan, Curie, Feynman, Hawking, Asimov
+- Poetas: Borges, Whitman, Paz, Nietzsche, Saint-Exupéry
+- Datos: neuroplasticidad, corazón, sol, microorganismos, ADN, pulpos
+- Widget: frase aleatoria al cargar, botón "Siguiente Sabiduría" con transición fade-in, indicadores para saltar
+- Glass-wisdom card con icono sparkle rotatorio
+- Integrado en welcome-screen entre el saludo y el carrusel de datos curiosos
+
+Verificación:
+- TypeScript: 0 errores
+- Build local: success, 12 rutas
+- Vercel deploy: 200 OK en /, /api/health, /api/auth/login, /api/game/start
+- Multi-categoría funciona correctamente (Ciencia+Oceano → solo esas 2)
+- Survival mode intacto (30 preguntas, 3 vidas, 15s)
+
+Stage Summary:
+- ✅ 3 mejoras del GDD V2 implementadas y deployadas
+- ✅ Frutiger Aero: Crystal Bubble + glassmorphism + burbujas
+- ✅ Multi-select categorías + eliminación de selector de tiempo
+- ✅ Cápsulas de Sabiduría (17 frases, fade-in, indicadores)
+- 🎯 Próximo paso del usuario: probar la app en https://trivials-wars.vercel.app
