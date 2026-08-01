@@ -403,3 +403,172 @@
   pointer-events: none;
   animation: float-slow 6s ease-in-out infinite;
 }
+
+/* ============================================================
+   Frutiger Aero enhancements — Crystal Bubble, Aqua gradient
+   ============================================================ */
+
+/* Aqua-Sky animated gradient background — deep blue → cyan → mint */
+@keyframes aqua-sky-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.aqua-sky-bg {
+  background: linear-gradient(135deg, #070f1e 0%, #0d2a45 25%, #00b4d8 55%, #00f5d4 80%, #52b788 100%);
+  background-size: 400% 400%;
+  animation: aqua-sky-flow 16s ease-in-out infinite;
+}
+
+/* Crystal Bubble button — 3D glossy aqua button with inner shine */
+@utility crystal-bubble {
+  position: relative;
+  background: linear-gradient(180deg, rgba(0, 245, 212, 0.95) 0%, rgba(0, 180, 216, 0.95) 50%, rgba(13, 80, 120, 0.95) 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.55),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+    0 8px 20px rgba(0, 180, 216, 0.55),
+    0 0 35px rgba(0, 245, 212, 0.5);
+  overflow: hidden;
+}
+.crystal-bubble::before {
+  content: "";
+  position: absolute;
+  top: 8%;
+  left: 12%;
+  right: 12%;
+  height: 38%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.15) 100%);
+  border-radius: 999px;
+  filter: blur(2px);
+  pointer-events: none;
+}
+.crystal-bubble:hover {
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.65),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+    0 12px 28px rgba(0, 180, 216, 0.75),
+    0 0 50px rgba(0, 245, 212, 0.85);
+}
+.crystal-bubble:active {
+  transform: scale(0.985);
+}
+
+/* Crystal Bubble variant — coralline red for survival */
+@utility crystal-bubble-coral {
+  position: relative;
+  background: linear-gradient(180deg, rgba(255, 138, 168, 0.95) 0%, rgba(255, 77, 109, 0.95) 50%, rgba(120, 20, 50, 0.95) 100%);
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.55),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.3),
+    0 8px 20px rgba(255, 77, 109, 0.55),
+    0 0 35px rgba(255, 77, 109, 0.5);
+  overflow: hidden;
+}
+.crystal-bubble-coral::before {
+  content: "";
+  position: absolute;
+  top: 8%;
+  left: 12%;
+  right: 12%;
+  height: 38%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.15) 100%);
+  border-radius: 999px;
+  filter: blur(2px);
+  pointer-events: none;
+}
+.crystal-bubble-coral:hover {
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.65),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.3),
+    0 12px 28px rgba(255, 77, 109, 0.75),
+    0 0 50px rgba(255, 77, 109, 0.85);
+}
+.crystal-bubble-coral:active {
+  transform: scale(0.985);
+}
+
+/* Floating light bubbles for Frutiger Aero background */
+@keyframes frutiger-bubble {
+  0% { transform: translate(0, 100vh) scale(0.4); opacity: 0; }
+  10% { opacity: 0.55; }
+  50% { transform: translate(20px, 50vh) scale(0.9); opacity: 0.7; }
+  90% { opacity: 0.3; }
+  100% { transform: translate(-20px, -10vh) scale(1.2); opacity: 0; }
+}
+
+.frutiger-bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.85) 0%, rgba(0, 245, 212, 0.4) 50%, rgba(0, 180, 216, 0.15) 100%);
+  box-shadow:
+    inset 0 0 10px rgba(255, 255, 255, 0.5),
+    0 0 18px rgba(0, 245, 212, 0.45);
+  pointer-events: none;
+  animation: frutiger-bubble 14s ease-in infinite;
+}
+
+/* Glass card with stronger Frutiger Aero feel — translucent + glossy border */
+@utility glass-frutiger {
+  background: linear-gradient(135deg, rgba(13, 27, 42, 0.55) 0%, rgba(0, 60, 90, 0.4) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1.5px solid rgba(0, 245, 212, 0.35);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 8px 32px rgba(0, 180, 216, 0.25),
+    0 0 50px rgba(0, 245, 212, 0.18);
+}
+
+/* Soft pulse glow for primary CTA — gentle breathe */
+@keyframes cta-pulse {
+  0%, 100% {
+    box-shadow:
+      inset 0 2px 4px rgba(255, 255, 255, 0.55),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+      0 8px 20px rgba(0, 180, 216, 0.55),
+      0 0 35px rgba(0, 245, 212, 0.5);
+  }
+  50% {
+    box-shadow:
+      inset 0 2px 4px rgba(255, 255, 255, 0.65),
+      inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+      0 12px 28px rgba(0, 180, 216, 0.75),
+      0 0 55px rgba(0, 245, 212, 0.8);
+  }
+}
+.animate-cta-pulse {
+  animation: cta-pulse 2.4s ease-in-out infinite;
+}
+
+/* Wisdom card glass — slightly more ethereal */
+@utility glass-wisdom {
+  background: linear-gradient(135deg, rgba(13, 27, 42, 0.6) 0%, rgba(0, 50, 80, 0.4) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(0, 245, 212, 0.3);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 6px 24px rgba(0, 180, 216, 0.2);
+}
+
+/* Sparkle accent — tiny rotating shine for wisdom icon */
+@keyframes sparkle-rotate {
+  0% { transform: rotate(0deg) scale(1); opacity: 0.8; }
+  50% { transform: rotate(180deg) scale(1.15); opacity: 1; }
+  100% { transform: rotate(360deg) scale(1); opacity: 0.8; }
+}
+.animate-sparkle {
+  animation: sparkle-rotate 4s ease-in-out infinite;
+}
+
+/* Fade-in for wisdom card transitions */
+@keyframes fade-in-up {
+  0% { opacity: 0; transform: translateY(8px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.5s ease-out both;
+}

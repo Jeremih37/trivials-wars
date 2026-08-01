@@ -14,6 +14,7 @@ export const runtime = "nodejs"
 
 interface StartBody {
   category: CategoryId | "mix"
+  categories?: CategoryId[] // multi-select Frutiger Aero GDD V2
   difficulty: DifficultyId
   mode?: GameModeId
   questionCount?: number
@@ -24,13 +25,17 @@ export const POST = apiHandler(async (req: Request) => {
   const body = await safeJson<StartBody>(req)
   const {
     category,
+    categories,
     difficulty,
     mode = "classic",
     questionCount = 10,
     timePreset,
   } = body
 
-  if (!category || !difficulty) {
+  if (!category && (!categories || categories.length === 0)) {
+    return NextResponse.json({ error: "Faltan parámetros" }, { status: 400 })
+  }
+  if (!difficulty) {
     return NextResponse.json({ error: "Faltan parámetros" }, { status: 400 })
   }
 
@@ -39,18 +44,33 @@ export const POST = apiHandler(async (req: Request) => {
     return NextResponse.json({ error: "Dificultad inválida" }, { status: 400 })
   }
 
-  // En modo supervivencia: traer TODAS las preguntas de la categoría (mezclando dificultades)
-  // En modo clásico: solo de la categoría+difficultad solicitada
-  // En "mix": todas las categorías de esa dificultad
-  const isMix = category === "mix"
-  const allQuestions =
+  // ===== Resolución de categorías seleccionadas =====
+  // Multi-select: si viene `categories` (array no vacío), usarlo.
+  // Si no, fallback al `category` simple ("mix" o una sola).
+  let selectedCategoryIds: CategoryId[]
+  let categoryLabel: string // lo que se guarda en la sesión
+  if (categories && categories.length > 0) {
+    selectedCategoryIds = categories
+    categoryLabel = categories.length === 1 ? categories[0] : "mix"
+  } else if (category === "mix") {
+    selectedCategoryIds = []
+    categoryLabel = "mix"
+  } else if (category) {
+    selectedCategoryIds = [category]
+    categoryLabel = category
+  } else {
+    return NextResponse.json({ error: "Faltan parámetros" }, { status: 400 })
+  }
+  const isMix = selectedCategoryIds.length === 0 || selectedCategoryIds.length > 1
+
+  // En modo supervivencia: traer TODAS las preguntas (de las categorías seleccionadas o todas si mix)
+  // En modo clásico: solo de las categorías+difficultad solicitada
+  const whereClause =
     mode === "survival"
-      ? isMix
-        ? await db.question.findMany({})
-        : await db.question.findMany({ where: { category } })
-      : isMix
-        ? await db.question.findMany({ where: { difficulty } })
-        : await db.question.findMany({ where: { category, difficulty } })
+      ? (isMix ? {} : { category: { in: selectedCategoryIds } })
+      : (isMix ? { difficulty } : { category: { in: selectedCategoryIds }, difficulty })
+
+  const allQuestions = await db.question.findMany({ where: whereClause })
 
   if (allQuestions.length === 0) {
     return NextResponse.json({ error: "No hay preguntas para esa combinación" }, { status: 404 })
@@ -78,7 +98,7 @@ export const POST = apiHandler(async (req: Request) => {
   const session = await db.gameSession.create({
     data: {
       userId: user.id,
-      category: isMix ? "mix" : category,
+      category: categoryLabel,
       difficulty,
       totalQuestions: mode === "survival" ? 0 : selected.length, // 0 indica sin límite
       correctCount: 0,
@@ -116,7 +136,7 @@ export const POST = apiHandler(async (req: Request) => {
   return NextResponse.json({
     sessionId: session.id,
     difficulty,
-    category: isMix ? "mix" : category,
+    category: categoryLabel,
     mode,
     timePerQuestion,
     xpBase: diff.xpBase,

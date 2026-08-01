@@ -6,7 +6,6 @@ import {
   DIFFICULTIES,
   GAME_MODES,
   QUESTION_COUNTS,
-  TIME_PRESETS,
   type CategoryId,
   type DifficultyId,
   type GameModeId,
@@ -15,61 +14,60 @@ import { useGameStore } from "@/lib/store"
 import { useStartGame, useProfile } from "@/hooks/use-game"
 import { useAudio } from "@/hooks/use-audio"
 import { AudioToggle } from "@/components/audio-toggle"
-import { ChevronLeft, Swords, Zap, Clock, Sparkles, Target, Skull, Shuffle, Crown } from "lucide-react"
+import { BubblesBackground } from "@/components/bubbles-background"
+import { ChevronLeft, Swords, Zap, Sparkles, Target, Skull, Shuffle, Crown, Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export function HomeScreen() {
   const {
     setScreen,
-    setCategory,
+    toggleCategory,
     setDifficulty,
     setMode,
     setQuestionCount,
-    setTimePreset,
-    selectedCategory,
+    selectedCategories,
     selectedDifficulty,
     selectedMode,
     selectedQuestionCount,
-    selectedTimePreset,
     startGame,
   } = useGameStore()
   const startGameMut = useStartGame()
   const { sfx } = useAudio()
   const { data: profile } = useProfile()
 
-  // Mix Aleatorio = special pseudo-category "mix"
-  const isMix = selectedCategory === "mix"
+  // Estado multi-select de categorías
+  const selectedCount = selectedCategories.length
+  const hasSelection = selectedCount > 0
+  const isMix = selectedCount > 1
 
   const handleStart = () => {
-    if (!selectedCategory || !selectedDifficulty) return
+    if (!hasSelection || !selectedDifficulty) return
     sfx.waterDrop()
-    startGameMut.mutate(
-      {
-        category: selectedCategory,
-        difficulty: selectedDifficulty,
-        mode: selectedMode,
-        questionCount: selectedMode === "classic" ? selectedQuestionCount : undefined,
-        timePreset: selectedMode === "classic" ? selectedTimePreset : undefined,
+    // Si hay 1 categoría → enviar como category simple. Si hay varias → enviar categories[].
+    const payload =
+      selectedCount === 1
+        ? { category: selectedCategories[0], difficulty: selectedDifficulty, mode: selectedMode, questionCount: selectedMode === "classic" ? selectedQuestionCount : undefined }
+        : { category: "mix" as CategoryId, categories: selectedCategories, difficulty: selectedDifficulty, mode: selectedMode, questionCount: selectedMode === "classic" ? selectedQuestionCount : undefined }
+    startGameMut.mutate(payload, {
+      onSuccess: (data) => {
+        startGame(data)
       },
-      {
-        onSuccess: (data) => {
-          startGame(data)
-        },
-      }
-    )
+    })
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/60 border-b border-border/40">
+    <div className="relative min-h-screen flex flex-col">
+      <BubblesBackground count={14} />
+
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-background/70 border-b border-border/40">
         <div className="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
           <button
             onClick={() => { sfx.waterDrop(); setScreen("welcome") }}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-card/80 border border-border hover:border-primary/60 transition text-sm font-bold"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl glass border border-border hover:border-primary/60 transition text-sm font-bold"
           >
             <ChevronLeft className="w-4 h-4" /> Volver
           </button>
-          <h1 className="text-base font-black tracking-tight text-gradient-neon">CONFIGURAR PARTIDA</h1>
+          <h1 className="text-base font-black tracking-tight text-gradient-neon">PREPARADO PARA JUGAR</h1>
           <div className="flex items-center gap-2">
             <AudioToggle compact />
             <div className="w-[20px]" />
@@ -77,7 +75,7 @@ export function HomeScreen() {
         </div>
       </header>
 
-      <main className="flex-1 max-w-3xl w-full mx-auto px-4 py-6 space-y-7">
+      <main className="relative z-10 flex-1 max-w-3xl w-full mx-auto px-4 py-6 space-y-7">
         {/* PASO 1: MODO DE JUEGO */}
         <section className="space-y-3">
           <SectionHeader step={1} title="Modo" subtitle="Elegí tu tipo de reto" />
@@ -92,20 +90,20 @@ export function HomeScreen() {
                   transition={{ delay: 0.03 * i }}
                   onClick={() => { sfx.waterDrop(); setMode(m.id as GameModeId) }}
                   className={cn(
-                    "relative overflow-hidden rounded-2xl border p-4 text-left transition-all glass",
-                    isSelected ? "scale-[1.01]" : "border-border/60 hover:bg-card/70 hover:border-border"
+                    "relative overflow-hidden rounded-2xl border p-4 text-left transition-all glass-frutiger",
+                    isSelected ? "scale-[1.01]" : "border-border/60 hover:border-primary/60"
                   )}
-                  style={isSelected ? { boxShadow: `0 0 20px ${m.color}40`, borderColor: m.color, background: `${m.color}12` } : undefined}
+                  style={isSelected ? { boxShadow: `0 0 24px ${m.color}50, inset 0 1px 0 rgba(255,255,255,0.25)`, borderColor: m.color, background: `linear-gradient(135deg, ${m.color}22, ${m.color}08)` } : undefined}
                 >
                   <div className="flex items-center gap-3 mb-1">
-                    <span className="text-3xl">{m.icon}</span>
+                    <span className="text-3xl drop-shadow-lg">{m.icon}</span>
                     <div>
                       <div className="text-base font-black" style={{ color: isSelected ? m.color : undefined }}>{m.name}</div>
                       <div className="text-[10px] text-muted-foreground uppercase tracking-wider">{m.id === "classic" ? "Personalizable" : "Sin límite · 3 vidas"}</div>
                     </div>
                     {isSelected && (
-                      <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-md" style={{ background: m.color, color: "#070F1E" }}>
-                        ✓
+                      <span className="ml-auto text-[10px] font-bold px-2 py-0.5 rounded-md flex items-center justify-center" style={{ background: m.color, color: "#070F1E" }}>
+                        <Check className="w-3 h-3" />
                       </span>
                     )}
                   </div>
@@ -116,20 +114,32 @@ export function HomeScreen() {
           </div>
         </section>
 
-        {/* PASO 2: CATEGORÍA */}
+        {/* PASO 2: CATEGORÍAS (multi-select Frutiger Aero GDD V2) */}
         <section className="space-y-3">
-          <SectionHeader step={2} title="Categoría" subtitle="Elige el campo de batalla" />
+          <SectionHeader
+            step={2}
+            title="Categorías"
+            subtitle={selectedCount === 0 ? "Selecciona una o varias temáticas" : `${selectedCount} ${selectedCount === 1 ? "seleccionada" : "seleccionadas"} · sesión ${isMix ? "mixta" : "única"}`}
+          />
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-            {/* Mix Aleatorio — special */}
+            {/* Mix Aleatorio — selecciona todas */}
             <motion.button
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              onClick={() => { sfx.waterDrop(); setCategory("mix" as CategoryId) }}
+              onClick={() => {
+                sfx.waterDrop()
+                // Toggle: si ya están todas seleccionadas, limpiar; si no, seleccionar todas
+                if (selectedCount === CATEGORIES.length) {
+                  useGameStore.getState().setCategories([])
+                } else {
+                  useGameStore.getState().setCategories(CATEGORIES.map((c) => c.id as CategoryId))
+                }
+              }}
               className={cn(
                 "group relative overflow-hidden rounded-2xl border p-3 text-left transition-all flex items-center gap-3 col-span-2 sm:col-span-3",
-                isMix ? "scale-[1.01] glass-strong" : "border-border/60 bg-card/40 hover:bg-card/70 hover:border-border"
+                selectedCount === CATEGORIES.length ? "glass-frutiger scale-[1.01]" : "border-border/60 bg-card/40 hover:bg-card/70 hover:border-border"
               )}
-              style={isMix ? { boxShadow: `0 0 22px #00F5D440`, borderColor: "#00F5D4", background: "#00F5D410" } : undefined}
+              style={selectedCount === CATEGORIES.length ? { boxShadow: `0 0 24px #00F5D450, inset 0 1px 0 rgba(255,255,255,0.25)`, borderColor: "#00F5D4", background: "linear-gradient(135deg, #00F5D418, #00F5D408)" } : undefined}
             >
               <div
                 className="flex items-center justify-center w-11 h-11 rounded-xl text-2xl shrink-0"
@@ -138,28 +148,28 @@ export function HomeScreen() {
                 <Shuffle className="w-5 h-5" style={{ color: "#00F5D4" }} />
               </div>
               <div className="min-w-0 flex-1">
-                <div className="text-sm font-bold truncate" style={{ color: isMix ? "#00F5D4" : undefined }}>Mix Aleatorio</div>
-                <div className="text-[10px] text-muted-foreground">Todas las categorías mezcladas · 100+ por categoría</div>
+                <div className="text-sm font-bold truncate" style={{ color: selectedCount === CATEGORIES.length ? "#00F5D4" : undefined }}>Mix Total · Todas las categorías</div>
+                <div className="text-[10px] text-muted-foreground">Toca para activar o desactivar todas</div>
               </div>
-              {isMix && (
+              {selectedCount === CATEGORIES.length && (
                 <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md" style={{ background: "#00F5D4", color: "#070F1E" }}>✓</span>
               )}
             </motion.button>
 
             {CATEGORIES.map((cat, i) => {
-              const isSelected = selectedCategory === cat.id
+              const isSelected = selectedCategories.includes(cat.id as CategoryId)
               return (
                 <motion.button
                   key={cat.id}
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.03 * i }}
-                  onClick={() => { sfx.waterDrop(); setCategory(cat.id as CategoryId) }}
+                  onClick={() => { sfx.waterDrop(); toggleCategory(cat.id as CategoryId) }}
                   className={cn(
                     "group relative overflow-hidden rounded-2xl border p-3 text-left transition-all flex items-center gap-3",
-                    isSelected ? "scale-[1.02] glass" : "border-border/60 bg-card/40 hover:bg-card/70 hover:border-border"
+                    isSelected ? "glass-frutiger scale-[1.02]" : "border-border/60 bg-card/40 hover:bg-card/70 hover:border-border"
                   )}
-                  style={isSelected ? { boxShadow: `0 0 20px ${cat.color}40`, borderColor: cat.color, background: `${cat.color}12` } : undefined}
+                  style={isSelected ? { boxShadow: `0 0 22px ${cat.color}45, inset 0 1px 0 rgba(255,255,255,0.2)`, borderColor: cat.color, background: `linear-gradient(135deg, ${cat.color}18, ${cat.color}08)` } : undefined}
                 >
                   <div
                     className="flex items-center justify-center w-11 h-11 rounded-xl text-2xl shrink-0"
@@ -172,7 +182,9 @@ export function HomeScreen() {
                     <div className="text-[10px] text-muted-foreground">100+ preguntas</div>
                   </div>
                   {isSelected && (
-                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md" style={{ background: cat.color, color: "#070F1E" }}>✓</span>
+                    <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md flex items-center justify-center" style={{ background: cat.color, color: "#070F1E" }}>
+                      <Check className="w-3 h-3" />
+                    </span>
                   )}
                 </motion.button>
               )
@@ -196,9 +208,9 @@ export function HomeScreen() {
                     onClick={() => { sfx.waterDrop(); setDifficulty(d.id as DifficultyId) }}
                     className={cn(
                       "relative overflow-hidden rounded-2xl border p-3 text-left transition-all",
-                      isSelected ? "scale-[1.02] glass" : "border-border/60 bg-card/40 hover:bg-card/70"
+                      isSelected ? "scale-[1.02] glass-frutiger" : "border-border/60 bg-card/40 hover:bg-card/70"
                     )}
-                    style={isSelected ? { boxShadow: `0 0 20px ${d.color}40`, borderColor: d.color, background: `${d.color}12` } : undefined}
+                    style={isSelected ? { boxShadow: `0 0 22px ${d.color}45, inset 0 1px 0 rgba(255,255,255,0.2)`, borderColor: d.color, background: `linear-gradient(135deg, ${d.color}18, ${d.color}08)` } : undefined}
                   >
                     <div className="flex items-center gap-1.5 mb-1.5">
                       <span className="w-2 h-2 rounded-full" style={{ background: d.color, boxShadow: `0 0 6px ${d.color}` }} />
@@ -235,43 +247,12 @@ export function HomeScreen() {
                     onClick={() => { sfx.waterDrop(); setQuestionCount(qc.id) }}
                     className={cn(
                       "relative overflow-hidden rounded-2xl border p-3 text-center transition-all",
-                      isSelected ? "scale-[1.05] glass" : "border-border/60 bg-card/40 hover:bg-card/70"
+                      isSelected ? "scale-[1.05] glass-frutiger" : "border-border/60 bg-card/40 hover:bg-card/70"
                     )}
-                    style={isSelected ? { boxShadow: `0 0 20px ${qc.color}40`, borderColor: qc.color, background: `${qc.color}12` } : undefined}
+                    style={isSelected ? { boxShadow: `0 0 22px ${qc.color}45, inset 0 1px 0 rgba(255,255,255,0.2)`, borderColor: qc.color, background: `linear-gradient(135deg, ${qc.color}18, ${qc.color}08)` } : undefined}
                   >
                     <div className="text-2xl font-black" style={{ color: isSelected ? qc.color : undefined }}>{qc.label}</div>
                     <div className="text-[9px] text-muted-foreground uppercase tracking-wider">{qc.desc}</div>
-                  </motion.button>
-                )
-              })}
-            </div>
-          </section>
-        )}
-
-        {/* PASO 5: SELECTOR DE TIEMPO — solo en modo clásico */}
-        {selectedMode === "classic" && (
-          <section className="space-y-3">
-            <SectionHeader step={5} title="Tiempo por pregunta" subtitle="Cuánta presión querés sentir" />
-            <div className="grid grid-cols-3 gap-2">
-              {TIME_PRESETS.map((tp, i) => {
-                const isSelected = selectedTimePreset === tp.id
-                return (
-                  <motion.button
-                    key={tp.id}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.02 * i }}
-                    onClick={() => { sfx.waterDrop(); setTimePreset(tp.id) }}
-                    className={cn(
-                      "relative overflow-hidden rounded-2xl border p-3 text-center transition-all",
-                      isSelected ? "scale-[1.05] glass" : "border-border/60 bg-card/40 hover:bg-card/70"
-                    )}
-                    style={isSelected ? { boxShadow: `0 0 20px ${tp.color}40`, borderColor: tp.color, background: `${tp.color}12` } : undefined}
-                  >
-                    <div className="text-2xl font-black flex items-center justify-center gap-1" style={{ color: isSelected ? tp.color : undefined }}>
-                      {tp.id === 0 ? <Clock className="w-5 h-5" /> : tp.label}
-                    </div>
-                    <div className="text-[9px] text-muted-foreground uppercase tracking-wider">{tp.desc}</div>
                   </motion.button>
                 )
               })}
@@ -314,14 +295,14 @@ export function HomeScreen() {
           </section>
         )}
 
-        {/* RESUMEN + CTA */}
+        {/* RESUMEN + CTA — Frutiger Aero Crystal Bubble */}
         <section className="space-y-3 pb-4">
           <SectionHeader
-            step={selectedMode === "classic" ? 6 : 3}
+            step={selectedMode === "classic" ? 5 : 3}
             title="Resumen"
             subtitle="Verifica tu configuración"
           />
-          <div className={cn("grid gap-2.5", selectedMode === "classic" ? "grid-cols-3 sm:grid-cols-5" : "grid-cols-2")}>
+          <div className={cn("grid gap-2.5", selectedMode === "classic" ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2")}>
             <SummaryCard
               icon={<Sparkles className="w-4 h-4" />}
               label="Modo"
@@ -330,14 +311,14 @@ export function HomeScreen() {
             />
             <SummaryCard
               icon={<Target className="w-4 h-4" />}
-              label="Categoría"
-              value={isMix ? "Mix" : (CATEGORIES.find((c) => c.id === selectedCategory)?.name ?? "—")}
-              color={isMix ? "#00F5D4" : selectedCategory ? CATEGORIES.find((c) => c.id === selectedCategory)?.color : undefined}
+              label={isMix ? "Categorías" : "Categoría"}
+              value={selectedCount === 0 ? "—" : isMix ? `${selectedCount} mixtas` : (CATEGORIES.find((c) => c.id === selectedCategories[0])?.name ?? "—")}
+              color={selectedCount > 0 ? "#00F5D4" : undefined}
             />
             {selectedMode === "classic" && (
               <>
                 <SummaryCard
-                  icon={<Clock className="w-4 h-4" />}
+                  icon={<Zap className="w-4 h-4" />}
                   label="Dificultad"
                   value={selectedDifficulty ? DIFFICULTIES.find((d) => d.id === selectedDifficulty)?.name ?? "—" : "—"}
                   color={selectedDifficulty ? DIFFICULTIES.find((d) => d.id === selectedDifficulty)?.color : undefined}
@@ -348,36 +329,35 @@ export function HomeScreen() {
                   value={selectedQuestionCount.toString()}
                   color="#fbbf24"
                 />
-                <SummaryCard
-                  icon={<Clock className="w-4 h-4" />}
-                  label="Tiempo"
-                  value={selectedTimePreset === 0 ? "∞" : `${selectedTimePreset}s`}
-                  color={TIME_PRESETS.find((t) => t.id === selectedTimePreset)?.color}
-                />
               </>
             )}
           </div>
 
+          {/* Crystal Bubble CTA — Frutiger Aero GDD V2 */}
           <button
             onClick={handleStart}
-            disabled={!selectedCategory || (selectedMode === "classic" && !selectedDifficulty) || startGameMut.isPending}
+            disabled={!hasSelection || (selectedMode === "classic" && !selectedDifficulty) || startGameMut.isPending}
             className={cn(
-              "w-full py-4 rounded-2xl font-black text-base uppercase tracking-widest transition-all flex items-center justify-center gap-2 mt-2",
-              !selectedCategory || (selectedMode === "classic" && !selectedDifficulty) || startGameMut.isPending
+              "w-full py-4 rounded-3xl font-black text-base uppercase tracking-widest transition-all flex items-center justify-center gap-2 mt-3 relative overflow-hidden",
+              !hasSelection || (selectedMode === "classic" && !selectedDifficulty) || startGameMut.isPending
                 ? "bg-muted text-muted-foreground cursor-not-allowed"
                 : selectedMode === "survival"
-                  ? "bg-gradient-to-r from-[#FF4D6D] via-[#ff6b8a] to-[#FF4D6D] text-white hover:scale-[1.01] active:scale-[0.99] glow-coral"
-                  : "bg-gradient-to-r from-[#00F5D4] via-[#00B4D8] to-[#2dd4bf] text-[#070F1E] hover:scale-[1.01] active:scale-[0.99] glow-bioluminescent"
+                  ? "crystal-bubble-coral text-white animate-cta-pulse"
+                  : "crystal-bubble text-[#070F1E] animate-cta-pulse"
             )}
           >
             {startGameMut.isPending ? (
               <>Iniciando…</>
-            ) : !selectedCategory || (selectedMode === "classic" && !selectedDifficulty) ? (
-              "Seleccioná categoría y dificultad"
+            ) : !hasSelection ? (
+              "Seleccioná al menos una categoría"
+            ) : (selectedMode === "classic" && !selectedDifficulty) ? (
+              "Seleccioná una dificultad"
             ) : (
               <>
-                <Swords className="w-5 h-5" />
-                {selectedMode === "survival" ? "¡COMENZAR ABISMO!" : "¡COMENZAR BATALLA!"}
+                <Swords className="w-5 h-5 relative z-10" />
+                <span className="relative z-10">
+                  {selectedMode === "survival" ? "¡COMENZAR ABISMO!" : "¡COMENZAR BATALLA!"}
+                </span>
               </>
             )}
           </button>
@@ -390,7 +370,7 @@ export function HomeScreen() {
 function SectionHeader({ step, title, subtitle }: { step: number; title: string; subtitle: string }) {
   return (
     <div className="flex items-center gap-3">
-      <div className="w-7 h-7 rounded-lg bg-primary/15 border border-primary/40 text-primary text-xs font-bold flex items-center justify-center shrink-0">
+      <div className="w-7 h-7 rounded-xl glass border border-primary/40 text-primary text-xs font-bold flex items-center justify-center shrink-0">
         {step}
       </div>
       <div className="flex-1 min-w-0">
@@ -415,7 +395,7 @@ function SummaryCard({
   return (
     <div
       className={cn(
-        "rounded-2xl border bg-card/50 p-3 transition glass-light",
+        "rounded-2xl border bg-card/50 p-3 transition glass",
         color ? "border-border/60" : "border-dashed border-border/40"
       )}
       style={color ? { borderColor: `${color}50`, boxShadow: `0 0 12px ${color}15` } : undefined}

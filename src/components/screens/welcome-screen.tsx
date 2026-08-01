@@ -6,6 +6,7 @@ import { useGameStore } from "@/lib/store"
 import { useProfile, useUpdateName } from "@/hooks/use-game"
 import { AvatarSvg, buildAvatarFromIds } from "@/components/avatar-svg"
 import { FRAMES_BY_ID } from "@/lib/profile-catalog"
+import { WisdomCapsule } from "@/components/wisdom-capsule"
 import {
   Sparkles,
   Trophy,
@@ -362,6 +363,15 @@ export function WelcomeScreen() {
               </div>
             </div>
           </div>
+        </motion.section>
+
+        {/* Cápsulas de Sabiduría — Frutiger Aero GDD V2 */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+        >
+          <WisdomCapsule />
         </motion.section>
 
         {/* Carrusel de datos curiosos */}

@@ -96,6 +96,7 @@ export function useStartGame() {
   return useMutation({
     mutationFn: async (params: {
       category: CategoryId
+      categories?: CategoryId[]
       difficulty: DifficultyId
       mode?: "classic" | "survival"
       questionCount?: number

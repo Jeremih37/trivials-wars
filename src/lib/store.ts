@@ -29,11 +29,14 @@ interface GameState {
 
   // Setup del juego
   selectedCategory: CategoryId | null
+  selectedCategories: CategoryId[] // multi-select Frutiger Aero GDD V2
   selectedDifficulty: DifficultyId | null
   selectedMode: GameModeId
   selectedQuestionCount: number
-  selectedTimePreset: number // 10, 15 o 0 (sin tiempo)
+  selectedTimePreset: number // 10, 15 o 0 (sin tiempo) — en desuso, se mantiene para compat
   setCategory: (c: CategoryId) => void
+  setCategories: (cs: CategoryId[]) => void
+  toggleCategory: (c: CategoryId) => void
   setDifficulty: (d: DifficultyId) => void
   setMode: (m: GameModeId) => void
   setQuestionCount: (n: number) => void
@@ -109,11 +112,21 @@ export const useGameStore = create<GameState>((set) => ({
   setAuthenticated: (v) => set({ isAuthenticated: v }),
 
   selectedCategory: null,
+  selectedCategories: [],
   selectedDifficulty: null,
   selectedMode: "classic",
   selectedQuestionCount: 10,
   selectedTimePreset: 15,
-  setCategory: (c) => set({ selectedCategory: c }),
+  setCategory: (c) => set({ selectedCategory: c, selectedCategories: [c] }),
+  setCategories: (cs) => set({ selectedCategories: cs, selectedCategory: cs.length === 1 ? cs[0] : (cs.length === 0 ? null : "mix") }),
+  toggleCategory: (c) => set((s) => {
+    const exists = s.selectedCategories.includes(c)
+    const next = exists ? s.selectedCategories.filter((x) => x !== c) : [...s.selectedCategories, c]
+    return {
+      selectedCategories: next,
+      selectedCategory: next.length === 0 ? null : next.length === 1 ? next[0] : "mix",
+    }
+  }),
   setDifficulty: (d) => set({ selectedDifficulty: d }),
   setMode: (m) => set({ selectedMode: m }),
   setQuestionCount: (n) => set({ selectedQuestionCount: n }),
@@ -185,6 +198,7 @@ export const useGameStore = create<GameState>((set) => ({
       lastSessionResult: null,
       screen: "home",
       selectedCategory: null,
+      selectedCategories: [],
       selectedDifficulty: null,
     }),
 }))
