@@ -456,3 +456,42 @@ Stage Summary:
 - ✅ Auto-play + hover-pause conservados
 - ✅ Build limpio y deploy automático a Vercel
 - 🎯 Próximo paso del usuario: probar la app en https://trivials-wars.vercel.app
+
+---
+Task ID: 152-datos-shuffle
+Agent: main
+Task: Expandir datos curiosos a 100+ y hacer que vayan apareciendo progresivamente en desorden (no solo al hacer clic)
+
+Work Log:
+- Leí welcome-screen.tsx: confirmé que tenía 30 facts en orden fijo
+- Creé scripts/gen-facts.py: script Python que genera 152 facts únicos
+- Categorías (18): Ciencia, Historia, Espacio, Naturaleza, Océano, Geografía,
+  Cuerpo humano, Tecnología, Arte, Música, Idiomas, Literatura, Inventos,
+  Cultura, Mitología, Videojuegos, Deporte, Matemáticas, Comida, Cine, Clima
+- Generé src/lib/facts-data.ts con 152 facts únicos (sin duplicados)
+- Patch welcome-screen.tsx:
+  * Removí la lista inline + FACT_COLOR inline (304 líneas)
+  * Importé FUN_FACTS y type FunFact desde @/lib/facts-data
+- Añadí helper shuffleIds(n) con Fisher-Yates al final del archivo
+- Estado nuevo:
+  * `order: number[]` — secuencia barajada de índices
+  * `factIdx` ahora indexa en `order`, no en `FUN_FACTS` directo
+  * `currentFact = FUN_FACTS[order[factIdx]]`
+- Auto-play cada 6s: avanza al siguiente en la secuencia barajada
+- Al completar el ciclo (llegar a 152), se re-baraja automáticamente
+  para que la próxima secuencia vuelva a ser distinta
+- Click en dots/siguiente/anterior también navega por la secuencia barajada
+- Keys de dots actualizadas a `dot-${order[i]}` para evitar conflictos
+- TypeScript: 0 errores
+- Next.js build: success (7.2s, 13 rutas)
+- Commit 4956341 + push a GitHub exitoso
+
+Stage Summary:
+- ✅ 152 datos curiosos (de 30 → 152, +400%)
+- ✅ 18 categorías diversas color-coded
+- ✅ Shuffle Fisher-Yates al montar: cada sesión ve secuencia distinta
+- ✅ Re-shuffle automático al completar el ciclo
+- ✅ Auto-play cada 6s + hover-pause conservados
+- ✅ Script generador persistente (scripts/gen-facts.py) para iterar futuro
+- ✅ Build limpio y deploy automático a Vercel
+- 🎯 Próximo paso del usuario: probar la app en https://trivials-wars.vercel.app
