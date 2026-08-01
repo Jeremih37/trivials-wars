@@ -255,8 +255,8 @@ const WISDOM_CAPSULES: WisdomCapsule[] = [
 ]
 
 const TYPE_META = {
-  cientifico: { label: "Científico", color: "#0ea5e9", emoji: "🔬" },
-  poeta: { label: "Poeta / Escritor", color: "#f59e0b", emoji: "📖" },
+  cientifico: { label: "Científico", color: "#00E5FF", emoji: "🔬" },
+  poeta: { label: "Poeta / Escritor", color: "#FFEA00", emoji: "📖" },
   dato: { label: "Dato Curioso", color: "#10b981", emoji: "✨" },
 } as const
 

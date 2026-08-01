@@ -15,7 +15,7 @@ export const CATEGORIES = [
   // --- Categorías originales ---
   { id: "Entretenimiento", name: "Entretenimiento", icon: "🎬", color: "#00B4D8" },
   { id: "Deporte", name: "Deporte", icon: "⚽", color: "#10b981" },
-  { id: "Historia", name: "Historia", icon: "📜", color: "#fbbf24" },
+  { id: "Historia", name: "Historia", icon: "📜", color: "#FFEA00" },
   { id: "Matematicas", name: "Matemáticas", icon: "🔢", color: "#8b5cf6" },
   { id: "Ciencia", name: "Ciencia", icon: "🔬", color: "#2dd4bf" },
   { id: "Videojuegos", name: "Videojuegos", icon: "🎮", color: "#3b82f6" },
@@ -34,7 +34,7 @@ export const CATEGORIES = [
 
 export const DIFFICULTIES = [
   { id: "Facil", name: "Fácil", time: 30, xpBase: 50, multiplier: 1, color: "#10b981", desc: "30s por pregunta" },
-  { id: "Medio", name: "Medio", time: 20, xpBase: 80, multiplier: 1.3, color: "#fbbf24", desc: "20s por pregunta" },
+  { id: "Medio", name: "Medio", time: 20, xpBase: 80, multiplier: 1.3, color: "#FFEA00", desc: "20s por pregunta" },
   { id: "Dificil", name: "Difícil", time: 15, xpBase: 120, multiplier: 1.7, color: "#fb7185", desc: "15s por pregunta" },
   { id: "Experto", name: "Experto", time: 10, xpBase: 200, multiplier: 2.2, color: "#a855f7", desc: "10s por pregunta · riesgo alto" },
 ] as const
@@ -63,7 +63,7 @@ export const GAME_MODES = [
     id: "suddendeath",
     name: "Muerte Súbita",
     icon: "☠️",
-    color: "#fbbf24",
+    color: "#FFEA00",
     desc: "1 fallo y se acabó. Racha infinita. Tensión dorada tras 10 aciertos seguidos.",
   },
 ] as const
@@ -83,7 +83,7 @@ export const QUESTION_COUNTS = [
 // Según GDD: 10s, 15s o Sin tiempo
 export const TIME_PRESETS = [
   { id: 10, label: "10s", desc: "Relámpago", color: "#FF4D6D" },
-  { id: 15, label: "15s", desc: "Ágil", color: "#fbbf24" },
+  { id: 15, label: "15s", desc: "Ágil", color: "#FFEA00" },
   { id: 0, label: "∞", desc: "Sin tiempo", color: "#00F5D4" },
 ] as const
 

@@ -113,11 +113,11 @@ export function HomeScreen() {
       <BubblesBackground count={14} />
 
       {/* Header */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#EFE7D4]/70 border-b border-[#3D4A60]/15">
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#0A0E27]/70 border-b border-[#C8D0F0]/15">
         <div className="max-w-3xl mx-auto px-5 py-4 flex items-center justify-between">
           <button
             onClick={() => { sfx.waterDrop(); setScreen("welcome") }}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-2xl glass border border-[#3D4A60]/20 hover:border-[#5C6E8A]/50 transition text-sm font-semibold text-[#3D4A60]"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-2xl glass border border-[#C8D0F0]/20 hover:border-[#00E5FF]/50 transition text-sm font-semibold text-[#C8D0F0]"
           >
             <ChevronLeft className="w-4 h-4" /> Volver
           </button>
@@ -141,8 +141,8 @@ export function HomeScreen() {
           className="space-y-5"
         >
           <div className="flex items-baseline gap-3 px-1">
-            <span className="font-fancy text-2xl italic text-[#8E9DB4] leading-none">01</span>
-            <h3 className="font-fancy text-lg sm:text-xl italic font-semibold text-[#3D4A60]">Modo de juego</h3>
+            <span className="font-fancy text-2xl italic text-[#4A5BA8] leading-none">01</span>
+            <h3 className="font-fancy text-lg sm:text-xl italic font-semibold text-[#C8D0F0]">Modo de juego</h3>
           </div>
           <div className="grid grid-cols-3 gap-3">
             {GAME_MODES.map((m) => {
@@ -159,17 +159,17 @@ export function HomeScreen() {
                   <div className="flex flex-col items-center gap-2">
                     <span className="text-3xl">{m.icon}</span>
                     {isSelected && (
-                      <span className="absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center bg-[#F2ECDD]/30 backdrop-blur">
+                      <span className="absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center bg-[#131838]/30 backdrop-blur">
                         <Check className="w-3 h-3 text-white" />
                       </span>
                     )}
                     <div
                       className="font-fancy italic text-sm font-semibold"
-                      style={{ color: isSelected ? "#F2ECDD" : m.color }}
+                      style={{ color: isSelected ? "#131838" : m.color }}
                     >
                       {m.name}
                     </div>
-                    <div className="text-[10px] leading-tight italic" style={{ color: isSelected ? "rgba(242,236,221,0.85)" : "#7A8492" }}>
+                    <div className="text-[10px] leading-tight italic" style={{ color: isSelected ? "rgba(10,14,39,0.85)" : "#8090C0" }}>
                       {m.id === "classic" ? "Personalizable" : m.id === "survival" ? "3 vidas" : "1 fallo = fin"}
                     </div>
                   </div>
@@ -190,10 +190,10 @@ export function HomeScreen() {
         >
           <div className="flex items-baseline justify-between gap-3 px-1 flex-wrap">
             <div className="flex items-baseline gap-3">
-              <span className="font-fancy text-2xl italic text-[#8E9DB4] leading-none">02</span>
-              <h3 className="font-fancy text-lg sm:text-xl italic font-semibold text-[#3D4A60]">Categorías</h3>
+              <span className="font-fancy text-2xl italic text-[#4A5BA8] leading-none">02</span>
+              <h3 className="font-fancy text-lg sm:text-xl italic font-semibold text-[#C8D0F0]">Categorías</h3>
             </div>
-            <span className="text-xs text-[#7A8492] italic font-script">
+            <span className="text-xs text-[#8090C0] italic font-script">
               {selectedCount === 0
                 ? "Tocá para elegir"
                 : `${selectedCount} ${selectedCount === 1 ? "seleccionada" : "seleccionadas"}${isMix ? " · mix" : ""}`}
@@ -254,8 +254,8 @@ export function HomeScreen() {
             className="space-y-5"
           >
             <div className="flex items-baseline gap-3 px-1">
-              <span className="font-fancy text-2xl italic text-[#8E9DB4] leading-none">03</span>
-              <h3 className="font-fancy text-lg sm:text-xl italic font-semibold text-[#3D4A60]">Dificultad</h3>
+              <span className="font-fancy text-2xl italic text-[#4A5BA8] leading-none">03</span>
+              <h3 className="font-fancy text-lg sm:text-xl italic font-semibold text-[#C8D0F0]">Dificultad</h3>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {DIFFICULTIES.map((d) => {
@@ -273,27 +273,27 @@ export function HomeScreen() {
                       <div
                         className="w-9 h-9 rounded-2xl flex items-center justify-center"
                         style={{
-                          background: isSelected ? "rgba(255,248,230,0.20)" : `${d.color}22`,
-                          border: `1.5px solid ${isSelected ? "rgba(248,240,222,0.5)" : d.color}`,
+                          background: isSelected ? "rgba(10,14,39,0.25)" : `${d.color}22`,
+                          border: `1.5px solid ${isSelected ? "rgba(10,14,39,0.55)" : d.color}`,
                         }}
                       >
-                        <Target className="w-4 h-4" style={{ color: isSelected ? "#F2ECDD" : d.color }} />
+                        <Target className="w-4 h-4" style={{ color: isSelected ? "#131838" : d.color }} />
                       </div>
                       {isSelected && (
-                        <span className="w-5 h-5 rounded-full flex items-center justify-center bg-[#F2ECDD]/30 backdrop-blur">
+                        <span className="w-5 h-5 rounded-full flex items-center justify-center bg-[#131838]/30 backdrop-blur">
                           <Check className="w-3 h-3 text-white" />
                         </span>
                       )}
                     </div>
                     <div
                       className="font-fancy italic text-base font-semibold"
-                      style={{ color: isSelected ? "#F2ECDD" : d.color }}
+                      style={{ color: isSelected ? "#131838" : d.color }}
                     >
                       {d.name}
                     </div>
                     <div
                       className="flex items-center gap-1.5 text-[11px] italic"
-                      style={{ color: isSelected ? "rgba(242,236,221,0.85)" : "#7A8492" }}
+                      style={{ color: isSelected ? "rgba(10,14,39,0.85)" : "#8090C0" }}
                     >
                       <Clock className="w-3 h-3" />
                       <span>{d.time}s</span>
@@ -317,31 +317,31 @@ export function HomeScreen() {
           className="space-y-5"
         >
           <div className="flex items-baseline gap-3 px-1">
-            <span className="font-fancy text-2xl italic text-[#8E9DB4] leading-none">
+            <span className="font-fancy text-2xl italic text-[#4A5BA8] leading-none">
               {isClassic ? "04" : "03"}
             </span>
-            <h3 className="font-fancy text-lg sm:text-xl italic font-semibold text-[#3D4A60]">
+            <h3 className="font-fancy text-lg sm:text-xl italic font-semibold text-[#C8D0F0]">
               {isEndless ? "Duración" : "Cantidad de preguntas"}
             </h3>
           </div>
 
           {isSuddenDeath ? (
-            <div className="rounded-3xl border-2 border-dashed border-[#C99A50]/50 bg-[#F0E0C0]/40 p-6 text-center bubble-pop">
-              <div className="flex items-center justify-center gap-3 text-[#6B4D1C]">
+            <div className="rounded-3xl border-2 border-dashed border-[#FFEA00]/50 bg-[#1A1F4A]/40 p-6 text-center bubble-pop">
+              <div className="flex items-center justify-center gap-3 text-[#FFEA00]">
                 <Skull className="w-6 h-6" />
                 <span className="font-fancy italic text-lg font-semibold tracking-wide">Infinitas · Hasta fallar</span>
               </div>
-              <div className="text-xs text-[#6B4D1C]/80 mt-2 italic">
+              <div className="text-xs text-[#FFEA00]/80 mt-2 italic">
                 1 solo error termina la partida · Pool de {SUDDEN_DEATH_CONFIG.initialPoolSize} preguntas
               </div>
             </div>
           ) : isSurvival ? (
-            <div className="rounded-3xl border-2 border-dashed border-[#B57482]/50 bg-[#F0D4D8]/40 p-6 text-center bubble-pop">
-              <div className="flex items-center justify-center gap-3 text-[#6F3A45]">
-                <Heart className="w-6 h-6 fill-[#C98896]" />
+            <div className="rounded-3xl border-2 border-dashed border-[#FF2D95]/50 bg-[#2A1A2E]/40 p-6 text-center bubble-pop">
+              <div className="flex items-center justify-center gap-3 text-[#FF2D95]">
+                <Heart className="w-6 h-6 fill-[#FF3366]" />
                 <span className="font-fancy italic text-lg font-semibold tracking-wide">Infinitas · Hasta perder 3 vidas</span>
               </div>
-              <div className="text-xs text-[#6F3A45]/80 mt-2 italic">
+              <div className="text-xs text-[#FF2D95]/80 mt-2 italic">
                 Pool de 30 preguntas · tiempo decreciente
               </div>
             </div>
@@ -372,13 +372,13 @@ export function HomeScreen() {
           <motion.section
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-3xl border border-[#C99A50]/30 bg-[#F0E0C0]/30 p-5 bubble-pop"
+            className="rounded-3xl border border-[#FFEA00]/30 bg-[#1A1F4A]/30 p-5 bubble-pop"
           >
             <div className="flex items-center gap-2 mb-3">
-              <Skull className="w-5 h-5 text-[#8A6428]" />
-              <span className="font-fancy italic text-base text-[#6B4D1C] font-semibold">Reglas de Muerte Súbita</span>
+              <Skull className="w-5 h-5 text-[#FFEA00]" />
+              <span className="font-fancy italic text-base text-[#FFEA00] font-semibold">Reglas de Muerte Súbita</span>
             </div>
-            <ul className="text-sm text-[#6B4D1C]/90 space-y-1.5 ml-5 list-disc italic font-script">
+            <ul className="text-sm text-[#FFEA00]/90 space-y-1.5 ml-5 list-disc italic font-script">
               <li>Sin margen de error: <span className="font-bold not-italic">1 fallo = fin</span></li>
               <li>Combo: <span className="font-bold not-italic">5 ×2</span>, <span className="font-bold not-italic">10 ×3</span>, <span className="font-bold not-italic">15 ×4</span></li>
               <li>Tiempo fijo de <span className="font-bold not-italic">15s</span> por pregunta</li>
@@ -386,14 +386,14 @@ export function HomeScreen() {
             </ul>
 
             {profile?.user && profile.user.suddenDeathRuns > 0 && (
-              <div className="mt-4 pt-4 border-t border-[#C99A50]/25 flex items-center gap-3">
-                <Crown className="w-5 h-5 text-[#8A6428] shrink-0" />
+              <div className="mt-4 pt-4 border-t border-[#FFEA00]/25 flex items-center gap-3">
+                <Crown className="w-5 h-5 text-[#FFEA00] shrink-0" />
                 <div className="flex-1 text-sm">
-                  <div className="text-[#8A6428]/80 uppercase tracking-wider text-[10px] italic">Tu récord</div>
+                  <div className="text-[#FFEA00]/80 uppercase tracking-wider text-[10px] italic">Tu récord</div>
                   <div className="flex items-center gap-3 mt-0.5">
-                    <span className="font-bold text-[#6B4D1C]">{profile.user.suddenDeathBestCorrect} aciertos</span>
-                    <span className="text-[#8A6428]/60">·</span>
-                    <span className="font-bold text-[#6B4D1C]">+{profile.user.suddenDeathBestXp} XP</span>
+                    <span className="font-bold text-[#FFEA00]">{profile.user.suddenDeathBestCorrect} aciertos</span>
+                    <span className="text-[#FFEA00]/60">·</span>
+                    <span className="font-bold text-[#FFEA00]">+{profile.user.suddenDeathBestXp} XP</span>
                   </div>
                 </div>
               </div>
@@ -405,27 +405,27 @@ export function HomeScreen() {
           <motion.section
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="rounded-3xl border border-[#B57482]/30 bg-[#F0D4D8]/30 p-5 bubble-pop"
+            className="rounded-3xl border border-[#FF2D95]/30 bg-[#2A1A2E]/30 p-5 bubble-pop"
           >
             <div className="flex items-center gap-2 mb-3">
-              <Heart className="w-5 h-5 text-[#8B4A56] fill-[#C98896]" />
-              <span className="font-fancy italic text-base text-[#6F3A45] font-semibold">Reglas de Supervivencia</span>
+              <Heart className="w-5 h-5 text-[#FF2D95] fill-[#FF3366]" />
+              <span className="font-fancy italic text-base text-[#FF2D95] font-semibold">Reglas de Supervivencia</span>
             </div>
-            <ul className="text-sm text-[#6F3A45]/90 space-y-1.5 ml-5 list-disc italic font-script">
-              <li>Comenzás con <span className="font-bold not-italic text-[#8B4A56]">3 corazones</span> — cada error resta 1</li>
+            <ul className="text-sm text-[#FF2D95]/90 space-y-1.5 ml-5 list-disc italic font-script">
+              <li>Comenzás con <span className="font-bold not-italic text-[#FF2D95]">3 corazones</span> — cada error resta 1</li>
               <li>Tiempo inicial: <span className="font-bold not-italic">15s</span> · baja 1s cada <span className="font-bold not-italic">5 aciertos</span></li>
               <li>Combo: <span className="font-bold not-italic">3 ×2</span>, <span className="font-bold not-italic">5 ×3</span></li>
             </ul>
 
             {profile?.user && profile.user.survivalRuns > 0 && (
-              <div className="mt-4 pt-4 border-t border-[#B57482]/25 flex items-center gap-3">
-                <Crown className="w-5 h-5 text-[#8A6428] shrink-0" />
+              <div className="mt-4 pt-4 border-t border-[#FF2D95]/25 flex items-center gap-3">
+                <Crown className="w-5 h-5 text-[#FFEA00] shrink-0" />
                 <div className="flex-1 text-sm">
-                  <div className="text-[#8B4A56]/80 uppercase tracking-wider text-[10px] italic">Tu récord</div>
+                  <div className="text-[#FF2D95]/80 uppercase tracking-wider text-[10px] italic">Tu récord</div>
                   <div className="flex items-center gap-3 mt-0.5">
-                    <span className="font-bold text-[#6F3A45]">{profile.user.survivalBestCorrect} aciertos</span>
-                    <span className="text-[#8B4A56]/60">·</span>
-                    <span className="font-bold text-[#6F3A45]">+{profile.user.survivalBestXp} XP</span>
+                    <span className="font-bold text-[#FF2D95]">{profile.user.survivalBestCorrect} aciertos</span>
+                    <span className="text-[#FF2D95]/60">·</span>
+                    <span className="font-bold text-[#FF2D95]">+{profile.user.survivalBestXp} XP</span>
                   </div>
                 </div>
               </div>
@@ -436,8 +436,8 @@ export function HomeScreen() {
         {/* Mini resumen — burbujas pequeñas */}
         <section className="space-y-3">
           <div className="flex items-baseline gap-3 px-1">
-            <span className="font-fancy text-2xl italic text-amber-500 leading-none">★</span>
-            <h3 className="font-fancy text-lg sm:text-xl italic font-semibold text-[#3D4A60]">Resumen</h3>
+            <span className="font-fancy text-2xl italic text-[#FFEA00] leading-none">★</span>
+            <h3 className="font-fancy text-lg sm:text-xl italic font-semibold text-[#C8D0F0]">Resumen</h3>
           </div>
           <div className={cn("grid gap-2", isClassic ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2")}>
             <SummaryChip
@@ -450,7 +450,7 @@ export function HomeScreen() {
               icon={<Flame className="w-3.5 h-3.5" />}
               label={isMix ? "Categorías" : "Categoría"}
               value={selectedCount === 0 ? "—" : isMix ? `${selectedCount} mixtas` : (CATEGORIES.find((c) => c.id === selectedCategories[0])?.name ?? "—")}
-              color={selectedCount > 0 ? "#718C6F" : undefined}
+              color={selectedCount > 0 ? "#39FF14" : undefined}
             />
             {isClassic && (
               <>
@@ -464,7 +464,7 @@ export function HomeScreen() {
                   icon={<Target className="w-3.5 h-3.5" />}
                   label="Preguntas"
                   value={selectedQuestionCount.toString()}
-                  color="#C99A50"
+                  color="#FFEA00"
                 />
               </>
             )}
@@ -473,7 +473,7 @@ export function HomeScreen() {
                 icon={<Skull className="w-3.5 h-3.5" />}
                 label="Duración"
                 value="∞ hasta fallar"
-                color={isSuddenDeath ? "#C99A50" : "#B57482"}
+                color={isSuddenDeath ? "#FFEA00" : "#FF2D95"}
               />
             )}
           </div>
@@ -491,7 +491,7 @@ export function HomeScreen() {
           className={cn(
             "flex items-center gap-2",
             !canStart
-              ? "bg-[#D9CFB8] text-[#7A8492] cursor-not-allowed"
+              ? "bg-[#1A1F4A] text-[#8090C0] cursor-not-allowed"
               : isSuddenDeath
                 ? "crystal-bubble-gold"
                 : isSurvival
@@ -531,13 +531,13 @@ function SummaryChip({
 }) {
   return (
     <div className="rounded-2xl px-3 py-2.5 bubble-pop">
-      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[#7A8492] italic">
+      <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-[#8090C0] italic">
         <span style={color ? { color } : undefined}>{icon}</span>
         {label}
       </div>
       <div
         className="font-fancy italic text-sm font-semibold mt-0.5 truncate"
-        style={{ color: color ?? "#2A3340" }}
+        style={{ color: color ?? "#F0F4FF" }}
       >
         {value}
       </div>

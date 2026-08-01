@@ -50,7 +50,7 @@ export function ProfileScreen() {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="text-lg font-fancy italic font-bold tracking-tight text-[#3D4A60]">Perfil</h1>
+            <h1 className="text-lg font-fancy italic font-bold tracking-tight text-[#C8D0F0]">Perfil</h1>
             <p className="text-[10px] text-muted-foreground">Tu progreso, marcos e inventario</p>
           </div>
         </div>
@@ -103,12 +103,12 @@ export function ProfileScreen() {
             {/* Stats principales */}
             <div className="space-y-3">
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                <StatBlock icon={<Trophy className="w-4 h-4" />} label="Nivel" value={u.level} color="text-amber-300" />
-                <StatBlock icon={<Zap className="w-4 h-4" />} label="XP total" value={u.xp} color="text-[#BFCBDB]" />
-                <StatBlock icon={<Gift className="w-4 h-4" />} label="Cajas" value={u.boxes} color="text-pink-300" />
-                <StatBlock icon={<Swords className="w-4 h-4" />} label="Victorias" value={u.wins} color="text-green-400" />
-                <StatBlock icon={<Target className="w-4 h-4" />} label="Derrotas" value={u.losses} color="text-red-400" />
-                <StatBlock icon={<Flame className="w-4 h-4" />} label="Racha" value={u.currentStreak} color="text-orange-400" />
+                <StatBlock icon={<Trophy className="w-4 h-4" />} label="Nivel" value={u.level} color="text-[#FFEA00]" />
+                <StatBlock icon={<Zap className="w-4 h-4" />} label="XP total" value={u.xp} color="text-[#4A5BA8]" />
+                <StatBlock icon={<Gift className="w-4 h-4" />} label="Cajas" value={u.boxes} color="text-[#FF6EC7]" />
+                <StatBlock icon={<Swords className="w-4 h-4" />} label="Victorias" value={u.wins} color="text-[#39FF14]" />
+                <StatBlock icon={<Target className="w-4 h-4" />} label="Derrotas" value={u.losses} color="text-[#FF3366]" />
+                <StatBlock icon={<Flame className="w-4 h-4" />} label="Racha" value={u.currentStreak} color="text-[#FFB300]" />
               </div>
 
               <div>
@@ -131,7 +131,7 @@ export function ProfileScreen() {
                 <div className="flex-1">
                   <div className="flex justify-between text-xs mb-1">
                     <span className="text-muted-foreground uppercase tracking-wider">Win Rate</span>
-                    <span className="font-bold text-amber-300">{u.winRate}%</span>
+                    <span className="font-bold text-[#FFEA00]">{u.winRate}%</span>
                   </div>
                   <div className="h-1.5 rounded-full bg-muted/40 overflow-hidden">
                     <motion.div
@@ -144,7 +144,7 @@ export function ProfileScreen() {
                 </div>
                 <div className="text-right">
                   <div className="text-xs text-muted-foreground">Mejor racha</div>
-                  <div className="font-bold text-orange-400 flex items-center gap-1">
+                  <div className="font-bold text-[#FFB300] flex items-center gap-1">
                     <Flame className="w-3 h-3" /> {u.maxStreak}
                   </div>
                 </div>
@@ -191,15 +191,15 @@ export function ProfileScreen() {
                       </div>
                       <div>
                         <div className="text-muted-foreground text-[10px] uppercase">Aciertos</div>
-                        <div className="font-bold text-[#BFCBDB]">{correct}</div>
+                        <div className="font-bold text-[#4A5BA8]">{correct}</div>
                       </div>
                       <div>
                         <div className="text-muted-foreground text-[10px] uppercase">Precisión</div>
-                        <div className="font-bold text-amber-300">{accuracy}%</div>
+                        <div className="font-bold text-[#FFEA00]">{accuracy}%</div>
                       </div>
                     </div>
                     {bestStreak > 0 && (
-                      <div className="mt-2 flex items-center gap-1 text-[10px] text-orange-300">
+                      <div className="mt-2 flex items-center gap-1 text-[10px] text-[#FFB300]">
                         <Flame className="w-3 h-3" /> Mejor racha: {bestStreak}
                       </div>
                     )}
@@ -236,7 +236,7 @@ export function ProfileScreen() {
                     <div className="text-xs font-bold">{base.name}</div>
                     <div className="text-[9px] text-muted-foreground text-center">{base.description}</div>
                     {isEquipped && (
-                      <div className="absolute top-1 right-1 w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
+                      <div className="absolute top-1 right-1 w-5 h-5 rounded-full bg-[#39FF14] flex items-center justify-center">
                         <Check className="w-3 h-3 text-white" />
                       </div>
                     )}
@@ -317,7 +317,7 @@ export function ProfileScreen() {
                         {cfg.label[0]}
                       </span>
                       {it.equipped && (
-                        <span className="absolute top-1 left-1 text-[8px] font-bold px-1 py-0.5 rounded bg-green-500 text-black">
+                        <span className="absolute top-1 left-1 text-[8px] font-bold px-1 py-0.5 rounded bg-[#39FF14] text-black">
                           ✓
                         </span>
                       )}
@@ -372,10 +372,10 @@ export function ProfileScreen() {
                       </div>
                     )}
                     {locked && (
-                      <div className="text-[10px] text-amber-300 mt-1 font-mono">Nivel {f.unlockLevel}</div>
+                      <div className="text-[10px] text-[#FFEA00] mt-1 font-mono">Nivel {f.unlockLevel}</div>
                     )}
                     {f.equipped && (
-                      <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
+                      <div className="absolute top-2 right-2 w-6 h-6 rounded-full bg-[#39FF14] flex items-center justify-center">
                         <Check className="w-3 h-3 text-white" />
                       </div>
                     )}
@@ -415,11 +415,11 @@ export function ProfileScreen() {
                         <div className="absolute top-1 right-1 w-5 h-5 rounded-full bg-card/80 border border-border/60 flex items-center justify-center">
                           <Lock className="w-3 h-3 text-muted-foreground" />
                         </div>
-                        <div className="text-[9px] text-amber-300 mt-0.5 font-mono">Nv {icon.unlockLevel}</div>
+                        <div className="text-[9px] text-[#FFEA00] mt-0.5 font-mono">Nv {icon.unlockLevel}</div>
                       </>
                     )}
                     {icon.equipped && (
-                      <div className="absolute top-1 right-1 w-5 h-5 rounded-full bg-green-500 flex items-center justify-center">
+                      <div className="absolute top-1 right-1 w-5 h-5 rounded-full bg-[#39FF14] flex items-center justify-center">
                         <Check className="w-3 h-3 text-white" />
                       </div>
                     )}

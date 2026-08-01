@@ -222,23 +222,23 @@ export function GameScreen() {
   }
 
   if (!activeGame || !currentQuestion || !diff) {
-    return <div className="p-8 text-center text-[#4E5A6C]">Cargando partida…</div>
+    return <div className="p-8 text-center text-[#8090C0]">Cargando partida…</div>
   }
 
   // Mix: usa un color cian por defecto
-  const catColor = isMix ? "#0ea5e9" : (cat?.color ?? "#38BDF8")
+  const catColor = isMix ? "#00E5FF" : (cat?.color ?? "#38BDF8")
   const catIcon = isMix ? "🔀" : (cat?.icon ?? "🎯")
   const catName = isMix ? "Mix Aleatorio" : (cat?.name ?? "—")
 
   const ratio = hasTimer ? timeLeft / totalTime : 1
   const timerColor = !hasTimer
-    ? "#0ea5e9"
+    ? "#00E5FF"
     : isGoldenAlert
-      ? "#fbbf24"  // dorado en alerta
+      ? "#FFEA00"  // dorado en alerta
       : ratio > 0.6
         ? "#10b981"
         : ratio > 0.3
-          ? "#fbbf24"
+          ? "#FFEA00"
           : "#fb7185"
   const isUrgent = hasTimer && ratio <= 0.3
 
@@ -262,15 +262,15 @@ export function GameScreen() {
       )}
     >
       {/* Header compacto */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#F2ECDD]/60 border-b border-[#BFB39A]/50">
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#131838]/60 border-b border-[#252B5C]/50">
         <div className="max-w-2xl mx-auto px-4 py-2.5">
           <div className="flex items-center justify-between gap-2">
             <button
               onClick={handleAbort}
-              className="p-1.5 rounded-lg hover:bg-[#F2ECDD]/80 transition"
+              className="p-1.5 rounded-lg hover:bg-[#131838]/80 transition"
               title="Salir"
             >
-              <ChevronLeft className="w-4 h-4 text-[#4E5A6C]" />
+              <ChevronLeft className="w-4 h-4 text-[#8090C0]" />
             </button>
 
             {/* Center: category + progress */}
@@ -278,7 +278,7 @@ export function GameScreen() {
               <span className="text-xl">{catIcon}</span>
               <div className="leading-tight">
                 <div className="text-xs font-bold" style={{ color: catColor }}>{catName}</div>
-                <div className="text-[9px] text-[#7A8492]">
+                <div className="text-[9px] text-[#8090C0]">
                   {isSurvival
                     ? `Sobreviviendo: ${currentQuestionIndex + 1}`
                     : isSuddenDeath
@@ -290,28 +290,28 @@ export function GameScreen() {
 
             {/* Right: XP + streak */}
             <div className="flex items-center gap-1.5">
-              <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#7A8492]/10 border border-blue-400/40">
-                <Zap className="w-3 h-3 text-[#4E5A6C]" />
-                <span className="text-xs font-bold text-[#4E5A6C] tabular-nums">{totalXpEarned}</span>
+              <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-[#8090C0]/10 border border-blue-400/40">
+                <Zap className="w-3 h-3 text-[#8090C0]" />
+                <span className="text-xs font-bold text-[#8090C0] tabular-nums">{totalXpEarned}</span>
               </div>
               {currentStreak >= 2 && (
                 <div
                   className={cn(
                     "flex items-center gap-1 px-2 py-1 rounded-lg border",
                     isGoldenAlert
-                      ? "bg-amber-400/20 border-[#C99A50]/60 animate-gold-pulse"
+                      ? "bg-[#FFEA00]/20 border-[#FFEA00]/60 animate-gold-pulse"
                       : currentCombo >= 3
-                        ? "bg-emerald-400/20 border-emerald-400/60"
+                        ? "bg-[#39FF14]/20 border-[#39FF14]/60/60"
                         : currentCombo === 2
-                          ? "bg-[#7A8492]/20 border-blue-400/60"
-                          : "bg-orange-400/15 border-orange-400/40"
+                          ? "bg-[#8090C0]/20 border-blue-400/60"
+                          : "bg-[#FFB300]/15 border-[#FFB300]/40"
                   )}
                 >
                   <Flame
                     className="w-3 h-3"
                     style={{
                       color: isGoldenAlert
-                        ? "#f59e0b"
+                        ? "#FFEA00"
                         : currentCombo >= 2
                           ? "#10b981"
                           : "#fb923c",
@@ -359,7 +359,7 @@ export function GameScreen() {
                   </motion.div>
                 )
               })}
-              <span className="ml-2 text-[10px] uppercase tracking-wider text-[#7A8492]">Vidas</span>
+              <span className="ml-2 text-[10px] uppercase tracking-wider text-[#8090C0]">Vidas</span>
             </div>
           )}
 
@@ -378,13 +378,13 @@ export function GameScreen() {
                 <Skull
                   className="w-5 h-5"
                   style={{
-                    color: suddenDeathEnded ? "#92400e" : "#f59e0b",
-                    fill: suddenDeathEnded ? "transparent" : "#fbbf24",
-                    filter: suddenDeathEnded ? "none" : "drop-shadow(0 0 6px rgba(251,191,36,0.65))",
+                    color: suddenDeathEnded ? "#FFEA00" : "#FFEA00",
+                    fill: suddenDeathEnded ? "transparent" : "#FFEA00",
+                    filter: suddenDeathEnded ? "none" : "drop-shadow(0 0 6px rgba(255,234,0,0.75))",
                   }}
                 />
               </motion.div>
-              <span className="ml-2 text-[10px] uppercase tracking-wider text-[#8A6428]/80">
+              <span className="ml-2 text-[10px] uppercase tracking-wider text-[#FFEA00]/80">
                 {suddenDeathEnded ? "Sin vidas" : "1 vida · 1 fallo = fin"}
               </span>
             </div>
@@ -396,7 +396,7 @@ export function GameScreen() {
               className="h-full rounded-full"
               style={{
                 background: isSuddenDeath
-                  ? "linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24)"
+                  ? "linear-gradient(90deg, #FFEA00, #FFEA00, #FFEA00)"
                   : isSurvival
                     ? "linear-gradient(90deg, #fb7185, #38BDF8)"
                     : "linear-gradient(90deg, #4ADE80, #38BDF8, #2dd4bf)",
@@ -416,14 +416,14 @@ export function GameScreen() {
               initial={{ opacity: 0, y: -10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -10 }}
-              className="mb-4 rounded-2xl border-2 border-[#C99A50]/70 bg-amber-100/80 p-3 text-center"
+              className="mb-4 rounded-2xl border-2 border-[#FFEA00]/70 bg-[#FFEA00]/15 p-3 text-center"
             >
-              <div className="flex items-center justify-center gap-2 text-[#6B4D1C]">
+              <div className="flex items-center justify-center gap-2 text-[#FFEA00]">
                 <Skull className="w-5 h-5" />
                 <span className="font-black text-sm uppercase tracking-widest">¡Zona de Alerta Dorada!</span>
                 <Skull className="w-5 h-5" />
               </div>
-              <div className="text-[10px] text-[#8A6428] mt-0.5">
+              <div className="text-[10px] text-[#FFEA00] mt-0.5">
                 Llevás {correctCount} aciertos seguidos — un fallo y se acaba la racha
               </div>
             </motion.div>
@@ -432,11 +432,11 @@ export function GameScreen() {
 
         {/* Timer compacto */}
         <div className="flex items-center gap-3 mb-5">
-          <div className="flex items-center gap-1.5 text-xs text-[#7A8492]">
+          <div className="flex items-center gap-1.5 text-xs text-[#8090C0]">
             <Clock className="w-3.5 h-3.5" />
             <span className="uppercase tracking-wider">Tiempo</span>
           </div>
-          <div className="flex-1 h-2.5 rounded-full bg-blue-100/60 overflow-hidden border border-[#BFB39A]/50">
+          <div className="flex-1 h-2.5 rounded-full bg-blue-100/60 overflow-hidden border border-[#252B5C]/50">
             {hasTimer && (
               <motion.div
                 className="h-full rounded-full"
@@ -465,10 +465,10 @@ export function GameScreen() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.3 }}
-            className="rounded-2xl border bg-[#F2ECDD]/80 backdrop-blur-sm p-5 sm:p-7 mb-5 glass"
+            className="rounded-2xl border bg-[#131838]/80 backdrop-blur-sm p-5 sm:p-7 mb-5 glass"
             style={{ borderColor: `${catColor}40`, boxShadow: `0 0 25px ${catColor}15` }}
           >
-            <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#7A8492] mb-3 justify-center">
+            <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#8090C0] mb-3 justify-center">
               <span
                 className="px-2 py-0.5 rounded-full font-bold"
                 style={{ background: `${catColor}20`, color: catColor, border: `1px solid ${catColor}40` }}
@@ -480,7 +480,7 @@ export function GameScreen() {
                     : `${diff.name} · ${hasTimer ? `${totalTime}s` : "sin tiempo"}`}
               </span>
             </div>
-            <h2 className="text-lg sm:text-2xl font-bold text-center leading-snug text-[#3D4A60]">
+            <h2 className="text-lg sm:text-2xl font-bold text-center leading-snug text-[#C8D0F0]">
               {currentQuestion.question}
             </h2>
           </motion.div>
@@ -508,24 +508,24 @@ export function GameScreen() {
                 }}
                 className={cn(
                   "relative text-left rounded-2xl border p-3.5 transition-all overflow-hidden flex items-center gap-3",
-                  phase === "question" && "border-[#BFB39A]/60 bg-[#F2ECDD]/70 hover:bg-[#F2ECDD]/95 hover:border-blue-400/60 cursor-pointer",
-                  showCorrect && "border-emerald-400 bg-emerald-50 glow-emerald",
-                  showWrong && "border-rose-400 bg-rose-50",
-                  phase === "feedback" && !showCorrect && !showWrong && "border-[#BFB39A]/40 bg-[#F2ECDD]/40 opacity-50"
+                  phase === "question" && "border-[#252B5C]/60 bg-[#131838]/70 hover:bg-[#131838]/95 hover:border-blue-400/60 cursor-pointer",
+                  showCorrect && "border-[#39FF14]/60 bg-emerald-50 glow-emerald",
+                  showWrong && "border-[#FF3366]/60 bg-[#FF3366]/10",
+                  phase === "feedback" && !showCorrect && !showWrong && "border-[#252B5C]/40 bg-[#131838]/40 opacity-50"
                 )}
               >
                 <span
                   className={cn(
                     "flex items-center justify-center w-8 h-8 rounded-lg shrink-0 font-black text-sm border",
-                    phase === "question" && "border-[#BFB39A]/60 bg-blue-100/60 text-[#4E5A6C]",
-                    showCorrect && "border-emerald-400 bg-emerald-400/30 text-emerald-900",
-                    showWrong && "border-rose-400 bg-rose-400/30 text-rose-900",
-                    phase === "feedback" && !showCorrect && !showWrong && "border-[#BFB39A]/40 bg-blue-100/30 text-[#8E9DB4]"
+                    phase === "question" && "border-[#252B5C]/60 bg-blue-100/60 text-[#8090C0]",
+                    showCorrect && "border-[#39FF14]/60 bg-[#39FF14]/30 text-emerald-900",
+                    showWrong && "border-[#FF3366]/60 bg-[#FF3366]/30 text-[#0A0E27]",
+                    phase === "feedback" && !showCorrect && !showWrong && "border-[#252B5C]/40 bg-blue-100/30 text-[#4A5BA8]"
                   )}
                 >
                   {showCorrect ? <Check className="w-4 h-4" /> : showWrong ? <X className="w-4 h-4" /> : letter}
                 </span>
-                <span className="font-medium text-sm sm:text-base break-words flex-1 text-[#3D4A60]">{option}</span>
+                <span className="font-medium text-sm sm:text-base break-words flex-1 text-[#C8D0F0]">{option}</span>
               </motion.button>
             )
           })}
@@ -544,36 +544,36 @@ export function GameScreen() {
                 "rounded-2xl border p-3.5 mb-3 glass",
                 lastAnswer.isCorrect
                   ? "border-emerald-300/60 bg-emerald-50/70"
-                  : "border-[#C98896]/60 bg-rose-50/70"
+                  : "border-[#FF3366]/60 bg-[#FF3366]/10"
               )}>
                 <div className="flex items-center gap-2">
                   {lastAnswer.isCorrect ? (
-                    <><Check className="w-4 h-4 text-[#4D6450]" /><span className="font-bold text-sm text-[#4D6450]">¡Correcto!</span></>
+                    <><Check className="w-4 h-4 text-[#00B377]" /><span className="font-bold text-sm text-[#00B377]">¡Correcto!</span></>
                   ) : (
-                    <><X className="w-4 h-4 text-rose-600" /><span className="font-bold text-sm text-[#8B4A56]">Incorrecto</span></>
+                    <><X className="w-4 h-4 text-[#FF3366]" /><span className="font-bold text-sm text-[#FF2D95]">Incorrecto</span></>
                   )}
                   {lastAnswer.xpGained > 0 && (
-                    <span className="ml-auto text-sm font-mono font-bold text-[#8A6428]">+{lastAnswer.xpGained} XP{lastAnswer.xpBreakdown.combo && lastAnswer.xpBreakdown.combo > 1 ? ` ×${lastAnswer.xpBreakdown.combo}` : ""}</span>
+                    <span className="ml-auto text-sm font-mono font-bold text-[#FFEA00]">+{lastAnswer.xpGained} XP{lastAnswer.xpBreakdown.combo && lastAnswer.xpBreakdown.combo > 1 ? ` ×${lastAnswer.xpBreakdown.combo}` : ""}</span>
                   )}
                 </div>
                 {!lastAnswer.isCorrect && (
-                  <div className="text-xs text-[#4E5A6C] mt-1.5">
-                    Respuesta: <span className="font-bold text-[#3D4A60]">{lastAnswer.correctAnswer}</span>
+                  <div className="text-xs text-[#8090C0] mt-1.5">
+                    Respuesta: <span className="font-bold text-[#C8D0F0]">{lastAnswer.correctAnswer}</span>
                   </div>
                 )}
                 {/* Explicación del dato */}
                 {lastAnswer.explanation && (
-                  <div className="mt-2 flex items-start gap-1.5 text-xs text-[#4E5A6C] bg-blue-50/70 border border-[#BFB39A]/50 rounded-lg p-2">
-                    <Info className="w-3.5 h-3.5 mt-0.5 shrink-0 text-[#7A8492]" />
+                  <div className="mt-2 flex items-start gap-1.5 text-xs text-[#8090C0] bg-blue-50/70 border border-[#252B5C]/50 rounded-lg p-2">
+                    <Info className="w-3.5 h-3.5 mt-0.5 shrink-0 text-[#8090C0]" />
                     <span className="leading-snug">{lastAnswer.explanation}</span>
                   </div>
                 )}
                 {lastAnswer.xpBreakdown && lastAnswer.isCorrect && (lastAnswer.xpBreakdown.timeBonus > 0 || lastAnswer.xpBreakdown.streakBonus > 0 || lastAnswer.xpBreakdown.difficultyBonus > 0) && (
-                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px] text-[#4E5A6C] mt-2 font-mono">
+                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px] text-[#8090C0] mt-2 font-mono">
                     <span>Base: +{lastAnswer.xpBreakdown.base}</span>
-                    {lastAnswer.xpBreakdown.timeBonus > 0 && <span className="text-[#4E5A6C]">+{lastAnswer.xpBreakdown.timeBonus} tiempo</span>}
-                    {lastAnswer.xpBreakdown.streakBonus > 0 && <span className="text-[#4D6450]">+{lastAnswer.xpBreakdown.streakBonus} combo</span>}
-                    {lastAnswer.xpBreakdown.difficultyBonus > 0 && <span className="text-purple-600">+{lastAnswer.xpBreakdown.difficultyBonus} dificultad</span>}
+                    {lastAnswer.xpBreakdown.timeBonus > 0 && <span className="text-[#8090C0]">+{lastAnswer.xpBreakdown.timeBonus} tiempo</span>}
+                    {lastAnswer.xpBreakdown.streakBonus > 0 && <span className="text-[#00B377]">+{lastAnswer.xpBreakdown.streakBonus} combo</span>}
+                    {lastAnswer.xpBreakdown.difficultyBonus > 0 && <span className="text-[#B026FF]">+{lastAnswer.xpBreakdown.difficultyBonus} dificultad</span>}
                   </div>
                 )}
               </div>
@@ -608,22 +608,22 @@ export function GameScreen() {
               className="px-6 py-3 rounded-2xl font-fancy italic font-bold tracking-wide text-lg"
               style={{
                 background: isSuddenDeath
-                  ? "linear-gradient(135deg, #D9A85E, #b8862e)"
-                  : "linear-gradient(135deg, #B0BFAE, #6E82A0)",
-                color: isSuddenDeath ? "#3d2914" : "#FAF7F1",
+                  ? "linear-gradient(135deg, #FFEA00, #C77D00)"
+                  : "linear-gradient(135deg, #00FFB3, #00E5FF)",
+                color: isSuddenDeath ? "#0A0E27" : "#0A0E27",
                 border: isSuddenDeath
-                  ? "2px solid rgba(217,168,94,0.7)"
-                  : "2px solid rgba(138,160,136,0.7)",
+                  ? "2px solid rgba(255,234,0,0.8)"
+                  : "2px solid rgba(57,255,20,0.7)",
                 boxShadow: isSuddenDeath
-                  ? "0 0 30px rgba(217,168,94,0.6)"
-                  : "0 0 30px rgba(110,130,160,0.4)",
+                  ? "0 0 30px rgba(255,234,0,0.7)"
+                  : "0 0 30px rgba(0,229,255,0.5)",
               }}
             >
               {isSuddenDeath ? "⚡" : "🔥"} COMBO ×{currentCombo}! {isSuddenDeath ? "⚡" : "🔥"}
             </div>
             <div
               className="text-center mt-1 text-xs font-bold"
-              style={{ color: isSuddenDeath ? "#b45309" : "#0ea5e9" }}
+              style={{ color: isSuddenDeath ? "#b45309" : "#00E5FF" }}
             >
               {isSuddenDeath ? "¡Tensión dorada!" : "¡Combo activado!"}
             </div>
@@ -640,10 +640,10 @@ export function GameScreen() {
             exit={{ opacity: 0, scale: 0.7 }}
             className="fixed top-20 left-1/2 -translate-x-1/2 z-50 pointer-events-none"
           >
-            <div className="bg-gradient-to-r from-amber-300 via-amber-200 to-amber-300 text-[#6B4D1C] px-6 py-3 rounded-2xl font-fancy italic font-bold tracking-wide text-lg glow-gold">
+            <div className="bg-gradient-to-r from-amber-300 via-amber-200 to-amber-300 text-[#FFEA00] px-6 py-3 rounded-2xl font-fancy italic font-bold tracking-wide text-lg glow-gold">
               ⬆ ¡Nivel {lastAnswer?.newLevel}!
             </div>
-            <div className="text-center mt-1 text-xs text-[#8A6428] italic">+1 Loot Box disponible</div>
+            <div className="text-center mt-1 text-xs text-[#FFEA00] italic">+1 Loot Box disponible</div>
           </motion.div>
         )}
       </AnimatePresence>

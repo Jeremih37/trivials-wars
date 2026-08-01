@@ -217,7 +217,7 @@ export function LofiPlayer({ enabled, volume, onStateChange, className }: LofiPl
         </div>
       )}
       {state === "error" && (
-        <div className="absolute inset-0 flex items-center justify-center bg-rose-900 text-white text-[9px] font-bold uppercase tracking-wider">
+        <div className="absolute inset-0 flex items-center justify-center bg-[#5C0A1F] text-white text-[9px] font-bold uppercase tracking-wider">
           error
         </div>
       )}

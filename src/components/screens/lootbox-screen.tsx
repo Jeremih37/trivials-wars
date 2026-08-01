@@ -50,7 +50,7 @@ export function LootBoxScreen() {
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div>
-            <h1 className="text-lg font-fancy italic font-bold tracking-tight text-[#3D4A60]">Loot Box</h1>
+            <h1 className="text-lg font-fancy italic font-bold tracking-tight text-[#C8D0F0]">Loot Box</h1>
             <p className="text-[10px] text-muted-foreground">Rareza y suerte definieron tu recompensa</p>
           </div>
         </div>
@@ -103,27 +103,27 @@ export function LootBoxScreen() {
                       initial={{ scale: 0.8, opacity: 0.6 }}
                       animate={{ scale: 1.6, opacity: 0 }}
                       transition={{ duration: 1.2, repeat: Infinity }}
-                      className="absolute inset-0 rounded-full border-2 border-amber-400"
+                      className="absolute inset-0 rounded-full border-2 border-[#FFEA00]/60"
                     />
                     <motion.div
                       initial={{ scale: 0.8, opacity: 0.6 }}
                       animate={{ scale: 2, opacity: 0 }}
                       transition={{ duration: 1.2, repeat: Infinity, delay: 0.4 }}
-                      className="absolute inset-0 rounded-full border-2 border-purple-400"
+                      className="absolute inset-0 rounded-full border-2 border-[#B026FF]/60"
                     />
                   </>
                 )}
                 <div
                   className={cn(
                     "relative w-48 h-48 rounded-3xl flex items-center justify-center text-8xl",
-                    "bg-gradient-to-br from-amber-500/20 via-purple-500/20 to-pink-500/20",
-                    "border-2 border-[#C99A50]/50",
+                    "bg-gradient-to-br from-[#FFEA00]/20 via-purple-500/20 to-pink-500/20",
+                    "border-2 border-[#FFEA00]/50",
                     phase === "shaking" ? "glow-gold" : "shadow-2xl"
                   )}
                 >
                   🎁
-                  <Sparkles className="absolute top-2 right-2 w-6 h-6 text-amber-300 animate-pulse" />
-                  <Sparkles className="absolute bottom-2 left-2 w-4 h-4 text-purple-300 animate-pulse" />
+                  <Sparkles className="absolute top-2 right-2 w-6 h-6 text-[#FFEA00] animate-pulse" />
+                  <Sparkles className="absolute bottom-2 left-2 w-4 h-4 text-[#B026FF] animate-pulse" />
                 </div>
               </motion.div>
 
@@ -150,7 +150,7 @@ export function LootBoxScreen() {
               </button>
 
               {openMut.isError && (
-                <p className="text-xs text-red-400 mt-3">{(openMut.error as Error)?.message || "Error al abrir caja"}</p>
+                <p className="text-xs text-[#FF3366] mt-3">{(openMut.error as Error)?.message || "Error al abrir caja"}</p>
               )}
             </motion.div>
           )}
@@ -270,7 +270,7 @@ export function LootBoxScreen() {
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.9 }}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#7A8492]/15 border border-[#5C6E8A]/30 text-[#DDE3EC] text-xs mb-4"
+                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#8090C0]/15 border border-[#00E5FF]/30 text-[#4A5BA8] text-xs mb-4"
                 >
                   <Zap className="w-3.5 h-3.5" />
                   Duplicado · +{result.xpBonus} XP de compensación
@@ -282,7 +282,7 @@ export function LootBoxScreen() {
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 1.0 }}
-                  className="mb-4 px-4 py-2 rounded-xl bg-[#E8D4A8]/40 border border-[#C99A50]/40 text-amber-200 text-sm font-bold"
+                  className="mb-4 px-4 py-2 rounded-xl bg-[#1A1F4A]/40 border border-[#FFEA00]/40 text-[#FFEA00] text-sm font-bold"
                 >
                   ⬆ ¡Subiste al nivel {result.newLevel}! +1 Loot Box
                 </motion.div>

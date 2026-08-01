@@ -36,7 +36,7 @@ export const RARITY_CONFIG: Record<Rarity, {
   },
   Inusual: {
     probability: 0.25,
-    color: "border-green-400 text-green-200 bg-green-700/20",
+    color: "border-[#39FF14]/60 text-green-200 bg-green-700/20",
     hex: "#22c55e",
     glow: "glow-green",
     label: "Inusual",
@@ -45,7 +45,7 @@ export const RARITY_CONFIG: Record<Rarity, {
   },
   Raro: {
     probability: 0.12,
-    color: "border-cyan-400 text-cyan-200 bg-cyan-700/20",
+    color: "border-[#00E5FF]/60 text-cyan-200 bg-cyan-700/20",
     hex: "#06b6d4",
     glow: "glow-cyan",
     label: "Raro",
@@ -63,7 +63,7 @@ export const RARITY_CONFIG: Record<Rarity, {
   },
   Legendario: {
     probability: 0.02,
-    color: "border-amber-300 text-amber-100 bg-amber-600/20",
+    color: "border-[#FFEA00]/60 text-[#FFEA00] bg-[#FFEA00]/20",
     hex: "#ffd60a",
     glow: "glow-gold",
     label: "Legendario",

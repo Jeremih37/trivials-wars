@@ -38,9 +38,9 @@ export function BubblesBackground({ count = 22 }: { count?: number }) {
             width: `${b.size}px`,
             height: `${b.size}px`,
             background:
-              "radial-gradient(circle at 30% 28%, rgba(255, 252, 247,0.92) 0%, rgba(255, 252, 247,0.55) 18%, rgba(176, 191, 174,0.35) 55%, rgba(110, 130, 160,0.15) 100%)",
-            border: "1px solid rgba(255, 252, 247, 0.6)",
-            boxShadow: `inset -2px -3px 6px rgba(110, 130, 160,0.18), inset 2px 2px 4px rgba(255, 252, 247,0.6), 0 0 ${b.size / 1.8}px rgba(138, 160, 136, 0.45)`,
+              "radial-gradient(circle at 30% 28%, rgba(0, 229, 255, 0.55) 0%, rgba(0, 229, 255, 0.30) 18%, rgba(176, 38, 255, 0.25) 55%, rgba(255, 45, 149, 0.12) 100%)",
+            border: "1px solid rgba(0, 229, 255, 0.55)",
+            boxShadow: `inset -2px -3px 6px rgba(0, 229, 255, 0.25), inset 2px 2px 4px rgba(128, 244, 255, 0.55), 0 0 ${b.size / 1.2}px rgba(0, 229, 255, 0.55), 0 0 ${b.size / 0.8}px rgba(176, 38, 255, 0.25)`,
             opacity: b.opacity,
             animationDuration: `${b.duration}s`,
             animationDelay: `${b.delay}s`,

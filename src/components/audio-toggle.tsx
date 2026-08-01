@@ -46,8 +46,8 @@ export function AudioToggle({ compact = false }: { compact?: boolean }) {
         className={cn(
           "p-2 rounded-xl border transition-all",
           showVolume
-            ? "bg-[#7A8492]/15 border-[#7A8492]/40 text-[#3D4A60]"
-            : "bg-[#F2ECDD]/70 border-[#7A8492]/40 text-[#3D4A60] hover:bg-[#F2ECDD]/95 hover:border-[#7A8492]/40",
+            ? "bg-[#8090C0]/15 border-[#8090C0]/40 text-[#C8D0F0]"
+            : "bg-[#131838]/70 border-[#8090C0]/40 text-[#C8D0F0] hover:bg-[#131838]/95 hover:border-[#8090C0]/40",
         )}
       >
         {volume === 0 ? (
@@ -62,7 +62,7 @@ export function AudioToggle({ compact = false }: { compact?: boolean }) {
       {/* Popover con slider de volumen */}
       {showVolume && (
         <div className="absolute top-full right-0 mt-2 z-50 rounded-2xl glass-strong p-4 shadow-xl min-w-[200px]">
-          <div className="text-[10px] uppercase tracking-wider text-[#4E5A6C] font-bold mb-2 flex items-center gap-1.5">
+          <div className="text-[10px] uppercase tracking-wider text-[#8090C0] font-bold mb-2 flex items-center gap-1.5">
             <Volume2 className="w-3 h-3" />
             Volumen Ambiental
           </div>
@@ -75,9 +75,9 @@ export function AudioToggle({ compact = false }: { compact?: boolean }) {
             className="w-full accent-slate-500 cursor-pointer"
             style={{ cursor: "pointer" }}
           />
-          <div className="flex justify-between text-[9px] text-[#7A8492] mt-1 font-mono">
+          <div className="flex justify-between text-[9px] text-[#8090C0] mt-1 font-mono">
             <span>0%</span>
-            <span className="font-bold text-[#3D4A60]">{Math.round(volume * 100)}%</span>
+            <span className="font-bold text-[#C8D0F0]">{Math.round(volume * 100)}%</span>
             <span>100%</span>
           </div>
         </div>
@@ -93,8 +93,8 @@ export function AudioToggle({ compact = false }: { compact?: boolean }) {
         className={cn(
           "p-2 rounded-xl border transition-all",
           sfxEnabled
-            ? "bg-[#97A894]/20 border-[#718C6F]/40 text-[#4D6450] hover:bg-[#97A894]/30"
-            : "bg-[#F2ECDD]/40 border-[#7A8492]/40 text-[#8E9DB4] hover:bg-[#F2ECDD]/60",
+            ? "bg-[#39FF14]/20 border-[#39FF14]/40 text-[#00B377] hover:bg-[#39FF14]/30"
+            : "bg-[#131838]/40 border-[#8090C0]/40 text-[#4A5BA8] hover:bg-[#131838]/60",
         )}
       >
         {sfxEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
@@ -110,8 +110,8 @@ export function AudioToggle({ compact = false }: { compact?: boolean }) {
         className={cn(
           "p-2 rounded-xl border transition-all",
           musicEnabled
-            ? "bg-[#7A8492]/15 border-[#5C6E8A]/40 text-[#3D4A60] hover:bg-[#7A8492]/25"
-            : "bg-[#F2ECDD]/40 border-[#7A8492]/40 text-[#8E9DB4] hover:bg-[#F2ECDD]/60",
+            ? "bg-[#8090C0]/15 border-[#00E5FF]/40 text-[#C8D0F0] hover:bg-[#8090C0]/25"
+            : "bg-[#131838]/40 border-[#8090C0]/40 text-[#4A5BA8] hover:bg-[#131838]/60",
         )}
       >
         {musicEnabled ? <Music className="w-4 h-4" /> : <Music2 className="w-4 h-4" />}

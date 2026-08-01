@@ -44,7 +44,7 @@ const FUN_FACTS: FunFact[] = [
     id: 1,
     emoji: "🐙",
     category: "Ciencia",
-    color: "#6E82A0",
+    color: "#00E5FF",
     title: "El pulpo tiene tres corazones",
     description:
       "Dos corazones bombean sangre a las branquias y el tercero al resto del cuerpo. Cuando nada, el corazón principal se detiene, por eso prefieren caminar.",
@@ -53,7 +53,7 @@ const FUN_FACTS: FunFact[] = [
     id: 2,
     emoji: "🧱",
     category: "Historia",
-    color: "#f59e0b",
+    color: "#FFEA00",
     title: "La Gran Muralla China mide +21,000 km",
     description:
       "No es una sola pared, sino una red de tramos construidos a lo largo de 2,000 años. Se dice que es visible desde la órbita baja terrestre.",
@@ -71,7 +71,7 @@ const FUN_FACTS: FunFact[] = [
     id: 4,
     emoji: "🧠",
     category: "Ciencia",
-    color: "#A4B3C8",
+    color: "#00E5FF",
     title: "El cerebro usa el 20% de tu energía",
     description:
       "Pesa apenas 1.4 kg pero consume el 20% del oxígeno y calorías. Genera energía suficiente para encender una bombilla de bajo consumo.",
@@ -80,7 +80,7 @@ const FUN_FACTS: FunFact[] = [
     id: 5,
     emoji: "🐜",
     category: "Naturaleza",
-    color: "#8AA088",
+    color: "#39FF14",
     title: "Las hormigas pueden cargar 50x su peso",
     description:
       "Si un humano tuviera esa fuerza proporcional, levantaría un automóvil. Existen más de 12,000 especies de hormigas en el planeta.",
@@ -89,7 +89,7 @@ const FUN_FACTS: FunFact[] = [
     id: 6,
     emoji: "🏔️",
     category: "Geografía",
-    color: "#6E82A0",
+    color: "#00E5FF",
     title: "El Everest crece 4 mm cada año",
     description:
       "La colisión de placas tectónicas entre India y Asia empuja la montaña hacia arriba. Hace 50 millones de años esta zona estaba bajo el mar.",
@@ -218,20 +218,20 @@ export function WelcomeScreen() {
       <BubblesBackground count={28} />
 
       {/* Header */}
-      <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#F2ECDD]/50 border-b border-[#7A8492]/40">
+      <header className="sticky top-0 z-40 backdrop-blur-xl bg-[#131838]/50 border-b border-[#8090C0]/40">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <motion.div
               initial={{ rotate: -10, scale: 0.9 }}
               animate={{ rotate: 0, scale: 1 }}
               className="text-3xl"
-              style={{ filter: "drop-shadow(0 0 12px rgba(110, 130, 160,0.6))" }}
+              style={{ filter: "drop-shadow(0 0 14px rgba(0, 229, 255, 0.75))" }}
             >
               🧠
             </motion.div>
             <div>
               <h1 className="text-xl font-fancy italic font-bold tracking-tight text-gradient-neon">Trivials Wars</h1>
-              <p className="text-[10px] text-[#4E5A6C] -mt-1 tracking-widest uppercase">El conocimiento es poder</p>
+              <p className="text-[10px] text-[#8090C0] -mt-1 tracking-widest uppercase">El conocimiento es poder</p>
             </div>
           </div>
 
@@ -239,19 +239,19 @@ export function WelcomeScreen() {
             <AudioToggle compact />
             <button
               onClick={() => setScreen("lootbox")}
-              className="relative px-3 py-2 rounded-xl bg-[#E8D4A8]/40 border border-[#C99A50]/50 text-[#8A6428] hover:bg-amber-300/40 transition glow-gold"
+              className="relative px-3 py-2 rounded-xl bg-[#1A1F4A]/40 border border-[#FFEA00]/50 text-[#FFEA00] hover:bg-[#FFEA00]/30 transition glow-gold"
               title="Abrir Loot Box"
             >
               <Gift className="w-5 h-5" />
               {profile?.user.boxes ? (
-                <span className="absolute -top-1 -right-1 bg-amber-400 text-black text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-[#FFEA00] text-black text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
                   {profile.user.boxes}
                 </span>
               ) : null}
             </button>
             <button
               onClick={() => setScreen("profile")}
-              className="relative p-1 rounded-xl bg-[#F2ECDD]/70 border border-[#7A8492]/60 hover:border-[#5C6E8A]/60 transition"
+              className="relative p-1 rounded-xl bg-[#131838]/70 border border-[#8090C0]/60 hover:border-[#00E5FF]/60 transition"
               title="Perfil"
             >
               {profile && frame ? (
@@ -259,12 +259,12 @@ export function WelcomeScreen() {
                   <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
                     {frame.render()}
                   </svg>
-                  <div className="absolute inset-2 rounded-full bg-gradient-to-br from-[#6E82A0]/30 to-[#B0BFAE]/30 flex items-center justify-center text-base">
+                  <div className="absolute inset-2 rounded-full bg-gradient-to-br from-[#00E5FF]/30 to-[#00FFB3]/30 flex items-center justify-center text-base">
                     {profile.user.profileIconEmoji}
                   </div>
                 </div>
               ) : (
-                <div className="p-2"><User className="w-5 h-5 text-[#4E5A6C]" /></div>
+                <div className="p-2"><User className="w-5 h-5 text-[#8090C0]" /></div>
               )}
             </button>
           </div>
@@ -283,17 +283,17 @@ export function WelcomeScreen() {
               animate={{ opacity: 1, x: 0 }}
               className="relative overflow-hidden rounded-3xl glass-frutiger p-5 sm:p-6"
             >
-              <div className="absolute -top-20 -right-20 w-72 h-72 bg-[#B0BFAE]/20 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-[#B0BFAE]/20 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -top-20 -right-20 w-72 h-72 bg-[#00FFB3]/20 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-[#00FFB3]/20 rounded-full blur-3xl pointer-events-none" />
 
               <div className="relative flex flex-col sm:flex-row gap-5 items-center sm:items-start">
                 {/* Avatar + marco */}
                 <div className="flex flex-col items-center gap-2 shrink-0">
                   <div className="relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#6E82A0]/40 to-[#B0BFAE]/40 blur-2xl rounded-full" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#00E5FF]/40 to-[#00FFB3]/40 blur-2xl rounded-full" />
                     <div
-                      className="relative w-28 h-28 rounded-full bg-[#F2ECDD]/80 border-2 flex items-center justify-center overflow-hidden"
-                      style={{ borderColor: frame?.hex ?? "#6E82A0", boxShadow: `0 0 25px ${frame?.hex ?? "#6E82A0"}80` }}
+                      className="relative w-28 h-28 rounded-full bg-[#131838]/80 border-2 flex items-center justify-center overflow-hidden"
+                      style={{ borderColor: frame?.hex ?? "#00E5FF", boxShadow: `0 0 25px ${frame?.hex ?? "#00E5FF"}80` }}
                     >
                       {avatarData && <AvatarSvg {...avatarData} size={100} />}
                     </div>
@@ -304,14 +304,14 @@ export function WelcomeScreen() {
                     )}
                   </div>
                   <div className="text-center">
-                    <div className="text-[10px] uppercase tracking-widest text-[#7A8492] font-bold">Nivel</div>
+                    <div className="text-[10px] uppercase tracking-widest text-[#8090C0] font-bold">Nivel</div>
                     <div className="text-lg font-fancy italic font-bold text-gradient-neon leading-none">{profile?.user.level ?? 1}</div>
                   </div>
                 </div>
 
                 {/* Saludo + edición de nombre */}
                 <div className="flex-1 space-y-3 min-w-0 w-full">
-                  <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-[#4E5A6C] font-bold">
+                  <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-[#8090C0] font-bold">
                     <Sparkles className="w-3.5 h-3.5" /> ¡Bienvenido!
                   </div>
 
@@ -322,10 +322,10 @@ export function WelcomeScreen() {
                       </h2>
                       <button
                         onClick={startEditName}
-                        className="p-2 rounded-xl bg-[#F2ECDD]/80 border border-[#7A8492]/60 hover:border-[#5C6E8A]/60 transition shrink-0"
+                        className="p-2 rounded-xl bg-[#131838]/80 border border-[#8090C0]/60 hover:border-[#00E5FF]/60 transition shrink-0"
                         title="Editar nombre"
                       >
-                        <Pencil className="w-4 h-4 text-[#4E5A6C]" />
+                        <Pencil className="w-4 h-4 text-[#8090C0]" />
                       </button>
                     </div>
                   ) : (
@@ -340,7 +340,7 @@ export function WelcomeScreen() {
                         }}
                         autoFocus
                         placeholder="Tu nombre de jugador"
-                        className="px-4 py-3 rounded-xl bg-[#F2ECDD]/90 border border-[#7A8492]/60 text-lg font-bold focus:border-[#5C6E8A] focus:outline-none focus:ring-2 focus:ring-slate-500/40 w-full sm:w-auto sm:min-w-[280px]"
+                        className="px-4 py-3 rounded-xl bg-[#131838]/90 border border-[#8090C0]/60 text-lg font-bold focus:border-[#00E5FF] focus:outline-none focus:ring-2 focus:ring-slate-500/40 w-full sm:w-auto sm:min-w-[280px]"
                       />
                       <button
                         onClick={saveName}
@@ -352,23 +352,23 @@ export function WelcomeScreen() {
                       </button>
                       <button
                         onClick={() => setEditingName(false)}
-                        className="px-4 py-3 rounded-xl bg-[#F2ECDD]/80 border border-[#7A8492]/60 hover:bg-[#F2ECDD]/90 transition text-sm font-bold"
+                        className="px-4 py-3 rounded-xl bg-[#131838]/80 border border-[#8090C0]/60 hover:bg-[#131838]/90 transition text-sm font-bold"
                       >
                         Cancelar
                       </button>
                     </div>
                   )}
 
-                  <p className="text-[#4E5A6C] text-sm">
+                  <p className="text-[#8090C0] text-sm">
                     Cada partida es una nueva oportunidad para aprender algo increíble, ganar XP y subir de nivel.
                   </p>
 
                   {/* Mini stats en fila */}
                   <div className="flex flex-wrap gap-2 pt-1">
-                    <MiniStat icon={<Trophy className="w-3.5 h-3.5" />} label="Nivel" value={profile?.user.level ?? 1} color="text-[#8A6428]" />
-                    <MiniStat icon={<Zap className="w-3.5 h-3.5" />} label="XP" value={profile?.user.xp ?? 0} color="text-[#8AA088]" />
-                    <MiniStat icon={<Swords className="w-3.5 h-3.5" />} label="Victorias" value={profile?.user.wins ?? 0} color="text-[#4D6450]" />
-                    <MiniStat icon={<Flame className="w-3.5 h-3.5" />} label="Racha" value={profile?.user.currentStreak ?? 0} color="text-orange-500" />
+                    <MiniStat icon={<Trophy className="w-3.5 h-3.5" />} label="Nivel" value={profile?.user.level ?? 1} color="text-[#FFEA00]" />
+                    <MiniStat icon={<Zap className="w-3.5 h-3.5" />} label="XP" value={profile?.user.xp ?? 0} color="text-[#39FF14]" />
+                    <MiniStat icon={<Swords className="w-3.5 h-3.5" />} label="Victorias" value={profile?.user.wins ?? 0} color="text-[#00B377]" />
+                    <MiniStat icon={<Flame className="w-3.5 h-3.5" />} label="Racha" value={profile?.user.currentStreak ?? 0} color="text-[#FFB300]" />
                   </div>
                 </div>
               </div>
@@ -395,7 +395,7 @@ export function WelcomeScreen() {
                 <QuickMode
                   icon={<Swords className="w-4 h-4" />}
                   label="Reto"
-                  color="#6E82A0"
+                  color="#00E5FF"
                   onClick={() => {
                     useGameStore.getState().setMode("classic")
                     setScreen("home")
@@ -413,14 +413,14 @@ export function WelcomeScreen() {
                 <QuickMode
                   icon={<Skull className="w-4 h-4" />}
                   label="Muerte Súbita"
-                  color="#fbbf24"
+                  color="#FFEA00"
                   onClick={() => {
                     useGameStore.getState().setMode("suddendeath")
                     setScreen("home")
                   }}
                 />
               </div>
-              <p className="text-center text-[11px] text-[#7A8492]">
+              <p className="text-center text-[11px] text-[#8090C0]">
                 Elegí categoría y dificultad · Acumula XP · Sube de nivel · Desbloquea accesorios
               </p>
             </motion.section>
@@ -436,12 +436,12 @@ export function WelcomeScreen() {
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl bg-[#7A8492]/15 border border-[#5C6E8A]/30 text-[#4E5A6C] flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-xl bg-[#8090C0]/15 border border-[#00E5FF]/30 text-[#8090C0] flex items-center justify-center">
                     <Brain className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="font-fancy italic font-semibold text-lg sm:text-xl text-[#3D4A60]">¿Sabías que…?</h3>
-                    <p className="text-xs text-[#7A8492]">Datos curiosos de cultura general</p>
+                    <h3 className="font-fancy italic font-semibold text-lg sm:text-xl text-[#C8D0F0]">¿Sabías que…?</h3>
+                    <p className="text-xs text-[#8090C0]">Datos curiosos de cultura general</p>
                   </div>
                 </div>
                 <button
@@ -449,8 +449,8 @@ export function WelcomeScreen() {
                   className={cn(
                     "px-3 py-1.5 rounded-xl text-xs font-bold border transition",
                     autoPlay
-                      ? "bg-[#7A8492]/15 border-[#5C6E8A]/30 text-[#4E5A6C]"
-                      : "bg-[#F2ECDD]/60 border-[#7A8492]/40 text-[#7A8492]"
+                      ? "bg-[#8090C0]/15 border-[#00E5FF]/30 text-[#8090C0]"
+                      : "bg-[#131838]/60 border-[#8090C0]/40 text-[#8090C0]"
                   )}
                 >
                   {autoPlay ? "Auto: ON" : "Auto: OFF"}
@@ -459,7 +459,7 @@ export function WelcomeScreen() {
 
               {/* Card principal del dato — layout 2 lados */}
               <div
-                className="relative overflow-hidden rounded-3xl border bg-[#F2ECDD]/70 backdrop-blur-md"
+                className="relative overflow-hidden rounded-3xl border bg-[#131838]/70 backdrop-blur-md"
                 style={{ borderColor: `${currentFact.color}50`, boxShadow: `0 0 30px ${currentFact.color}25` }}
                 onPointerEnter={() => setAutoPlay(false)}
                 onPointerLeave={() => setAutoPlay(true)}
@@ -499,8 +499,8 @@ export function WelcomeScreen() {
                         transition={{ duration: 0.3 }}
                         className="mt-2"
                       >
-                        <h4 className="text-lg sm:text-xl font-fancy italic font-semibold leading-tight text-[#3D4A60]">{currentFact.title}</h4>
-                        <p className="text-sm text-[#4E5A6C] leading-relaxed mt-1.5">
+                        <h4 className="text-lg sm:text-xl font-fancy italic font-semibold leading-tight text-[#C8D0F0]">{currentFact.title}</h4>
+                        <p className="text-sm text-[#8090C0] leading-relaxed mt-1.5">
                           {currentFact.description}
                         </p>
                       </motion.div>
@@ -524,20 +524,20 @@ export function WelcomeScreen() {
                       <div className="flex items-center gap-2">
                         <button
                           onClick={goPrev}
-                          className="p-2 rounded-xl bg-[#F2ECDD]/80 border border-[#7A8492]/60 hover:border-[#5C6E8A]/60 hover:bg-[#F2ECDD] transition"
+                          className="p-2 rounded-xl bg-[#131838]/80 border border-[#8090C0]/60 hover:border-[#00E5FF]/60 hover:bg-[#131838] transition"
                           aria-label="Dato anterior"
                         >
-                          <ChevronLeft className="w-4 h-4 text-[#4E5A6C]" />
+                          <ChevronLeft className="w-4 h-4 text-[#8090C0]" />
                         </button>
-                        <span className="text-xs font-mono text-[#7A8492] tabular-nums">
+                        <span className="text-xs font-mono text-[#8090C0] tabular-nums">
                           {factIdx + 1} / {FUN_FACTS.length}
                         </span>
                         <button
                           onClick={goNext}
-                          className="p-2 rounded-xl bg-[#F2ECDD]/80 border border-[#7A8492]/60 hover:border-[#5C6E8A]/60 hover:bg-[#F2ECDD] transition"
+                          className="p-2 rounded-xl bg-[#131838]/80 border border-[#8090C0]/60 hover:border-[#00E5FF]/60 hover:bg-[#131838] transition"
                           aria-label="Dato siguiente"
                         >
-                          <ChevronRight className="w-4 h-4 text-[#4E5A6C]" />
+                          <ChevronRight className="w-4 h-4 text-[#8090C0]" />
                         </button>
                       </div>
                     </div>
@@ -558,7 +558,7 @@ export function WelcomeScreen() {
         </div>
       </main>
 
-      <footer className="relative z-10 mt-auto text-center text-xs text-[#7A8492] py-4">
+      <footer className="relative z-10 mt-auto text-center text-xs text-[#8090C0] py-4">
         Trivials Wars · {profile?.user.provider === "google" ? "Cuenta Google" : "Modo Invitado"}
       </footer>
     </div>
@@ -567,10 +567,10 @@ export function WelcomeScreen() {
 
 function MiniStat({ icon, label, value, color }: { icon: React.ReactNode; label: string; value: number | string; color?: string }) {
   return (
-    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#F2ECDD]/70 border border-[#7A8492]/40">
+    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#131838]/70 border border-[#8090C0]/40">
       <span className={color}>{icon}</span>
-      <span className="text-[9px] uppercase text-[#7A8492] tracking-wider">{label}</span>
-      <span className="text-xs font-bold text-[#2A3340]">{value}</span>
+      <span className="text-[9px] uppercase text-[#8090C0] tracking-wider">{label}</span>
+      <span className="text-xs font-bold text-[#F0F4FF]">{value}</span>
     </div>
   )
 }
@@ -589,7 +589,7 @@ function QuickMode({
   return (
     <button
       onClick={onClick}
-      className="flex items-center justify-center gap-1.5 py-2.5 rounded-2xl border bg-[#F2ECDD]/70 transition hover:scale-[1.03] active:scale-[0.98]"
+      className="flex items-center justify-center gap-1.5 py-2.5 rounded-2xl border bg-[#131838]/70 transition hover:scale-[1.03] active:scale-[0.98]"
       style={{
         borderColor: `${color}50`,
         boxShadow: `0 2px 8px ${color}15`,
