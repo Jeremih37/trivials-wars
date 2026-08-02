@@ -431,29 +431,14 @@ export function WelcomeScreen() {
           </motion.section>
         </div>
 
-        {/* ====== Galería temática — espacios del conocimiento ====== */}
+        {/* ====== Carrusel temático — una imagen + descripción ====== */}
         <motion.section
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.18, duration: 0.4 }}
           className="mt-1"
         >
-          <div className="flex items-baseline gap-2 mb-1.5">
-            <h2 className="font-fancy italic text-sm font-bold text-white tracking-tight">
-              Espacios del conocimiento
-            </h2>
-            <span className="text-[8px] uppercase tracking-[0.18em] text-zinc-500 hidden sm:inline">
-              Explorá los universos
-            </span>
-          </div>
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
-            <TopicCard src="/topics/cine.png" label="Cine" />
-            <TopicCard src="/topics/mate.png" label="Matemáticas" />
-            <TopicCard src="/topics/universo.png" label="Universo" />
-            <TopicCard src="/topics/micro.png" label="Microbios" />
-            <TopicCard src="/topics/historia.png" label="Historia" />
-            <TopicCard src="/topics/arte.png" label="Arte" />
-          </div>
+          <TopicCarousel />
         </motion.section>
 
         {/* ====== CTA principal — siempre visible después del contenido ====== */}
@@ -517,22 +502,143 @@ function QuickMode({
   )
 }
 
-function TopicCard({ src, label }: { src: string; label: string }) {
+const TOPICS = [
+  {
+    src: "/topics/cine.png",
+    label: "Cine",
+    title: "El arte de contar historias en movimiento",
+    desc: "Desde los hermanos Lumière hasta el cine digital, cada película es un universo comprimido en dos horas de luz proyectada.",
+  },
+  {
+    src: "/topics/mate.png",
+    label: "Matemáticas",
+    title: "El lenguaje universal del universo",
+    desc: "E = mc², el teorema de Pitágoras, la sucesión de Fibonacci… las matemáticas esculpen cada forma de la realidad.",
+  },
+  {
+    src: "/topics/universo.png",
+    label: "Universo",
+    title: "Un océano de estrellas y misterios",
+    desc: "Hay más estrellas en el universo observable que granos de arena en todas las playas de la Tierra. Y cada una cuenta una historia.",
+  },
+  {
+    src: "/topics/micro.png",
+    label: "Microorganismos",
+    title: "La vida invisible que sostiene la visible",
+    desc: "En una cucharadita de suelo hay más microorganismos que seres humanos en todo el planeta. Son los protagonistas silenciosos de la vida.",
+  },
+  {
+    src: "/topics/historia.png",
+    label: "Historia",
+    title: "Las huellas de quienes nos precedieron",
+    desc: "La Biblioteca de Alejandría guardó 700.000 rollos. Su pérdida retrasó la ciencia mil años. El conocimiento es frágil y precioso.",
+  },
+  {
+    src: "/topics/arte.png",
+    label: "Arte",
+    title: "La belleza como forma de verdad",
+    desc: "Desde las cuevas de Altamira hasta el Renacimiento, el arte es el espejo donde la humanidad se ha mirado durante milenios.",
+  },
+] as const
+
+function TopicCarousel() {
+  const [idx, setIdx] = useState(0)
+  const [paused, setPaused] = useState(false)
+
+  useEffect(() => {
+    if (paused) return
+    const t = setInterval(() => {
+      setIdx((i) => (i + 1) % TOPICS.length)
+    }, 5000)
+    return () => clearInterval(t)
+  }, [paused])
+
+  const topic = TOPICS[idx]
+
   return (
-    <div className="group relative aspect-square overflow-hidden rounded-lg border border-white/10 bg-white/[0.02]">
-      <img
-        src={src}
-        alt={label}
-        loading="lazy"
-        className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-90 transition-opacity duration-300"
-      />
-      {/* Overlay oscuro para integrar con el fondo */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/40 to-transparent" />
-      {/* Label */}
-      <div className="absolute inset-x-0 bottom-0 p-1.5">
-        <span className="block text-[9px] sm:text-[10px] font-fancy italic font-bold text-white tracking-tight text-center leading-tight">
-          {label}
-        </span>
+    <div
+      className="relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.02]"
+      onPointerEnter={() => setPaused(true)}
+      onPointerLeave={() => setPaused(false)}
+    >
+      {/* Imagen con transición */}
+      <div className="relative aspect-[16/7] sm:aspect-[16/5] w-full overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={topic.src}
+            initial={{ opacity: 0, scale: 1.05 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="absolute inset-0"
+          >
+            <img
+              src={topic.src}
+              alt={topic.label}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </motion.div>
+        </AnimatePresence>
+        {/* Overlay para integrar con el fondo */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/60 to-[#0a0a0f]/20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0f]/80 via-transparent to-transparent" />
+      </div>
+
+      {/* Contenido superpuesto */}
+      <div className="absolute inset-0 flex flex-col justify-end p-3 sm:p-4">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={topic.src}
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+            className="max-w-xl space-y-1"
+          >
+            <span className="inline-block text-[8px] uppercase tracking-[0.22em] font-medium text-zinc-300 mb-0.5">
+              {topic.label}
+            </span>
+            <h3 className="font-fancy italic text-sm sm:text-base font-bold text-white tracking-tight leading-tight">
+              {topic.title}
+            </h3>
+            <p className="text-zinc-300 text-[10px] sm:text-[11px] leading-snug line-clamp-2 max-w-md">
+              {topic.desc}
+            </p>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Controles inferiores */}
+      <div className="absolute top-2 right-2 flex items-center gap-1">
+        <button
+          onClick={() => setIdx((i) => (i - 1 + TOPICS.length) % TOPICS.length)}
+          className="p-1 rounded-md bg-black/40 backdrop-blur-sm border border-white/10 hover:bg-black/60 transition"
+          aria-label="Anterior"
+        >
+          <ChevronLeft className="w-3 h-3 text-white" />
+        </button>
+        <button
+          onClick={() => setIdx((i) => (i + 1) % TOPICS.length)}
+          className="p-1 rounded-md bg-black/40 backdrop-blur-sm border border-white/10 hover:bg-black/60 transition"
+          aria-label="Siguiente"
+        >
+          <ChevronRight className="w-3 h-3 text-white" />
+        </button>
+      </div>
+
+      {/* Indicadores */}
+      <div className="absolute bottom-1.5 right-2 flex items-center gap-1">
+        {TOPICS.map((t, i) => (
+          <button
+            key={t.src}
+            onClick={() => setIdx(i)}
+            className={cn(
+              "h-1 rounded-full transition-all",
+              i === idx ? "w-4 bg-white" : "w-1 bg-white/30 hover:bg-white/60"
+            )}
+            aria-label={`Ir a ${t.label}`}
+          />
+        ))}
       </div>
     </div>
   )
