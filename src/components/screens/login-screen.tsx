@@ -53,14 +53,14 @@ export function LoginScreen() {
           animate={{ scale: 1, rotate: 0 }}
           transition={{ type: "spring", stiffness: 200, damping: 12 }}
           className="text-7xl mb-4 inline-block"
-          style={{ filter: "drop-shadow(0 0 20px rgba(236,72,153,0.6))" }}
+          style={{ filter: "drop-shadow(0 0 16px rgba(255,255,255,0.15))" }}
         >
           
         </motion.div>
         <h1 className="text-5xl sm:text-6xl font-fancy italic font-bold tracking-tight text-gradient-neon leading-none">
           Trivials<br/>Wars
         </h1>
-        <p className="text-sm text-[#8090C0] mt-3 uppercase tracking-[0.3em] italic">
+        <p className="text-xs text-zinc-500 mt-3 uppercase tracking-[0.3em] italic">
           El conocimiento es poder
         </p>
       </motion.div>
@@ -82,7 +82,7 @@ export function LoginScreen() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="w-full max-w-md rounded-3xl border border-border/60 bg-card/60 backdrop-blur-xl p-6 glow-pink"
+        className="w-full max-w-md rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-xl p-6"
       >
         {!showGoogleMock ? (
           <>
@@ -100,7 +100,7 @@ export function LoginScreen() {
             <button
               onClick={() => setShowGoogleMock(true)}
               disabled={loginMut.isPending}
-              className="w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-3 bg-[#131838] text-[#F0F4FF] hover:bg-[#1A1F4A] transition disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3 rounded-lg font-bold text-sm flex items-center justify-center gap-3 bg-white text-black hover:bg-zinc-100 transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <GoogleIcon />
               Continuar con Google
@@ -116,7 +116,7 @@ export function LoginScreen() {
             <button
               onClick={handleGuest}
               disabled={loginMut.isPending}
-              className="w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 bg-card border border-border/60 hover:bg-card/70 transition disabled:opacity-50"
+              className="w-full py-3 rounded-lg font-bold text-sm flex items-center justify-center gap-2 bg-white/5 border border-white/10 hover:bg-white/10 transition disabled:opacity-50"
             >
               <UserX className="w-4 h-4" />
               Jugar como invitado
@@ -140,27 +140,27 @@ export function LoginScreen() {
 
             <div className="space-y-3">
               <label className="block">
-                <span className="text-xs uppercase tracking-widest text-muted-foreground">Correo Google</span>
+                <span className="text-xs uppercase tracking-widest text-zinc-500">Correo Google</span>
                 <input
                   type="email"
                   value={mockEmail}
                   onChange={(e) => setMockEmail(e.target.value)}
                   placeholder="tucorreo@gmail.com"
-                  className="mt-1 w-full px-4 py-3 rounded-xl bg-input border border-border/60 text-sm focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/40"
+                  className="mt-1 w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-sm focus:border-white/30 focus:outline-none focus:ring-2 focus:ring-white/10"
                 />
               </label>
 
               <div className="flex gap-2">
                 <button
                   onClick={() => setShowGoogleMock(false)}
-                  className="px-4 py-3 rounded-xl bg-card border border-border/60 hover:bg-card/70 transition text-sm font-bold"
+                  className="px-4 py-3 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition text-sm font-bold"
                 >
                   ← Volver
                 </button>
                 <button
                   onClick={handleGoogleDemo}
                   disabled={loginMut.isPending}
-                  className="flex-1 py-3 rounded-xl bg-[#131838] text-[#F0F4FF] hover:bg-[#1A1F4A] transition text-sm font-bold flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="flex-1 py-3 rounded-lg bg-white text-black hover:bg-zinc-100 transition text-sm font-bold flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   <GoogleIcon />
                   {loginMut.isPending ? "Conectando…" : "Continuar"}
@@ -175,7 +175,7 @@ export function LoginScreen() {
         )}
 
         {loginMut.isError && (
-          <p className="text-xs text-[#FF3366] text-center mt-3">
+          <p className="text-xs text-red-400 text-center mt-3">
             {(loginMut.error as Error)?.message}
           </p>
         )}
@@ -195,9 +195,9 @@ export function LoginScreen() {
 
 function FeaturePill({ icon, label }: { icon: React.ReactNode; label: string }) {
   return (
-    <div className="flex flex-col items-center gap-1 py-2 px-1 rounded-xl bg-card/40 border border-border/40">
-      <span className="text-primary">{icon}</span>
-      <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">{label}</span>
+    <div className="flex flex-col items-center gap-1 py-2 px-1 rounded-lg bg-white/[0.02] border border-white/10">
+      <span className="text-white">{icon}</span>
+      <span className="text-[10px] text-zinc-500 uppercase tracking-wider font-bold">{label}</span>
     </div>
   )
 }

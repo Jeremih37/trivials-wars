@@ -38,10 +38,10 @@ export function BubblesBackground({ count = 22 }: { count?: number }) {
             width: `${b.size}px`,
             height: `${b.size}px`,
             background:
-              "radial-gradient(circle at 30% 28%, rgba(0, 229, 255, 0.55) 0%, rgba(0, 229, 255, 0.30) 18%, rgba(176, 38, 255, 0.25) 55%, rgba(255, 45, 149, 0.12) 100%)",
-            border: "1px solid rgba(0, 229, 255, 0.55)",
-            boxShadow: `inset -2px -3px 6px rgba(0, 229, 255, 0.25), inset 2px 2px 4px rgba(128, 244, 255, 0.55), 0 0 ${b.size / 1.2}px rgba(0, 229, 255, 0.55), 0 0 ${b.size / 0.8}px rgba(176, 38, 255, 0.25)`,
-            opacity: b.opacity,
+              "radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.12) 18%, rgba(120, 119, 198, 0.10) 55%, rgba(120, 119, 198, 0.04) 100%)",
+            border: "1px solid rgba(255, 255, 255, 0.15)",
+            boxShadow: `inset -2px -3px 6px rgba(255, 255, 255, 0.08), inset 2px 2px 4px rgba(255, 255, 255, 0.20), 0 0 ${b.size / 1.2}px rgba(255, 255, 255, 0.10)`,
+            opacity: b.opacity * 0.6,
             animationDuration: `${b.duration}s`,
             animationDelay: `${b.delay}s`,
           }}
