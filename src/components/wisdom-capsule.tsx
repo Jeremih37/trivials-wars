@@ -2,7 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, ChevronLeft } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 // ====== Banco de Cápsulas de Sabiduría (GDD V3.0 — Frutiger Aero Brillante) ======
 // 30+ frases y datos divididos en: Científicos, Poetas/Escritores, Datos Curiosos de Ciencia/Naturaleza/Historia
@@ -330,13 +331,26 @@ export function WisdomCapsule() {
             {pos + 1} / {WISDOM_CAPSULES.length}
           </span>
         </div>
-        <span
-          className="text-[8px] font-medium uppercase tracking-[0.18em] flex items-center gap-1"
-          style={{ color: meta.color }}
-        >
-          <span className="w-1 h-1 rounded-full" style={{ background: meta.color }} />
-          {meta.label}
-        </span>
+        <div className="flex items-center gap-1.5">
+          <button
+            onClick={() => setAutoPlay((v) => !v)}
+            className={cn(
+              "px-1.5 py-0.5 rounded-md text-[8px] font-medium border transition tracking-wide",
+              autoPlay
+                ? "bg-white/10 border-white/20 text-white"
+                : "bg-transparent border-white/10 text-zinc-400 hover:text-white"
+            )}
+          >
+            {autoPlay ? "Auto ON" : "Auto OFF"}
+          </button>
+          <span
+            className="text-[8px] font-medium uppercase tracking-[0.18em] flex items-center gap-1"
+            style={{ color: meta.color }}
+          >
+            <span className="w-1 h-1 rounded-full" style={{ background: meta.color }} />
+            {meta.label}
+          </span>
+        </div>
       </div>
 
       <AnimatePresence mode="wait">

@@ -539,6 +539,78 @@ const TOPICS = [
     title: "La belleza como forma de verdad",
     desc: "Desde las cuevas de Altamira hasta el Renacimiento, el arte es el espejo donde la humanidad se ha mirado durante milenios.",
   },
+  {
+    src: "/topics/musica.png",
+    label: "Música",
+    title: "El idioma que todos entendemos sin traducción",
+    desc: "Cada cultura inventó su música de forma independiente. Es la única lengua universal: una melodía puede hacerte llorar sin entender una sola palabra.",
+  },
+  {
+    src: "/topics/tech.png",
+    label: "Tecnología",
+    title: "La extensión de la mente humana",
+    desc: "Desde la rueda hasta la inteligencia artificial, cada tecnología amplía un sentido o una capacidad. El futuro se escribe con circuitos de silicio.",
+  },
+  {
+    src: "/topics/filosofia.png",
+    label: "Filosofía",
+    title: "El coraje de hacer las preguntas más difíciles",
+    desc: "Sócrates, Platón, Aristóteles… hace 2.500 años sentaron las bases de cómo pensamos. La filosofía no da respuestas: enseña a preguntar mejor.",
+  },
+  {
+    src: "/topics/naturaleza.png",
+    label: "Naturaleza",
+    title: "El laboratorio más antiguo de la Tierra",
+    desc: "Millones de años de evolución diseñaron soluciones que la ciencia apenas empieza a imitar. La biomímesis copia a la naturaleza para innovar.",
+  },
+  {
+    src: "/topics/oceanos.png",
+    label: "Océanos",
+    title: "El 95% de los océanos sigue inexplorado",
+    desc: "Sabemos más de la superficie de Marte que del fondo marino. En sus abismos habitan criaturas que parecen sacadas de otro planeta.",
+  },
+  {
+    src: "/topics/arquitectura.png",
+    label: "Arquitectura",
+    title: "Música congelada en piedra y acero",
+    desc: "Cada edificio cuenta la ambición de su época. Las catedrales góticas aspiraban al cielo; los rascacielos modernos tocan las nubes.",
+  },
+  {
+    src: "/topics/literatura.png",
+    label: "Literatura",
+    title: "La máquina de viajar por el alma ajena",
+    desc: "Un libro te permite vivir mil vidas. La literatura es la única tecnología que transmite pensamientos intactos a través de los siglos.",
+  },
+  {
+    src: "/topics/astronomia.png",
+    label: "Astronomía",
+    title: "La ciencia que nos enseñó a mirar hacia arriba",
+    desc: "Galileo apuntó su telescopio a Júpiter en 1610 y descubrió cuatro lunas. Así nació la astronomía moderna: la curiosidad convertida en ciencia.",
+  },
+  {
+    src: "/topics/quimica.png",
+    label: "Química",
+    title: "La ciencia que desentraña la materia",
+    desc: "Todo lo que existe —tu cuerpo, las estrellas, el aire— son combinaciones de apenas 92 elementos naturales. La química estudia el alfabeto del universo.",
+  },
+  {
+    src: "/topics/deportes.png",
+    label: "Deportes",
+    title: "Donde el cuerpo humano alcanza su límite",
+    desc: "El deporte combina disciplina, estrategia y física. Cada récord mundial redefine lo posible: el cerebro humano ordena y el cuerpo responde.",
+  },
+  {
+    src: "/topics/geografia.png",
+    label: "Geografía",
+    title: "El mapa vivo de un planeta en movimiento",
+    desc: "Los continentes se desplazan 2 cm al año. El Atlántico crece mientras el Pacífico se encoge. La Tierra sigue reescribiendo su propio mapa.",
+  },
+  {
+    src: "/topics/mitologia.png",
+    label: "Mitología",
+    title: "Los primeros intentos de explicar el mundo",
+    desc: "Antes de la ciencia, los mitos daban forma al caos. Zeus, Odín, Quetzalcóatl: cada cultura inventó dioses a su imagen para entenderse a sí misma.",
+  },
 ] as const
 
 function TopicCarousel() {
