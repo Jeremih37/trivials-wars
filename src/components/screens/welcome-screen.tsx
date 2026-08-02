@@ -431,26 +431,49 @@ export function WelcomeScreen() {
           </motion.section>
         </div>
 
+        {/* ====== Galería temática — espacios del conocimiento ====== */}
+        <motion.section
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.18, duration: 0.4 }}
+          className="mt-1"
+        >
+          <div className="flex items-baseline gap-2 mb-1.5">
+            <h2 className="font-fancy italic text-sm font-bold text-white tracking-tight">
+              Espacios del conocimiento
+            </h2>
+            <span className="text-[8px] uppercase tracking-[0.18em] text-zinc-500 hidden sm:inline">
+              Explorá los universos
+            </span>
+          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
+            <TopicCard src="/topics/cine.png" label="Cine" />
+            <TopicCard src="/topics/mate.png" label="Matemáticas" />
+            <TopicCard src="/topics/universo.png" label="Universo" />
+            <TopicCard src="/topics/micro.png" label="Microbios" />
+            <TopicCard src="/topics/historia.png" label="Historia" />
+            <TopicCard src="/topics/arte.png" label="Arte" />
+          </div>
+        </motion.section>
+
         {/* ====== CTA principal — siempre visible después del contenido ====== */}
         <motion.section
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.4 }}
+          transition={{ delay: 0.22, duration: 0.4 }}
           className="mt-auto"
         >
           <button
             onClick={() => setScreen("home")}
-            className="group relative overflow-hidden rounded-lg bg-white text-black hover:bg-zinc-100 transition-all px-3 py-2 flex items-center justify-between gap-2 w-full"
+            className="group relative overflow-hidden rounded-xl bg-white text-black hover:bg-zinc-100 transition-all px-6 py-3.5 flex items-center justify-center gap-3 w-full"
           >
-            <div className="flex items-center gap-2">
-              <Play className="w-3.5 h-3.5 fill-black" />
-              <div className="flex items-baseline gap-2">
-                <span className="font-fancy italic font-bold text-sm tracking-tight leading-none">Jugar ahora</span>
-                <span className="text-[9px] text-zinc-500 tracking-wide hidden sm:inline">Elegí categoría y dificultad</span>
-              </div>
-            </div>
-            <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+            <Play className="w-4 h-4 fill-black" />
+            <span className="font-fancy italic font-bold text-base tracking-tight leading-none">Jugar ahora</span>
+            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
           </button>
+          <p className="text-center text-[9px] text-zinc-500 mt-1.5 tracking-wide">
+            Elegí categoría y dificultad · Sumá XP · Desbloqueá accesorios
+          </p>
         </motion.section>
       </main>
 
@@ -491,6 +514,27 @@ function QuickMode({
       <span className="text-zinc-400 group-hover:text-white transition">{icon}</span>
       <span className="text-[10px] font-medium text-zinc-300 group-hover:text-white transition tracking-wide">{label}</span>
     </button>
+  )
+}
+
+function TopicCard({ src, label }: { src: string; label: string }) {
+  return (
+    <div className="group relative aspect-square overflow-hidden rounded-lg border border-white/10 bg-white/[0.02]">
+      <img
+        src={src}
+        alt={label}
+        loading="lazy"
+        className="absolute inset-0 w-full h-full object-cover opacity-60 group-hover:opacity-90 transition-opacity duration-300"
+      />
+      {/* Overlay oscuro para integrar con el fondo */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/40 to-transparent" />
+      {/* Label */}
+      <div className="absolute inset-x-0 bottom-0 p-1.5">
+        <span className="block text-[9px] sm:text-[10px] font-fancy italic font-bold text-white tracking-tight text-center leading-tight">
+          {label}
+        </span>
+      </div>
+    </div>
   )
 }
 
