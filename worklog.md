@@ -495,3 +495,35 @@ Stage Summary:
 - ✅ Script generador persistente (scripts/gen-facts.py) para iterar futuro
 - ✅ Build limpio y deploy automático a Vercel
 - 🎯 Próximo paso del usuario: probar la app en https://trivials-wars.vercel.app
+
+---
+Task ID: redesign-3
+Agent: main (Super Z)
+Task: Mover "Jugar ahora" al final + aplicar paleta editorial dark a TODA la app + reducir tamaños
+
+Work Log:
+- welcome-screen.tsx: reordenado para que "Jugar ahora" sea el último botón (después de Reto/Abismo/Muerte Súbita)
+- welcome-screen.tsx: reducción general de tipografías (~30%): hero text-2xl/3xl/4xl (era 4xl/5xl/6xl), stats text-base (era 2xl), QuickMode py-3 text-[11px] (era py-5 text-xs), paddings y gaps reducidos
+- globals.css: reemplazo completo de paleta neón synthwave → editorial dark (Linear/Vercel/Stripe)
+  - tokens (--background, --primary, --accent, --border, --card, --popover, --muted, etc.) ahora blanco/zinc sobre #0a0a0f
+  - body background: halos azul/violeta sutiles (rgba(120,119,198,0.06)) en vez de neón cian/magenta
+  - todos los utilities glow-* reescritos como glow blanco sutil
+  - glass, glass-strong, glass-light, glass-frutiger, glass-wisdom: borders hairline rgba(255,255,255,0.08-0.12)
+  - crystal-bubble: blanco editorial sólido (era cian→púrpura)
+  - crystal-bubble-coral: zinc oscuro (era magenta neón)
+  - crystal-bubble-gold: ámbar sutil (era neón saturated)
+  - bubble-pop, pill-selector, segmented-option, circular-count: blancos cuando selected
+  - sticky-cta-bottom: blanco sólido (era gradiente neón cian→púrpura→magenta)
+  - text-gradient-*: blanco→zinc (era neón multicolor)
+  - text-glow-*: blanco sutil (era neón)
+  - frutiger-bubble, scrollbar, caustic-overlay: neutros
+- bubbles-background.tsx: burbujas ahora blancas/zinc en vez de cian/magenta
+- login-screen.tsx: paleta editorial dark aplicada (borrados neón, glow-pink, #131838, etc.)
+- Build limpio, deploy a Vercel propagado, capturas tomadas en /home/z/my-project/download/welcome-dark-*.png
+
+Stage Summary:
+- Paleta unificada en TODA la app (Linear/Vercel/Stripe editorial dark) — sin neón
+- "Jugar ahora" movido al final del bloque de modos en welcome
+- Welcome-screen ~30% más compacto (tipografías, paddings, gaps reducidos)
+- Builds OK, sin errores TypeScript
+- Commits: ca0b653 + ba10add
