@@ -157,21 +157,21 @@ export function WelcomeScreen() {
         </div>
       </header>
 
-      <main className="relative z-10 flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-5 sm:py-8">
+      <main className="relative z-10 flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-4 sm:py-6">
         {/* ====== HERO ====== */}
         <motion.section
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="grid lg:grid-cols-[auto_1fr] gap-4 lg:gap-8 items-start pb-6 border-b border-white/5"
+          className="grid lg:grid-cols-[auto_1fr] gap-3 lg:gap-6 items-start pb-4 border-b border-white/5"
         >
           {/* Avatar */}
-          <div className="flex flex-col items-center lg:items-start gap-2">
+          <div className="flex flex-col items-center lg:items-start gap-1.5">
             <div className="relative">
               <div
-                className="w-16 h-16 lg:w-20 lg:h-20 rounded-xl bg-gradient-to-br from-white/10 to-white/[0.02] border border-white/10 flex items-center justify-center overflow-hidden"
+                className="w-12 h-12 lg:w-14 lg:h-14 rounded-lg bg-gradient-to-br from-white/10 to-white/[0.02] border border-white/10 flex items-center justify-center overflow-hidden"
               >
-                {avatarData && <AvatarSvg {...avatarData} size={60} />}
+                {avatarData && <AvatarSvg {...avatarData} size={44} />}
               </div>
               {frame && (
                 <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none">
@@ -179,32 +179,32 @@ export function WelcomeScreen() {
                 </svg>
               )}
             </div>
-            <div className="flex flex-col items-center lg:items-start gap-0.5">
-              <span className="text-[9px] uppercase tracking-[0.2em] text-zinc-500">Nivel</span>
-              <span className="font-fancy italic text-lg font-bold text-white tabular-nums leading-none">
+            <div className="flex flex-col items-center lg:items-start gap-0">
+              <span className="text-[8px] uppercase tracking-[0.2em] text-zinc-500">Nivel</span>
+              <span className="font-fancy italic text-sm font-bold text-white tabular-nums leading-none">
                 {profile?.user.level ?? 1}
               </span>
             </div>
           </div>
 
           {/* Saludo + edición + stats */}
-          <div className="flex-1 min-w-0 space-y-3">
-            <div className="space-y-1.5">
-              <span className="inline-block text-[10px] uppercase tracking-[0.22em] text-zinc-500 font-medium">
+          <div className="flex-1 min-w-0 space-y-2">
+            <div className="space-y-1">
+              <span className="inline-block text-[9px] uppercase tracking-[0.22em] text-zinc-500 font-medium">
                 Bienvenido
               </span>
 
               {!editingName ? (
                 <div className="flex items-center gap-2 flex-wrap">
-                  <h1 className="font-fancy italic text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white leading-[1.05]">
+                  <h1 className="font-fancy italic text-xl sm:text-2xl font-bold tracking-tight text-white leading-[1.05]">
                     Hola, <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">{displayName}</span>
                   </h1>
                   <button
                     onClick={startEditName}
-                    className="p-1.5 rounded-md border border-white/10 bg-white/5 hover:bg-white/10 transition"
+                    className="p-1 rounded-md border border-white/10 bg-white/5 hover:bg-white/10 transition"
                     title="Editar nombre"
                   >
-                    <Pencil className="w-3.5 h-3.5 text-zinc-400" />
+                    <Pencil className="w-3 h-3 text-zinc-400" />
                   </button>
                 </div>
               ) : (
@@ -219,32 +219,32 @@ export function WelcomeScreen() {
                     }}
                     autoFocus
                     placeholder="Tu nombre de jugador"
-                    className="px-3 py-2 rounded-md bg-white/5 border border-white/15 text-sm font-medium text-white focus:border-white/30 focus:outline-none w-full sm:w-auto sm:min-w-[240px]"
+                    className="px-2.5 py-1.5 rounded-md bg-white/5 border border-white/15 text-xs font-medium text-white focus:border-white/30 focus:outline-none w-full sm:w-auto sm:min-w-[220px]"
                   />
                   <button
                     onClick={saveName}
                     disabled={updateNameMut.isPending}
-                    className="px-3 py-2 rounded-md bg-white text-black hover:bg-zinc-200 transition flex items-center gap-1.5 font-semibold text-xs"
+                    className="px-2.5 py-1.5 rounded-md bg-white text-black hover:bg-zinc-200 transition flex items-center gap-1.5 font-semibold text-[11px]"
                   >
-                    <Check className="w-3.5 h-3.5" />
+                    <Check className="w-3 h-3" />
                     {updateNameMut.isPending ? "Guardando…" : "Guardar"}
                   </button>
                   <button
                     onClick={() => setEditingName(false)}
-                    className="px-3 py-2 rounded-md bg-white/5 border border-white/10 hover:bg-white/10 transition text-xs font-medium text-zinc-300"
+                    className="px-2.5 py-1.5 rounded-md bg-white/5 border border-white/10 hover:bg-white/10 transition text-[11px] font-medium text-zinc-300"
                   >
                     Cancelar
                   </button>
                 </div>
               )}
 
-              <p className="text-zinc-400 text-xs sm:text-sm max-w-xl leading-relaxed pt-0.5">
+              <p className="text-zinc-400 text-[11px] sm:text-xs max-w-xl leading-relaxed pt-0.5">
                 Cada partida es una oportunidad para aprender, ganar experiencia y desbloquear nuevos accesorios. Elegí tu modo y empezá a jugar.
               </p>
             </div>
 
             {/* Stats minimalistas tipográficas */}
-            <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2 pt-1">
+            <div className="flex flex-wrap items-baseline gap-x-5 gap-y-1.5 pt-0.5">
               <Stat label="Nivel" value={profile?.user.level ?? 1} />
               <Stat label="XP" value={profile?.user.xp ?? 0} />
               <Stat label="Victorias" value={profile?.user.wins ?? 0} />
@@ -253,56 +253,38 @@ export function WelcomeScreen() {
           </div>
         </motion.section>
 
-        {/* ====== Modos rápidos + CTA principal ====== */}
+        {/* ====== Modos rápidos ====== */}
         <motion.section
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.5 }}
-          className="py-5 border-b border-white/5"
+          className="py-4 border-b border-white/5"
         >
-          <div className="flex flex-col gap-2">
-            {/* Modos rápidos (3 pills arriba) */}
-            <div className="grid grid-cols-3 gap-2">
-              <QuickMode
-                icon={<Swords className="w-3.5 h-3.5" />}
-                label="Reto"
-                onClick={() => {
-                  useGameStore.getState().setMode("classic")
-                  setScreen("home")
-                }}
-              />
-              <QuickMode
-                icon={<Heart className="w-3.5 h-3.5" />}
-                label="Abismo"
-                onClick={() => {
-                  useGameStore.getState().setMode("survival")
-                  setScreen("home")
-                }}
-              />
-              <QuickMode
-                icon={<Skull className="w-3.5 h-3.5" />}
-                label="Muerte Súbita"
-                onClick={() => {
-                  useGameStore.getState().setMode("suddendeath")
-                  setScreen("home")
-                }}
-              />
-            </div>
-
-            {/* CTA principal — al final */}
-            <button
-              onClick={() => setScreen("home")}
-              className="group relative overflow-hidden rounded-lg bg-white text-black hover:bg-zinc-100 transition-all px-4 py-3 flex items-center justify-between gap-3"
-            >
-              <div className="flex items-center gap-3">
-                <Play className="w-4 h-4 fill-black" />
-                <div className="flex flex-col items-start">
-                  <span className="font-fancy italic font-bold text-base tracking-tight leading-none">Jugar ahora</span>
-                  <span className="text-[10px] text-zinc-500 mt-1 tracking-wide">Elegí categoría y dificultad</span>
-                </div>
-              </div>
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </button>
+          <div className="grid grid-cols-3 gap-2">
+            <QuickMode
+              icon={<Swords className="w-3 h-3" />}
+              label="Reto"
+              onClick={() => {
+                useGameStore.getState().setMode("classic")
+                setScreen("home")
+              }}
+            />
+            <QuickMode
+              icon={<Heart className="w-3 h-3" />}
+              label="Abismo"
+              onClick={() => {
+                useGameStore.getState().setMode("survival")
+                setScreen("home")
+              }}
+            />
+            <QuickMode
+              icon={<Skull className="w-3 h-3" />}
+              label="Muerte Súbita"
+              onClick={() => {
+                useGameStore.getState().setMode("suddendeath")
+                setScreen("home")
+              }}
+            />
           </div>
         </motion.section>
 
@@ -311,22 +293,22 @@ export function WelcomeScreen() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="py-5 border-b border-white/5"
+          className="py-4 border-b border-white/5"
         >
           {/* Header de sección */}
-          <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center justify-between mb-2">
             <div className="flex items-baseline gap-2">
-              <h2 className="font-fancy italic text-lg sm:text-xl font-bold text-white tracking-tight">
+              <h2 className="font-fancy italic text-base sm:text-lg font-bold text-white tracking-tight">
                 ¿Sabías que…?
               </h2>
-              <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 hidden sm:inline">
+              <span className="text-[9px] uppercase tracking-[0.18em] text-zinc-500 hidden sm:inline">
                 {factIdx + 1} / {FUN_FACTS.length}
               </span>
             </div>
             <button
               onClick={() => setAutoPlay((v) => !v)}
               className={cn(
-                "px-2.5 py-1 rounded-md text-[10px] font-medium border transition tracking-wide",
+                "px-2 py-0.5 rounded-md text-[9px] font-medium border transition tracking-wide",
                 autoPlay
                   ? "bg-white/10 border-white/20 text-white"
                   : "bg-transparent border-white/10 text-zinc-400 hover:text-white"
@@ -338,7 +320,7 @@ export function WelcomeScreen() {
 
           {/* Card del dato */}
           <div
-            className="relative overflow-hidden rounded-xl bg-white/[0.02] border border-white/10 p-4 sm:p-6"
+            className="relative overflow-hidden rounded-lg bg-white/[0.02] border border-white/10 p-3 sm:p-4"
             onPointerEnter={() => setAutoPlay(false)}
             onPointerLeave={() => setAutoPlay(true)}
           >
@@ -351,42 +333,42 @@ export function WelcomeScreen() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={currentFact.id}
-                initial={{ opacity: 0, y: 8 }}
+                initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -8 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
-                className="space-y-2.5"
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="space-y-1.5"
               >
                 {/* Categoría */}
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5">
                   <span
-                    className="w-1.5 h-1.5 rounded-full"
+                    className="w-1 h-1 rounded-full"
                     style={{ background: currentFact.color }}
                   />
                   <span
-                    className="text-[10px] uppercase tracking-[0.22em] font-medium"
+                    className="text-[9px] uppercase tracking-[0.22em] font-medium"
                     style={{ color: currentFact.color }}
                   >
                     {currentFact.category}
                   </span>
                 </div>
 
-                {/* Título grande editorial */}
-                <h3 className="font-fancy italic text-xl sm:text-2xl lg:text-3xl font-bold leading-[1.1] text-white tracking-tight max-w-3xl">
+                {/* Título editorial compacto */}
+                <h3 className="font-fancy italic text-base sm:text-lg font-bold leading-[1.15] text-white tracking-tight max-w-3xl">
                   {currentFact.title}
                 </h3>
 
                 {/* Descripción */}
-                <p className="text-zinc-400 text-sm leading-relaxed max-w-2xl">
+                <p className="text-zinc-400 text-[11px] sm:text-xs leading-relaxed max-w-2xl">
                   {currentFact.description}
                 </p>
               </motion.div>
             </AnimatePresence>
 
             {/* Controles inferiores */}
-            <div className="mt-4 flex items-center justify-between gap-3">
+            <div className="mt-3 flex items-center justify-between gap-2">
               {/* Ventana deslizante de puntos */}
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1">
                 {(() => {
                   const total = FUN_FACTS.length
                   const visible = Math.min(total, 9)
@@ -400,12 +382,12 @@ export function WelcomeScreen() {
                       <button
                         key="first"
                         onClick={() => setFactIdx(0)}
-                        className="h-1.5 w-1.5 rounded-full bg-white/20 hover:bg-white/60 transition"
+                        className="h-1 w-1 rounded-full bg-white/20 hover:bg-white/60 transition"
                         aria-label="Ir al primer dato"
                       />
                     )
                     dots.push(
-                      <span key="ellipsis1" className="text-[10px] text-zinc-600 leading-none">…</span>
+                      <span key="ellipsis1" className="text-[9px] text-zinc-600 leading-none">…</span>
                     )
                   }
                   for (let i = start; i < end; i++) {
@@ -415,10 +397,10 @@ export function WelcomeScreen() {
                         key={`dot-${order[i]}`}
                         onClick={() => setFactIdx(i)}
                         className={cn(
-                          "h-1.5 rounded-full transition-all",
+                          "h-1 rounded-full transition-all",
                           isCurrent
-                            ? "w-6 bg-white"
-                            : "w-1.5 bg-white/20 hover:bg-white/50"
+                            ? "w-5 bg-white"
+                            : "w-1 bg-white/20 hover:bg-white/50"
                         )}
                         aria-label={`Ir al dato ${i + 1}`}
                         aria-current={isCurrent ? "true" : undefined}
@@ -427,13 +409,13 @@ export function WelcomeScreen() {
                   }
                   if (end < total) {
                     dots.push(
-                      <span key="ellipsis2" className="text-[10px] text-zinc-600 leading-none">…</span>
+                      <span key="ellipsis2" className="text-[9px] text-zinc-600 leading-none">…</span>
                     )
                     dots.push(
                       <button
                         key="last"
                         onClick={() => setFactIdx(total - 1)}
-                        className="h-1.5 w-1.5 rounded-full bg-white/20 hover:bg-white/60 transition"
+                        className="h-1 w-1 rounded-full bg-white/20 hover:bg-white/60 transition"
                         aria-label="Ir al último dato"
                       />
                     )
@@ -443,20 +425,20 @@ export function WelcomeScreen() {
               </div>
 
               {/* Flechas */}
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1">
                 <button
                   onClick={goPrev}
-                  className="p-1.5 rounded-md border border-white/10 bg-white/5 hover:bg-white/10 transition"
+                  className="p-1 rounded-md border border-white/10 bg-white/5 hover:bg-white/10 transition"
                   aria-label="Dato anterior"
                 >
-                  <ChevronLeft className="w-3.5 h-3.5 text-zinc-300" />
+                  <ChevronLeft className="w-3 h-3 text-zinc-300" />
                 </button>
                 <button
                   onClick={goNext}
-                  className="p-1.5 rounded-md border border-white/10 bg-white/5 hover:bg-white/10 transition"
+                  className="p-1 rounded-md border border-white/10 bg-white/5 hover:bg-white/10 transition"
                   aria-label="Dato siguiente"
                 >
-                  <ChevronRight className="w-3.5 h-3.5 text-zinc-300" />
+                  <ChevronRight className="w-3 h-3 text-zinc-300" />
                 </button>
               </div>
             </div>
@@ -468,9 +450,31 @@ export function WelcomeScreen() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
-          className="py-5"
+          className="py-4"
         >
           <WisdomCapsule />
+        </motion.section>
+
+        {/* ====== CTA principal — al final de todo el contenido ====== */}
+        <motion.section
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.5 }}
+          className="pt-2 pb-6"
+        >
+          <button
+            onClick={() => setScreen("home")}
+            className="group relative overflow-hidden rounded-lg bg-white text-black hover:bg-zinc-100 transition-all px-4 py-2.5 flex items-center justify-between gap-3 w-full"
+          >
+            <div className="flex items-center gap-2.5">
+              <Play className="w-3.5 h-3.5 fill-black" />
+              <div className="flex flex-col items-start">
+                <span className="font-fancy italic font-bold text-sm tracking-tight leading-none">Jugar ahora</span>
+                <span className="text-[9px] text-zinc-500 mt-0.5 tracking-wide">Elegí categoría y dificultad</span>
+              </div>
+            </div>
+            <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+          </button>
         </motion.section>
       </main>
 
@@ -487,9 +491,9 @@ export function WelcomeScreen() {
 
 function Stat({ label, value }: { label: string; value: number | string }) {
   return (
-    <div className="flex flex-col gap-0.5">
-      <span className="text-[9px] uppercase tracking-[0.2em] text-zinc-500 font-medium">{label}</span>
-      <span className="font-fancy italic text-base font-bold text-white tabular-nums leading-none">{value}</span>
+    <div className="flex flex-col gap-0">
+      <span className="text-[8px] uppercase tracking-[0.2em] text-zinc-500 font-medium">{label}</span>
+      <span className="font-fancy italic text-sm font-bold text-white tabular-nums leading-none">{value}</span>
     </div>
   )
 }
@@ -506,10 +510,10 @@ function QuickMode({
   return (
     <button
       onClick={onClick}
-      className="group flex flex-col items-center justify-center gap-1.5 py-3 rounded-lg border border-white/10 bg-white/[0.02] hover:bg-white/[0.06] hover:border-white/20 transition"
+      className="group flex flex-col items-center justify-center gap-1 py-2.5 rounded-lg border border-white/10 bg-white/[0.02] hover:bg-white/[0.06] hover:border-white/20 transition"
     >
       <span className="text-zinc-400 group-hover:text-white transition">{icon}</span>
-      <span className="text-[11px] font-medium text-zinc-300 group-hover:text-white transition tracking-wide">{label}</span>
+      <span className="text-[10px] font-medium text-zinc-300 group-hover:text-white transition tracking-wide">{label}</span>
     </button>
   )
 }
