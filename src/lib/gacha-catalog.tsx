@@ -126,9 +126,9 @@ export const AVATAR_BASES: AvatarBase[] = [
         {/* Túnica */}
         <path d="M 50 130 Q 60 110 100 105 Q 140 110 150 130 L 165 195 L 35 195 Z" fill="#1a0a2a" stroke="#a855f7" strokeWidth="1.5" />
         {/* Estrellas en túnica */}
-        <text x="70" y="155" fill="#ffd60a" fontSize="10">✦</text>
-        <text x="120" y="170" fill="#ffd60a" fontSize="8">✦</text>
-        <text x="90" y="180" fill="#a855f7" fontSize="9">✧</text>
+        <text x="70" y="155" fill="#ffd60a" fontSize="10"></text>
+        <text x="120" y="170" fill="#ffd60a" fontSize="8"></text>
+        <text x="90" y="180" fill="#a855f7" fontSize="9"></text>
         {/* Cuello */}
         <rect x="92" y="95" width="16" height="14" fill={skinTone} />
         {/* Cabeza */}
@@ -293,8 +293,8 @@ const HAT_ITEMS: GachaItem[] = [
       <g>
         <path d="M 70 65 L 100 10 L 130 65 Z" fill="#1a0a2a" stroke="#d946ef" strokeWidth="2" />
         <rect x="68" y="63" width="64" height="6" fill="#d946ef" />
-        <text x="92" y="55" fill="#ffd60a" fontSize="14">★</text>
-        <text x="98" y="40" fill="#d946ef" fontSize="8">✦</text>
+        <text x="92" y="55" fill="#ffd60a" fontSize="14"></text>
+        <text x="98" y="40" fill="#d946ef" fontSize="8"></text>
         <circle cx="100" cy="14" r="3" fill="#ffd60a" />
       </g>
     ),
@@ -351,7 +351,7 @@ const TOP_ITEMS: GachaItem[] = [
     render: () => (
       <g>
         <path d="M 60 130 Q 60 115 100 110 Q 140 115 140 130 L 145 188 L 55 188 Z" fill="#ff2d2d" opacity="0.85" stroke="#8a0000" strokeWidth="1.5" />
-        <text x="90" y="155" fill="#ffd60a" fontSize="14" fontWeight="bold">★</text>
+        <text x="90" y="155" fill="#ffd60a" fontSize="14" fontWeight="bold"></text>
       </g>
     ),
   },
@@ -410,7 +410,7 @@ const TOP_ITEMS: GachaItem[] = [
         <path d="M 55 130 Q 60 115 100 110 Q 140 115 145 130 L 160 195 L 40 195 Z" fill="#5a3a0a" opacity="0.95" stroke="#ffd60a" strokeWidth="1.5" />
         <path d="M 50 145 L 150 145" stroke="#ffd60a" strokeWidth="1.5" />
         <path d="M 45 165 L 155 165" stroke="#ffd60a" strokeWidth="1" />
-        <text x="92" y="180" fill="#ffd60a" fontSize="10">⚜</text>
+        <text x="92" y="180" fill="#ffd60a" fontSize="10"></text>
       </g>
     ),
   },
@@ -429,7 +429,7 @@ const TOP_ITEMS: GachaItem[] = [
         <path d="M 135 130 L 125 145 L 135 160 L 125 175" stroke="#d946ef" strokeWidth="1.5" fill="none" />
         {/* Pecho central */}
         <path d="M 80 130 L 100 145 L 120 130 L 120 175 L 100 185 L 80 175 Z" fill="#2a1a4a" stroke="#d946ef" strokeWidth="1.5" />
-        <text x="93" y="165" fontSize="14" fill="#ffd60a">⚡</text>
+        <text x="93" y="165" fontSize="14" fill="#ffd60a"></text>
       </g>
     ),
   },
@@ -458,7 +458,7 @@ const TOP_ITEMS: GachaItem[] = [
         )}
         {/* Pecho */}
         <path d="M 85 140 L 100 130 L 115 140 L 115 175 L 100 185 L 85 175 Z" fill="#1a0608" stroke="#ffd60a" strokeWidth="1.5" />
-        <text x="93" y="167" fontSize="14" fill="#ffd60a">🐲</text>
+        <text x="93" y="167" fontSize="14" fill="#ffd60a"></text>
         <defs>
           <linearGradient id="dragonGrad" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="#ff8a00" />
@@ -491,10 +491,10 @@ const AURA_ITEMS: GachaItem[] = [
     render: () => (
       <g opacity="0.6">
         <circle cx="100" cy="100" r="95" fill="none" stroke="#22c55e" strokeWidth="2" strokeDasharray="4 6" />
-        <text x="20" y="50" fontSize="14" fill="#22c55e">🍃</text>
-        <text x="170" y="50" fontSize="14" fill="#22c55e">🍃</text>
-        <text x="20" y="160" fontSize="14" fill="#22c55e">🍃</text>
-        <text x="170" y="160" fontSize="14" fill="#22c55e">🍃</text>
+        <text x="20" y="50" fontSize="14" fill="#22c55e"></text>
+        <text x="170" y="50" fontSize="14" fill="#22c55e"></text>
+        <text x="20" y="160" fontSize="14" fill="#22c55e"></text>
+        <text x="170" y="160" fontSize="14" fill="#22c55e"></text>
       </g>
     ),
   },
@@ -546,7 +546,7 @@ const AURA_ITEMS: GachaItem[] = [
           [30, 30], [170, 30], [30, 170], [170, 170],
           [100, 15], [100, 185], [15, 100], [185, 100],
         ].map(([x, y], i) => (
-          <text key={i} x={x - 5} y={y + 5} fontSize="10" fill="#ffd60a">✦</text>
+          <text key={i} x={x - 5} y={y + 5} fontSize="10" fill="#ffd60a"></text>
         ))}
         <defs>
           <radialGradient id="cosmicGrad">

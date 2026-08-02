@@ -28,7 +28,7 @@ export function LoginScreen() {
     // Mock OAuth: simula el flujo de Google creando un usuario con email simulado
     const email = mockEmail || `jugador${Math.floor(Math.random() * 9999)}@gmail.com`
     const googleId = `google_${btoa(email).slice(0, 16)}`
-    const name = email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase())
+    const name = email.split("@")[0].replace(/[._]/g, "").replace(/\b\w/g, (c) => c.toUpperCase())
     loginMut.mutate(
       { provider: "google", email, name, googleId },
       {
@@ -55,7 +55,7 @@ export function LoginScreen() {
           className="text-7xl mb-4 inline-block"
           style={{ filter: "drop-shadow(0 0 20px rgba(236,72,153,0.6))" }}
         >
-          🧠
+          
         </motion.div>
         <h1 className="text-5xl sm:text-6xl font-fancy italic font-bold tracking-tight text-gradient-neon leading-none">
           Trivials<br/>Wars
@@ -168,7 +168,7 @@ export function LoginScreen() {
               </div>
 
               <p className="text-[10px] text-muted-foreground text-center mt-2">
-                💡 En esta demo, cualquier correo crea/recupera una cuenta local. En producción esto usaría OAuth real de Google.
+                 En esta demo, cualquier correo crea/recupera una cuenta local. En producción esto usaría OAuth real de Google.
               </p>
             </div>
           </>

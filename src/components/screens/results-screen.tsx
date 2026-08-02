@@ -34,24 +34,24 @@ export function ResultsScreen() {
   const getRank = () => {
     if (isSuddenDeath) {
       // Rango por cantidad de aciertos en Muerte Súbita
-      if (correctCount >= 20) return { label: "INMORTAL", color: "#FFEA00", emoji: "💀" }
-      if (correctCount >= 15) return { label: "IMPARABLE", color: "#FFEA00", emoji: "🔥" }
-      if (correctCount >= 10) return { label: "TENAZ", color: "#fb923c", emoji: "⚡" }
-      if (correctCount >= 5) return { label: "VALENTE", color: "#00E5FF", emoji: "🌊" }
-      return { label: "CAÍDO", color: "#94a3b8", emoji: "💤" }
+      if (correctCount >= 20) return { label: "INMORTAL", color: "#FFEA00", emoji: "" }
+      if (correctCount >= 15) return { label: "IMPARABLE", color: "#FFEA00", emoji: "" }
+      if (correctCount >= 10) return { label: "TENAZ", color: "#fb923c", emoji: "" }
+      if (correctCount >= 5) return { label: "VALENTE", color: "#00E5FF", emoji: "" }
+      return { label: "CAÍDO", color: "#94a3b8", emoji: "" }
     }
     if (isSurvival) {
-      if (correctCount >= 25) return { label: "LEGENDARIO", color: "#FFEA00", emoji: "👑" }
-      if (correctCount >= 15) return { label: "ÉPICO", color: "#a855f7", emoji: "🔥" }
-      if (correctCount >= 8) return { label: "Raro", color: "#3b82f6", emoji: "💎" }
-      if (correctCount >= 3) return { label: "Inusual", color: "#22c55e", emoji: "✨" }
-      return { label: "Novato", color: "#a1a1aa", emoji: "🌱" }
+      if (correctCount >= 25) return { label: "LEGENDARIO", color: "#FFEA00", emoji: "" }
+      if (correctCount >= 15) return { label: "ÉPICO", color: "#a855f7", emoji: "" }
+      if (correctCount >= 8) return { label: "Raro", color: "#3b82f6", emoji: "" }
+      if (correctCount >= 3) return { label: "Inusual", color: "#22c55e", emoji: "" }
+      return { label: "Novato", color: "#a1a1aa", emoji: "" }
     }
-    if (accuracy === 100) return { label: "LEGENDARIO", color: "#FFEA00", emoji: "👑" }
-    if (accuracy >= 80) return { label: "ÉPICO", color: "#a855f7", emoji: "🔥" }
-    if (accuracy >= 60) return { label: "Raro", color: "#3b82f6", emoji: "💎" }
-    if (accuracy >= 40) return { label: "Inusual", color: "#22c55e", emoji: "✨" }
-    return { label: "Común", color: "#a1a1aa", emoji: "📦" }
+    if (accuracy === 100) return { label: "LEGENDARIO", color: "#FFEA00", emoji: "" }
+    if (accuracy >= 80) return { label: "ÉPICO", color: "#a855f7", emoji: "" }
+    if (accuracy >= 60) return { label: "Raro", color: "#3b82f6", emoji: "" }
+    if (accuracy >= 40) return { label: "Inusual", color: "#22c55e", emoji: "" }
+    return { label: "Común", color: "#a1a1aa", emoji: "" }
   }
   const rank = getRank()
 
@@ -102,7 +102,7 @@ export function ResultsScreen() {
             {rank.label}
           </h1>
           <div className="text-sm text-[#8090C0] mt-2">
-            {cat?.icon} {cat?.name} · {isSuddenDeath ? "☠ Muerte Súbita" : isSurvival ? "Supervivencia" : diff?.name}
+            {cat?.icon} {cat?.name} · {isSuddenDeath ? " Muerte Súbita" : isSurvival ? "Supervivencia" : diff?.name}
           </div>
         </motion.div>
 

@@ -13,23 +13,23 @@ export { AVATAR_BASES_INFO }
 // 16 categorías: 10 originales + 6 nuevas "Aquatic Ambience" (modernas y atractivas)
 export const CATEGORIES = [
   // --- Categorías originales ---
-  { id: "Entretenimiento", name: "Entretenimiento", icon: "🎬", color: "#00B4D8" },
-  { id: "Deporte", name: "Deporte", icon: "⚽", color: "#10b981" },
-  { id: "Historia", name: "Historia", icon: "📜", color: "#FFEA00" },
-  { id: "Matematicas", name: "Matemáticas", icon: "🔢", color: "#8b5cf6" },
-  { id: "Ciencia", name: "Ciencia", icon: "🔬", color: "#2dd4bf" },
-  { id: "Videojuegos", name: "Videojuegos", icon: "🎮", color: "#3b82f6" },
-  { id: "Geografia", name: "Geografía", icon: "🌍", color: "#22d3ee" },
-  { id: "Arte", name: "Arte y Literatura", icon: "🎨", color: "#f97316" },
-  { id: "Tecnologia", name: "Tecnología", icon: "💻", color: "#67e8f9" },
-  { id: "Mitologia", name: "Mitología", icon: "⚡", color: "#a855f7" },
+  { id: "Entretenimiento", name: "Entretenimiento", icon: "EN", color: "#00B4D8" },
+  { id: "Deporte", name: "Deporte", icon: "DP", color: "#10b981" },
+  { id: "Historia", name: "Historia", icon: "HI", color: "#FFEA00" },
+  { id: "Matematicas", name: "Matemáticas", icon: "MA", color: "#8b5cf6" },
+  { id: "Ciencia", name: "Ciencia", icon: "CI", color: "#2dd4bf" },
+  { id: "Videojuegos", name: "Videojuegos", icon: "VG", color: "#3b82f6" },
+  { id: "Geografia", name: "Geografía", icon: "GE", color: "#22d3ee" },
+  { id: "Arte", name: "Arte y Literatura", icon: "AR", color: "#f97316" },
+  { id: "Tecnologia", name: "Tecnología", icon: "TE", color: "#67e8f9" },
+  { id: "Mitologia", name: "Mitología", icon: "MI", color: "#a855f7" },
   // --- Nuevas categorías Aquatic Ambience ---
-  { id: "Retrofuturismo", name: "Futuro del Ayer", icon: "🛸", color: "#00F5D4" },
-  { id: "Oceano", name: "Misterios del Océano", icon: "🌊", color: "#00B4D8" },
-  { id: "IA", name: "IA & Mundo Digital", icon: "🤖", color: "#00F5D4" },
-  { id: "Astronomia", name: "Astronomía", icon: "🪐", color: "#7dd3fc" },
-  { id: "CulturaPop", name: "Cultura Pop", icon: "🎤", color: "#FF4D6D" },
-  { id: "Maravillas", name: "Maravillas Ocultas", icon: "🗺️", color: "#2dd4bf" },
+  { id: "Retrofuturismo", name: "Futuro del Ayer", icon: "RF", color: "#00F5D4" },
+  { id: "Oceano", name: "Misterios del Océano", icon: "OC", color: "#00B4D8" },
+  { id: "IA", name: "IA & Mundo Digital", icon: "IA", color: "#00F5D4" },
+  { id: "Astronomia", name: "Astronomía", icon: "AS", color: "#7dd3fc" },
+  { id: "CulturaPop", name: "Cultura Pop", icon: "CP", color: "#FF4D6D" },
+  { id: "Maravillas", name: "Maravillas Ocultas", icon: "MA", color: "#2dd4bf" },
 ] as const
 
 export const DIFFICULTIES = [
@@ -48,21 +48,21 @@ export const GAME_MODES = [
   {
     id: "classic",
     name: "Reto Personalizado",
-    icon: "🎯",
+    icon: "",
     color: "#38BDF8",
     desc: "Configurá la partida a tu medida: cantidad de preguntas, tiempo y categoría.",
   },
   {
     id: "survival",
     name: "Supervivencia",
-    icon: "❤️",
+    icon: "",
     color: "#FF4D6D",
     desc: "3 corazones. Cada error te resta una vida. ¿Hasta dónde llegás en el abismo?",
   },
   {
     id: "suddendeath",
     name: "Muerte Súbita",
-    icon: "☠️",
+    icon: "",
     color: "#FFEA00",
     desc: "1 fallo y se acabó. Racha infinita. Tensión dorada tras 10 aciertos seguidos.",
   },
@@ -93,7 +93,7 @@ export const TIME_PRESETS = [
 //   - Tiempo decreciente: cada 5 correctas baja 1s (mínimo 5s)
 //   - Multiplicador de racha (combo): 3 seguidas = x2, 5 seguidas = x3
 export const SURVIVAL_CONFIG = {
-  initialLives: 3, // ❤️ ❤️ ❤️
+  initialLives: 3, //   
   initialTime: 15, // seg por pregunta al inicio
   minTime: 5, // mínimo tras reducciones
   timeDecrementEvery: 5, // cada 5 correctas, baja 1s
@@ -121,7 +121,7 @@ export const SURVIVAL_CONFIG = {
 // - Tiempo fijo por pregunta (no decrece, pero es corto para mantener tensión)
 // - XP base alta (mayor recompensa por mayor riesgo)
 export const SUDDEN_DEATH_CONFIG = {
-  initialLives: 1, // ☠️ 1 sola vida
+  initialLives: 1, //  1 sola vida
   timePerQuestion: 15, // tiempo fijo
   alertStreakThreshold: 10, // umbral para fondo dorado de alerta
   initialPoolSize: 50, // pool grande — la partida acaba cuando se acaba o fallás

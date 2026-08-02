@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Sparkles, ChevronRight, Quote } from "lucide-react"
+import { ChevronRight } from "lucide-react"
 
 // ====== Banco de Cápsulas de Sabiduría (GDD V3.0 — Frutiger Aero Brillante) ======
 // 30+ frases y datos divididos en: Científicos, Poetas/Escritores, Datos Curiosos de Ciencia/Naturaleza/Historia
@@ -255,15 +255,14 @@ const WISDOM_CAPSULES: WisdomCapsule[] = [
 ]
 
 const TYPE_META = {
-  cientifico: { label: "Científico", color: "#00E5FF", emoji: "🔬" },
-  poeta: { label: "Poeta / Escritor", color: "#FFEA00", emoji: "📖" },
-  dato: { label: "Dato Curioso", color: "#39FF14", emoji: "✨" },
+  cientifico: { label: "Científico", color: "#a5b4fc" },
+  poeta: { label: "Poeta / Escritor", color: "#fbbf24" },
+  dato: { label: "Dato Curioso", color: "#86efac" },
 } as const
 
 /**
- * WisdomCapsule widget — Cápsulas de Sabiduría para enfocar la mente
- * GDD V2: Frutiger Aero — tarjeta translúcida, icono de resplandor,
- * botón "Siguiente Sabiduría" con transición fade-in.
+ * WisdomCapsule widget — Cápsulas de Sabiduría.
+ * Estilo: editorial dark minimal, sin emojis ni glassmorphism saturado.
  */
 export function WisdomCapsule() {
   const [idx, setIdx] = useState(0)
@@ -281,70 +280,59 @@ export function WisdomCapsule() {
   const meta = TYPE_META[capsule.type]
 
   return (
-    <div className="space-y-2.5">
-      {/* Header compacto */}
-      <div className="flex items-center justify-between px-1">
-        <div className="flex items-center gap-2">
-          <div
-            className="w-7 h-7 rounded-lg flex items-center justify-center animate-sparkle"
-            style={{
-              background: `linear-gradient(135deg, ${meta.color}30, ${meta.color}10)`,
-              border: `1px solid ${meta.color}50`,
-              boxShadow: `0 0 12px ${meta.color}40`,
-            }}
-          >
-            <Sparkles className="w-3.5 h-3.5" style={{ color: meta.color }} />
-          </div>
-          <div className="flex items-baseline gap-2">
-            <h3 className="font-fancy italic font-bold text-base sm:text-lg text-[#F0F4FF]">Cápsulas de Sabiduría</h3>
-            <span className="text-[10px] text-[#8090C0] italic font-script hidden sm:inline">Enfocá tu mente antes de jugar</span>
-          </div>
+    <div className="space-y-4">
+      {/* Header de sección */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-baseline gap-3">
+          <h2 className="font-fancy italic text-2xl sm:text-3xl font-bold text-white tracking-tight">
+            Cápsulas de Sabiduría
+          </h2>
+          <span className="text-xs uppercase tracking-[0.18em] text-zinc-500 hidden sm:inline">
+            {idx + 1} / {WISDOM_CAPSULES.length}
+          </span>
         </div>
         <span
-          className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full"
-          style={{
-            background: `${meta.color}20`,
-            color: meta.color,
-            border: `1px solid ${meta.color}50`,
-          }}
+          className="text-[11px] font-medium uppercase tracking-[0.18em] flex items-center gap-2"
+          style={{ color: meta.color }}
         >
-          {meta.emoji} {meta.label}
+          <span className="w-1.5 h-1.5 rounded-full" style={{ background: meta.color }} />
+          {meta.label}
         </span>
       </div>
 
       <AnimatePresence mode="wait">
         <motion.div
           key={capsule.id}
-          initial={{ opacity: 0, y: 6 }}
+          initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -6 }}
+          exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.35, ease: "easeOut" }}
-          className="relative overflow-hidden rounded-3xl glass-wisdom p-4 sm:p-5"
+          className="relative overflow-hidden rounded-2xl bg-white/[0.02] border border-white/10 p-6 sm:p-10"
         >
-          {/* Quote icon decorativo */}
-          <Quote
-            className="absolute top-2 left-2 w-8 h-8 opacity-20"
-            style={{ color: meta.color }}
+          {/* Línea de color lateral */}
+          <div
+            className="absolute left-0 top-0 bottom-0 w-[3px]"
+            style={{ background: meta.color }}
           />
 
-          <div className="relative grid sm:grid-cols-[1fr_auto] gap-4 items-center">
+          <div className="space-y-5">
             {/* Texto principal */}
-            <div className="min-w-0">
-              <p className="text-sm sm:text-base leading-relaxed font-medium italic font-script text-[#F0F4FF]">
+            <div className="min-w-0 space-y-3">
+              <p className="font-fancy italic text-xl sm:text-3xl leading-snug text-white tracking-tight">
                 &ldquo;{capsule.text}&rdquo;
               </p>
 
               {capsule.author && (
-                <div className="mt-2 flex items-center gap-2">
-                  <div className="h-px flex-1 max-w-[20px]" style={{ background: `${meta.color}80` }} />
+                <div className="flex items-center gap-3 pt-2">
+                  <div className="h-px w-8" style={{ background: `${meta.color}80` }} />
                   <span
-                    className="text-xs font-bold uppercase tracking-wider"
+                    className="text-sm font-semibold tracking-wide"
                     style={{ color: meta.color }}
                   >
                     {capsule.author}
                   </span>
                   {capsule.context && (
-                    <span className="text-[10px] text-[#8090C0] italic hidden sm:inline">
+                    <span className="text-xs text-zinc-500 hidden sm:inline">
                       · {capsule.context}
                     </span>
                   )}
@@ -352,40 +340,22 @@ export function WisdomCapsule() {
               )}
 
               {!capsule.author && capsule.context && (
-                <p className="mt-1.5 text-[11px] text-[#8090C0] italic">
-                  {capsule.context}
-                </p>
+                <p className="text-xs text-zinc-500 pt-1">{capsule.context}</p>
               )}
             </div>
 
-            {/* Controles laterales compactos */}
-            <div className="flex sm:flex-col items-center justify-between sm:justify-center gap-2 sm:gap-2.5 sm:border-l sm:border-[#8090C0]/20 sm:pl-4">
+            {/* Controles */}
+            <div className="flex items-center justify-end gap-2 pt-4 border-t border-white/5">
+              <span className="text-[11px] text-zinc-500 mr-auto tabular-nums">
+                {idx + 1} / {WISDOM_CAPSULES.length}
+              </span>
               <button
                 onClick={next}
-                className="px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 border hover:scale-[1.04]"
-                style={{
-                  background: `${meta.color}15`,
-                  color: meta.color,
-                  borderColor: `${meta.color}40`,
-                }}
+                className="px-4 py-2 rounded-lg text-[11px] font-medium uppercase tracking-[0.18em] border border-white/10 bg-white/5 hover:bg-white/10 transition flex items-center gap-2 text-zinc-200"
               >
                 Siguiente
                 <ChevronRight className="w-3 h-3" />
               </button>
-
-              {/* Contador compacto: solo muestra posición actual / total */}
-              <div className="flex items-center gap-1.5">
-                <span
-                  className="text-[10px] font-mono font-bold tabular-nums"
-                  style={{ color: meta.color }}
-                >
-                  {idx + 1}
-                </span>
-                <span className="text-[10px] text-[#8090C0]">/</span>
-                <span className="text-[10px] font-mono text-[#8090C0] tabular-nums">
-                  {WISDOM_CAPSULES.length}
-                </span>
-              </div>
             </div>
           </div>
         </motion.div>

@@ -37,7 +37,7 @@ export const FACT_COLOR: Record<string, string> = {
 export const FUN_FACTS: FunFact[] = [
   {
     id: 1,
-    emoji: "🐙",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "El pulpo tiene tres corazones",
@@ -45,7 +45,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 2,
-    emoji: "🧠",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "El cerebro usa el 20% de tu energía",
@@ -53,7 +53,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 3,
-    emoji: "🔬",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "El agua puede hervir y congelarse a la vez",
@@ -61,7 +61,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 4,
-    emoji: "💎",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "Los diamantes llueven en Júpiter",
@@ -69,7 +69,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 5,
-    emoji: "🧪",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "El helio líquido sube por las paredes",
@@ -77,7 +77,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 6,
-    emoji: "⚛️",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "El átomo es 99.9999% espacio vacío",
@@ -85,7 +85,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 7,
-    emoji: "🧬",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "Tu ADN llegaría al Sol y volvería",
@@ -93,7 +93,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 8,
-    emoji: "🌋",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "La lava es tan caliente como la superficie del Sol",
@@ -101,7 +101,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 9,
-    emoji: "🌪️",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "Un tornado puede girar a 480 km/h",
@@ -109,7 +109,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 10,
-    emoji: "🪨",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "El oro viene de estrellas muertas",
@@ -117,7 +117,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 11,
-    emoji: "❄️",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "Cada copo de nieve es único",
@@ -125,7 +125,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 12,
-    emoji: "🌊",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "El sonido viaja 4x más rápido en agua",
@@ -133,7 +133,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 13,
-    emoji: "⚡",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "Un rayo tiene 5 veces la temperatura del Sol",
@@ -141,7 +141,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 14,
-    emoji: "🧲",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "La Tierra tiene campo magnético desde hace 4,000M años",
@@ -149,7 +149,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 15,
-    emoji: "🦠",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "Un microbio sobrevive en el espacio exterior",
@@ -157,7 +157,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 16,
-    emoji: "🧱",
+    emoji: "",
     category: "Historia",
     color: "#FFEA00",
     title: "La Gran Muralla China mide +21,000 km",
@@ -165,7 +165,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 17,
-    emoji: "🏛️",
+    emoji: "",
     category: "Historia",
     color: "#FFEA00",
     title: "Los romanos usaban orina para lavar ropa",
@@ -173,7 +173,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 18,
-    emoji: "🗡️",
+    emoji: "",
     category: "Historia",
     color: "#FFEA00",
     title: "La Biblioteca de Alejandría tuvo 700,000 rollos",
@@ -181,7 +181,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 19,
-    emoji: "⚔️",
+    emoji: "",
     category: "Historia",
     color: "#FFEA00",
     title: "La guerra más corta duró 38 minutos",
@@ -189,7 +189,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 20,
-    emoji: "👑",
+    emoji: "",
     category: "Historia",
     color: "#FFEA00",
     title: "Cleopatra vivió más cerca del iPhone que de las pirámides",
@@ -197,7 +197,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 21,
-    emoji: "⚓",
+    emoji: "",
     category: "Historia",
     color: "#FFEA00",
     title: "Los vikingos llegaron a América 500 años antes que Colón",
@@ -205,7 +205,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 22,
-    emoji: "🏰",
+    emoji: "",
     category: "Historia",
     color: "#FFEA00",
     title: "El Imperio Romano duró 1,500 años",
@@ -213,7 +213,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 23,
-    emoji: "📜",
+    emoji: "",
     category: "Historia",
     color: "#FFEA00",
     title: "La escritura más antigua tiene 5,500 años",
@@ -221,7 +221,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 24,
-    emoji: "🏜️",
+    emoji: "",
     category: "Historia",
     color: "#FFEA00",
     title: "Las pirámides se construyeron con agua, no esclavos",
@@ -229,7 +229,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 25,
-    emoji: "🪓",
+    emoji: "",
     category: "Historia",
     color: "#FFEA00",
     title: "El Imperio Mongol fue el más grande de la historia",
@@ -237,7 +237,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 26,
-    emoji: "🌍",
+    emoji: "",
     category: "Espacio",
     color: "#C084FC",
     title: "La Tierra rotó más rápido en 2020",
@@ -245,7 +245,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 27,
-    emoji: "🪐",
+    emoji: "",
     category: "Espacio",
     color: "#C084FC",
     title: "Saturno flotaría en agua",
@@ -253,7 +253,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 28,
-    emoji: "🌌",
+    emoji: "",
     category: "Espacio",
     color: "#C084FC",
     title: "Hay más estrellas que granos de arena",
@@ -261,7 +261,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 29,
-    emoji: "☀️",
+    emoji: "",
     category: "Espacio",
     color: "#C084FC",
     title: "La luz del Sol tarda 8 minutos en llegarnos",
@@ -269,7 +269,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 30,
-    emoji: "🌕",
+    emoji: "",
     category: "Espacio",
     color: "#C084FC",
     title: "La Luna se aleja 3.8 cm al año",
@@ -277,7 +277,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 31,
-    emoji: "🚀",
+    emoji: "",
     category: "Espacio",
     color: "#C084FC",
     title: "Voyager 1 sigue viajando después de 47 años",
@@ -293,7 +293,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 33,
-    emoji: "🌠",
+    emoji: "",
     category: "Espacio",
     color: "#C084FC",
     title: "La Vía Láctea y Andrómeda chocarán en 4,500M años",
@@ -301,7 +301,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 34,
-    emoji: "🌑",
+    emoji: "",
     category: "Espacio",
     color: "#C084FC",
     title: "Hay un agujero negro en el centro de la Vía Láctea",
@@ -309,7 +309,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 35,
-    emoji: "🛰️",
+    emoji: "",
     category: "Espacio",
     color: "#C084FC",
     title: "La ISS orbita la Tierra cada 90 minutos",
@@ -317,7 +317,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 36,
-    emoji: "☄️",
+    emoji: "",
     category: "Espacio",
     color: "#C084FC",
     title: "Los cometas tienen dos colas, no una",
@@ -325,7 +325,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 37,
-    emoji: "🌖",
+    emoji: "",
     category: "Espacio",
     color: "#C084FC",
     title: "Marte tiene la montaña más alta del sistema solar",
@@ -333,7 +333,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 38,
-    emoji: "🐜",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "Las hormigas pueden cargar 50x su peso",
@@ -341,7 +341,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 39,
-    emoji: "🦋",
+    emoji: "",
     category: "Naturaleza",
     color: "#F59E0B",
     title: "La mariposa monarca viaja 4,500 km",
@@ -349,7 +349,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 40,
-    emoji: "🐼",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "El panda pasa 14 horas al día comiendo",
@@ -357,7 +357,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 41,
-    emoji: "🐌",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "Un caracol puede dormir 3 años seguidos",
@@ -365,7 +365,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 42,
-    emoji: "🐝",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "Una abeja produce 1/12 de cucharadita de miel en su vida",
@@ -373,7 +373,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 43,
-    emoji: "🩸",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "Los pulpos tienen sangre azul",
@@ -381,7 +381,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 44,
-    emoji: "🦒",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "La jirafa tiene el cuello más largo pero 7 vértebras",
@@ -389,7 +389,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 45,
-    emoji: "🦁",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "Un león ruge a 114 decibelios",
@@ -397,7 +397,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 46,
-    emoji: "🌵",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "Un cactus puede vivir 200 años",
@@ -405,7 +405,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 47,
-    emoji: "🍄",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "Los hongos están más cerca de los animales que de las plantas",
@@ -413,7 +413,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 48,
-    emoji: "🐋",
+    emoji: "",
     category: "Océano",
     color: "#22D3EE",
     title: "La ballena azul es el animal más grande jamás existente",
@@ -421,7 +421,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 49,
-    emoji: "🦈",
+    emoji: "",
     category: "Océano",
     color: "#22D3EE",
     title: "Los tiburones existían antes que los árboles",
@@ -429,7 +429,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 50,
-    emoji: "🪼",
+    emoji: "",
     category: "Océano",
     color: "#22D3EE",
     title: "Las medusas Turritopsis son biológicamente inmortales",
@@ -437,7 +437,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 51,
-    emoji: "🪸",
+    emoji: "",
     category: "Océano",
     color: "#22D3EE",
     title: "La Gran Barrera de Coral es visible desde el espacio",
@@ -445,7 +445,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 52,
-    emoji: "🐬",
+    emoji: "",
     category: "Océano",
     color: "#22D3EE",
     title: "Los delfines tienen 'nombres' propios",
@@ -453,7 +453,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 53,
-    emoji: "🌊",
+    emoji: "",
     category: "Océano",
     color: "#22D3EE",
     title: "El 95% del océano está inexplorado",
@@ -461,7 +461,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 54,
-    emoji: "🦀",
+    emoji: "",
     category: "Océano",
     color: "#22D3EE",
     title: "Los cangrejos ermitaños hacen fila para intercambiar conchas",
@@ -469,7 +469,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 55,
-    emoji: "🐠",
+    emoji: "",
     category: "Océano",
     color: "#22D3EE",
     title: "El pez payaso puede cambiar de sexo",
@@ -477,7 +477,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 56,
-    emoji: "🏔️",
+    emoji: "",
     category: "Geografía",
     color: "#7DD3FC",
     title: "El Everest crece 4 mm cada año",
@@ -485,7 +485,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 57,
-    emoji: "🗽",
+    emoji: "",
     category: "Geografía",
     color: "#7DD3FC",
     title: "La Estatua de la Libertad fue un regalo francés",
@@ -493,7 +493,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 58,
-    emoji: "🏜️",
+    emoji: "",
     category: "Geografía",
     color: "#7DD3FC",
     title: "El desierto del Sahara fue un bosque hace 6,000 años",
@@ -501,7 +501,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 59,
-    emoji: "🌋",
+    emoji: "",
     category: "Geografía",
     color: "#7DD3FC",
     title: "Rusia tiene 11 zonas horarias",
@@ -509,7 +509,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 60,
-    emoji: "❄️",
+    emoji: "",
     category: "Geografía",
     color: "#7DD3FC",
     title: "La Antártida es el desierto más grande del mundo",
@@ -517,7 +517,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 61,
-    emoji: "🏝️",
+    emoji: "",
     category: "Geografía",
     color: "#7DD3FC",
     title: "Islandia crece 2 cm al año",
@@ -525,7 +525,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 62,
-    emoji: "❤️",
+    emoji: "",
     category: "Cuerpo humano",
     color: "#FB7185",
     title: "Tus vasos sanguíneos darían 2.5 vueltas a la Tierra",
@@ -533,7 +533,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 63,
-    emoji: "👁️",
+    emoji: "",
     category: "Cuerpo humano",
     color: "#FB7185",
     title: "El ojo humano distingue 10 millones de colores",
@@ -541,7 +541,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 64,
-    emoji: "🦷",
+    emoji: "",
     category: "Cuerpo humano",
     color: "#FB7185",
     title: "El esmalte dental es más duro que el acero",
@@ -549,7 +549,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 65,
-    emoji: "🦴",
+    emoji: "",
     category: "Cuerpo humano",
     color: "#FB7185",
     title: "El fémur soporta 30x tu peso",
@@ -557,7 +557,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 66,
-    emoji: "🫁",
+    emoji: "",
     category: "Cuerpo humano",
     color: "#FB7185",
     title: "Los alvéolos pulmonares tendrían 70 m²",
@@ -565,7 +565,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 67,
-    emoji: "🧠",
+    emoji: "",
     category: "Cuerpo humano",
     color: "#FB7185",
     title: "El cerebro genera 20 W de potencia",
@@ -573,7 +573,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 68,
-    emoji: "👂",
+    emoji: "",
     category: "Cuerpo humano",
     color: "#FB7185",
     title: "El oído nunca deja de escuchar",
@@ -581,7 +581,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 69,
-    emoji: "👅",
+    emoji: "",
     category: "Cuerpo humano",
     color: "#FB7185",
     title: "Tu lengua tiene 10,000 papilas gustativas",
@@ -589,7 +589,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 70,
-    emoji: "💻",
+    emoji: "",
     category: "Tecnología",
     color: "#60A5FA",
     title: "El primer SMS decía 'Merry Christmas'",
@@ -597,7 +597,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 71,
-    emoji: "🚀",
+    emoji: "",
     category: "Tecnología",
     color: "#60A5FA",
     title: "Tu smartphone es más potente que el Apollo 11",
@@ -605,7 +605,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 72,
-    emoji: "🌐",
+    emoji: "",
     category: "Tecnología",
     color: "#60A5FA",
     title: "La primera webcam vigilaba una cafetera",
@@ -613,7 +613,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 73,
-    emoji: "💾",
+    emoji: "",
     category: "Tecnología",
     color: "#60A5FA",
     title: "El primer disco duro pesaba 1 tonelada",
@@ -621,7 +621,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 74,
-    emoji: "📱",
+    emoji: "",
     category: "Tecnología",
     color: "#60A5FA",
     title: "Hay más móviles que personas en la Tierra",
@@ -629,7 +629,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 75,
-    emoji: "🎮",
+    emoji: "",
     category: "Tecnología",
     color: "#60A5FA",
     title: "El primer joystick era un bote de jabón",
@@ -637,7 +637,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 76,
-    emoji: "🛰️",
+    emoji: "",
     category: "Tecnología",
     color: "#60A5FA",
     title: "El GPS se basa en la teoría de Einstein",
@@ -645,7 +645,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 77,
-    emoji: "🔧",
+    emoji: "",
     category: "Tecnología",
     color: "#60A5FA",
     title: "El primer programador fue mujer",
@@ -653,7 +653,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 78,
-    emoji: "🎨",
+    emoji: "",
     category: "Arte",
     color: "#F472B6",
     title: "Van Gogh vendió un solo cuadro en vida",
@@ -661,7 +661,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 79,
-    emoji: "🎵",
+    emoji: "",
     category: "Música",
     color: "#34D399",
     title: "Mozart compuso a los 5 años",
@@ -669,7 +669,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 80,
-    emoji: "🖼️",
+    emoji: "",
     category: "Arte",
     color: "#F472B6",
     title: "La Mona Lisa no tenía cejas",
@@ -677,7 +677,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 81,
-    emoji: "🎸",
+    emoji: "",
     category: "Música",
     color: "#34D399",
     title: "La guitarra eléctrica se inventó en 1932",
@@ -685,7 +685,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 82,
-    emoji: "🎼",
+    emoji: "",
     category: "Música",
     color: "#34D399",
     title: "Beethoven compuso sordo",
@@ -693,7 +693,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 83,
-    emoji: "🗿",
+    emoji: "",
     category: "Arte",
     color: "#F472B6",
     title: "El David de Miguel Ángel mide 5.17 m",
@@ -701,7 +701,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 84,
-    emoji: "🗣️",
+    emoji: "",
     category: "Idiomas",
     color: "#FBBF24",
     title: "Existen +7,000 idiomas en el mundo",
@@ -709,7 +709,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 85,
-    emoji: "📚",
+    emoji: "",
     category: "Literatura",
     color: "#FCD34D",
     title: "El Quijote se tradujo a +50 idiomas",
@@ -717,7 +717,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 86,
-    emoji: "🔤",
+    emoji: "",
     category: "Idiomas",
     color: "#FBBF24",
     title: "El coreano tiene un alfabeto científico",
@@ -725,7 +725,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 87,
-    emoji: "📖",
+    emoji: "",
     category: "Literatura",
     color: "#FCD34D",
     title: "El libro más largo del mundo tiene 17,000 páginas",
@@ -733,7 +733,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 88,
-    emoji: "🌍",
+    emoji: "",
     category: "Idiomas",
     color: "#FBBF24",
     title: "El esperanto se creó para unir el mundo",
@@ -741,7 +741,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 89,
-    emoji: "💡",
+    emoji: "",
     category: "Inventos",
     color: "#A78BFA",
     title: "La bombilla led dura 25,000 horas",
@@ -749,7 +749,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 90,
-    emoji: "🔥",
+    emoji: "",
     category: "Inventos",
     color: "#A78BFA",
     title: "El fuego se 'inventó' hace 1 millón de años",
@@ -757,7 +757,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 91,
-    emoji: "⚙️",
+    emoji: "",
     category: "Inventos",
     color: "#A78BFA",
     title: "La rueda se inventó para cerámica, no para transporte",
@@ -765,7 +765,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 92,
-    emoji: "✏️",
+    emoji: "",
     category: "Inventos",
     color: "#A78BFA",
     title: "El lápiz se inventó tras un descubrimiento de grafito",
@@ -773,7 +773,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 93,
-    emoji: "📷",
+    emoji: "",
     category: "Inventos",
     color: "#A78BFA",
     title: "La primera foto tomó 8 horas",
@@ -781,7 +781,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 94,
-    emoji: "🎭",
+    emoji: "",
     category: "Cultura",
     color: "#FF4D6D",
     title: "Shakespeare inventó +1,700 palabras",
@@ -789,7 +789,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 95,
-    emoji: "⚡",
+    emoji: "",
     category: "Mitología",
     color: "#F87171",
     title: "Zeus no siempre gobernó el Olimpo",
@@ -797,7 +797,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 96,
-    emoji: "🐉",
+    emoji: "",
     category: "Mitología",
     color: "#F87171",
     title: "El dragón existe en casi todas las culturas",
@@ -805,7 +805,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 97,
-    emoji: "👑",
+    emoji: "",
     category: "Mitología",
     color: "#F87171",
     title: "Anubis es el dios más antiguo de Egipto",
@@ -813,7 +813,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 98,
-    emoji: "🧞",
+    emoji: "",
     category: "Mitología",
     color: "#F87171",
     title: "Aladín era originalmente chino",
@@ -821,7 +821,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 99,
-    emoji: "🪶",
+    emoji: "",
     category: "Mitología",
     color: "#F87171",
     title: "Quetzalcóatl era un dios con forma de serpiente emplumada",
@@ -829,7 +829,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 100,
-    emoji: "🏓",
+    emoji: "",
     category: "Videojuegos",
     color: "#a855f7",
     title: "El primer videojuego es de 1958",
@@ -837,7 +837,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 101,
-    emoji: "🕹️",
+    emoji: "",
     category: "Videojuegos",
     color: "#a855f7",
     title: "Pac-Man tenía nombre japonés",
@@ -845,7 +845,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 102,
-    emoji: "🏀",
+    emoji: "",
     category: "Deporte",
     color: "#f97316",
     title: "El basketball se inventó en 1891",
@@ -853,7 +853,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 103,
-    emoji: "⚽",
+    emoji: "",
     category: "Deporte",
     color: "#f97316",
     title: "El fútbol se juega en 200+ países",
@@ -861,7 +861,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 104,
-    emoji: "🏆",
+    emoji: "",
     category: "Deporte",
     color: "#f97316",
     title: "Los Juegos Olímpicos tienen 2,700 años",
@@ -869,7 +869,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 105,
-    emoji: "🔢",
+    emoji: "",
     category: "Matemáticas",
     color: "#60A5FA",
     title: "El cero se inventó en India",
@@ -877,7 +877,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 106,
-    emoji: "♾️",
+    emoji: "",
     category: "Matemáticas",
     color: "#60A5FA",
     title: "Algunos infinitos son más grandes que otros",
@@ -885,7 +885,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 107,
-    emoji: "📐",
+    emoji: "",
     category: "Matemáticas",
     color: "#60A5FA",
     title: "Pi tiene 100 trillones de decimales calculados",
@@ -893,7 +893,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 108,
-    emoji: "🎲",
+    emoji: "",
     category: "Matemáticas",
     color: "#60A5FA",
     title: "La probabilidad de sacar 6 y 6 con dos dados es 1/36",
@@ -901,7 +901,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 109,
-    emoji: "🍫",
+    emoji: "",
     category: "Comida",
     color: "#A78BFA",
     title: "El chocolate fue dinero durante siglos",
@@ -909,7 +909,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 110,
-    emoji: "🍕",
+    emoji: "",
     category: "Comida",
     color: "#FF4D6D",
     title: "La pizza Margherita imita la bandera italiana",
@@ -917,7 +917,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 111,
-    emoji: "🍯",
+    emoji: "",
     category: "Comida",
     color: "#39FF14",
     title: "La miel nunca se echa a perder",
@@ -925,7 +925,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 112,
-    emoji: "🌶️",
+    emoji: "",
     category: "Comida",
     color: "#39FF14",
     title: "El picante no es un sabor, es dolor",
@@ -933,7 +933,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 113,
-    emoji: "🎬",
+    emoji: "",
     category: "Cine",
     color: "#FF4D6D",
     title: "La primera película es de 1895",
@@ -941,7 +941,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 114,
-    emoji: "🧛",
+    emoji: "",
     category: "Cine",
     color: "#FF4D6D",
     title: "Drácula se basó en un príncipe real",
@@ -949,7 +949,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 115,
-    emoji: "🎥",
+    emoji: "",
     category: "Cine",
     color: "#FF4D6D",
     title: "El primer Oscar se entregó en 1929",
@@ -957,7 +957,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 116,
-    emoji: "🧊",
+    emoji: "",
     category: "Cine",
     color: "#FF4D6D",
     title: "Titanic costó más que el barco real",
@@ -965,7 +965,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 117,
-    emoji: "🌈",
+    emoji: "",
     category: "Clima",
     color: "#00E5FF",
     title: "Cada arcoíris es único para cada observador",
@@ -973,7 +973,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 118,
-    emoji: "☁️",
+    emoji: "",
     category: "Clima",
     color: "#00E5FF",
     title: "Una nube pesa 500 toneladas",
@@ -981,7 +981,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 119,
-    emoji: "🌫️",
+    emoji: "",
     category: "Clima",
     color: "#00E5FF",
     title: "El récord de temperatura son 56.7°C",
@@ -989,7 +989,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 120,
-    emoji: "⛈️",
+    emoji: "",
     category: "Clima",
     color: "#00E5FF",
     title: "Un huracán libera energía como 10,000 bombas nucleares",
@@ -997,7 +997,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 121,
-    emoji: "🦕",
+    emoji: "",
     category: "Historia",
     color: "#FFEA00",
     title: "Los dinosaurios reinaron 165 millones de años",
@@ -1005,7 +1005,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 122,
-    emoji: "🌙",
+    emoji: "",
     category: "Espacio",
     color: "#C084FC",
     title: "La Luna tiene 'temblores'",
@@ -1013,7 +1013,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 123,
-    emoji: "🌊",
+    emoji: "",
     category: "Geografía",
     color: "#7DD3FC",
     title: "El río más largo está bajo el Amazonas",
@@ -1021,7 +1021,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 124,
-    emoji: "🦅",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "Un águila puede ver un conejo a 3 km",
@@ -1029,7 +1029,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 125,
-    emoji: "🐌",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "La luz es más lenta en el agua",
@@ -1037,7 +1037,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 126,
-    emoji: "🎆",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "El fuego no tiene sombra",
@@ -1045,7 +1045,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 127,
-    emoji: "🪐",
+    emoji: "",
     category: "Espacio",
     color: "#C084FC",
     title: "Júpiter tiene 95 lunas conocidas",
@@ -1053,7 +1053,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 128,
-    emoji: "🦠",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "Tu cuerpo tiene más bacterias que células humanas",
@@ -1061,7 +1061,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 129,
-    emoji: "🐛",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "Los gusanos de seda son insectos domesticados",
@@ -1069,7 +1069,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 130,
-    emoji: "🧊",
+    emoji: "",
     category: "Geografía",
     color: "#7DD3FC",
     title: "El 69% del agua dulce está en glaciares",
@@ -1077,7 +1077,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 131,
-    emoji: "👑",
+    emoji: "",
     category: "Historia",
     color: "#FFEA00",
     title: "El rey más joven fue coronado antes de nacer",
@@ -1085,7 +1085,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 132,
-    emoji: "🗼",
+    emoji: "",
     category: "Geografía",
     color: "#7DD3FC",
     title: "La Torre de Pisa se inclinó por error",
@@ -1093,7 +1093,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 133,
-    emoji: "🦈",
+    emoji: "",
     category: "Océano",
     color: "#22D3EE",
     title: "El tiburón blanco huele 1 gota de sangre en 100L de agua",
@@ -1101,7 +1101,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 134,
-    emoji: "🪨",
+    emoji: "",
     category: "Espacio",
     color: "#C084FC",
     title: "El meteorito más grande pesa 60 toneladas",
@@ -1109,7 +1109,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 135,
-    emoji: "🌷",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "Los tulipanes causaron la primera burbuja financiera",
@@ -1117,7 +1117,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 136,
-    emoji: "🦜",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "Un loro puede aprender 1,000 palabras",
@@ -1125,7 +1125,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 137,
-    emoji: "🐎",
+    emoji: "",
     category: "Historia",
     color: "#FFEA00",
     title: "Los caballos regresaron a América en 1493",
@@ -1133,7 +1133,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 138,
-    emoji: "🌿",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "Los árboles se 'comunican' entre sí",
@@ -1141,7 +1141,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 139,
-    emoji: "🐙",
+    emoji: "",
     category: "Océano",
     color: "#22D3EE",
     title: "Los pulpos usan herramientas",
@@ -1149,7 +1149,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 140,
-    emoji: "🧊",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "El hielo se forma en 17 estados distintos",
@@ -1157,7 +1157,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 141,
-    emoji: "🐘",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "Los elefantes reconocen su reflejo",
@@ -1165,7 +1165,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 142,
-    emoji: "🌏",
+    emoji: "",
     category: "Geografía",
     color: "#7DD3FC",
     title: "El nombre 'América' viene de un italiano",
@@ -1173,7 +1173,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 143,
-    emoji: "🦎",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "Algunos lagartos caminan sobre el agua",
@@ -1181,7 +1181,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 144,
-    emoji: "🌋",
+    emoji: "",
     category: "Geografía",
     color: "#7DD3FC",
     title: "El volcán más activo está en Italia",
@@ -1189,7 +1189,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 145,
-    emoji: "🌊",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "El agua es un 'anómalo' del universo",
@@ -1197,7 +1197,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 146,
-    emoji: "🦉",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "Los búhos no pueden mover los ojos",
@@ -1205,7 +1205,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 147,
-    emoji: "🪨",
+    emoji: "",
     category: "Geografía",
     color: "#7DD3FC",
     title: "Australia es más ancha que la Luna",
@@ -1213,7 +1213,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 148,
-    emoji: "🐝",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "Las abejas entienden el concepto de cero",
@@ -1221,7 +1221,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 149,
-    emoji: "🗺️",
+    emoji: "",
     category: "Geografía",
     color: "#7DD3FC",
     title: "El lugar más remoto de la Tierra es la Isla Bouvet",
@@ -1229,7 +1229,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 150,
-    emoji: "🪲",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "Los escarabajos son el 25% de todas las especies",
@@ -1237,7 +1237,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 151,
-    emoji: "🌋",
+    emoji: "",
     category: "Ciencia",
     color: "#00E5FF",
     title: "El cristal más antiguo tiene 4,400 millones de años",
@@ -1245,7 +1245,7 @@ export const FUN_FACTS: FunFact[] = [
   },
   {
     id: 152,
-    emoji: "🐢",
+    emoji: "",
     category: "Naturaleza",
     color: "#39FF14",
     title: "Las tortugas pueden vivir más de 190 años",

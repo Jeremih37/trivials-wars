@@ -67,10 +67,10 @@ export const FRAMES: Frame[] = [
         <circle cx="50" cy="50" r="48" fill="none" stroke="#ffd60a" strokeWidth="4" />
         <circle cx="50" cy="50" r="43" fill="none" stroke="#ff8a00" strokeWidth="1.5" />
         {/* Coronas en los 4 puntos cardinales */}
-        <text x="46" y="10" fontSize="8" fill="#ffd60a">♛</text>
-        <text x="46" y="96" fontSize="8" fill="#ffd60a">♛</text>
-        <text x="2" y="54" fontSize="8" fill="#ffd60a">♛</text>
-        <text x="92" y="54" fontSize="8" fill="#ffd60a">♛</text>
+        <text x="46" y="10" fontSize="8" fill="#ffd60a"></text>
+        <text x="46" y="96" fontSize="8" fill="#ffd60a"></text>
+        <text x="2" y="54" fontSize="8" fill="#ffd60a"></text>
+        <text x="92" y="54" fontSize="8" fill="#ffd60a"></text>
       </>
     ),
   },
@@ -114,7 +114,7 @@ export const FRAMES: Frame[] = [
           const rad = (deg * Math.PI) / 180
           const x = 50 + Math.cos(rad) * 47
           const y = 50 + Math.sin(rad) * 47
-          return <text key={deg} x={x - 4} y={y + 3} fontSize="8" fill="#ffd60a">✦</text>
+          return <text key={deg} x={x - 4} y={y + 3} fontSize="8" fill="#ffd60a"></text>
         })}
         <defs>
           <linearGradient id="legGrad" x1="0" y1="0" x2="1" y2="1">
@@ -142,28 +142,28 @@ export interface ProfileIcon {
 
 export const PROFILE_ICONS: ProfileIcon[] = [
   // Nivel 1
-  { id: "icon_brain", emoji: "🧠", name: "Cerebro", unlockLevel: 1 },
-  { id: "icon_fire", emoji: "🔥", name: "Fuego", unlockLevel: 1 },
+  { id: "icon_brain", emoji: "BR", name: "Cerebro", unlockLevel: 1 },
+  { id: "icon_fire", emoji: "FR", name: "Fuego", unlockLevel: 1 },
   { id: "icon_star", emoji: "⭐", name: "Estrella", unlockLevel: 1 },
-  { id: "icon_trophy", emoji: "🏆", name: "Trofeo", unlockLevel: 1 },
+  { id: "icon_trophy", emoji: "TR", name: "Trofeo", unlockLevel: 1 },
   // Nivel 5
-  { id: "icon_crown", emoji: "👑", name: "Corona", unlockLevel: 5 },
-  { id: "icon_diamond", emoji: "💎", name: "Diamante", unlockLevel: 5 },
-  { id: "icon_lightning", emoji: "⚡", name: "Rayo", unlockLevel: 5 },
+  { id: "icon_crown", emoji: "CR", name: "Corona", unlockLevel: 5 },
+  { id: "icon_diamond", emoji: "DI", name: "Diamante", unlockLevel: 5 },
+  { id: "icon_lightning", emoji: "LT", name: "Rayo", unlockLevel: 5 },
   // Nivel 15
-  { id: "icon_dragon", emoji: "🐲", name: "Dragón", unlockLevel: 15 },
-  { id: "icon_phoenix", emoji: "🦅", name: "Fénix", unlockLevel: 15 },
+  { id: "icon_dragon", emoji: "DR", name: "Dragón", unlockLevel: 15 },
+  { id: "icon_phoenix", emoji: "PH", name: "Fénix", unlockLevel: 15 },
   // Nivel 25
-  { id: "icon_skull", emoji: "💀", name: "Calavera", unlockLevel: 25 },
-  { id: "icon_ninja", emoji: "🥷", name: "Ninja", unlockLevel: 25 },
+  { id: "icon_skull", emoji: "SK", name: "Calavera", unlockLevel: 25 },
+  { id: "icon_ninja", emoji: "NJ", name: "Ninja", unlockLevel: 25 },
   // Nivel 35
-  { id: "icon_robot", emoji: "🤖", name: "Robot", unlockLevel: 35 },
-  { id: "icon_alien", emoji: "👽", name: "Alien", unlockLevel: 35 },
+  { id: "icon_robot", emoji: "RB", name: "Robot", unlockLevel: 35 },
+  { id: "icon_alien", emoji: "AL", name: "Alien", unlockLevel: 35 },
   // Nivel 45
-  { id: "icon_wizard", emoji: "🧙", name: "Mago", unlockLevel: 45 },
+  { id: "icon_wizard", emoji: "WG", name: "Mago", unlockLevel: 45 },
   // Nivel 50+
-  { id: "icon_galaxy", emoji: "🌌", name: "Galaxia", unlockLevel: 50 },
-  { id: "icon_volcano", emoji: "🌋", name: "Volcán", unlockLevel: 50 },
+  { id: "icon_galaxy", emoji: "GA", name: "Galaxia", unlockLevel: 50 },
+  { id: "icon_volcano", emoji: "VO", name: "Volcán", unlockLevel: 50 },
 ]
 
 export const ICONS_BY_ID: Record<string, ProfileIcon> = Object.fromEntries(
@@ -176,5 +176,5 @@ export function getIconEmoji(id: string): string {
   if (ICONS_BY_ID[id]) return ICONS_BY_ID[id].emoji
   // Si ya es un emoji suelto (compat con versión anterior)
   if (id && [...id].length <= 2) return id
-  return "🧠"
+  return ""
 }

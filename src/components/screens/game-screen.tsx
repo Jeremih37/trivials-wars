@@ -227,7 +227,7 @@ export function GameScreen() {
 
   // Mix: usa un color cian por defecto
   const catColor = isMix ? "#00E5FF" : (cat?.color ?? "#38BDF8")
-  const catIcon = isMix ? "🔀" : (cat?.icon ?? "🎯")
+  const catIcon = isMix ? "" : (cat?.icon ?? "")
   const catName = isMix ? "Mix Aleatorio" : (cat?.name ?? "—")
 
   const ratio = hasTimer ? timeLeft / totalTime : 1
@@ -476,7 +476,7 @@ export function GameScreen() {
                 {isSurvival
                   ? `Supervivencia · ${totalTime}s`
                   : isSuddenDeath
-                    ? `☠ Muerte Súbita · ${totalTime}s`
+                    ? ` Muerte Súbita · ${totalTime}s`
                     : `${diff.name} · ${hasTimer ? `${totalTime}s` : "sin tiempo"}`}
               </span>
             </div>
@@ -619,7 +619,7 @@ export function GameScreen() {
                   : "0 0 30px rgba(0,229,255,0.5)",
               }}
             >
-              {isSuddenDeath ? "⚡" : "🔥"} COMBO ×{currentCombo}! {isSuddenDeath ? "⚡" : "🔥"}
+              {isSuddenDeath ? "" : ""} COMBO ×{currentCombo}! {isSuddenDeath ? "" : ""}
             </div>
             <div
               className="text-center mt-1 text-xs font-bold"
