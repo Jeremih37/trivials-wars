@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils"
 import { FUN_FACTS } from "@/lib/facts-data"
 
 // ============================================================
-// WELCOME SCREEN — Editorial dark minimal · Compact single-view
+// WELCOME SCREEN — Editorial dark minimal · Compact natural flow
 // Refs: Linear, Vercel docs, Notion. No emojis, no glassy gradients.
 // ============================================================
 
@@ -91,7 +91,7 @@ export function WelcomeScreen() {
   const displayName = profile?.user.name ?? "Jugador"
 
   return (
-    <div className="relative h-dvh flex flex-col bg-[#0a0a0f] text-[#e4e4e7] overflow-hidden">
+    <div className="relative min-h-dvh flex flex-col bg-[#0a0a0f] text-[#e4e4e7]">
       {/* Fondo: halos sutiles, no cromados */}
       <div
         className="pointer-events-none fixed inset-0 z-0"
@@ -157,7 +157,7 @@ export function WelcomeScreen() {
         </div>
       </header>
 
-      <main className="relative z-10 flex-1 min-h-0 max-w-6xl w-full mx-auto px-4 sm:px-6 py-2 flex flex-col gap-2">
+      <main className="relative z-10 flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-3 flex flex-col gap-2.5">
         {/* ====== HERO compacto ====== */}
         <motion.section
           initial={{ opacity: 0, y: 6 }}
@@ -272,14 +272,13 @@ export function WelcomeScreen() {
           </div>
         </motion.section>
 
-        {/* ====== Carruseles en 2 columnas (lg+) ====== */}
-        <div className="grid lg:grid-cols-2 gap-2 flex-1 min-h-0">
+        {/* ====== Carruseles en 2 columnas (lg+) — sin forzar altura ====== */}
+        <div className="grid lg:grid-cols-2 gap-2.5 items-start">
           {/* "¿Sabías que…?" */}
           <motion.section
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.4 }}
-            className="flex flex-col min-h-0"
           >
             <div className="flex items-center justify-between mb-1.5">
               <div className="flex items-baseline gap-2">
@@ -304,7 +303,7 @@ export function WelcomeScreen() {
             </div>
 
             <div
-              className="relative overflow-hidden rounded-lg bg-white/[0.02] border border-white/10 p-2.5 flex-1 flex flex-col"
+              className="relative overflow-hidden rounded-lg bg-white/[0.02] border border-white/10 p-2.5"
               onPointerEnter={() => setAutoPlay(false)}
               onPointerLeave={() => setAutoPlay(true)}
             >
@@ -320,7 +319,7 @@ export function WelcomeScreen() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -4 }}
                   transition={{ duration: 0.25, ease: "easeOut" }}
-                  className="space-y-1 flex-1"
+                  className="space-y-1"
                 >
                   <div className="flex items-center gap-1.5">
                     <span
@@ -427,31 +426,30 @@ export function WelcomeScreen() {
             initial={{ opacity: 0, y: 6 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.4 }}
-            className="flex flex-col min-h-0"
           >
             <WisdomCapsule />
           </motion.section>
         </div>
 
-        {/* ====== CTA principal — al final ====== */}
+        {/* ====== CTA principal — siempre visible después del contenido ====== */}
         <motion.section
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.4 }}
-          className="shrink-0"
+          className="mt-auto"
         >
           <button
             onClick={() => setScreen("home")}
-            className="group relative overflow-hidden rounded-lg bg-white text-black hover:bg-zinc-100 transition-all px-3 py-1.5 flex items-center justify-between gap-2 w-full"
+            className="group relative overflow-hidden rounded-lg bg-white text-black hover:bg-zinc-100 transition-all px-3 py-2 flex items-center justify-between gap-2 w-full"
           >
             <div className="flex items-center gap-2">
-              <Play className="w-3 h-3 fill-black" />
+              <Play className="w-3.5 h-3.5 fill-black" />
               <div className="flex items-baseline gap-2">
-                <span className="font-fancy italic font-bold text-xs tracking-tight leading-none">Jugar ahora</span>
-                <span className="text-[8px] text-zinc-500 tracking-wide hidden sm:inline">Elegí categoría y dificultad</span>
+                <span className="font-fancy italic font-bold text-sm tracking-tight leading-none">Jugar ahora</span>
+                <span className="text-[9px] text-zinc-500 tracking-wide hidden sm:inline">Elegí categoría y dificultad</span>
               </div>
             </div>
-            <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-1" />
+            <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
           </button>
         </motion.section>
       </main>

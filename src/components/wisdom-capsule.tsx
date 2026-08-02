@@ -280,7 +280,7 @@ export function WisdomCapsule() {
   const meta = TYPE_META[capsule.type]
 
   return (
-    <div className="flex flex-col h-full min-h-0">
+    <div className="flex flex-col">
       {/* Header de sección */}
       <div className="flex items-center justify-between mb-1.5">
         <div className="flex items-baseline gap-2">
@@ -307,7 +307,7 @@ export function WisdomCapsule() {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -4 }}
           transition={{ duration: 0.25, ease: "easeOut" }}
-          className="relative overflow-hidden rounded-lg bg-white/[0.02] border border-white/10 p-2.5 flex-1 flex flex-col"
+          className="relative overflow-hidden rounded-lg bg-white/[0.02] border border-white/10 p-2.5"
         >
           {/* Línea de color lateral */}
           <div
@@ -315,9 +315,9 @@ export function WisdomCapsule() {
             style={{ background: meta.color }}
           />
 
-          <div className="space-y-1.5 flex-1 flex flex-col">
+          <div className="space-y-1.5">
             {/* Texto principal */}
-            <div className="min-w-0 space-y-1 flex-1">
+            <div className="min-w-0 space-y-1">
               <p className="font-fancy italic text-xs sm:text-sm leading-snug text-white tracking-tight">
                 &ldquo;{capsule.text}&rdquo;
               </p>
