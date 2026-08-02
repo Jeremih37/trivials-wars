@@ -527,3 +527,43 @@ Stage Summary:
 - Welcome-screen ~30% más compacto (tipografías, paddings, gaps reducidos)
 - Builds OK, sin errores TypeScript
 - Commits: ca0b653 + ba10add
+
+---
+Task ID: reorder-cta-compact
+Agent: main (Super Z)
+Task: Mover "Jugar ahora" al final de TODO el contenido + compactar cuadros
+
+Work Log:
+- welcome-screen.tsx: reestructuré el orden de secciones:
+  Hero → Modos rápidos → ¿Sabías que…? → Cápsulas de Sabiduría → Jugar ahora (CTA al final)
+- CTA "Jugar ahora" ahora es una sección independiente al final con motion.section delay 0.4s
+- Reducción adicional de tamaños (~30% más sobre la reducción anterior):
+  · Hero: avatar 16→12, level lg→sm, greeting 2xl/3xl/4xl → xl/2xl
+  · Stats: label 9px→8px, value base→sm, gap-x-6→5, gap-y-2→1.5
+  · QuickMode: py-3→2.5, gap-1.5→1, icon 3.5→3, label 11px→10px
+  · ¿Sabías que…?: card p-4/p-6→p-3/p-4, rounded-xl→lg
+    - title 2xl/3xl → lg
+    - description sm → xs (11px)
+    - categoría: dot 1.5→1, text 10px→9px
+    - dots: h-1.5→1, w-1.5→1, active w-6→5
+    - arrows: p-1.5→1, icon 3.5→3
+  · WisdomCapsule (wisdom-capsule.tsx): card p-6/p-10 → p-3/p-4, rounded-2xl→lg
+    - h2 2xl/3xl → base/lg
+    - quote text-xl/3xl → sm/base
+    - author text-sm → 11px, context text-xs → 10px
+    - Siguiente button: px-4/py-2 → px-2.5/py-1, text-11px → 10px
+  · Max-width del main: 6xl → 5xl (contenedor más angosto)
+  · Section paddings: py-5 → py-4
+- Build: success (6.8s, sin errores TS)
+- Commit d24f242 + push a GitHub exitoso
+- Verificación con agent-browser + VLM confirma:
+  · "Jugar ahora" ahora está al FINAL de la página (después de trivia + wisdom)
+  · Secciones visibles: Header → Bienvenida → Modos → ¿Sabías que? → Cápsulas → Jugar ahora
+
+Stage Summary:
+- ✅ "Jugar ahora" movido al final absoluto (después de TODO el contenido)
+- ✅ Usuario ahora puede ver trivia y cápsulas antes de decidir jugar
+- ✅ Cards y tipografías reducidas ~30% adicional (sobre la reducción previa)
+- ✅ Wisdom capsule también compactada (p-10 → p-3)
+- ✅ Build OK, deploy automático a Vercel
+- 🎯 Capturas: /home/z/my-project/download/welcome-compact-*.png
