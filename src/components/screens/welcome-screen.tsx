@@ -112,43 +112,43 @@ export function WelcomeScreen() {
 
       {/* Header minimalista */}
       <header className="sticky top-0 z-40 backdrop-blur-md bg-[#0a0a0f]/80 border-b border-white/5">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-md bg-gradient-to-br from-white/10 to-white/5 border border-white/10 flex items-center justify-center">
-              <span className="font-fancy italic text-base font-bold text-white">T</span>
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <div className="w-6 h-6 rounded-md bg-gradient-to-br from-white/10 to-white/5 border border-white/10 flex items-center justify-center">
+              <span className="font-fancy italic text-xs font-bold text-white">T</span>
             </div>
             <div className="flex flex-col leading-none">
-              <span className="font-fancy italic font-bold text-lg text-white tracking-tight">Trivials Wars</span>
-              <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 mt-1">El conocimiento es poder</span>
+              <span className="font-fancy italic font-bold text-sm text-white tracking-tight">Trivials Wars</span>
+              <span className="text-[9px] uppercase tracking-[0.18em] text-zinc-500 mt-0.5">El conocimiento es poder</span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             <AudioToggle compact />
             <button
               onClick={() => setScreen("lootbox")}
-              className="relative px-3 py-2 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition text-zinc-200"
+              className="relative px-2.5 py-1.5 rounded-md bg-white/5 border border-white/10 hover:bg-white/10 transition text-zinc-200"
               title="Abrir Loot Box"
             >
-              <span className="text-xs font-medium">Caja</span>
+              <span className="text-[11px] font-medium">Caja</span>
               {profile?.user.boxes ? (
-                <span className="absolute -top-1 -right-1 bg-white text-black text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center tabular-nums">
+                <span className="absolute -top-1 -right-1 bg-white text-black text-[9px] font-bold rounded-full w-3.5 h-3.5 flex items-center justify-center tabular-nums">
                   {profile.user.boxes}
                 </span>
               ) : null}
             </button>
             <button
               onClick={() => setScreen("profile")}
-              className="relative p-1 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 transition"
+              className="relative p-0.5 rounded-md bg-white/5 border border-white/10 hover:border-white/20 transition"
               title="Perfil"
             >
               {profile && frame ? (
-                <div className="relative w-8 h-8">
+                <div className="relative w-7 h-7">
                   <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full">
                     {frame.render()}
                   </svg>
                   <div className="absolute inset-1.5 rounded-full bg-white/5 flex items-center justify-center">
-                    {avatarData && <AvatarSvg {...avatarData} size={28} />}
+                    {avatarData && <AvatarSvg {...avatarData} size={24} />}
                   </div>
                 </div>
               ) : null}
@@ -157,21 +157,21 @@ export function WelcomeScreen() {
         </div>
       </header>
 
-      <main className="relative z-10 flex-1 max-w-6xl w-full mx-auto px-5 sm:px-8 py-8 sm:py-12">
+      <main className="relative z-10 flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-5 sm:py-8">
         {/* ====== HERO ====== */}
         <motion.section
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="grid lg:grid-cols-[auto_1fr] gap-6 lg:gap-10 items-start pb-10 border-b border-white/5"
+          className="grid lg:grid-cols-[auto_1fr] gap-4 lg:gap-8 items-start pb-6 border-b border-white/5"
         >
           {/* Avatar */}
-          <div className="flex flex-col items-center lg:items-start gap-3">
+          <div className="flex flex-col items-center lg:items-start gap-2">
             <div className="relative">
               <div
-                className="w-24 h-24 lg:w-28 lg:h-28 rounded-2xl bg-gradient-to-br from-white/10 to-white/[0.02] border border-white/10 flex items-center justify-center overflow-hidden"
+                className="w-16 h-16 lg:w-20 lg:h-20 rounded-xl bg-gradient-to-br from-white/10 to-white/[0.02] border border-white/10 flex items-center justify-center overflow-hidden"
               >
-                {avatarData && <AvatarSvg {...avatarData} size={88} />}
+                {avatarData && <AvatarSvg {...avatarData} size={60} />}
               </div>
               {frame && (
                 <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none">
@@ -180,31 +180,31 @@ export function WelcomeScreen() {
               )}
             </div>
             <div className="flex flex-col items-center lg:items-start gap-0.5">
-              <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-500">Nivel</span>
-              <span className="font-fancy italic text-2xl font-bold text-white tabular-nums leading-none">
+              <span className="text-[9px] uppercase tracking-[0.2em] text-zinc-500">Nivel</span>
+              <span className="font-fancy italic text-lg font-bold text-white tabular-nums leading-none">
                 {profile?.user.level ?? 1}
               </span>
             </div>
           </div>
 
           {/* Saludo + edición + stats */}
-          <div className="flex-1 min-w-0 space-y-5">
-            <div className="space-y-2">
-              <span className="inline-block text-[11px] uppercase tracking-[0.22em] text-zinc-500 font-medium">
+          <div className="flex-1 min-w-0 space-y-3">
+            <div className="space-y-1.5">
+              <span className="inline-block text-[10px] uppercase tracking-[0.22em] text-zinc-500 font-medium">
                 Bienvenido
               </span>
 
               {!editingName ? (
-                <div className="flex items-center gap-3 flex-wrap">
-                  <h1 className="font-fancy italic text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.05]">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <h1 className="font-fancy italic text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white leading-[1.05]">
                     Hola, <span className="bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">{displayName}</span>
                   </h1>
                   <button
                     onClick={startEditName}
-                    className="p-2 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition"
+                    className="p-1.5 rounded-md border border-white/10 bg-white/5 hover:bg-white/10 transition"
                     title="Editar nombre"
                   >
-                    <Pencil className="w-4 h-4 text-zinc-400" />
+                    <Pencil className="w-3.5 h-3.5 text-zinc-400" />
                   </button>
                 </div>
               ) : (
@@ -219,32 +219,32 @@ export function WelcomeScreen() {
                     }}
                     autoFocus
                     placeholder="Tu nombre de jugador"
-                    className="px-4 py-3 rounded-lg bg-white/5 border border-white/15 text-lg font-medium text-white focus:border-white/30 focus:outline-none w-full sm:w-auto sm:min-w-[280px]"
+                    className="px-3 py-2 rounded-md bg-white/5 border border-white/15 text-sm font-medium text-white focus:border-white/30 focus:outline-none w-full sm:w-auto sm:min-w-[240px]"
                   />
                   <button
                     onClick={saveName}
                     disabled={updateNameMut.isPending}
-                    className="px-4 py-3 rounded-lg bg-white text-black hover:bg-zinc-200 transition flex items-center gap-2 font-semibold text-sm"
+                    className="px-3 py-2 rounded-md bg-white text-black hover:bg-zinc-200 transition flex items-center gap-1.5 font-semibold text-xs"
                   >
-                    <Check className="w-4 h-4" />
+                    <Check className="w-3.5 h-3.5" />
                     {updateNameMut.isPending ? "Guardando…" : "Guardar"}
                   </button>
                   <button
                     onClick={() => setEditingName(false)}
-                    className="px-4 py-3 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition text-sm font-medium text-zinc-300"
+                    className="px-3 py-2 rounded-md bg-white/5 border border-white/10 hover:bg-white/10 transition text-xs font-medium text-zinc-300"
                   >
                     Cancelar
                   </button>
                 </div>
               )}
 
-              <p className="text-zinc-400 text-sm sm:text-base max-w-xl leading-relaxed pt-1">
+              <p className="text-zinc-400 text-xs sm:text-sm max-w-xl leading-relaxed pt-0.5">
                 Cada partida es una oportunidad para aprender, ganar experiencia y desbloquear nuevos accesorios. Elegí tu modo y empezá a jugar.
               </p>
             </div>
 
             {/* Stats minimalistas tipográficas */}
-            <div className="flex flex-wrap items-baseline gap-x-8 gap-y-3 pt-2">
+            <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2 pt-1">
               <Stat label="Nivel" value={profile?.user.level ?? 1} />
               <Stat label="XP" value={profile?.user.xp ?? 0} />
               <Stat label="Victorias" value={profile?.user.wins ?? 0} />
@@ -253,33 +253,18 @@ export function WelcomeScreen() {
           </div>
         </motion.section>
 
-        {/* ====== CTA + modos rápidos ====== */}
+        {/* ====== Modos rápidos + CTA principal ====== */}
         <motion.section
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.5 }}
-          className="py-8 border-b border-white/5"
+          className="py-5 border-b border-white/5"
         >
-          <div className="grid lg:grid-cols-[1.2fr_1fr] gap-4 lg:gap-6 items-stretch">
-            {/* CTA principal */}
-            <button
-              onClick={() => setScreen("home")}
-              className="group relative overflow-hidden rounded-xl bg-white text-black hover:bg-zinc-100 transition-all px-6 py-6 flex items-center justify-between gap-4"
-            >
-              <div className="flex items-center gap-4">
-                <Play className="w-5 h-5 fill-black" />
-                <div className="flex flex-col items-start">
-                  <span className="font-fancy italic font-bold text-2xl tracking-tight leading-none">Jugar ahora</span>
-                  <span className="text-xs text-zinc-500 mt-1.5 tracking-wide">Elegí categoría y dificultad</span>
-                </div>
-              </div>
-              <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-            </button>
-
-            {/* Modos rápidos */}
+          <div className="flex flex-col gap-2">
+            {/* Modos rápidos (3 pills arriba) */}
             <div className="grid grid-cols-3 gap-2">
               <QuickMode
-                icon={<Swords className="w-4 h-4" />}
+                icon={<Swords className="w-3.5 h-3.5" />}
                 label="Reto"
                 onClick={() => {
                   useGameStore.getState().setMode("classic")
@@ -287,7 +272,7 @@ export function WelcomeScreen() {
                 }}
               />
               <QuickMode
-                icon={<Heart className="w-4 h-4" />}
+                icon={<Heart className="w-3.5 h-3.5" />}
                 label="Abismo"
                 onClick={() => {
                   useGameStore.getState().setMode("survival")
@@ -295,7 +280,7 @@ export function WelcomeScreen() {
                 }}
               />
               <QuickMode
-                icon={<Skull className="w-4 h-4" />}
+                icon={<Skull className="w-3.5 h-3.5" />}
                 label="Muerte Súbita"
                 onClick={() => {
                   useGameStore.getState().setMode("suddendeath")
@@ -303,6 +288,21 @@ export function WelcomeScreen() {
                 }}
               />
             </div>
+
+            {/* CTA principal — al final */}
+            <button
+              onClick={() => setScreen("home")}
+              className="group relative overflow-hidden rounded-lg bg-white text-black hover:bg-zinc-100 transition-all px-4 py-3 flex items-center justify-between gap-3"
+            >
+              <div className="flex items-center gap-3">
+                <Play className="w-4 h-4 fill-black" />
+                <div className="flex flex-col items-start">
+                  <span className="font-fancy italic font-bold text-base tracking-tight leading-none">Jugar ahora</span>
+                  <span className="text-[10px] text-zinc-500 mt-1 tracking-wide">Elegí categoría y dificultad</span>
+                </div>
+              </div>
+              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </button>
           </div>
         </motion.section>
 
@@ -311,22 +311,22 @@ export function WelcomeScreen() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="py-8 border-b border-white/5"
+          className="py-5 border-b border-white/5"
         >
           {/* Header de sección */}
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-baseline gap-3">
-              <h2 className="font-fancy italic text-2xl sm:text-3xl font-bold text-white tracking-tight">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-baseline gap-2">
+              <h2 className="font-fancy italic text-lg sm:text-xl font-bold text-white tracking-tight">
                 ¿Sabías que…?
               </h2>
-              <span className="text-xs uppercase tracking-[0.18em] text-zinc-500 hidden sm:inline">
+              <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 hidden sm:inline">
                 {factIdx + 1} / {FUN_FACTS.length}
               </span>
             </div>
             <button
               onClick={() => setAutoPlay((v) => !v)}
               className={cn(
-                "px-3 py-1.5 rounded-md text-[11px] font-medium border transition tracking-wide",
+                "px-2.5 py-1 rounded-md text-[10px] font-medium border transition tracking-wide",
                 autoPlay
                   ? "bg-white/10 border-white/20 text-white"
                   : "bg-transparent border-white/10 text-zinc-400 hover:text-white"
@@ -338,13 +338,13 @@ export function WelcomeScreen() {
 
           {/* Card del dato */}
           <div
-            className="relative overflow-hidden rounded-2xl bg-white/[0.02] border border-white/10 p-6 sm:p-10"
+            className="relative overflow-hidden rounded-xl bg-white/[0.02] border border-white/10 p-4 sm:p-6"
             onPointerEnter={() => setAutoPlay(false)}
             onPointerLeave={() => setAutoPlay(true)}
           >
             {/* Línea de color sutil en el borde izquierdo */}
             <div
-              className="absolute left-0 top-0 bottom-0 w-[3px] transition-colors"
+              className="absolute left-0 top-0 bottom-0 w-[2px] transition-colors"
               style={{ background: currentFact.color }}
             />
 
@@ -355,7 +355,7 @@ export function WelcomeScreen() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.35, ease: "easeOut" }}
-                className="space-y-4"
+                className="space-y-2.5"
               >
                 {/* Categoría */}
                 <div className="flex items-center gap-2">
@@ -364,7 +364,7 @@ export function WelcomeScreen() {
                     style={{ background: currentFact.color }}
                   />
                   <span
-                    className="text-[11px] uppercase tracking-[0.22em] font-medium"
+                    className="text-[10px] uppercase tracking-[0.22em] font-medium"
                     style={{ color: currentFact.color }}
                   >
                     {currentFact.category}
@@ -372,19 +372,19 @@ export function WelcomeScreen() {
                 </div>
 
                 {/* Título grande editorial */}
-                <h3 className="font-fancy italic text-2xl sm:text-4xl lg:text-5xl font-bold leading-[1.1] text-white tracking-tight max-w-3xl">
+                <h3 className="font-fancy italic text-xl sm:text-2xl lg:text-3xl font-bold leading-[1.1] text-white tracking-tight max-w-3xl">
                   {currentFact.title}
                 </h3>
 
                 {/* Descripción */}
-                <p className="text-zinc-400 text-base sm:text-lg leading-relaxed max-w-2xl">
+                <p className="text-zinc-400 text-sm leading-relaxed max-w-2xl">
                   {currentFact.description}
                 </p>
               </motion.div>
             </AnimatePresence>
 
             {/* Controles inferiores */}
-            <div className="mt-8 flex items-center justify-between gap-4">
+            <div className="mt-4 flex items-center justify-between gap-3">
               {/* Ventana deslizante de puntos */}
               <div className="flex items-center gap-1.5">
                 {(() => {
@@ -443,20 +443,20 @@ export function WelcomeScreen() {
               </div>
 
               {/* Flechas */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5">
                 <button
                   onClick={goPrev}
-                  className="p-2 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition"
+                  className="p-1.5 rounded-md border border-white/10 bg-white/5 hover:bg-white/10 transition"
                   aria-label="Dato anterior"
                 >
-                  <ChevronLeft className="w-4 h-4 text-zinc-300" />
+                  <ChevronLeft className="w-3.5 h-3.5 text-zinc-300" />
                 </button>
                 <button
                   onClick={goNext}
-                  className="p-2 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 transition"
+                  className="p-1.5 rounded-md border border-white/10 bg-white/5 hover:bg-white/10 transition"
                   aria-label="Dato siguiente"
                 >
-                  <ChevronRight className="w-4 h-4 text-zinc-300" />
+                  <ChevronRight className="w-3.5 h-3.5 text-zinc-300" />
                 </button>
               </div>
             </div>
@@ -468,13 +468,13 @@ export function WelcomeScreen() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
-          className="py-8"
+          className="py-5"
         >
           <WisdomCapsule />
         </motion.section>
       </main>
 
-      <footer className="relative z-10 text-center text-[11px] text-zinc-600 py-6 border-t border-white/5">
+      <footer className="relative z-10 text-center text-[10px] text-zinc-600 py-4 border-t border-white/5">
         Trivials Wars · {profile?.user.provider === "google" ? "Cuenta Google" : "Modo Invitado"}
       </footer>
     </div>
@@ -488,8 +488,8 @@ export function WelcomeScreen() {
 function Stat({ label, value }: { label: string; value: number | string }) {
   return (
     <div className="flex flex-col gap-0.5">
-      <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-medium">{label}</span>
-      <span className="font-fancy italic text-2xl font-bold text-white tabular-nums leading-none">{value}</span>
+      <span className="text-[9px] uppercase tracking-[0.2em] text-zinc-500 font-medium">{label}</span>
+      <span className="font-fancy italic text-base font-bold text-white tabular-nums leading-none">{value}</span>
     </div>
   )
 }
@@ -506,10 +506,10 @@ function QuickMode({
   return (
     <button
       onClick={onClick}
-      className="group flex flex-col items-center justify-center gap-2 py-5 rounded-xl border border-white/10 bg-white/[0.02] hover:bg-white/[0.06] hover:border-white/20 transition"
+      className="group flex flex-col items-center justify-center gap-1.5 py-3 rounded-lg border border-white/10 bg-white/[0.02] hover:bg-white/[0.06] hover:border-white/20 transition"
     >
       <span className="text-zinc-400 group-hover:text-white transition">{icon}</span>
-      <span className="text-xs font-medium text-zinc-300 group-hover:text-white transition tracking-wide">{label}</span>
+      <span className="text-[11px] font-medium text-zinc-300 group-hover:text-white transition tracking-wide">{label}</span>
     </button>
   )
 }

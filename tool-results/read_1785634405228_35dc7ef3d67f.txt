@@ -1,0 +1,958 @@
+     1→@import "tailwindcss";
+     2→@import "tw-animate-css";
+     3→
+     4→@custom-variant dark (&:is(.dark *));
+     5→
+     6→@theme inline {
+     7→  --color-background: var(--background);
+     8→  --color-foreground: var(--foreground);
+     9→  --font-sans: var(--font-geist-sans);
+    10→  --font-mono: var(--font-geist-mono);
+    11→  --font-fancy: var(--font-fancy);
+    12→  --font-script: var(--font-script);
+    13→  --color-sidebar-ring: var(--sidebar-ring);
+    14→  --color-sidebar-border: var(--sidebar-border);
+    15→  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    16→  --color-sidebar-accent: var(--sidebar-accent);
+    17→  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    18→  --color-sidebar-primary: var(--sidebar-primary);
+    19→  --color-sidebar-foreground: var(--sidebar-foreground);
+    20→  --color-sidebar: var(--sidebar);
+    21→  --color-chart-5: var(--chart-5);
+    22→  --color-chart-4: var(--chart-4);
+    23→  --color-chart-3: var(--chart-3);
+    24→  --color-chart-2: var(--chart-2);
+    25→  --color-chart-1: var(--chart-1);
+    26→  --color-ring: var(--ring);
+    27→  --color-input: var(--input);
+    28→  --color-border: var(--border);
+    29→  --color-destructive: var(--destructive);
+    30→  --color-accent-foreground: var(--accent-foreground);
+    31→  --color-accent: var(--accent);
+    32→  --color-muted-foreground: var(--muted-foreground);
+    33→  --color-muted: var(--muted);
+    34→  --color-secondary-foreground: var(--secondary-foreground);
+    35→  --color-secondary: var(--secondary);
+    36→  --color-primary-foreground: var(--primary-foreground);
+    37→  --color-primary: var(--primary);
+    38→  --color-popover-foreground: var(--popover-foreground);
+    39→  --color-popover: var(--popover);
+    40→  --color-card-foreground: var(--card-foreground);
+    41→  --color-card: var(--card);
+    42→  --radius-sm: calc(var(--radius) - 4px);
+    43→  --radius-md: calc(var(--radius) - 2px);
+    44→  --radius-lg: var(--radius);
+    45→  --radius-xl: calc(var(--radius) + 4px);
+    46→
+    47→  /* ============================================================
+    48→     PALETA NEÓN — Synthwave Cyber
+    49→     Inspiración: neón nocturno, cyberpunk, retrofuturo
+    50→     Fondo oscuro profundo + colores neón vibrantes
+    51→     ============================================================ */
+    52→  --color-neon-cyan:    #00E5FF;  /* cian eléctrico - primario */
+    53→  --color-neon-aqua:    #00FFD1;  /* aqua brillante */
+    54→  --color-neon-teal:    #00FFB3;  /* teal neón */
+    55→  --color-neon-emerald: #39FF14;  /* verde neón */
+    56→  --color-neon-blue:    #1E90FF;  /* azul eléctrico */
+    57→  --color-neon-deep:    #0A0E27;  /* fondo profundo */
+    58→  --color-neon-gold:    #FFEA00;  /* amarillo neón */
+    59→  --color-neon-coral:   #FF3366;  /* rojo-coral neón */
+    60→  --color-neon-violet:  #B026FF;  /* púrpura neón */
+    61→  --color-neon-magenta: #FF2D95;  /* magenta neón */
+    62→  --color-neon-pink:    #FF6EC7;  /* rosa neón */
+    63→  --color-neon-amber:   #FFB300;  /* ámbar neón */
+    64→
+    65→  /* Escala de fondos oscuros */
+    66→  --color-void-900: #050816;  /* casi negro con tinte azul */
+    67→  --color-void-800: #0A0E27;  /* azul profundo oscuro */
+    68→  --color-void-700: #131838;  /* azul oscuro medio */
+    69→  --color-void-600: #1A1F4A;  /* azul oscuro claro */
+    70→  --color-void-500: #252B5C;  /* azul medianoche */
+    71→
+    72→  /* Texto */
+    73→  --color-text-bright:   #F0F4FF;  /* blanco brillante */
+    74→  --color-text-soft:     #C8D0F0;  /* azul-blanco suave */
+    75→  --color-text-muted:    #8090C0;  /* azul-gris muted */
+    76→
+    77→  /* Compatibilidad legacy — mapear a neón */
+    78→  --color-sand-50:  #131838;
+    79→  --color-sand-100: #1A1F4A;
+    80→  --color-sand-200: #252B5C;
+    81→  --color-sand-300: #303670;
+    82→
+    83→  --color-slate-ink:    #F0F4FF;
+    84→  --color-slate-ink-soft: #C8D0F0;
+    85→  --color-slate-mist:   #8090C0;
+    86→
+    87→  --color-dusty-50:   #1A1F4A;
+    88→  --color-dusty-100:  #252B5C;
+    89→  --color-dusty-300:  #4A5BA8;
+    90→  --color-dusty-500:  #00E5FF;
+    91→  --color-dusty-700:  #B026FF;
+    92→
+    93→  --color-sage-50:   #1A2E1F;
+    94→  --color-sage-300:  #39FF14;
+    95→  --color-sage-500:  #00FFB3;
+    96→  --color-sage-700:  #00B377;
+    97→
+    98→  --color-clay-300:  #FF6EC7;
+    99→  --color-clay-500:  #FF2D95;
+   100→  --color-clay-700:  #C70060;
+   101→
+   102→  --color-amber-soft: #FFEA00;
+   103→  --color-rose-soft:  #FF3366;
+   104→  --color-violet-soft:#B026FF;
+   105→
+   106→  /* Legacy aliases → neón */
+   107→  --color-image-blue-deep: #0A0E27;
+   108→  --color-image-blue: #00E5FF;
+   109→  --color-image-blue-light: #80F4FF;
+   110→  --color-image-blue-sky: #B026FF;
+   111→  --color-image-green: #39FF14;
+   112→  --color-image-green-light: #80FF80;
+   113→  --color-image-green-dark: #00B377;
+   114→  --color-image-white: #0A0E27;
+   115→  --color-image-cream: #131838;
+   116→  --color-abyssal: #B026FF;
+   117→  --color-deepteal: #00E5FF;
+   118→  --color-bioluminescent: #39FF14;
+   119→  --color-aquaelectric: #00FFD1;
+   120→  --color-coralline: #FF3366;
+   121→  --color-glass-tint: rgba(10, 14, 39, 0.65);
+   122→  --color-cyan-bright: #00E5FF;
+   123→  --color-mint: #00FFB3;
+   124→  --color-coral: #FF3366;
+   125→  --color-gold-alert: #FFEA00;
+   126→  --color-violet-bright: #B026FF;
+   127→  --color-lime: #39FF14;
+   128→  --color-sky-light: #00FFD1;
+   129→  --color-sky-mid: #00E5FF;
+   130→  --color-sky-deep: #1E90FF;
+   131→  --color-grass: #39FF14;
+   132→  --color-water: #00E5FF;
+   133→  --color-water-deep: #1E90FF;
+   134→}
+   135→
+   136→/* ============================================================
+   137→   Trivials Wars — Paleta Neón Synthwave
+   138→   Estética: oscuro profundo + neón vibrante
+   139→   ============================================================ */
+   140→:root {
+   141→  --radius: 1.5rem;
+   142→  /* Fondo: azul-negro profundo */
+   143→  --background: #0A0E27;
+   144→  --foreground: #F0F4FF;
+   145→  /* Tarjetas: glassmorphism oscuro */
+   146→  --card: rgba(20, 28, 60, 0.55);
+   147→  --card-foreground: #F0F4FF;
+   148→  --popover: rgba(20, 28, 60, 0.92);
+   149→  --popover-foreground: #F0F4FF;
+   150→  /* Primario: cian eléctrico */
+   151→  --primary: #00E5FF;
+   152→  --primary-foreground: #0A0E27;
+   153→  --secondary: rgba(0, 229, 255, 0.18);
+   154→  --secondary-foreground: #00E5FF;
+   155→  --muted: rgba(128, 144, 192, 0.20);
+   156→  --muted-foreground: #8090C0;
+   157→  /* Acento: magenta neón */
+   158→  --accent: #FF2D95;
+   159→  --accent-foreground: #0A0E27;
+   160→  /* Alerta: rojo-coral neón */
+   161→  --destructive: #FF3366;
+   162→  --border: rgba(0, 229, 255, 0.28);
+   163→  --input: rgba(20, 28, 60, 0.65);
+   164→  --ring: #00E5FF;
+   165→  --chart-1: #00E5FF;
+   166→  --chart-2: #FF2D95;
+   167→  --chart-3: #FFEA00;
+   168→  --chart-4: #B026FF;
+   169→  --chart-5: #39FF14;
+   170→  --sidebar: rgba(10, 14, 39, 0.92);
+   171→  --sidebar-foreground: #F0F4FF;
+   172→  --sidebar-primary: #00E5FF;
+   173→  --sidebar-primary-foreground: #0A0E27;
+   174→  --sidebar-accent: rgba(255, 45, 149, 0.20);
+   175→  --sidebar-accent-foreground: #FF2D95;
+   176→  --sidebar-border: rgba(0, 229, 255, 0.22);
+   177→  --sidebar-ring: #00E5FF;
+   178→}
+   179→
+   180→.dark {
+   181→  --background: #0A0E27;
+   182→  --foreground: #F0F4FF;
+   183→  --card: rgba(20, 28, 60, 0.55);
+   184→  --card-foreground: #F0F4FF;
+   185→  --popover: rgba(20, 28, 60, 0.92);
+   186→  --popover-foreground: #F0F4FF;
+   187→  --primary: #00E5FF;
+   188→  --primary-foreground: #0A0E27;
+   189→  --secondary: rgba(0, 229, 255, 0.18);
+   190→  --secondary-foreground: #00E5FF;
+   191→  --muted: rgba(128, 144, 192, 0.20);
+   192→  --muted-foreground: #8090C0;
+   193→  --accent: #FF2D95;
+   194→  --accent-foreground: #0A0E27;
+   195→  --destructive: #FF3366;
+   196→  --border: rgba(0, 229, 255, 0.28);
+   197→  --input: rgba(20, 28, 60, 0.65);
+   198→  --ring: #00E5FF;
+   199→  --sidebar: rgba(10, 14, 39, 0.92);
+   200→  --sidebar-foreground: #F0F4FF;
+   201→  --sidebar-primary: #00E5FF;
+   202→  --sidebar-primary-foreground: #0A0E27;
+   203→  --sidebar-accent: rgba(255, 45, 149, 0.20);
+   204→  --sidebar-accent-foreground: #FF2D95;
+   205→  --sidebar-border: rgba(0, 229, 255, 0.22);
+   206→  --sidebar-ring: #00E5FF;
+   207→}
+   208→
+   209→@layer base {
+   210→  * {
+   211→    @apply border-border outline-ring/50;
+   212→  }
+   213→  html, body {
+   214→    @apply bg-background text-foreground;
+   215→    font-family: var(--font-sans), system-ui, sans-serif;
+   216→  }
+   217→  body {
+   218→    /* Fondo: azul-negro profundo con halos neón vibrantes */
+   219→    background:
+   220→      radial-gradient(1200px 600px at 85% -10%, rgba(0, 229, 255, 0.18), transparent 60%),
+   221→      radial-gradient(900px 500px at 10% 110%, rgba(255, 45, 149, 0.16), transparent 65%),
+   222→      radial-gradient(700px 400px at -10% 30%, rgba(176, 38, 255, 0.14), transparent 65%),
+   223→      radial-gradient(800px 500px at 50% 50%, rgba(57, 255, 20, 0.05), transparent 70%),
+   224→      linear-gradient(180deg, #050816 0%, #0A0E27 50%, #0F1538 100%);
+   225→    background-attachment: fixed;
+   226→    min-height: 100vh;
+   227→    color: #F0F4FF;
+   228→  }
+   229→  /* Tipografía fancy para titulares con clase .font-fancy */
+   230→  .font-fancy {
+   231→    font-family: var(--font-fancy), "Playfair Display", Georgia, serif;
+   232→    font-style: italic;
+   233→    letter-spacing: 0.01em;
+   234→  }
+   235→  .font-script {
+   236→    font-family: var(--font-script), "Cormorant Garamond", Georgia, serif;
+   237→    font-style: italic;
+   238→  }
+   239→}
+   240→
+   241→/* ============================================================
+   242→   Sistema de Cursores — Pointer en elementos interactivos
+   243→   ============================================================ */
+   244→@layer base {
+   245→  button,
+   246→  [role="button"],
+   247→  a,
+   248→  summary,
+   249→  label[for],
+   250→  select,
+   251→  option {
+   252→    cursor: pointer;
+   253→  }
+   254→  input[type="text"],
+   255→  input[type="email"],
+   256→  input[type="number"],
+   257→  input[type="password"],
+   258→  input[type="search"],
+   259→  input[type="range"],
+   260→  textarea,
+   261→  [contenteditable="true"] {
+   262→    cursor: text;
+   263→  }
+   264→  .clickable,
+   265→  [data-clickable="true"],
+   266→  .cursor-pointer-soft {
+   267→    cursor: pointer;
+   268→  }
+   269→}
+   270→
+   271→/* ============================================================
+   272→   Glow utilities — neón vibrante
+   273→   ============================================================ */
+   274→@utility glow-cyan {
+   275→  box-shadow: 0 0 18px rgba(0, 229, 255, 0.55), 0 0 36px rgba(0, 229, 255, 0.30);
+   276→}
+   277→@utility glow-bioluminescent {
+   278→  box-shadow: 0 0 18px rgba(57, 255, 20, 0.55), 0 0 40px rgba(57, 255, 20, 0.30);
+   279→}
+   280→@utility glow-aqua {
+   281→  box-shadow: 0 0 18px rgba(0, 255, 209, 0.55), 0 0 36px rgba(0, 255, 209, 0.30);
+   282→}
+   283→@utility glow-teal {
+   284→  box-shadow: 0 0 18px rgba(0, 255, 179, 0.55), 0 0 36px rgba(0, 255, 179, 0.28);
+   285→}
+   286→@utility glow-blue {
+   287→  box-shadow: 0 0 18px rgba(30, 144, 255, 0.55), 0 0 36px rgba(30, 144, 255, 0.28);
+   288→}
+   289→@utility glow-emerald {
+   290→  box-shadow: 0 0 18px rgba(57, 255, 20, 0.55), 0 0 36px rgba(57, 255, 20, 0.30);
+   291→}
+   292→@utility glow-gold {
+   293→  box-shadow: 0 0 22px rgba(255, 234, 0, 0.60), 0 0 44px rgba(255, 234, 0, 0.32);
+   294→}
+   295→@utility glow-coral {
+   296→  box-shadow: 0 0 20px rgba(255, 51, 102, 0.60), 0 0 40px rgba(255, 51, 102, 0.32);
+   297→}
+   298→@utility glow-coral-strong {
+   299→  box-shadow: 0 0 26px rgba(255, 51, 102, 0.75), 0 0 50px rgba(255, 51, 102, 0.40);
+   300→}
+   301→@utility glow-violet {
+   302→  box-shadow: 0 0 18px rgba(176, 38, 255, 0.60), 0 0 36px rgba(176, 38, 255, 0.32);
+   303→}
+   304→@utility glow-red {
+   305→  box-shadow: 0 0 18px rgba(255, 51, 102, 0.60), 0 0 36px rgba(255, 51, 102, 0.32);
+   306→}
+   307→@utility glow-green {
+   308→  box-shadow: 0 0 18px rgba(57, 255, 20, 0.55), 0 0 36px rgba(57, 255, 20, 0.30);
+   309→}
+   310→@utility glow-orange {
+   311→  box-shadow: 0 0 18px rgba(255, 179, 0, 0.55), 0 0 36px rgba(255, 179, 0, 0.28);
+   312→}
+   313→@utility glow-yellow {
+   314→  box-shadow: 0 0 18px rgba(255, 234, 0, 0.55), 0 0 36px rgba(255, 234, 0, 0.28);
+   315→}
+   316→@utility glow-magenta {
+   317→  box-shadow: 0 0 18px rgba(255, 45, 149, 0.60), 0 0 36px rgba(255, 45, 149, 0.32);
+   318→}
+   319→@utility glow-pink {
+   320→  box-shadow: 0 0 18px rgba(255, 110, 199, 0.55), 0 0 36px rgba(255, 110, 199, 0.28);
+   321→}
+   322→@utility glow-purple {
+   323→  box-shadow: 0 0 18px rgba(176, 38, 255, 0.60), 0 0 36px rgba(176, 38, 255, 0.32);
+   324→}
+   325→
+   326→/* ============================================================
+   327→   Glassmorphism — oscuro translúcido con bordes neón
+   328→   ============================================================ */
+   329→@utility glass {
+   330→  background: rgba(20, 28, 60, 0.55);
+   331→  backdrop-filter: blur(14px);
+   332→  -webkit-backdrop-filter: blur(14px);
+   333→  border: 1px solid rgba(0, 229, 255, 0.30);
+   334→  box-shadow: 0 4px 22px rgba(0, 229, 255, 0.18), inset 0 1px 0 rgba(0, 229, 255, 0.15);
+   335→}
+   336→@utility glass-strong {
+   337→  background: rgba(20, 28, 60, 0.78);
+   338→  backdrop-filter: blur(18px);
+   339→  -webkit-backdrop-filter: blur(18px);
+   340→  border: 1.5px solid rgba(0, 229, 255, 0.45);
+   341→  box-shadow: 0 8px 32px rgba(176, 38, 255, 0.25), inset 0 1px 0 rgba(0, 229, 255, 0.20);
+   342→}
+   343→@utility glass-light {
+   344→  background: rgba(20, 28, 60, 0.40);
+   345→  backdrop-filter: blur(10px);
+   346→  -webkit-backdrop-filter: blur(10px);
+   347→  border: 1px solid rgba(0, 229, 255, 0.25);
+   348→}
+   349→
+   350→/* Custom scrollbar — themed neon */
+   351→@utility scrollbar-neon {
+   352→  scrollbar-width: thin;
+   353→  scrollbar-color: rgba(0, 229, 255, 0.55) transparent;
+   354→}
+   355→.scrollbar-neon::-webkit-scrollbar {
+   356→  width: 6px;
+   357→  height: 6px;
+   358→}
+   359→.scrollbar-neon::-webkit-scrollbar-track {
+   360→  background: transparent;
+   361→}
+   362→.scrollbar-neon::-webkit-scrollbar-thumb {
+   363→  background: rgba(0, 229, 255, 0.55);
+   364→  border-radius: 3px;
+   365→  box-shadow: 0 0 8px rgba(0, 229, 255, 0.40);
+   366→}
+   367→.scrollbar-neon::-webkit-scrollbar-thumb:hover {
+   368→  background: rgba(0, 229, 255, 0.85);
+   369→}
+   370→
+   371→/* ============================================================
+   372→   Animations — neón con pulso vibrante
+   373→   ============================================================ */
+   374→@keyframes pulse-glow {
+   375→  0%, 100% { opacity: 1; transform: scale(1); }
+   376→  50% { opacity: 0.7; transform: scale(1.04); }
+   377→}
+   378→
+   379→@keyframes float-slow {
+   380→  0%, 100% { transform: translateY(0px); }
+   381→  50% { transform: translateY(-6px); }
+   382→}
+   383→
+   384→@keyframes shimmer {
+   385→  0% { background-position: -200% 0; }
+   386→  100% { background-position: 200% 0; }
+   387→}
+   388→
+   389→/* Bubbles rising — neón */
+   390→@keyframes bubble-rise {
+   391→  0% { transform: translateY(100vh) scale(0.3); opacity: 0; }
+   392→  10% { opacity: 0.5; }
+   393→  90% { opacity: 0.3; }
+   394→  100% { transform: translateY(-10vh) scale(1.1); opacity: 0; }
+   395→}
+   396→
+   397→@keyframes wave-flow {
+   398→  0%, 100% { transform: translateX(0); }
+   399→  50% { transform: translateX(-25%); }
+   400→}
+   401→
+   402→/* Bioluminescent pulse — neón vibrante */
+   403→@keyframes bioluminescent-pulse {
+   404→  0%, 100% {
+   405→    box-shadow: 0 0 8px rgba(57, 255, 20, 0.55), 0 0 18px rgba(57, 255, 20, 0.30);
+   406→    transform: scale(1);
+   407→  }
+   408→  50% {
+   409→    box-shadow: 0 0 18px rgba(57, 255, 20, 0.80), 0 0 36px rgba(57, 255, 20, 0.45);
+   410→    transform: scale(1.04);
+   411→  }
+   412→}
+   413→
+   414→@keyframes heart-pulse {
+   415→  0%, 100% {
+   416→    transform: scale(1);
+   417→    filter: drop-shadow(0 0 6px rgba(255, 51, 102, 0.65));
+   418→  }
+   419→  50% {
+   420→    transform: scale(1.10);
+   421→    filter: drop-shadow(0 0 12px rgba(255, 51, 102, 0.90));
+   422→  }
+   423→}
+   424→
+   425→@keyframes heart-break {
+   426→  0% { transform: scale(1) rotate(0deg); opacity: 1; }
+   427→  50% { transform: scale(1.3) rotate(-12deg); opacity: 0.7; }
+   428→  100% { transform: scale(0.6) rotate(20deg); opacity: 0; }
+   429→}
+   430→
+   431→.animate-float-slow {
+   432→  animation: float-slow 4s ease-in-out infinite;
+   433→}
+   434→
+   435→.animate-bubble {
+   436→  animation: bubble-rise 16s ease-in infinite;
+   437→}
+   438→
+   439→.animate-wave {
+   440→  animation: wave-flow 10s ease-in-out infinite;
+   441→}
+   442→
+   443→.animate-bioluminescent {
+   444→  animation: bioluminescent-pulse 2.2s ease-in-out infinite;
+   445→}
+   446→
+   447→.animate-heart-pulse {
+   448→  animation: heart-pulse 1.6s ease-in-out infinite;
+   449→}
+   450→
+   451→.animate-heart-break {
+   452→  animation: heart-break 0.5s ease-out forwards;
+   453→}
+   454→
+   455→/* Text gradient utility — paleta neón */
+   456→@utility text-gradient-neon {
+   457→  background: linear-gradient(135deg, #00E5FF 0%, #FF2D95 50%, #B026FF 100%);
+   458→  -webkit-background-clip: text;
+   459→  background-clip: text;
+   460→  -webkit-text-fill-color: transparent;
+   461→  color: transparent;
+   462→  filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.40));
+   463→}
+   464→
+   465→@utility text-gradient-aqua {
+   466→  background: linear-gradient(135deg, #00FFD1 0%, #00E5FF 100%);
+   467→  -webkit-background-clip: text;
+   468→  background-clip: text;
+   469→  -webkit-text-fill-color: transparent;
+   470→  color: transparent;
+   471→  filter: drop-shadow(0 0 6px rgba(0, 255, 209, 0.35));
+   472→}
+   473→
+   474→@utility text-gradient-bioluminescent {
+   475→  background: linear-gradient(135deg, #39FF14 0%, #00FFB3 100%);
+   476→  -webkit-background-clip: text;
+   477→  background-clip: text;
+   478→  -webkit-text-fill-color: transparent;
+   479→  color: transparent;
+   480→  filter: drop-shadow(0 0 6px rgba(57, 255, 20, 0.40));
+   481→}
+   482→
+   483→@utility text-gradient-teal {
+   484→  background: linear-gradient(135deg, #00FFB3 0%, #00FFD1 100%);
+   485→  -webkit-background-clip: text;
+   486→  background-clip: text;
+   487→  -webkit-text-fill-color: transparent;
+   488→  color: transparent;
+   489→  filter: drop-shadow(0 0 6px rgba(0, 255, 179, 0.35));
+   490→}
+   491→
+   492→@utility text-gradient-cyan {
+   493→  background: linear-gradient(135deg, #80F4FF 0%, #00E5FF 50%, #1E90FF 100%);
+   494→  -webkit-background-clip: text;
+   495→  background-clip: text;
+   496→  -webkit-text-fill-color: transparent;
+   497→  color: transparent;
+   498→  filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.45));
+   499→}
+   500→
+   501→@utility text-gradient-coral {
+   502→  background: linear-gradient(135deg, #FF3366 0%, #FF2D95 100%);
+   503→  -webkit-background-clip: text;
+   504→  background-clip: text;
+   505→  -webkit-text-fill-color: transparent;
+   506→  color: transparent;
+   507→  filter: drop-shadow(0 0 6px rgba(255, 51, 102, 0.45));
+   508→}
+   509→
+   510→@utility text-gradient-pink {
+   511→  background: linear-gradient(135deg, #FF6EC7 0%, #FF2D95 50%, #B026FF 100%);
+   512→  -webkit-background-clip: text;
+   513→  background-clip: text;
+   514→  -webkit-text-fill-color: transparent;
+   515→  color: transparent;
+   516→  filter: drop-shadow(0 0 6px rgba(255, 45, 149, 0.45));
+   517→}
+   518→
+   519→/* Caustic shimmer overlay — neón */
+   520→@utility caustic-overlay {
+   521→  position: relative;
+   522→  overflow: hidden;
+   523→}
+   524→.caustic-overlay::after {
+   525→  content: "";
+   526→  position: absolute;
+   527→  inset: 0;
+   528→  background:
+   529→    radial-gradient(circle at 30% 20%, rgba(0, 229, 255, 0.14) 0%, transparent 30%),
+   530→    radial-gradient(circle at 70% 80%, rgba(176, 38, 255, 0.12) 0%, transparent 35%);
+   531→  mix-blend-mode: screen;
+   532→  pointer-events: none;
+   533→  animation: float-slow 8s ease-in-out infinite;
+   534→}
+   535→
+   536→/* ============================================================
+   537→   Crystal Bubble button — paleta neón
+   538→   Degradado: cian → púrpura → magenta
+   539→   con brillo de gota suave en la parte superior
+   540→   ============================================================ */
+   541→
+   542→@keyframes aqua-sky-flow {
+   543→  0% { background-position: 0% 50%; }
+   544→  50% { background-position: 100% 50%; }
+   545→  100% { background-position: 0% 50%; }
+   546→}
+   547→.aqua-sky-bg {
+   548→  background: linear-gradient(135deg, #1E90FF 0%, #00E5FF 25%, #00FFD1 55%, #B026FF 80%, #FF2D95 100%);
+   549→  background-size: 400% 400%;
+   550→  animation: aqua-sky-flow 18s ease-in-out infinite;
+   551→}
+   552→
+   553→/* Crystal Bubble principal — cian → púrpura */
+   554→@utility crystal-bubble {
+   555→  position: relative;
+   556→  background: linear-gradient(180deg, rgba(0, 229, 255, 0.95) 0%, rgba(30, 144, 255, 0.95) 50%, rgba(176, 38, 255, 0.95) 100%);
+   557→  border: 1.5px solid rgba(0, 229, 255, 0.65);
+   558→  box-shadow:
+   559→    inset 0 2px 4px rgba(255, 255, 255, 0.45),
+   560→    inset 0 -3px 6px rgba(0, 0, 0, 0.30),
+   561→    0 8px 22px rgba(0, 229, 255, 0.45),
+   562→    0 0 36px rgba(176, 38, 255, 0.40);
+   563→  overflow: hidden;
+   564→}
+   565→.crystal-bubble::before {
+   566→  content: "";
+   567→  position: absolute;
+   568→  top: 8%;
+   569→  left: 12%;
+   570→  right: 12%;
+   571→  height: 38%;
+   572→  background: linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.15) 100%);
+   573→  border-radius: 999px;
+   574→  filter: blur(2px);
+   575→  pointer-events: none;
+   576→}
+   577→.crystal-bubble:hover {
+   578→  box-shadow:
+   579→    inset 0 2px 4px rgba(255, 255, 255, 0.65),
+   580→    inset 0 -3px 6px rgba(0, 0, 0, 0.30),
+   581→    0 12px 30px rgba(0, 229, 255, 0.55),
+   582→    0 0 56px rgba(176, 38, 255, 0.60);
+   583→}
+   584→.crystal-bubble:active {
+   585→  transform: scale(0.985);
+   586→}
+   587→
+   588→/* Crystal Bubble variant — magenta neón para supervivencia */
+   589→@utility crystal-bubble-coral {
+   590→  position: relative;
+   591→  background: linear-gradient(180deg, rgba(255, 110, 199, 0.95) 0%, rgba(255, 45, 149, 0.95) 50%, rgba(199, 0, 96, 0.95) 100%);
+   592→  border: 1.5px solid rgba(255, 45, 149, 0.65);
+   593→  box-shadow:
+   594→    inset 0 2px 4px rgba(255, 255, 255, 0.45),
+   595→    inset 0 -3px 6px rgba(0, 0, 0, 0.30),
+   596→    0 8px 20px rgba(255, 45, 149, 0.50),
+   597→    0 0 36px rgba(255, 51, 102, 0.40);
+   598→  overflow: hidden;
+   599→}
+   600→.crystal-bubble-coral::before {
+   601→  content: "";
+   602→  position: absolute;
+   603→  top: 8%;
+   604→  left: 12%;
+   605→  right: 12%;
+   606→  height: 38%;
+   607→  background: linear-gradient(180deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.15) 100%);
+   608→  border-radius: 999px;
+   609→  filter: blur(2px);
+   610→  pointer-events: none;
+   611→}
+   612→.crystal-bubble-coral:hover {
+   613→  box-shadow:
+   614→    inset 0 2px 4px rgba(255, 255, 255, 0.65),
+   615→    inset 0 -3px 6px rgba(0, 0, 0, 0.30),
+   616→    0 12px 28px rgba(255, 45, 149, 0.60),
+   617→    0 0 52px rgba(255, 51, 102, 0.55);
+   618→}
+   619→.crystal-bubble-coral:active {
+   620→  transform: scale(0.985);
+   621→}
+   622→
+   623→/* Crystal Bubble variant — ámbar neón para Muerte Súbita */
+   624→@utility crystal-bubble-gold {
+   625→  position: relative;
+   626→  background: linear-gradient(180deg, rgba(255, 234, 0, 0.95) 0%, rgba(255, 179, 0, 0.95) 50%, rgba(199, 110, 0, 0.95) 100%);
+   627→  border: 1.5px solid rgba(255, 234, 0, 0.65);
+   628→  box-shadow:
+   629→    inset 0 2px 4px rgba(255, 255, 255, 0.50),
+   630→    inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+   631→    0 8px 20px rgba(255, 234, 0, 0.50),
+   632→    0 0 36px rgba(255, 179, 0, 0.40);
+   633→  overflow: hidden;
+   634→}
+   635→.crystal-bubble-gold::before {
+   636→  content: "";
+   637→  position: absolute;
+   638→  top: 8%;
+   639→  left: 12%;
+   640→  right: 12%;
+   641→  height: 38%;
+   642→  background: linear-gradient(180deg, rgba(255, 255, 255, 0.70) 0%, rgba(255, 255, 255, 0.20) 100%);
+   643→  border-radius: 999px;
+   644→  filter: blur(2px);
+   645→  pointer-events: none;
+   646→}
+   647→.crystal-bubble-gold:hover {
+   648→  box-shadow:
+   649→    inset 0 2px 4px rgba(255, 255, 255, 0.70),
+   650→    inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+   651→    0 12px 28px rgba(255, 234, 0, 0.65),
+   652→    0 0 52px rgba(255, 179, 0, 0.55);
+   653→}
+   654→.crystal-bubble-gold:active {
+   655→  transform: scale(0.985);
+   656→}
+   657→
+   658→/* Floating light bubbles for background — neón */
+   659→@keyframes frutiger-bubble {
+   660→  0% { transform: translate(0, 100vh) scale(0.4); opacity: 0; }
+   661→  10% { opacity: 0.45; }
+   662→  50% { transform: translate(20px, 50vh) scale(0.9); opacity: 0.55; }
+   663→  90% { opacity: 0.25; }
+   664→  100% { transform: translate(-20px, -10vh) scale(1.2); opacity: 0; }
+   665→}
+   666→
+   667→.frutiger-bubble {
+   668→  position: absolute;
+   669→  border-radius: 50%;
+   670→  background: radial-gradient(circle at 30% 30%, rgba(0, 229, 255, 0.55) 0%, rgba(176, 38, 255, 0.25) 50%, rgba(255, 45, 149, 0.10) 100%);
+   671→  box-shadow:
+   672→    inset 0 0 12px rgba(0, 229, 255, 0.45),
+   673→    0 0 18px rgba(0, 229, 255, 0.40),
+   674→    0 0 28px rgba(176, 38, 255, 0.20);
+   675→  pointer-events: none;
+   676→  animation: frutiger-bubble 18s ease-in infinite;
+   677→}
+   678→
+   679→/* Glass card with stronger feel — oscuro con borde neón */
+   680→@utility glass-frutiger {
+   681→  background: linear-gradient(135deg, rgba(20, 28, 60, 0.75) 0%, rgba(30, 40, 80, 0.55) 100%);
+   682→  backdrop-filter: blur(18px);
+   683→  -webkit-backdrop-filter: blur(18px);
+   684→  border: 1.5px solid rgba(0, 229, 255, 0.40);
+   685→  box-shadow:
+   686→    inset 0 1px 0 rgba(0, 229, 255, 0.20),
+   687→    0 8px 32px rgba(0, 0, 0, 0.45),
+   688→    0 0 40px rgba(0, 229, 255, 0.18);
+   689→}
+   690→
+   691→/* Soft pulse glow for primary CTA — neón breathe */
+   692→@keyframes cta-pulse {
+   693→  0%, 100% {
+   694→    box-shadow:
+   695→      inset 0 2px 4px rgba(255, 255, 255, 0.35),
+   696→      inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+   697→      0 8px 20px rgba(0, 229, 255, 0.45),
+   698→      0 0 36px rgba(176, 38, 255, 0.35);
+   699→  }
+   700→  50% {
+   701→    box-shadow:
+   702→      inset 0 2px 4px rgba(255, 255, 255, 0.45),
+   703→      inset 0 -3px 6px rgba(0, 0, 0, 0.25),
+   704→      0 12px 28px rgba(0, 229, 255, 0.60),
+   705→      0 0 56px rgba(176, 38, 255, 0.55);
+   706→  }
+   707→}
+   708→.animate-cta-pulse {
+   709→  animation: cta-pulse 3s ease-in-out infinite;
+   710→}
+   711→
+   712→/* Wisdom card glass — oscuro etéreo con neón */
+   713→@utility glass-wisdom {
+   714→  background: linear-gradient(135deg, rgba(20, 28, 60, 0.70) 0%, rgba(30, 40, 80, 0.45) 100%);
+   715→  backdrop-filter: blur(16px);
+   716→  -webkit-backdrop-filter: blur(16px);
+   717→  border: 1px solid rgba(176, 38, 255, 0.40);
+   718→  box-shadow:
+   719→    inset 0 1px 0 rgba(176, 38, 255, 0.20),
+   720→    0 6px 24px rgba(0, 0, 0, 0.40),
+   721→    0 0 28px rgba(176, 38, 255, 0.18);
+   722→}
+   723→
+   724→/* Sparkle accent */
+   725→@keyframes sparkle-rotate {
+   726→  0% { transform: rotate(0deg) scale(1); opacity: 0.7; }
+   727→  50% { transform: rotate(180deg) scale(1.12); opacity: 0.9; }
+   728→  100% { transform: rotate(360deg) scale(1); opacity: 0.7; }
+   729→}
+   730→.animate-sparkle {
+   731→  animation: sparkle-rotate 5s ease-in-out infinite;
+   732→}
+   733→
+   734→/* Fade-in for transitions */
+   735→@keyframes fade-in-up {
+   736→  0% { opacity: 0; transform: translateY(8px); }
+   737→  100% { opacity: 1; transform: translateY(0); }
+   738→}
+   739→.animate-fade-in-up {
+   740→  animation: fade-in-up 0.5s ease-out both;
+   741→}
+   742→
+   743→/* ============================================================
+   744→   Modo Muerte Súbita — Fondo ámbar neón de alerta
+   745→   ============================================================ */
+   746→@keyframes sudden-death-alert {
+   747→  0%, 100% {
+   748→    background-color: rgba(255, 234, 0, 0.10);
+   749→  }
+   750→  50% {
+   751→    background-color: rgba(255, 234, 0, 0.22);
+   752→  }
+   753→}
+   754→.sudden-death-alert-bg {
+   755→  animation: sudden-death-alert 2.6s ease-in-out infinite;
+   756→}
+   757→
+   758→@keyframes gold-pulse {
+   759→  0%, 100% {
+   760→    box-shadow: 0 0 14px rgba(255, 234, 0, 0.60), 0 0 30px rgba(255, 234, 0, 0.35);
+   761→    transform: scale(1);
+   762→  }
+   763→  50% {
+   764→    box-shadow: 0 0 24px rgba(255, 234, 0, 0.85), 0 0 48px rgba(255, 234, 0, 0.55);
+   765→    transform: scale(1.03);
+   766→  }
+   767→}
+   768→.animate-gold-pulse {
+   769→  animation: gold-pulse 1.8s ease-in-out infinite;
+   770→}
+   771→
+   772→/* Pill (selector compacto) — paleta neón */
+   773→@utility pill-selector {
+   774→  transition: all 0.20s ease-out;
+   775→  border: 1.5px solid rgba(0, 229, 255, 0.35);
+   776→  background: rgba(20, 28, 60, 0.65);
+   777→  color: #C8D0F0;
+   778→}
+   779→.pill-selector:hover {
+   780→  border-color: rgba(0, 229, 255, 0.65);
+   781→  background: rgba(30, 40, 80, 0.85);
+   782→  box-shadow: 0 0 12px rgba(0, 229, 255, 0.30);
+   783→}
+   784→.pill-selector[data-selected="true"] {
+   785→  background: linear-gradient(135deg, #00E5FF 0%, #B026FF 50%, #FF2D95 100%);
+   786→  color: #0A0E27;
+   787→  border-color: rgba(0, 229, 255, 0.65);
+   788→  box-shadow: 0 4px 14px rgba(0, 229, 255, 0.45), 0 0 24px rgba(176, 38, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+   789→}
+   790→
+   791→/* Segmented control */
+   792→@utility segmented-option {
+   793→  transition: all 0.18s ease-out;
+   794→  color: #C8D0F0;
+   795→}
+   796→.segmented-option[data-selected="true"] {
+   797→  background: linear-gradient(135deg, #00E5FF 0%, #B026FF 50%, #FF2D95 100%);
+   798→  color: #0A0E27;
+   799→  box-shadow: 0 3px 12px rgba(0, 229, 255, 0.45), 0 0 20px rgba(176, 38, 255, 0.30), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+   800→}
+   801→
+   802→/* Botón circular compacto (5, 10, 20, 50) */
+   803→@utility circular-count {
+   804→  transition: all 0.20s ease-out;
+   805→  border: 1.5px solid rgba(0, 229, 255, 0.35);
+   806→  background: rgba(20, 28, 60, 0.70);
+   807→  color: #C8D0F0;
+   808→}
+   809→.circular-count:hover {
+   810→  border-color: rgba(0, 229, 255, 0.65);
+   811→  background: rgba(30, 40, 80, 0.90);
+   812→  transform: scale(1.04);
+   813→  box-shadow: 0 0 12px rgba(0, 229, 255, 0.30);
+   814→}
+   815→.circular-count[data-selected="true"] {
+   816→  background: linear-gradient(135deg, #00E5FF 0%, #B026FF 50%, #FF2D95 100%);
+   817→  color: #0A0E27;
+   818→  border-color: rgba(0, 229, 255, 0.65);
+   819→  box-shadow: 0 4px 14px rgba(0, 229, 255, 0.45), 0 0 24px rgba(176, 38, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+   820→}
+   821→
+   822→/* ============================================================
+   823→   YouTube lofi player widget — small visible thumbnail
+   824→   ============================================================ */
+   825→.yt-lofi-widget {
+   826→  position: fixed;
+   827→  bottom: 14px;
+   828→  right: 14px;
+   829→  z-index: 60;
+   830→  width: 120px;
+   831→  height: 70px;
+   832→  border-radius: 12px;
+   833→  overflow: hidden;
+   834→  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.50), 0 0 0 1.5px rgba(0, 229, 255, 0.55), 0 0 24px rgba(0, 229, 255, 0.30);
+   835→  transition: all 0.30s ease-out;
+   836→  opacity: 0.90;
+   837→}
+   838→.yt-lofi-widget:hover {
+   839→  opacity: 1;
+   840→  transform: scale(1.04);
+   841→  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.60), 0 0 0 1.5px rgba(0, 229, 255, 0.85), 0 0 36px rgba(0, 229, 255, 0.50);
+   842→}
+   843→.yt-lofi-widget iframe {
+   844→  width: 100%;
+   845→  height: 100%;
+   846→  border: 0;
+   847→  pointer-events: none;
+   848→}
+   849→.yt-lofi-widgetExpanded {
+   850→  width: 240px;
+   851→  height: 140px;
+   852→}
+   853→.yt-lofi-hidden {
+   854→  display: none !important;
+   855→}
+   856→
+   857→/* ============================================================
+   858→   Bubble-pop card — tarjetas redondeadas tipo "pops" bonitas
+   859→   Estilo: muy redondeadas, sombra neón, superficie oscura
+   860→   ============================================================ */
+   861→@utility bubble-pop {
+   862→  background: linear-gradient(135deg, rgba(20, 28, 60, 0.85) 0%, rgba(30, 40, 80, 0.65) 100%);
+   863→  backdrop-filter: blur(14px);
+   864→  -webkit-backdrop-filter: blur(14px);
+   865→  border: 1.5px solid rgba(0, 229, 255, 0.35);
+   866→  box-shadow:
+   867→    inset 0 1px 0 rgba(0, 229, 255, 0.18),
+   868→    0 6px 22px rgba(0, 0, 0, 0.45),
+   869→    0 0 24px rgba(0, 229, 255, 0.12);
+   870→  transition: all 0.25s ease-out;
+   871→}
+   872→.bubble-pop:hover {
+   873→  transform: translateY(-2px);
+   874→  border-color: rgba(0, 229, 255, 0.65);
+   875→  box-shadow:
+   876→    inset 0 1px 0 rgba(0, 229, 255, 0.25),
+   877→    0 10px 30px rgba(0, 0, 0, 0.55),
+   878→    0 0 36px rgba(0, 229, 255, 0.30);
+   879→}
+   880→
+   881→/* Variante seleccionada — burbuja con gradiente cian→púrpura→magenta */
+   882→@utility bubble-pop-selected {
+   883→  background: linear-gradient(135deg, #00E5FF 0%, #B026FF 50%, #FF2D95 100%);
+   884→  border: 1.5px solid rgba(0, 229, 255, 0.70);
+   885→  color: #0A0E27;
+   886→  box-shadow:
+   887→    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+   888→    0 6px 22px rgba(0, 0, 0, 0.50),
+   889→    0 0 36px rgba(0, 229, 255, 0.50),
+   890→    0 0 24px rgba(176, 38, 255, 0.40);
+   891→}
+   892→
+   893→/* Sticky bottom CTA — flotante, pequeño, no gigante */
+   894→.sticky-cta-bottom {
+   895→  position: sticky;
+   896→  bottom: 14px;
+   897→  z-index: 30;
+   898→  width: calc(100% - 32px);
+   899→  max-width: 320px;
+   900→  margin: 0 auto;
+   901→  display: flex;
+   902→  justify-content: center;
+   903→}
+   904→.sticky-cta-bottom button {
+   905→  padding: 12px 32px;
+   906→  border-radius: 9999px;
+   907→  font-family: var(--font-fancy), "Playfair Display", Georgia, serif;
+   908→  font-style: italic;
+   909→  font-weight: 600;
+   910→  font-size: 1rem;
+   911→  letter-spacing: 0.02em;
+   912→  color: #0A0E27;
+   913→  background: linear-gradient(135deg, #00E5FF 0%, #B026FF 50%, #FF2D95 100%);
+   914→  box-shadow:
+   915→    0 8px 24px rgba(0, 229, 255, 0.40),
+   916→    0 0 0 1.5px rgba(0, 229, 255, 0.55),
+   917→    0 0 32px rgba(176, 38, 255, 0.35);
+   918→  transition: all 0.20s ease-out;
+   919→}
+   920→.sticky-cta-bottom button:hover {
+   921→  transform: translateY(-2px);
+   922→  box-shadow:
+   923→    0 12px 32px rgba(0, 229, 255, 0.55),
+   924→    0 0 0 1.5px rgba(0, 229, 255, 0.80),
+   925→    0 0 44px rgba(176, 38, 255, 0.50);
+   926→}
+   927→.sticky-cta-bottom button:active {
+   928→  transform: translateY(0);
+   929→}
+   930→
+   931→/* ============================================================
+   932→   Texto con halo neón para títulos y etiquetas
+   933→   ============================================================ */
+   934→.text-glow-cyan {
+   935→  text-shadow: 0 0 8px rgba(0, 229, 255, 0.65), 0 0 16px rgba(0, 229, 255, 0.35);
+   936→}
+   937→.text-glow-magenta {
+   938→  text-shadow: 0 0 8px rgba(255, 45, 149, 0.65), 0 0 16px rgba(255, 45, 149, 0.35);
+   939→}
+   940→.text-glow-purple {
+   941→  text-shadow: 0 0 8px rgba(176, 38, 255, 0.65), 0 0 16px rgba(176, 38, 255, 0.35);
+   942→}
+   943→.text-glow-green {
+   944→  text-shadow: 0 0 8px rgba(57, 255, 20, 0.65), 0 0 16px rgba(57, 255, 20, 0.35);
+   945→}
+   946→.text-glow-gold {
+   947→  text-shadow: 0 0 8px rgba(255, 234, 0, 0.65), 0 0 16px rgba(255, 234, 0, 0.35);
+   948→}
+   949→.text-glow-soft {
+   950→  text-shadow: 0 0 6px rgba(0, 229, 255, 0.45), 0 0 12px rgba(176, 38, 255, 0.25);
+   951→}
+   952→
+   953→/* Border neón para inputs y enfoques */
+   954→.border-glow-cyan {
+   955→  border-color: rgba(0, 229, 255, 0.55) !important;
+   956→  box-shadow: 0 0 12px rgba(0, 229, 255, 0.40), inset 0 0 8px rgba(0, 229, 255, 0.10);
+   957→}
+   958→
