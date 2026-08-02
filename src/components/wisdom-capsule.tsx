@@ -280,19 +280,19 @@ export function WisdomCapsule() {
   const meta = TYPE_META[capsule.type]
 
   return (
-    <div className="space-y-2">
+    <div className="flex flex-col h-full min-h-0">
       {/* Header de sección */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between mb-1.5">
         <div className="flex items-baseline gap-2">
-          <h2 className="font-fancy italic text-base sm:text-lg font-bold text-white tracking-tight">
+          <h2 className="font-fancy italic text-sm font-bold text-white tracking-tight">
             Cápsulas de Sabiduría
           </h2>
-          <span className="text-[9px] uppercase tracking-[0.18em] text-zinc-500 hidden sm:inline">
+          <span className="text-[8px] uppercase tracking-[0.18em] text-zinc-500 hidden sm:inline">
             {idx + 1} / {WISDOM_CAPSULES.length}
           </span>
         </div>
         <span
-          className="text-[9px] font-medium uppercase tracking-[0.18em] flex items-center gap-1.5"
+          className="text-[8px] font-medium uppercase tracking-[0.18em] flex items-center gap-1"
           style={{ color: meta.color }}
         >
           <span className="w-1 h-1 rounded-full" style={{ background: meta.color }} />
@@ -303,11 +303,11 @@ export function WisdomCapsule() {
       <AnimatePresence mode="wait">
         <motion.div
           key={capsule.id}
-          initial={{ opacity: 0, y: 6 }}
+          initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -6 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-          className="relative overflow-hidden rounded-lg bg-white/[0.02] border border-white/10 p-3 sm:p-4"
+          exit={{ opacity: 0, y: -4 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+          className="relative overflow-hidden rounded-lg bg-white/[0.02] border border-white/10 p-2.5 flex-1 flex flex-col"
         >
           {/* Línea de color lateral */}
           <div
@@ -315,24 +315,24 @@ export function WisdomCapsule() {
             style={{ background: meta.color }}
           />
 
-          <div className="space-y-2">
+          <div className="space-y-1.5 flex-1 flex flex-col">
             {/* Texto principal */}
-            <div className="min-w-0 space-y-1.5">
-              <p className="font-fancy italic text-sm sm:text-base leading-snug text-white tracking-tight">
+            <div className="min-w-0 space-y-1 flex-1">
+              <p className="font-fancy italic text-xs sm:text-sm leading-snug text-white tracking-tight">
                 &ldquo;{capsule.text}&rdquo;
               </p>
 
               {capsule.author && (
-                <div className="flex items-center gap-2 pt-1">
-                  <div className="h-px w-6" style={{ background: `${meta.color}80` }} />
+                <div className="flex items-center gap-1.5 pt-1">
+                  <div className="h-px w-4" style={{ background: `${meta.color}80` }} />
                   <span
-                    className="text-[11px] font-semibold tracking-wide"
+                    className="text-[10px] font-semibold tracking-wide"
                     style={{ color: meta.color }}
                   >
                     {capsule.author}
                   </span>
                   {capsule.context && (
-                    <span className="text-[10px] text-zinc-500 hidden sm:inline">
+                    <span className="text-[9px] text-zinc-500 hidden lg:inline line-clamp-1">
                       · {capsule.context}
                     </span>
                   )}
@@ -340,21 +340,21 @@ export function WisdomCapsule() {
               )}
 
               {!capsule.author && capsule.context && (
-                <p className="text-[10px] text-zinc-500 pt-0.5">{capsule.context}</p>
+                <p className="text-[9px] text-zinc-500 pt-0.5">{capsule.context}</p>
               )}
             </div>
 
             {/* Controles */}
-            <div className="flex items-center justify-end gap-2 pt-2 border-t border-white/5">
-              <span className="text-[10px] text-zinc-500 mr-auto tabular-nums">
+            <div className="flex items-center justify-end gap-1.5 pt-1.5 border-t border-white/5">
+              <span className="text-[9px] text-zinc-500 mr-auto tabular-nums">
                 {idx + 1} / {WISDOM_CAPSULES.length}
               </span>
               <button
                 onClick={next}
-                className="px-2.5 py-1 rounded-md text-[10px] font-medium uppercase tracking-[0.18em] border border-white/10 bg-white/5 hover:bg-white/10 transition flex items-center gap-1.5 text-zinc-200"
+                className="px-2 py-0.5 rounded-md text-[9px] font-medium uppercase tracking-[0.18em] border border-white/10 bg-white/5 hover:bg-white/10 transition flex items-center gap-1 text-zinc-200"
               >
                 Siguiente
-                <ChevronRight className="w-2.5 h-2.5" />
+                <ChevronRight className="w-2 h-2" />
               </button>
             </div>
           </div>
