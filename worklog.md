@@ -567,3 +567,59 @@ Stage Summary:
 - ✅ Wisdom capsule también compactada (p-10 → p-3)
 - ✅ Build OK, deploy automático a Vercel
 - 🎯 Capturas: /home/z/my-project/download/welcome-compact-*.png
+
+---
+Task ID: gacha-v4-weapons
+Agent: main (Super Z)
+Task: Implementar spec v4.0 — armas mágicas + renombrar Inusual→Normal
+
+Work Log:
+- Leí PDF upload/Sistema_Avatar_Equipamiento_v4.pdf (spec v4.0)
+- AskUserQuestion: usuario eligió Armas mágicas + Renombrar + SVG rico + Mano derecha + 2 por rareza
+- gacha-catalog.tsx:
+  * Renombrado Rarity "Inusual" → "Normal" en tipo + RARITY_CONFIG
+  * Actualizadas probabilidades spec v4.0: Comun 50%, Normal 30%, Raro 13%, Epico 6%, Legendario 1%
+  * Actualizados hex de rareza: Epico #a855f7 (morada), Legendario #f59e0b (dorada)
+  * Agregado ItemType "weapon"
+  * Agregado campo lorePlaceholder?: string a GachaItem
+  * Migrados 4 items existentes: rarity "Inusual" → "Normal"
+  * Creados 10 armas nuevas con SVG rico (gradientes, runas, partículas, auras):
+    - Comun: Palo de Roble, Daga Oxidada
+    - Normal: Espada Corta de Acero, Lanza de Cazador
+    - Raro: Espada Rúnica del Viento (aura cian), Mandoble Guardián del Viento
+    - Epico: Espada de Cristal Morada (aura violeta), Katana Abisal Morada
+    - Legendario: Espada Celestial de Luz Eterna (rayos dorados), Palo Ancestral del Sol (orbe solar + 24 rayos)
+- avatar-svg.tsx: agregado prop weapon?, renderizado como capa superior (al frente de todo)
+- buildAvatarFromIds: acepta weapon opcional
+- EquippedItems interface: agregado weapon?: GachaItem
+- prisma/schema.prisma: actualizado comentario slot → "hat | top | aura | weapon"
+- /api/profile: equippedMap incluye weapon + inventoryByRarity renombrado Normal
+- /api/inventory: equippedMap incluye weapon
+- /api/equip: slot acepta "weapon"
+- hooks/use-game.ts: InventoryItemClient.type incluye "weapon", rarity con "Normal"
+- profile-screen.tsx: RARITY_ORDER usa "Normal", avatar preview renderiza weapon
+- results-screen.tsx: getRank() renombrado "Inusual" → "Normal" (2 lugares)
+- TypeScript: 0 errores
+- Next.js build: success (7.7s, 14 rutas)
+- Creada página /weapon-preview para QA visual
+- Verificación con VLM (glm-5v-turbo):
+  * 10 armas visibles, agrupadas por rareza correctamente
+  * Armas se renderizan en mano derecha del avatar
+  * Armas legendarias con aura dorada + partículas + rayos
+  * Armas épicas con aura morada/violeta
+  * 3 bases (warrior/mage/archer) soportan weapon correctamente
+- Commits: 2870c61 (feat) + 165be62 (preview page)
+- Deploy automático a Vercel
+- Captura: /home/z/my-project/download/weapons-preview-full.png
+
+Stage Summary:
+- ✅ 10 armas mágicas nuevas (2 por rareza, SVG rico con gradientes/runas/partículas/auras)
+- ✅ Renombrado "Inusual" → "Normal" en toda la app
+- ✅ Probabilidades spec v4.0: 50/30/13/6/1
+- ✅ Armas épicas con aura violeta #a855f7
+- ✅ Armas legendarias con aura dorada #f59e0b + rayos solares
+- ✅ Avatar soporta capa weapon en mano derecha
+- ✅ API endpoints actualizados (profile, inventory, equip)
+- ✅ DB schema comment actualizado
+- ✅ Total items: 19 → 29
+- 🎯 Próximo paso sugerido: implementar partículas animadas CSS/Canvas para armas épicas/legendarias (Prompt 3 spec v4.0)
