@@ -264,23 +264,62 @@ const TYPE_META = {
  * WisdomCapsule widget — Cápsulas de Sabiduría.
  * Estilo: editorial dark minimal, sin emojis ni glassmorphism saturado.
  */
+// Genera un array barajado de n índices (Fisher-Yates)
+function shuffleIds(n: number): number[] {
+  const arr = Array.from({ length: n }, (_, i) => i)
+  for (let i = n - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[arr[i], arr[j]] = [arr[j], arr[i]]
+  }
+  return arr
+}
+
 export function WisdomCapsule() {
-  const [idx, setIdx] = useState(0)
+  // Orden barajado + posición dentro del ciclo → aleatorio infinito
+  const [order, setOrder] = useState<number[]>(() => shuffleIds(WISDOM_CAPSULES.length))
+  const [pos, setPos] = useState(0)
+  const [autoPlay, setAutoPlay] = useState(true)
 
-  // Frase aleatoria al cargar (montaje)
+  // Auto-rotación cada 6.5s
   useEffect(() => {
-    setIdx(Math.floor(Math.random() * WISDOM_CAPSULES.length))
+    if (!autoPlay) return
+    const t = setInterval(() => {
+      setPos((p) => {
+        const next = p + 1
+        if (next >= WISDOM_CAPSULES.length) {
+          // Al terminar el ciclo, re-barajar para infinito sin repetir consecutivas
+          setOrder(shuffleIds(WISDOM_CAPSULES.length))
+          return 0
+        }
+        return next
+      })
+    }, 6500)
+    return () => clearInterval(t)
+  }, [autoPlay])
+
+  const goNext = useCallback(() => {
+    setPos((p) => {
+      const next = p + 1
+      if (next >= WISDOM_CAPSULES.length) {
+        setOrder(shuffleIds(WISDOM_CAPSULES.length))
+        return 0
+      }
+      return next
+    })
+  }, [])
+  const goPrev = useCallback(() => {
+    setPos((p) => (p - 1 + WISDOM_CAPSULES.length) % WISDOM_CAPSULES.length)
   }, [])
 
-  const next = useCallback(() => {
-    setIdx((i) => (i + 1) % WISDOM_CAPSULES.length)
-  }, [])
-
-  const capsule = WISDOM_CAPSULES[idx]
+  const capsule = WISDOM_CAPSULES[order[pos]]
   const meta = TYPE_META[capsule.type]
 
   return (
-    <div className="flex flex-col">
+    <div
+      className="flex flex-col"
+      onPointerEnter={() => setAutoPlay(false)}
+      onPointerLeave={() => setAutoPlay(true)}
+    >
       {/* Header de sección */}
       <div className="flex items-center justify-between mb-1.5">
         <div className="flex items-baseline gap-2">
@@ -288,7 +327,7 @@ export function WisdomCapsule() {
             Cápsulas de Sabiduría
           </h2>
           <span className="text-[8px] uppercase tracking-[0.18em] text-zinc-500 hidden sm:inline">
-            {idx + 1} / {WISDOM_CAPSULES.length}
+            {pos + 1} / {WISDOM_CAPSULES.length}
           </span>
         </div>
         <span
@@ -345,17 +384,26 @@ export function WisdomCapsule() {
             </div>
 
             {/* Controles */}
-            <div className="flex items-center justify-end gap-1.5 pt-1.5 border-t border-white/5">
-              <span className="text-[9px] text-zinc-500 mr-auto tabular-nums">
-                {idx + 1} / {WISDOM_CAPSULES.length}
+            <div className="flex items-center justify-between gap-1.5 pt-1.5 border-t border-white/5">
+              <span className="text-[9px] text-zinc-500 tabular-nums">
+                {pos + 1} / {WISDOM_CAPSULES.length}
               </span>
-              <button
-                onClick={next}
-                className="px-2 py-0.5 rounded-md text-[9px] font-medium uppercase tracking-[0.18em] border border-white/10 bg-white/5 hover:bg-white/10 transition flex items-center gap-1 text-zinc-200"
-              >
-                Siguiente
-                <ChevronRight className="w-2 h-2" />
-              </button>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={goPrev}
+                  className="p-0.5 rounded-md border border-white/10 bg-white/5 hover:bg-white/10 transition"
+                  aria-label="Anterior"
+                >
+                  <ChevronLeft className="w-2.5 h-2.5 text-zinc-300" />
+                </button>
+                <button
+                  onClick={goNext}
+                  className="px-2 py-0.5 rounded-md text-[9px] font-medium uppercase tracking-[0.18em] border border-white/10 bg-white/5 hover:bg-white/10 transition flex items-center gap-1 text-zinc-200"
+                >
+                  Siguiente
+                  <ChevronRight className="w-2 h-2" />
+                </button>
+              </div>
             </div>
           </div>
         </motion.div>

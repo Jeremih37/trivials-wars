@@ -542,34 +542,57 @@ const TOPICS = [
 ] as const
 
 function TopicCarousel() {
-  const [idx, setIdx] = useState(0)
+  // Orden barajado + posición → aleatorio infinito sin repetir consecutivas
+  const [order, setOrder] = useState<number[]>(() => shuffleIds(TOPICS.length))
+  const [pos, setPos] = useState(0)
   const [paused, setPaused] = useState(false)
 
   useEffect(() => {
     if (paused) return
     const t = setInterval(() => {
-      setIdx((i) => (i + 1) % TOPICS.length)
+      setPos((p) => {
+        const next = p + 1
+        if (next >= TOPICS.length) {
+          setOrder(shuffleIds(TOPICS.length))
+          return 0
+        }
+        return next
+      })
     }, 5000)
     return () => clearInterval(t)
   }, [paused])
 
-  const topic = TOPICS[idx]
+  const goNext = useCallback(() => {
+    setPos((p) => {
+      const next = p + 1
+      if (next >= TOPICS.length) {
+        setOrder(shuffleIds(TOPICS.length))
+        return 0
+      }
+      return next
+    })
+  }, [])
+  const goPrev = useCallback(() => {
+    setPos((p) => (p - 1 + TOPICS.length) % TOPICS.length)
+  }, [])
+
+  const topic = TOPICS[order[pos]]
 
   return (
     <div
-      className="relative overflow-hidden rounded-xl border border-white/10 bg-white/[0.02]"
+      className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] shadow-2xl"
       onPointerEnter={() => setPaused(true)}
       onPointerLeave={() => setPaused(false)}
     >
-      {/* Imagen con transición */}
-      <div className="relative aspect-[16/7] sm:aspect-[16/5] w-full overflow-hidden">
+      {/* Imagen GRANDE con transición cinemática */}
+      <div className="relative aspect-[16/9] sm:aspect-[21/9] w-full overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.div
             key={topic.src}
-            initial={{ opacity: 0, scale: 1.05 }}
+            initial={{ opacity: 0, scale: 1.08 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
             className="absolute inset-0"
           >
             <img
@@ -579,66 +602,71 @@ function TopicCarousel() {
             />
           </motion.div>
         </AnimatePresence>
-        {/* Overlay para integrar con el fondo */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/60 to-[#0a0a0f]/20" />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0f]/80 via-transparent to-transparent" />
+        {/* Overlays para integrar con el fondo y dar legibilidad */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-[#0a0a0f]/50 to-[#0a0a0f]/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0f]/85 via-[#0a0a0f]/20 to-transparent" />
       </div>
 
       {/* Contenido superpuesto */}
-      <div className="absolute inset-0 flex flex-col justify-end p-3 sm:p-4">
+      <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-6 lg:p-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={topic.src}
-            initial={{ opacity: 0, y: 8 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="max-w-xl space-y-1"
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="max-w-2xl space-y-1.5"
           >
-            <span className="inline-block text-[8px] uppercase tracking-[0.22em] font-medium text-zinc-300 mb-0.5">
+            <span className="inline-block text-[9px] sm:text-[10px] uppercase tracking-[0.24em] font-medium text-zinc-200/90 mb-1 px-2 py-0.5 rounded-full bg-white/10 backdrop-blur-sm border border-white/15">
               {topic.label}
             </span>
-            <h3 className="font-fancy italic text-sm sm:text-base font-bold text-white tracking-tight leading-tight">
+            <h3 className="font-fancy italic text-lg sm:text-2xl lg:text-3xl font-bold text-white tracking-tight leading-tight drop-shadow-lg">
               {topic.title}
             </h3>
-            <p className="text-zinc-300 text-[10px] sm:text-[11px] leading-snug line-clamp-2 max-w-md">
+            <p className="text-zinc-200 text-[11px] sm:text-sm leading-snug line-clamp-2 max-w-lg drop-shadow">
               {topic.desc}
             </p>
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Controles inferiores */}
-      <div className="absolute top-2 right-2 flex items-center gap-1">
+      {/* Controles superiores */}
+      <div className="absolute top-3 right-3 flex items-center gap-1.5">
         <button
-          onClick={() => setIdx((i) => (i - 1 + TOPICS.length) % TOPICS.length)}
-          className="p-1 rounded-md bg-black/40 backdrop-blur-sm border border-white/10 hover:bg-black/60 transition"
+          onClick={goPrev}
+          className="p-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/15 hover:bg-black/70 hover:scale-105 transition"
           aria-label="Anterior"
         >
-          <ChevronLeft className="w-3 h-3 text-white" />
+          <ChevronLeft className="w-3.5 h-3.5 text-white" />
         </button>
         <button
-          onClick={() => setIdx((i) => (i + 1) % TOPICS.length)}
-          className="p-1 rounded-md bg-black/40 backdrop-blur-sm border border-white/10 hover:bg-black/60 transition"
+          onClick={goNext}
+          className="p-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/15 hover:bg-black/70 hover:scale-105 transition"
           aria-label="Siguiente"
         >
-          <ChevronRight className="w-3 h-3 text-white" />
+          <ChevronRight className="w-3.5 h-3.5 text-white" />
         </button>
       </div>
 
       {/* Indicadores */}
-      <div className="absolute bottom-1.5 right-2 flex items-center gap-1">
+      <div className="absolute bottom-3 right-4 flex items-center gap-1.5">
         {TOPICS.map((t, i) => (
           <button
             key={t.src}
-            onClick={() => setIdx(i)}
+            onClick={() => setPos(i)}
             className={cn(
-              "h-1 rounded-full transition-all",
-              i === idx ? "w-4 bg-white" : "w-1 bg-white/30 hover:bg-white/60"
+              "h-1.5 rounded-full transition-all",
+              i === pos ? "w-5 bg-white" : "w-1.5 bg-white/30 hover:bg-white/60"
             )}
             aria-label={`Ir a ${t.label}`}
           />
         ))}
+      </div>
+
+      {/* Contador */}
+      <div className="absolute bottom-3 left-4 text-[9px] uppercase tracking-[0.2em] text-white/70 tabular-nums">
+        {pos + 1} / {TOPICS.length}
       </div>
     </div>
   )
