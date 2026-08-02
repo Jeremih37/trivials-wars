@@ -1,10 +1,10 @@
-// Catálogo de items para el sistema Gacha (v2 - con SVG)
+// Catálogo de items para el sistema Gacha (v4 - con armas mágicas)
 // Cada item tiene: id, name, type, rarity, y un renderer SVG
 
 import type { ReactNode } from "react"
 
-export type Rarity = "Comun" | "Inusual" | "Raro" | "Epico" | "Legendario"
-export type ItemType = "hat" | "top" | "aura"
+export type Rarity = "Comun" | "Normal" | "Raro" | "Epico" | "Legendario"
+export type ItemType = "hat" | "top" | "aura" | "weapon"
 
 export interface GachaItem {
   id: string
@@ -12,6 +12,8 @@ export interface GachaItem {
   type: ItemType
   rarity: Rarity
   description: string
+  /** Texto de lore reservado para futura expansión narrativa (spec v4.0). */
+  lorePlaceholder?: string
   /** Render SVG del item, en coordenadas locales 0..200 (avatar canvas) */
   render: (props: { skinTone: string }) => ReactNode
 }
@@ -26,7 +28,7 @@ export const RARITY_CONFIG: Record<Rarity, {
   gradient: string
 }> = {
   Comun: {
-    probability: 0.55,
+    probability: 0.50,
     color: "border-zinc-400 text-zinc-200 bg-zinc-700/30",
     hex: "#a1a1aa",
     glow: "glow-cyan",
@@ -34,17 +36,17 @@ export const RARITY_CONFIG: Record<Rarity, {
     particle: "none",
     gradient: "from-zinc-600 to-zinc-800",
   },
-  Inusual: {
-    probability: 0.25,
+  Normal: {
+    probability: 0.30,
     color: "border-[#39FF14]/60 text-green-200 bg-green-700/20",
     hex: "#22c55e",
     glow: "glow-green",
-    label: "Inusual",
+    label: "Normal",
     particle: "none",
     gradient: "from-green-500 to-emerald-700",
   },
   Raro: {
-    probability: 0.12,
+    probability: 0.13,
     color: "border-[#00E5FF]/60 text-cyan-200 bg-cyan-700/20",
     hex: "#06b6d4",
     glow: "glow-cyan",
@@ -55,16 +57,16 @@ export const RARITY_CONFIG: Record<Rarity, {
   Epico: {
     probability: 0.06,
     color: "border-fuchsia-400 text-fuchsia-200 bg-fuchsia-700/20",
-    hex: "#d946ef",
+    hex: "#a855f7",
     glow: "glow-magenta",
     label: "Épico",
     particle: "aura",
     gradient: "from-fuchsia-500 to-purple-700",
   },
   Legendario: {
-    probability: 0.02,
+    probability: 0.01,
     color: "border-[#FFEA00]/60 text-[#FFEA00] bg-[#FFEA00]/20",
-    hex: "#ffd60a",
+    hex: "#f59e0b",
     glow: "glow-gold",
     label: "Legendario",
     particle: "explosion",
@@ -217,12 +219,12 @@ const HAT_ITEMS: GachaItem[] = [
       </g>
     ),
   },
-  // Inusuales
+  // Normales (renombrado de Inusual según spec v4.0)
   {
     id: "hat_sunglasses",
     name: "Gafas de Sol",
     type: "hat",
-    rarity: "Inusual",
+    rarity: "Normal",
     description: "Estilo en su máxima expresión.",
     render: () => (
       <g>
@@ -238,7 +240,7 @@ const HAT_ITEMS: GachaItem[] = [
     id: "hat_headphones",
     name: "Auriculares",
     type: "hat",
-    rarity: "Inusual",
+    rarity: "Normal",
     description: "Siempre con música, siempre en ritmo.",
     render: () => (
       <g>
@@ -367,12 +369,12 @@ const TOP_ITEMS: GachaItem[] = [
       </g>
     ),
   },
-  // Inusuales
+  // Normales
   {
     id: "top_jersey",
     name: "Camiseta Deportiva",
     type: "top",
-    rarity: "Inusual",
+    rarity: "Normal",
     description: "Para entrenar y competir con estilo.",
     render: () => (
       <g>
@@ -481,12 +483,12 @@ const AURA_ITEMS: GachaItem[] = [
     description: "Aún no desbloqueas auras. Sigue jugando.",
     render: () => null,
   },
-  // Inusual
+  // Normal
   {
     id: "aura_leaf",
     name: "Hojas Verdes",
     type: "aura",
-    rarity: "Inusual",
+    rarity: "Normal",
     description: "Conexión natural con el entorno.",
     render: () => (
       <g opacity="0.6">
@@ -560,7 +562,481 @@ const AURA_ITEMS: GachaItem[] = [
   },
 ]
 
-export const GACHA_ITEMS: GachaItem[] = [...HAT_ITEMS, ...TOP_ITEMS, ...AURA_ITEMS]
+// ===== WEAPONS (armas mágicas — spec v4.0) =====
+// 10 armas: 2 por rareza. SVG rico con gradientes, runas y detalles.
+// Todas se renderizan en la mano derecha del avatar (alrededor de x=151, y=180).
+const WEAPON_ITEMS: GachaItem[] = [
+  // ----- COMUNES (2) -----
+  {
+    id: "weapon_oak_staff",
+    name: "Palo de Roble",
+    type: "weapon",
+    rarity: "Comun",
+    description: "Un simple bastón de roble tallado a mano. Resistente y confiable.",
+    lorePlaceholder: "Forjado por los leñadores del Valle Antiguo.",
+    render: () => (
+      <g>
+        {/* Mango de madera */}
+        <line x1="151" y1="180" x2="172" y2="105" stroke="#6b3410" strokeWidth="5" strokeLinecap="round" />
+        <line x1="151" y1="180" x2="172" y2="105" stroke="#8b4513" strokeWidth="3" strokeLinecap="round" />
+        {/* Nudos de la madera */}
+        <circle cx="160" cy="155" r="1.5" fill="#4a2208" />
+        <circle cx="166" cy="135" r="1.2" fill="#4a2208" />
+        <circle cx="170" cy="118" r="1" fill="#4a2208" />
+        {/* Punta desgastada */}
+        <circle cx="172" cy="105" r="3" fill="#4a2208" stroke="#6b3410" strokeWidth="1" />
+        {/* Sombra */}
+        <line x1="155" y1="180" x2="175" y2="108" stroke="#00000020" strokeWidth="6" strokeLinecap="round" opacity="0.3" />
+      </g>
+    ),
+  },
+  {
+    id: "weapon_rusty_dagger",
+    name: "Daga Oxidada",
+    type: "weapon",
+    rarity: "Comun",
+    description: "Una daga corta con la hoja oxidada. Aún corta, pero apenas.",
+    lorePlaceholder: "Herramienta de cazadores furtivos olvidados.",
+    render: () => (
+      <g>
+        {/* Hoja oxidada */}
+        <path d="M 151 175 L 168 140 L 172 142 L 155 177 Z" fill="#8a7a5a" stroke="#5a4a2a" strokeWidth="0.8" />
+        {/* Mancha de óxido */}
+        <ellipse cx="162" cy="160" rx="3" ry="2" fill="#a05a2a" opacity="0.5" />
+        <ellipse cx="165" cy="155" rx="2" ry="1.5" fill="#7a3a1a" opacity="0.4" />
+        {/* Guarda */}
+        <rect x="148" y="174" width="10" height="3" rx="1" fill="#3a2a1a" />
+        {/* Mango de cuero */}
+        <rect x="149" y="177" width="7" height="12" rx="1.5" fill="#4a2a0a" />
+        {/* Detalles del envoltorio de cuero */}
+        <line x1="149" y1="180" x2="156" y2="180" stroke="#2a1a05" strokeWidth="0.6" />
+        <line x1="149" y1="183" x2="156" y2="183" stroke="#2a1a05" strokeWidth="0.6" />
+        <line x1="149" y1="186" x2="156" y2="186" stroke="#2a1a05" strokeWidth="0.6" />
+        {/* Pomo */}
+        <circle cx="152" cy="191" r="2.5" fill="#5a3a1a" stroke="#2a1a05" strokeWidth="0.8" />
+      </g>
+    ),
+  },
+  // ----- NORMALES (2) -----
+  {
+    id: "weapon_steel_sword",
+    name: "Espada Corta de Acero",
+    type: "weapon",
+    rarity: "Normal",
+    description: "Espada de acero pulido con brillo verdoso tenue. Equilibrada y letal.",
+    lorePlaceholder: "Acero forjado en las herrerías de Bronce.",
+    render: () => (
+      <g>
+        {/* Hoja de acero con degradado */}
+        <defs>
+          <linearGradient id="steelBladeGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#4a4a4a" />
+            <stop offset="50%" stopColor="#c0c0c0" />
+            <stop offset="100%" stopColor="#7a7a7a" />
+          </linearGradient>
+        </defs>
+        <path d="M 152 175 L 180 100 L 184 102 L 156 177 Z" fill="url(#steelBladeGrad)" stroke="#3a3a3a" strokeWidth="0.8" />
+        {/* Filo brillante */}
+        <line x1="153" y1="174" x2="181" y2="101" stroke="#e0e0e0" strokeWidth="0.6" />
+        {/* Brillo verdoso tenue */}
+        <line x1="155" y1="170" x2="178" y2="108" stroke="#22c55e" strokeWidth="0.8" opacity="0.3" />
+        {/* Guarda */}
+        <rect x="146" y="173" width="14" height="3.5" rx="1" fill="#5a4a2a" stroke="#3a2a1a" strokeWidth="0.6" />
+        {/* Mango de cuero trenzado */}
+        <rect x="148" y="177" width="9" height="13" rx="1.5" fill="#3a2a1a" />
+        <line x1="148" y1="180" x2="157" y2="180" stroke="#1a0a05" strokeWidth="0.5" />
+        <line x1="148" y1="183" x2="157" y2="183" stroke="#1a0a05" strokeWidth="0.5" />
+        <line x1="148" y1="186" x2="157" y2="186" stroke="#1a0a05" strokeWidth="0.5" />
+        {/* Pomo metálico */}
+        <circle cx="152" cy="192" r="3" fill="#5a4a2a" stroke="#3a2a1a" strokeWidth="0.8" />
+        <circle cx="151" cy="191" r="1" fill="#8a6a4a" />
+      </g>
+    ),
+  },
+  {
+    id: "weapon_hunter_spear",
+    name: "Lanza de Cazador",
+    type: "weapon",
+    rarity: "Normal",
+    description: "Lanza larga de madera con punta de bronce. Alcance y precisión.",
+    lorePlaceholder: "Arma favorita de los cazadores de las llanuras.",
+    render: () => (
+      <g>
+        {/* Mango largo */}
+        <line x1="151" y1="185" x2="178" y2="95" stroke="#5a3a1a" strokeWidth="4" strokeLinecap="round" />
+        <line x1="151" y1="185" x2="178" y2="95" stroke="#7a5a2a" strokeWidth="2.5" strokeLinecap="round" />
+        {/* Envoltura de cuero en el mango */}
+        <rect x="156" y="155" width="3" height="14" fill="#3a2a0a" opacity="0.6" transform="rotate(-72 156 155)" />
+        {/* Punta de bronce */}
+        <path d="M 175 100 L 184 88 L 182 102 Z" fill="#b87333" stroke="#7a4a1a" strokeWidth="0.8" />
+        {/* Brillo del bronce */}
+        <path d="M 177 96 L 181 92" stroke="#e0a050" strokeWidth="0.8" />
+        {/* Conecctor mango-punta */}
+        <rect x="174" y="98" width="6" height="4" rx="1" fill="#5a3a1a" stroke="#3a2a0a" strokeWidth="0.5" transform="rotate(-72 174 98)" />
+        {/* Sombra */}
+        <line x1="155" y1="185" x2="180" y2="98" stroke="#00000020" strokeWidth="5" strokeLinecap="round" opacity="0.3" />
+      </g>
+    ),
+  },
+  // ----- RAROS (2) -----
+  {
+    id: "weapon_rune_sword",
+    name: "Espada Rúnica del Viento",
+    type: "weapon",
+    rarity: "Raro",
+    description: "Acero templado con runas cian grabadas. Aura azul resplandeciente.",
+    lorePlaceholder: "Forjada por los templarios del Dragón de Viento.",
+    render: () => (
+      <g>
+        <defs>
+          <linearGradient id="runeBladeGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#2a4a6a" />
+            <stop offset="50%" stopColor="#a0d0f0" />
+            <stop offset="100%" stopColor="#4a7aaa" />
+          </linearGradient>
+          <radialGradient id="runeGlowGrad" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor="#00E5FF" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#00E5FF" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        {/* Aura cian resplandeciente */}
+        <ellipse cx="170" cy="140" rx="14" ry="40" fill="url(#runeGlowGrad)" />
+        {/* Hoja */}
+        <path d="M 152 175 L 185 95 L 189 97 L 156 177 Z" fill="url(#runeBladeGrad)" stroke="#1a3a5a" strokeWidth="0.8" />
+        {/* Filo brillante */}
+        <line x1="153" y1="174" x2="186" y2="96" stroke="#e0f0ff" strokeWidth="0.7" />
+        {/* Grabados rúnicos cian */}
+        <text x="167" y="148" fontSize="5" fill="#00E5FF" fontWeight="bold" transform="rotate(-72 167 148)">ᚱ</text>
+        <text x="172" y="128" fontSize="5" fill="#00E5FF" fontWeight="bold" transform="rotate(-72 172 128)">ᚦ</text>
+        <text x="176" y="112" fontSize="5" fill="#00E5FF" fontWeight="bold" transform="rotate(-72 176 112)">ᚷ</text>
+        {/* Guarda decorada */}
+        <path d="M 144 172 L 162 172 L 160 178 L 146 178 Z" fill="#1a3a5a" stroke="#00E5FF" strokeWidth="0.8" />
+        <circle cx="153" cy="175" r="1.5" fill="#00E5FF" />
+        {/* Mango de cuero azul */}
+        <rect x="148" y="178" width="9" height="13" rx="1.5" fill="#1a2a4a" />
+        <line x1="148" y1="181" x2="157" y2="181" stroke="#00E5FF" strokeWidth="0.5" opacity="0.7" />
+        <line x1="148" y1="184" x2="157" y2="184" stroke="#00E5FF" strokeWidth="0.5" opacity="0.7" />
+        <line x1="148" y1="187" x2="157" y2="187" stroke="#00E5FF" strokeWidth="0.5" opacity="0.7" />
+        {/* Pomo con gema cian */}
+        <circle cx="152" cy="193" r="3" fill="#1a3a5a" stroke="#00E5FF" strokeWidth="0.8" />
+        <circle cx="152" cy="193" r="1.5" fill="#00E5FF" />
+      </g>
+    ),
+  },
+  {
+    id: "weapon_guardian_greatsword",
+    name: "Mandoble Guardián del Viento",
+    type: "weapon",
+    rarity: "Raro",
+    description: "Gran espada a dos manos con grabados rúnicos. Solo para guardianes.",
+    lorePlaceholder: "El mandoble pasó de guardián en guardián por mil años.",
+    render: () => (
+      <g>
+        <defs>
+          <linearGradient id="greatswordGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#3a3a3a" />
+            <stop offset="50%" stopColor="#d0d0d0" />
+            <stop offset="100%" stopColor="#5a5a5a" />
+          </linearGradient>
+        </defs>
+        {/* Hoja ancha del mandoble */}
+        <path d="M 150 175 L 190 80 L 196 84 L 158 178 Z" fill="url(#greatswordGrad)" stroke="#2a2a2a" strokeWidth="0.8" />
+        {/* Surco central (fuller) */}
+        <line x1="154" y1="172" x2="192" y2="84" stroke="#3a3a3a" strokeWidth="1.5" />
+        <line x1="156" y1="170" x2="194" y2="82" stroke="#8a8a8a" strokeWidth="0.5" />
+        {/* Grabados rúnicos cian */}
+        <text x="170" y="135" fontSize="6" fill="#00E5FF" fontWeight="bold" transform="rotate(-72 170 135)">ᛟ</text>
+        <text x="178" y="105" fontSize="6" fill="#00E5FF" fontWeight="bold" transform="rotate(-72 178 105)">ᛞ</text>
+        {/* Guarda grande curva */}
+        <path d="M 138 170 Q 152 168 166 170 L 164 178 Q 152 176 140 178 Z" fill="#2a2a2a" stroke="#00E5FF" strokeWidth="0.8" />
+        {/* Detalles de la guarda */}
+        <circle cx="146" cy="174" r="1.2" fill="#00E5FF" opacity="0.7" />
+        <circle cx="158" cy="174" r="1.2" fill="#00E5FF" opacity="0.7" />
+        {/* Mango largo para dos manos */}
+        <rect x="148" y="178" width="9" height="16" rx="1.5" fill="#1a2a4a" />
+        <line x1="148" y1="182" x2="157" y2="182" stroke="#00E5FF" strokeWidth="0.4" opacity="0.6" />
+        <line x1="148" y1="186" x2="157" y2="186" stroke="#00E5FF" strokeWidth="0.4" opacity="0.6" />
+        <line x1="148" y1="190" x2="157" y2="190" stroke="#00E5FF" strokeWidth="0.4" opacity="0.6" />
+        {/* Pomo grande */}
+        <ellipse cx="152" cy="197" rx="3.5" ry="2.5" fill="#2a2a2a" stroke="#00E5FF" strokeWidth="0.8" />
+        <circle cx="152" cy="197" r="1.5" fill="#00E5FF" opacity="0.7" />
+      </g>
+    ),
+  },
+  // ----- ÉPICOS (2) — aura violeta #a855f7 -----
+  {
+    id: "weapon_crystal_sword",
+    name: "Espada de Cristal Morada",
+    type: "weapon",
+    rarity: "Epico",
+    description: "Hoja translúcida de cristal abisal con partículas estelares flotantes.",
+    lorePlaceholder: "Forjada con cristales de las minas Umbrías.",
+    render: () => (
+      <g>
+        <defs>
+          <linearGradient id="crystalBladeGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#4a0a6a" />
+            <stop offset="50%" stopColor="#a855f7" />
+            <stop offset="100%" stopColor="#6a1a9a" />
+          </linearGradient>
+          <radialGradient id="epicWeaponGlow" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor="#a855f7" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="#a855f7" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        {/* Aura morada/violeta profunda */}
+        <ellipse cx="172" cy="135" rx="18" ry="45" fill="url(#epicWeaponGlow)" />
+        {/* Hoja de cristal morada translúcida */}
+        <path d="M 151 175 L 188 88 L 193 90 L 156 178 Z" fill="url(#crystalBladeGrad)" stroke="#4a0a6a" strokeWidth="0.8" opacity="0.92" />
+        {/* Brillos del cristal */}
+        <line x1="153" y1="172" x2="189" y2="90" stroke="#e0a0ff" strokeWidth="0.8" opacity="0.8" />
+        <line x1="156" y1="170" x2="184" y2="100" stroke="#ffffff" strokeWidth="0.4" opacity="0.6" />
+        {/* Partículas estelares flotantes en la hoja */}
+        <circle cx="170" cy="140" r="0.8" fill="#ffffff" opacity="0.9" />
+        <circle cx="178" cy="115" r="0.6" fill="#ffffff" opacity="0.8" />
+        <circle cx="174" cy="128" r="0.5" fill="#ffd0ff" opacity="0.9" />
+        <circle cx="182" cy="100" r="0.7" fill="#ffffff" opacity="0.7" />
+        <circle cx="168" cy="155" r="0.5" fill="#e0a0ff" opacity="0.8" />
+        {/* Destellos mágicos */}
+        <path d="M 170 140 L 172 138 L 170 136 L 168 138 Z" fill="#ffffff" opacity="0.7" />
+        <path d="M 178 115 L 179.5 113.5 L 178 112 L 176.5 113.5 Z" fill="#ffd0ff" opacity="0.7" />
+        {/* Runas moradas grabadas */}
+        <text x="172" y="130" fontSize="6" fill="#ffffff" fontWeight="bold" transform="rotate(-72 172 130)" opacity="0.9">✦</text>
+        <text x="180" y="100" fontSize="5" fill="#ffffff" fontWeight="bold" transform="rotate(-72 180 100)" opacity="0.8">✦</text>
+        {/* Guarda elegante con gema morada */}
+        <path d="M 142 172 L 164 172 L 162 180 L 144 180 Z" fill="#2a0a4a" stroke="#a855f7" strokeWidth="1" />
+        <path d="M 152 168 L 154 174 L 152 180 L 150 174 Z" fill="#a855f7" />
+        {/* Mango oscuro */}
+        <rect x="148" y="180" width="9" height="13" rx="1.5" fill="#1a0a2a" />
+        <line x1="148" y1="183" x2="157" y2="183" stroke="#a855f7" strokeWidth="0.5" opacity="0.7" />
+        <line x1="148" y1="186" x2="157" y2="186" stroke="#a855f7" strokeWidth="0.5" opacity="0.7" />
+        <line x1="148" y1="189" x2="157" y2="189" stroke="#a855f7" strokeWidth="0.5" opacity="0.7" />
+        {/* Pomo con gran gema morada */}
+        <circle cx="152" cy="196" r="3.5" fill="#2a0a4a" stroke="#a855f7" strokeWidth="1" />
+        <circle cx="152" cy="196" r="2" fill="#a855f7" />
+        <circle cx="151" cy="195" r="0.8" fill="#ffffff" opacity="0.9" />
+      </g>
+    ),
+  },
+  {
+    id: "weapon_abyssal_katana",
+    name: "Katana Abisal Morada",
+    type: "weapon",
+    rarity: "Epico",
+    description: "Katana curva forjada en el abismo. Destellos estelares brotan de su filo.",
+    lorePlaceholder: "Forjada en las profundidades del abismo cristalino.",
+    render: () => (
+      <g>
+        <defs>
+          <linearGradient id="katanaBladeGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#2a0a4a" />
+            <stop offset="50%" stopColor="#c080ff" />
+            <stop offset="100%" stopColor="#4a1a7a" />
+          </linearGradient>
+          <radialGradient id="katanaGlowGrad" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor="#a855f7" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="#a855f7" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        {/* Aura violeta */}
+        <ellipse cx="175" cy="125" rx="16" ry="48" fill="url(#katanaGlowGrad)" />
+        {/* Hoja curva de la katana */}
+        <path
+          d="M 152 175 Q 170 130 195 85 L 198 88 Q 175 130 156 178 Z"
+          fill="url(#katanaBladeGrad)"
+          stroke="#2a0a4a"
+          strokeWidth="0.8"
+        />
+        {/* Filo brillante */}
+        <path d="M 154 173 Q 172 130 195 87" stroke="#e0c0ff" strokeWidth="0.7" fill="none" />
+        {/* Línea de templado (hamon) */}
+        <path d="M 158 168 Q 175 125 193 90" stroke="#ffffff" strokeWidth="0.4" fill="none" opacity="0.6" />
+        {/* Partículas estelares brotando del filo */}
+        <circle cx="180" cy="110" r="0.7" fill="#ffffff" opacity="0.9" />
+        <circle cx="185" cy="98" r="0.6" fill="#e0a0ff" opacity="0.9" />
+        <circle cx="190" cy="92" r="0.5" fill="#ffffff" opacity="0.8" />
+        <circle cx="175" cy="125" r="0.6" fill="#ffd0ff" opacity="0.8" />
+        <circle cx="170" cy="142" r="0.5" fill="#ffffff" opacity="0.7" />
+        {/* Destellos mágicos a lo largo del filo */}
+        <path d="M 180 110 L 181.5 108 L 180 106 L 178.5 108 Z" fill="#ffffff" opacity="0.8" />
+        <path d="M 188 96 L 189 95 L 188 94 L 187 95 Z" fill="#e0a0ff" opacity="0.8" />
+        {/* Tsuba (guarda) rectangular tradicional */}
+        <rect x="143" y="172" width="14" height="4" rx="0.5" fill="#1a0a2a" stroke="#a855f7" strokeWidth="0.8" />
+        <circle cx="150" cy="174" r="1" fill="#a855f7" />
+        {/* Mango (tsuka) envuelto en cuero morado */}
+        <rect x="148" y="177" width="8" height="15" rx="1" fill="#1a0a2a" />
+        {/* Envoltura tradicional diamond pattern */}
+        <path d="M 148 180 L 156 183 M 148 183 L 156 180 M 148 186 L 156 189 M 148 189 L 156 186" stroke="#a855f7" strokeWidth="0.6" />
+        {/* Kashira (pomo) con gema morada */}
+        <ellipse cx="152" cy="195" rx="3" ry="2.5" fill="#1a0a2a" stroke="#a855f7" strokeWidth="0.8" />
+        <circle cx="152" cy="195" r="1.3" fill="#a855f7" />
+      </g>
+    ),
+  },
+  // ----- LEGENDARIOS (2) — aura dorada #f59e0b -----
+  {
+    id: "weapon_celestial_sword",
+    name: "Espada Celestial de Luz Eterna",
+    type: "weapon",
+    rarity: "Legendario",
+    description: "Forjada con luz solar ancestral. Partículas flamígeras y rayos dorados la envuelven.",
+    lorePlaceholder: "La espada del Sol Ancestral, portada por los héroes divinos.",
+    render: () => (
+      <g>
+        <defs>
+          <linearGradient id="celestialBladeGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#7a3a0a" />
+            <stop offset="30%" stopColor="#f59e0b" />
+            <stop offset="60%" stopColor="#fff5a0" />
+            <stop offset="100%" stopColor="#ff8a00" />
+          </linearGradient>
+          <radialGradient id="celestialGlow" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.7" />
+            <stop offset="50%" stopColor="#ffd60a" stopOpacity="0.3" />
+            <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id="celestialCore" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        {/* Aura dorada intensa */}
+        <ellipse cx="175" cy="130" rx="22" ry="55" fill="url(#celestialGlow)" />
+        {/* Rayos de luz dorada radiantes */}
+        <g opacity="0.6">
+          <line x1="175" y1="80" x2="175" y2="60" stroke="#ffd60a" strokeWidth="1.2" />
+          <line x1="190" y1="100" x2="205" y2="92" stroke="#ffd60a" strokeWidth="1" />
+          <line x1="195" y1="130" x2="215" y2="130" stroke="#ffd60a" strokeWidth="1" />
+          <line x1="160" y1="100" x2="148" y2="92" stroke="#ffd60a" strokeWidth="0.8" />
+          <line x1="155" y1="130" x2="138" y2="130" stroke="#ffd60a" strokeWidth="0.8" />
+        </g>
+        {/* Núcleo de luz blanca detrás de la hoja */}
+        <ellipse cx="178" cy="125" rx="6" ry="42" fill="url(#celestialCore)" opacity="0.7" />
+        {/* Hoja celestial con degradado dorado-blanco */}
+        <path d="M 150 175 L 192 80 L 198 84 L 156 178 Z" fill="url(#celestialBladeGrad)" stroke="#7a3a0a" strokeWidth="0.8" />
+        {/* Filo ardiente */}
+        <line x1="152" y1="173" x2="194" y2="82" stroke="#ffffff" strokeWidth="0.9" />
+        <line x1="154" y1="170" x2="192" y2="86" stroke="#fff5a0" strokeWidth="0.5" opacity="0.9" />
+        {/* Runas solares doradas grabadas */}
+        <text x="172" y="135" fontSize="7" fill="#ffffff" fontWeight="bold" transform="rotate(-72 172 135)">☀</text>
+        <text x="180" y="105" fontSize="6" fill="#ffffff" fontWeight="bold" transform="rotate(-72 180 105)">✦</text>
+        <text x="176" y="120" fontSize="5" fill="#ffffff" fontWeight="bold" transform="rotate(-72 176 120)" opacity="0.8">✧</text>
+        {/* Partículas flamígeras */}
+        <circle cx="178" cy="115" r="1" fill="#ffd60a" opacity="0.95" />
+        <circle cx="184" cy="98" r="0.9" fill="#ffffff" opacity="0.9" />
+        <circle cx="188" cy="90" r="0.7" fill="#ff8a00" opacity="0.9" />
+        <circle cx="172" cy="140" r="0.8" fill="#ffd60a" opacity="0.9" />
+        <circle cx="168" cy="155" r="0.6" fill="#fff5a0" opacity="0.8" />
+        {/* Destellos grandes */}
+        <path d="M 178 115 L 180 112 L 178 109 L 176 112 Z" fill="#ffffff" opacity="0.95" />
+        <path d="M 185 100 L 187 98 L 185 96 L 183 98 Z" fill="#ffd60a" opacity="0.95" />
+        {/* Guarda divina ornamentada con alas */}
+        <path d="M 138 168 L 166 168 L 164 178 L 140 178 Z" fill="#7a3a0a" stroke="#f59e0b" strokeWidth="1.2" />
+        {/* Alas laterales */}
+        <path d="M 140 170 Q 130 168 128 174 Q 134 174 140 176" fill="#7a3a0a" stroke="#f59e0b" strokeWidth="0.8" />
+        <path d="M 164 170 Q 174 168 176 174 Q 170 174 164 176" fill="#7a3a0a" stroke="#f59e0b" strokeWidth="0.8" />
+        {/* Gema solar central en la guarda */}
+        <circle cx="152" cy="173" r="2.5" fill="#f59e0b" stroke="#fff5a0" strokeWidth="0.8" />
+        <circle cx="151" cy="172" r="1" fill="#ffffff" opacity="0.95" />
+        {/* Mango de cuero dorado */}
+        <rect x="148" y="178" width="9" height="14" rx="1.5" fill="#5a2a0a" />
+        <line x1="148" y1="181" x2="157" y2="181" stroke="#f59e0b" strokeWidth="0.5" />
+        <line x1="148" y1="184" x2="157" y2="184" stroke="#f59e0b" strokeWidth="0.5" />
+        <line x1="148" y1="187" x2="157" y2="187" stroke="#f59e0b" strokeWidth="0.5" />
+        <line x1="148" y1="190" x2="157" y2="190" stroke="#f59e0b" strokeWidth="0.5" />
+        {/* Pomo con gema solar masiva */}
+        <circle cx="152" cy="196" r="4" fill="#7a3a0a" stroke="#f59e0b" strokeWidth="1.2" />
+        <circle cx="152" cy="196" r="2.5" fill="#f59e0b" />
+        <circle cx="152" cy="196" r="1.5" fill="#fff5a0" />
+        <circle cx="151" cy="195" r="0.8" fill="#ffffff" />
+      </g>
+    ),
+  },
+  {
+    id: "weapon_ancient_staff",
+    name: "Palo Ancestral del Sol",
+    type: "weapon",
+    rarity: "Legendario",
+    description: "Bastón de los antiguos guardianes. Corona solar que irradia rayos dorados.",
+    lorePlaceholder: "El bastón de los primeros guardianes del conocimiento.",
+    render: () => (
+      <g>
+        <defs>
+          <linearGradient id="staffShaftGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stopColor="#3a1a05" />
+            <stop offset="50%" stopColor="#8a4a0a" />
+            <stop offset="100%" stopColor="#3a1a05" />
+          </linearGradient>
+          <radialGradient id="solarOrbGrad" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor="#ffffff" />
+            <stop offset="40%" stopColor="#fff5a0" />
+            <stop offset="80%" stopColor="#f59e0b" />
+            <stop offset="100%" stopColor="#7a3a0a" />
+          </radialGradient>
+          <radialGradient id="solarHalo" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="#f59e0b" stopOpacity="0" />
+          </radialGradient>
+        </defs>
+        {/* Halo dorado masivo alrededor del orbe solar */}
+        <circle cx="180" cy="80" r="28" fill="url(#solarHalo)" />
+        {/* Rayos solares radiantes */}
+        <g opacity="0.85">
+          {Array.from({ length: 12 }).map((_, i) => {
+            const angle = (i / 12) * Math.PI * 2
+            const x1 = 180 + Math.cos(angle) * 14
+            const y1 = 80 + Math.sin(angle) * 14
+            const x2 = 180 + Math.cos(angle) * 24
+            const y2 = 80 + Math.sin(angle) * 24
+            return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#f59e0b" strokeWidth="1.2" strokeLinecap="round" />
+          })}
+        </g>
+        {/* Rayos secundarios más pequeños */}
+        <g opacity="0.6">
+          {Array.from({ length: 12 }).map((_, i) => {
+            const angle = (i / 12) * Math.PI * 2 + Math.PI / 12
+            const x1 = 180 + Math.cos(angle) * 15
+            const y1 = 80 + Math.sin(angle) * 15
+            const x2 = 180 + Math.cos(angle) * 20
+            const y2 = 80 + Math.sin(angle) * 20
+            return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#ffd60a" strokeWidth="0.8" strokeLinecap="round" />
+          })}
+        </g>
+        {/* Orbe solar principal */}
+        <circle cx="180" cy="80" r="11" fill="url(#solarOrbGrad)" stroke="#7a3a0a" strokeWidth="0.8" />
+        {/* Brillo interior del orbe */}
+        <circle cx="178" cy="78" r="3" fill="#ffffff" opacity="0.8" />
+        <circle cx="179" cy="79" r="1.5" fill="#ffffff" opacity="0.95" />
+        {/* Partículas flamígeras flotantes */}
+        <circle cx="168" cy="95" r="0.8" fill="#ffd60a" opacity="0.9" />
+        <circle cx="192" cy="100" r="0.7" fill="#ff8a00" opacity="0.9" />
+        <circle cx="195" cy="75" r="0.6" fill="#fff5a0" opacity="0.85" />
+        <circle cx="165" cy="65" r="0.7" fill="#ffd60a" opacity="0.85" />
+        {/* Mango del bastón (madera antigua con dorado) */}
+        <line x1="151" y1="180" x2="180" y2="85" stroke="url(#staffShaftGrad)" strokeWidth="6" strokeLinecap="round" />
+        <line x1="151" y1="180" x2="180" y2="85" stroke="#5a2a0a" strokeWidth="3" strokeLinecap="round" />
+        {/* Nudos del bastón con detalles dorados */}
+        <circle cx="158" cy="158" r="2" fill="#5a2a0a" stroke="#f59e0b" strokeWidth="0.6" />
+        <circle cx="165" cy="135" r="1.8" fill="#5a2a0a" stroke="#f59e0b" strokeWidth="0.6" />
+        <circle cx="172" cy="112" r="1.5" fill="#5a2a0a" stroke="#f59e0b" strokeWidth="0.6" />
+        {/* Envolturas ornamentales doradas en el mango */}
+        <rect x="155" y="152" width="6" height="3" fill="#f59e0b" opacity="0.8" transform="rotate(-72 155 152)" />
+        <rect x="162" y="130" width="6" height="3" fill="#f59e0b" opacity="0.8" transform="rotate(-72 162 130)" />
+        <rect x="169" y="108" width="6" height="3" fill="#f59e0b" opacity="0.8" transform="rotate(-72 169 108)" />
+        {/* Empuñadura con envoltura de cuero dorado */}
+        <rect x="148" y="178" width="8" height="14" rx="1.5" fill="#3a1a05" transform="rotate(-15 152 185)" />
+        <line x1="150" y1="180" x2="158" y2="190" stroke="#f59e0b" strokeWidth="0.5" opacity="0.8" />
+        <line x1="152" y1="178" x2="160" y2="188" stroke="#f59e0b" strokeWidth="0.5" opacity="0.8" />
+        <line x1="154" y1="176" x2="162" y2="186" stroke="#f59e0b" strokeWidth="0.5" opacity="0.8" />
+        {/* Base del bastón con pomo dorado */}
+        <circle cx="152" cy="192" r="3" fill="#5a2a0a" stroke="#f59e0b" strokeWidth="0.8" />
+        <circle cx="152" cy="192" r="1.5" fill="#f59e0b" />
+      </g>
+    ),
+  },
+]
+
+export const GACHA_ITEMS: GachaItem[] = [...HAT_ITEMS, ...TOP_ITEMS, ...AURA_ITEMS, ...WEAPON_ITEMS]
 
 export const ITEMS_BY_ID: Record<string, GachaItem> = Object.fromEntries(
   GACHA_ITEMS.map((item) => [item.id, item])

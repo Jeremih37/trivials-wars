@@ -12,7 +12,7 @@ import { FRAMES, PROFILE_ICONS, FRAMES_BY_ID } from "@/lib/profile-catalog"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 
-const RARITY_ORDER: Rarity[] = ["Legendario", "Epico", "Raro", "Inusual", "Comun"]
+const RARITY_ORDER: Rarity[] = ["Legendario", "Epico", "Raro", "Normal", "Comun"]
 
 export function ProfileScreen() {
   const { setScreen } = useGameStore()
@@ -310,6 +310,7 @@ export function ProfileScreen() {
                         hat={it.type === "hat" ? (ITEMS_BY_ID[it.id] ?? undefined) : undefined}
                         top={it.type === "top" ? (ITEMS_BY_ID[it.id] ?? undefined) : undefined}
                         aura={it.type === "aura" ? (ITEMS_BY_ID[it.id] ?? undefined) : undefined}
+                        weapon={it.type === "weapon" ? (ITEMS_BY_ID[it.id] ?? undefined) : undefined}
                         size={50}
                       />
                       <span className="text-[9px] text-center font-medium leading-tight mt-1 line-clamp-2">{it.name}</span>

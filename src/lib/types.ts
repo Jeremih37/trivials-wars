@@ -95,7 +95,7 @@ export interface ProfileData {
     xpIntoLevel: number
     xpForNextLevel: number
     progressPct: number
-    equipped: { hat: string | null; top: string | null; aura: string | null }
+    equipped: { hat: string | null; top: string | null; aura: string | null; weapon: string | null }
     inventoryCount: number
     inventoryByRarity: Record<Rarity, string[]>
     // Stats

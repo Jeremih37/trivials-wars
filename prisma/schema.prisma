@@ -51,7 +51,7 @@ model User {
 model EquippedItem {
   id        String  @id @default(cuid())
   userId    String
-  slot      String  // hat | top | aura
+  slot      String  // hat | top | aura | weapon
   itemId    String
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   @@unique([userId, slot])

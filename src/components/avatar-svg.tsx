@@ -8,11 +8,12 @@ interface AvatarSvgProps {
   hat?: GachaItem | null
   top?: GachaItem | null
   aura?: GachaItem | null
+  weapon?: GachaItem | null
   size?: number // px
   className?: string
 }
 
-export function AvatarSvg({ base, skinTone = "#f4c2a1", hat, top, aura, size = 200, className }: AvatarSvgProps) {
+export function AvatarSvg({ base, skinTone = "#f4c2a1", hat, top, aura, weapon, size = 200, className }: AvatarSvgProps) {
   const baseConfig = AVATAR_BASES.find((b) => b.id === base) ?? AVATAR_BASES[0]
 
   return (
@@ -34,6 +35,9 @@ export function AvatarSvg({ base, skinTone = "#f4c2a1", hat, top, aura, size = 2
 
       {/* Hat al frente */}
       {hat?.render({ skinTone })}
+
+      {/* Weapon en la mano derecha (capa superior, al frente de todo) */}
+      {weapon?.render({ skinTone })}
     </svg>
   )
 }
@@ -42,7 +46,7 @@ export function AvatarSvg({ base, skinTone = "#f4c2a1", hat, top, aura, size = 2
 export function buildAvatarFromIds(
   base: string,
   skinTone: string,
-  equipped: { hat: string | null; top: string | null; aura: string | null }
+  equipped: { hat: string | null; top: string | null; aura: string | null; weapon?: string | null }
 ) {
   return {
     base,
@@ -50,5 +54,6 @@ export function buildAvatarFromIds(
     hat: equipped.hat ? ITEMS_BY_ID[equipped.hat] ?? null : null,
     top: equipped.top ? ITEMS_BY_ID[equipped.top] ?? null : null,
     aura: equipped.aura ? ITEMS_BY_ID[equipped.aura] ?? null : null,
+    weapon: equipped.weapon ? ITEMS_BY_ID[equipped.weapon] ?? null : null,
   }
 }

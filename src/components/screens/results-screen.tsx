@@ -44,13 +44,13 @@ export function ResultsScreen() {
       if (correctCount >= 25) return { label: "LEGENDARIO", color: "#FFEA00", emoji: "" }
       if (correctCount >= 15) return { label: "ÉPICO", color: "#a855f7", emoji: "" }
       if (correctCount >= 8) return { label: "Raro", color: "#3b82f6", emoji: "" }
-      if (correctCount >= 3) return { label: "Inusual", color: "#22c55e", emoji: "" }
+      if (correctCount >= 3) return { label: "Normal", color: "#22c55e", emoji: "" }
       return { label: "Novato", color: "#a1a1aa", emoji: "" }
     }
     if (accuracy === 100) return { label: "LEGENDARIO", color: "#FFEA00", emoji: "" }
     if (accuracy >= 80) return { label: "ÉPICO", color: "#a855f7", emoji: "" }
     if (accuracy >= 60) return { label: "Raro", color: "#3b82f6", emoji: "" }
-    if (accuracy >= 40) return { label: "Inusual", color: "#22c55e", emoji: "" }
+    if (accuracy >= 40) return { label: "Normal", color: "#22c55e", emoji: "" }
     return { label: "Común", color: "#a1a1aa", emoji: "" }
   }
   const rank = getRank()

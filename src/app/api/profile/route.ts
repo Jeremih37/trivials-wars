@@ -31,20 +31,21 @@ export const GET = apiHandler(async () => {
 
   const levelInfo = computeLevelFromXp(fullUser.xp)
 
-  // Equipped items (hat/top/aura) para avatar SVG
-  const equippedMap: { hat: string | null; top: string | null; aura: string | null } = {
+  // Equipped items (hat/top/aura/weapon) para avatar SVG
+  const equippedMap: { hat: string | null; top: string | null; aura: string | null; weapon: string | null } = {
     hat: null,
     top: null,
     aura: null,
+    weapon: null,
   }
   for (const eq of fullUser.equipped) {
-    equippedMap[eq.slot as "hat" | "top" | "aura"] = eq.itemId
+    equippedMap[eq.slot as "hat" | "top" | "aura" | "weapon"] = eq.itemId
   }
 
   // Inventario agrupado por rareza
   const inventoryByRarity = {
     Comun: [] as string[],
-    Inusual: [] as string[],
+    Normal: [] as string[],
     Raro: [] as string[],
     Epico: [] as string[],
     Legendario: [] as string[],

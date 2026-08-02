@@ -293,7 +293,7 @@ export function computeSuddenDeathXp(streak: number): { base: number; streakBonu
 }
 
 // ===== SISTEMA GACHA (LOOT BOX) =====
-const RARITY_ORDER: Rarity[] = ["Comun", "Inusual", "Raro", "Epico", "Legendario"]
+const RARITY_ORDER: Rarity[] = ["Comun", "Normal", "Raro", "Epico", "Legendario"]
 
 function rollRarity(rng: () => number = Math.random): Rarity {
   const r = rng() * 100
@@ -321,7 +321,7 @@ export function openLootBox(ownedItemIds: string[]): LootBoxResult {
   const isDuplicate = ownedItemIds.includes(item.id)
   const xpBonusMap: Record<Rarity, number> = {
     Comun: 10,
-    Inusual: 25,
+    Normal: 25,
     Raro: 60,
     Epico: 150,
     Legendario: 400,
@@ -336,6 +336,7 @@ export interface EquippedItems {
   hat?: GachaItem
   top?: GachaItem
   aura?: GachaItem
+  weapon?: GachaItem
 }
 
 // ===== WIN/LOSS/STREAK =====

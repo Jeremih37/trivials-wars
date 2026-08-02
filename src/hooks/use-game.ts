@@ -206,8 +206,8 @@ export function useOpenLootBox() {
 export interface InventoryItemClient {
   id: string
   name: string
-  type: "hat" | "top" | "aura"
-  rarity: "Comun" | "Inusual" | "Raro" | "Epico" | "Legendario"
+  type: "hat" | "top" | "aura" | "weapon"
+  rarity: "Comun" | "Normal" | "Raro" | "Epico" | "Legendario"
   emoji: string
   description: string
   owned: boolean
@@ -220,7 +220,7 @@ export interface InventoryItemClient {
 export function useInventory() {
   return useQuery<{
     items: InventoryItemClient[]
-    equipped: { hat: string | null; top: string | null; aura: string | null }
+    equipped: { hat: string | null; top: string | null; aura: string | null; weapon: string | null }
     inventoryCount: number
     totalCount: number
   }>({
@@ -230,7 +230,7 @@ export function useInventory() {
       if (!r.ok) throw new Error(await readApiError(r, "Error al cargar inventario"))
       const data = await parseJsonSafe<{
         items: InventoryItemClient[]
-        equipped: { hat: string | null; top: string | null; aura: string | null }
+        equipped: { hat: string | null; top: string | null; aura: string | null; weapon: string | null }
         inventoryCount: number
         totalCount: number
       }>(r)
@@ -267,7 +267,7 @@ export function useEquipItem() {
 export function useUnequipItem() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async ({ slot }: { slot: "hat" | "top" | "aura" }) => {
+    mutationFn: async ({ slot }: { slot: "hat" | "top" | "aura" | "weapon" }) => {
       const r = await fetch("/api/equip", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },

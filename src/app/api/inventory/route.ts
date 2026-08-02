@@ -18,7 +18,7 @@ export const GET = apiHandler(async () => {
     return NextResponse.json({ error: "Usuario no encontrado" }, { status: 404 })
   }
 
-  const equippedMap: Record<string, string | null> = { hat: null, top: null, aura: null }
+  const equippedMap: Record<string, string | null> = { hat: null, top: null, aura: null, weapon: null }
   for (const eq of fullUser.equipped) {
     equippedMap[eq.slot] = eq.itemId
   }

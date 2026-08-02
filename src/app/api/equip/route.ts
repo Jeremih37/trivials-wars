@@ -31,7 +31,7 @@ export const POST = apiHandler(async (req: Request) => {
   }
 
   // Reemplazar el item equipado en ese slot
-  const slot = item.type // hat | top | aura
+  const slot = item.type // hat | top | aura | weapon
   const existing = user.equipped.find((e) => e.slot === slot)
   if (existing) {
     await db.equippedItem.update({
@@ -52,7 +52,7 @@ export const POST = apiHandler(async (req: Request) => {
 })
 
 interface UnequipBody {
-  slot: "hat" | "top" | "aura"
+  slot: "hat" | "top" | "aura" | "weapon"
 }
 
 export const DELETE = apiHandler(async (req: Request) => {
